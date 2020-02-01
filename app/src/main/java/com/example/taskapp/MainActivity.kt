@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     val appComponent : AppComponent by lazy{ (application as MyApp).appComponent }
 
-    lateinit var appBarConfig :AppBarConfiguration
+    private lateinit var appBarConfig :AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

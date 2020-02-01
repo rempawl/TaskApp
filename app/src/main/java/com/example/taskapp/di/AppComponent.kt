@@ -1,7 +1,7 @@
 package com.example.taskapp.di
 
 import   android.content.Context
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 import com.example.taskapp.viewmodels.MyTasksViewModel
 import dagger.BindsInstance

@@ -61,8 +61,9 @@
     <string name="my_tasks">Moje zadania</string>
     <string name="add_task">Dodaj zadanie</string>
     <string name="save_without_reminder">Zapisz bez dodawania przypomnienia</string>
-    <string name="task_name"> Nazwa zadania</string>
-    <string name="task_description">Opis zadania</string>
+    <string name="task_name"> Nazwa zadania:  %1$s</string>
+    <string name="task_name_hint"> Nazwa zadania:</string>
+    <string name="task_description">Opis zadania:  %1$s</string>
     <string name="task_description_hint">Opis zadania (opcjonalnie)</string>
     <string name="task_details">task details</string>
 

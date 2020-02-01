@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 
 class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
 

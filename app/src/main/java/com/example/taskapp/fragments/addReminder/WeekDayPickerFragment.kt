@@ -7,7 +7,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.google.android.material.checkbox.MaterialCheckBox
 import org.threeten.bp.DayOfWeek
 

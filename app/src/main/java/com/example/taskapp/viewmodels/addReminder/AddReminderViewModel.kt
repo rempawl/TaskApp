@@ -1,4 +1,4 @@
-package com.example.taskapp.viewmodels
+package com.example.taskapp.viewmodels.addReminder
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -18,15 +18,18 @@ import org.threeten.bp.LocalTime
  * This [ViewModel] is shared between all addReminder package  Fragments
  * */
 class AddReminderViewModel @AssistedInject constructor(
-    @Assisted private val taskDetails: TaskDetails
+    @Assisted  val taskDetails: TaskDetails
 ) : ViewModel() {
     init {
         Log.d(MainActivity.TAG, "New ViewModel")
     }
 
     @AssistedInject.Factory
-    interface Factory{
-        fun create(taskDetails: TaskDetails) = AddReminderViewModel(taskDetails)
+    interface Factory {
+        fun create(taskDetails: TaskDetails) =
+            AddReminderViewModel(
+                taskDetails
+            )
     }
 
     private val beginningDate: MutableLiveData<LocalDate> by lazy {
@@ -48,12 +51,10 @@ class AddReminderViewModel @AssistedInject constructor(
     fun getDurationState(): LiveData<ReminderDurationState> = durationState
     fun setDurationState(durState: ReminderDurationState) {
         durationState.value = durState
-        val list : List<Int> = listOf(1,23)
     }
 
     var currentDaysDuration = 10
     var currentEndDate: LocalDate
-
     init {
         val d = LocalDate.now()
         currentEndDate = LocalDate.ofYearDay(d.year, d.dayOfYear + 10)
@@ -81,7 +82,8 @@ class AddReminderViewModel @AssistedInject constructor(
         notificationTime.value = time
     }
 
-    var currentNotificationTime = INITIAL_TIME
+    var currentNotificationTime =
+        INITIAL_TIME
 
     companion object {
         val INITIAL_TIME = LocalTime.of(18, 0, 0)

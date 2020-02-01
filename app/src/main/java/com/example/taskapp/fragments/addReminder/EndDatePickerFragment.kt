@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.fragments.addReminder.ReminderDurationState
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import org.threeten.bp.LocalDate
 
 class EndDatePickerFragment(

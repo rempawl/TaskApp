@@ -1,12 +1,11 @@
 package com.example.taskapp.fragments.addReminder
 
-import  android.app.AlertDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 
 class NotificationTimePickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment(),
 TimePickerDialog.OnTimeSetListener{

@@ -6,10 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.taskapp.viewmodels.AddReminderViewModel" />
+            type="com.example.taskapp.viewmodels.addReminder.AddReminderViewModel" />
     </data>
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/reminder_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,15 +42,19 @@
                     android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/task_name"
+                    android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/task_name"
-                    />
+                    android:textSize="20sp"
+                    android:gravity="center_horizontal" />
                 <TextView
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:id="@+id/task_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/task_description"
-                    />
+                    android:gravity="center_horizontal" />
                 </LinearLayout>
 
 
@@ -226,5 +230,5 @@
 
             </LinearLayout>
         </ScrollView>
-    </>
+    </FrameLayout>
 </layout>

@@ -15,13 +15,10 @@ class AddTaskViewModel @Inject constructor(val taskFields: TaskFields) : ViewMod
     }
 
     fun createTaskDetails(): TaskDetails {
-        val desc = taskFields.taskDescription
-        return TaskDetails(taskFields.taskName,desc)
+        return TaskDetails(taskFields.taskName,taskFields.taskDescription)
     }
 
-    companion object {
-        const val TASK_DETAILS = "task details"
-    }
+    companion object
 
 
 }

@@ -8,7 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 
 class DaysDurationPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
 
