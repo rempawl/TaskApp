@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigation"
+    app:startDestination="@id/navigation_home">
+
+<fragment
+    android:name="com.example.taskapp.fragments.HomeViewPagerFragment"
+    android:label="home"
+    android:id="@+id/navigation_home"
+    >
+    <action
+        app:destination="@id/navigation_add_reminder"
+        android:id="@+id/navigation_home_to_navigation_add_reminder"
+        />
+</fragment>
+    <fragment
+        android:name="com.example.taskapp.fragments.addReminder.AddReminderFragment"
+        android:label="@string/reminder"
+        android:id="@+id/navigation_add_reminder"
+        >
+        <argument
+            android:name="taskDetails"
+            app:argType="com.example.taskapp.viewmodels.addTask.TaskDetails"
+            app:nullable="false"
+            />
+    </fragment>
+
+</navigation>
