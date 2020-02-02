@@ -6,26 +6,22 @@ import android.os.Bundle
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
+import org.threeten.bp.LocalTime
 
-class NotificationTimePickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment(),
-TimePickerDialog.OnTimeSetListener{
+class NotificationTimePickerFragment(private val viewModel: AddReminderViewModel) :
+    DialogFragment(),
+    TimePickerDialog.OnTimeSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val time = viewModel.currentNotificationTime
-        val hour  = time.hour
+        val time = viewModel.notificationTime.get() ?: AddReminderViewModel.INITIAL_TIME
+        val hour = time.hour
         val minute = time.minute
-        return TimePickerDialog(requireContext(),this,hour,minute,true)
-
-//        return AlertDialog.Builder(requireContext())
-//            .setView()
-//            .setTitle(R.string.set_notification_time)
-//            .setPositiveButton(R.string.ok){_,_ ->}
-//            .setNegativeButton(R.string.cancel){ _,_ ->}
-//            .create()
+        return TimePickerDialog(requireContext(), this, hour, minute, true)
     }
 
-    override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-
+    override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
+        viewModel.notificationTime.set(LocalTime.of(hour, minute))
+        viewModel.isNotificationTimeSet = true
     }
 
 

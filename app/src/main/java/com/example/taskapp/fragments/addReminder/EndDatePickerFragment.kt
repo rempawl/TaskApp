@@ -17,7 +17,7 @@ class EndDatePickerFragment(
     DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val endDate = viewModel.currentEndDate
+        val endDate = viewModel.durationModel.currentEndDate
         val year =endDate.year
         val day = endDate.dayOfMonth
         val month = endDate.monthValue-1  //java util time
@@ -36,8 +36,7 @@ class EndDatePickerFragment(
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
         val date = LocalDate.of(year,month+1,day)
-        viewModel.currentEndDate =  date
-        viewModel.setDurationState(ReminderDurationState.EndDate(date))
+        viewModel.durationModel.setEndDateDurationState(endDate = date)
     }
 
 }

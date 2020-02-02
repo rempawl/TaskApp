@@ -7,6 +7,7 @@ import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
+import dagger.Reusable
 import javax.inject.Inject
 
 class TaskFields @Inject constructor() : BaseObservable() {

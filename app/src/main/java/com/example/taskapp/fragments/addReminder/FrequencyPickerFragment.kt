@@ -14,7 +14,7 @@ class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : Dia
         val numberPicker = NumberPicker(requireContext()).apply {
             minValue = 1
             maxValue = 100
-            value = viewModel.currentDailyFrequency
+            value = viewModel.frequencyModel.currentDailyFrequency
         }
         return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.frequency))
@@ -25,8 +25,7 @@ class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : Dia
     }
 
     private fun setDailyFrequency(frequency: Int) {
-        viewModel.currentDailyFrequency = frequency
-        viewModel.setFrequency(ReminderFrequencyState.Daily(frequency))
+        viewModel.frequencyModel.setDailyFrequency(frequency)
     }
 
 }

@@ -39,8 +39,7 @@ class DaysDurationPickerFragment(private val viewModel: AddReminderViewModel) : 
         } else {
             val days = text.toInt()
             if (days < Int.MAX_VALUE) {
-                viewModel.currentDaysDuration = days
-                viewModel.setDurationState(ReminderDurationState.DaysDuration(days))
+                viewModel.durationModel.setDaysDurationState(days)
             } else {
                 showToast("Really over ${Int.MAX_VALUE} days?")
             }

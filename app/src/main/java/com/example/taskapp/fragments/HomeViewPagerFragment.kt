@@ -18,6 +18,7 @@ class HomeViewPagerFragment : Fragment()  {
     lateinit var viewPager : ViewPager2
     lateinit var tabLayoutMediator: TabLayoutMediator
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +30,7 @@ class HomeViewPagerFragment : Fragment()  {
         viewPager.adapter = HomeViewPagerAdapter(this)
 
         val tabLayout = binding.tabs
-        tabLayoutMediator = TabLayoutMediator(tabLayout,viewPager){tab, position ->
+        this.tabLayoutMediator = TabLayoutMediator(tabLayout,viewPager){tab, position ->
             tab.apply {
                 setIcon(getTableIcon(position))
                 text = getTableText(position)
@@ -38,6 +39,15 @@ class HomeViewPagerFragment : Fragment()  {
 
         return binding.root
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.tabLayoutMediator.detach()
+        if(viewPager.adapter != null){
+            viewPager.adapter == null
+        }
+    }
+
     private fun getTableIcon(position: Int) = when (position) {
         MainActivity.MY_TASKS_FRAGMENT_INDEX -> R.drawable.ic_assignment_black_24dp
         MainActivity.TODAY_FRAGMENT_INDEX -> R.drawable.ic_launcher_foreground

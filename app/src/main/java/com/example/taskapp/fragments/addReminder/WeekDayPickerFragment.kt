@@ -14,7 +14,7 @@ import org.threeten.bp.DayOfWeek
 class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
 
     private val checkedDays: MutableSet<DayOfWeekHash> by lazy {
-        viewModel.currentWeekDays.toMutableSet()
+        viewModel.frequencyModel.currentWeekDays.toMutableSet()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,7 +60,6 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
     }
 
     private fun setWeekDaysFrequency() {
-        viewModel.currentWeekDays = checkedDays
-        viewModel.setFrequency(ReminderFrequencyState.WeekDays(checkedDays))
+        viewModel.frequencyModel.setDaysOfWeekFrequency(checkedDays)
     }
 }

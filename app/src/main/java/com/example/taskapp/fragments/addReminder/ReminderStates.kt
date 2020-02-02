@@ -12,7 +12,6 @@ sealed class ReminderFrequencyState {
     companion object {
         const val INITIAL_FREQUENCY = 1
     }
-
     data class Daily(val frequency: Int = INITIAL_FREQUENCY) : ReminderFrequencyState()
 
     data class WeekDays(val days: Set<DayOfWeekHash> = emptySet()) : ReminderFrequencyState()

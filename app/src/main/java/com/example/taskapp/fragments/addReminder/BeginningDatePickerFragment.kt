@@ -14,7 +14,7 @@ class BeginningDatePickerFragment(
     DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val date = viewModel.currentBegDate
+        val date = viewModel.durationModel.beginningDate
         val year = date.year
         val day = date.dayOfMonth
         val month = date.monthValue - 1 //java.util.time
@@ -22,21 +22,8 @@ class BeginningDatePickerFragment(
 
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-//        savedInstanceState?.let {
-//            Log.d(MainActivity.TAG, "saved")
-//            (dialog as DatePickerDialog).updateDate(
-//                it[YEAR] as Int,
-//                it[MONTH] as Int,
-//                it[DAY] as Int
-//            )
-//        }
-    }
-
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-        viewModel.currentBegDate = LocalDate.of(year,month+1,day)
-        viewModel.setBeginningDate(LocalDate.of(year, month + 1, day))
+        viewModel.durationModel.beginningDate = (LocalDate.of(year, month + 1, day))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
