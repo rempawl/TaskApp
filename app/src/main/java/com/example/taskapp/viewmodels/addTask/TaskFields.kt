@@ -1,13 +1,13 @@
 package com.example.taskapp.viewmodels.addTask
 
-import android.util.Log
+import android.view.View
+import android.widget.EditText
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import com.example.taskapp.BR
-import com.example.taskapp.MainActivity
 import com.example.taskapp.R
-import dagger.Reusable
 import javax.inject.Inject
 
 class TaskFields @Inject constructor() : BaseObservable() {
@@ -24,7 +24,7 @@ class TaskFields @Inject constructor() : BaseObservable() {
     var taskDescription: String = ""
 
     @Bindable
-    fun isValid(): Boolean{
+    fun isValid(): Boolean {
         return isTaskNameValid(false)
     }
 
@@ -32,10 +32,10 @@ class TaskFields @Inject constructor() : BaseObservable() {
         return if (taskName.isNotBlank() && taskName.length >= MIN_LENGTH) {
             taskNameError.set(null)
             true
-        } else  {
+        } else {
             if (setMessage) {
                 taskNameError.set(R.string.task_name_error)
-            }else{
+            } else {
                 taskNameError.set(null)
             }
             false
@@ -46,6 +46,31 @@ class TaskFields @Inject constructor() : BaseObservable() {
 
     companion object {
         const val MIN_LENGTH = 3
+        @JvmStatic
+        @BindingAdapter("setError")
+        fun setError(view: EditText, stringOrRsrcID: Any?) {
+            if (stringOrRsrcID != null) {
+                when (stringOrRsrcID) {
+                    is String -> view.error = stringOrRsrcID
+                    is Int -> view.apply {
+                        val text = context.resources.getString(stringOrRsrcID)
+                        error = text
+                    }
+                }
+            }
+
+        }
+
+        @JvmStatic
+            @BindingAdapter("onFocus")
+            fun bindFocusChange(
+                editText: EditText,
+                onFocusChangeListener: View.OnFocusChangeListener?
+            ) {
+                onFocusChangeListener ?: return
+                editText.onFocusChangeListener = onFocusChangeListener
+
+            }
 
     }
 }

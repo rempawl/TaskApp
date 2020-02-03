@@ -29,6 +29,7 @@
     <!--      DURATION  -->
     <string name="duration">Czas trwania</string>
     <string name="beginning_date">Data rozpoczęcia: %1$s</string>
+    <string name="beginning_date_error">Niewłaściwa data rozpoczęcia! </string>
     <string name="days_duration_hint">Podaj ilość dni</string>
 
     <string name="x_days_duration">Przez x dni</string>
@@ -37,6 +38,7 @@
         <item quantity="other">Przez %1$d dni</item>
     </plurals>
 
+    <string name="end_date_error"> Niewłaściwa data zakończenia! </string>
     <string name="end_date">Data Zakończenia</string>
     <string name="end_date_format">Data zakończenia: %1$s</string>
     <string name="no_end_date">Bez daty zakończenia </string>

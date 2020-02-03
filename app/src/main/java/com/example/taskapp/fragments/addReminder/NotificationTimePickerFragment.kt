@@ -20,8 +20,8 @@ class NotificationTimePickerFragment(private val viewModel: AddReminderViewModel
     }
 
     override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
-        viewModel.notificationTime.set(LocalTime.of(hour, minute))
-        viewModel.isNotificationTimeSet = true
+      viewModel.setNotificationTime(LocalTime.of(hour, minute))
+
     }
 
 

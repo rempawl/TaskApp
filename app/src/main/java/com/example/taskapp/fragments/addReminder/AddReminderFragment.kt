@@ -20,10 +20,6 @@ import kotlinx.android.synthetic.main.add_reminder_fragment.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
-//todo details
-//todo cleanup Observables
-//
-
 class AddReminderFragment : Fragment() {
 
     companion object {
@@ -157,7 +153,6 @@ class AddReminderFragment : Fragment() {
 
     private fun showEndDatePickerDialog() {
         EndDatePickerFragment(viewModel).show(childFragmentManager, END_DATE_TAG)
-        //todo EndDateFragment
     }
 
 
