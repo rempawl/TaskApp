@@ -19,8 +19,7 @@ import javax.inject.Inject
 interface AppComponent {
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context,
-                   @BindsInstance db: AppDataBase
+        fun create(@BindsInstance context: Context
                    ): AppComponent
     }
 

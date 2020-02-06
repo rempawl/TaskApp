@@ -10,12 +10,7 @@ import com.example.taskapp.di.DataBaseModule
 class MyApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
-            .create(
-                applicationContext,
-                Room.databaseBuilder(applicationContext,AppDataBase::class.java,AppDataBase.DB_NAME)
-                    .fallbackToDestructiveMigration()
-                    .build()
-                )
+            .create(applicationContext)
    }
 //        val mod  = DataBaseModule(applicationContext)
 }
