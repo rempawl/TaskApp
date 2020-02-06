@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tasks")
-data class Task(@PrimaryKey val taskID: Long =0,
+data class Task(@PrimaryKey(autoGenerate = true) val taskID: Long =0,
                 val name :String,
-                val details: String = ""
+                val description: String = ""
                 ) {
 }

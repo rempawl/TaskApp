@@ -15,8 +15,8 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
-        const val VERSION_INT = 1
-        const val DB_NAME = "Task App DB"
+        const val VERSION_INT = 2
+        private const val DB_NAME = "TaskApp DB"
 
         private var INSTANCE: AppDataBase? = null
         fun getInstance(context: Context): AppDataBase {

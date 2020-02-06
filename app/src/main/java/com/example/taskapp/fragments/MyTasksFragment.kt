@@ -1,12 +1,18 @@
 package com.example.taskapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.taskapp.MainActivity
+import com.example.taskapp.adapters.TaskListAdapter
+import com.example.taskapp.databinding.MyTasksFragmentBinding
+import com.example.taskapp.di.viewModel
 
-import com.example.taskapp.R
+
 
 class MyTasksFragment : Fragment() {
 
@@ -15,17 +21,46 @@ class MyTasksFragment : Fragment() {
             MyTasksFragment()
     }
 
-//    private val viewModel by viewModel {  }
+    private val viewModel by viewModel { (activity as MainActivity)
+        .appComponent.myTaskViewModel
+    }
+
+    private lateinit var taskListAdapter: TaskListAdapter
+    private lateinit var binding: MyTasksFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.my_tasks_fragment, container, false)
+        binding = MyTasksFragmentBinding
+            .inflate(inflater,container,false)
+        taskListAdapter = TaskListAdapter()
+        setupBinding()
+        updateTaskList()
+
+        return binding.root
+    }
+
+    private fun setupBinding() {
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@MyTasksFragment.viewModel
+            taskList.apply {
+                adapter = taskListAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                setHasFixedSize(false)
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    private fun updateTaskList() {
+        viewModel.tasks.observe(viewLifecycleOwner, Observer {tasks ->
+            taskListAdapter.submitList(tasks)
+        })
     }
 
 }

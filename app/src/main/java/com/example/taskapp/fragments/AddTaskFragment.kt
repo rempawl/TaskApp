@@ -11,6 +11,8 @@ import com.example.taskapp.databinding.AddTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 
+//todo after adding without reminder navigate to my tasks
+
 class AddTaskFragment : Fragment() {
 
     companion object {
@@ -36,8 +38,13 @@ class AddTaskFragment : Fragment() {
         binding.apply {
             viewModel = this@AddTaskFragment.viewModel
             addReminderBtn.setOnClickListener { navigateToAddReminder() }
-
+            saveBtn.setOnClickListener { saveTask() }
         }
+    }
+
+     private fun saveTask() {
+        viewModel.saveTask()
+
     }
 
     private fun navigateToAddReminder() {
