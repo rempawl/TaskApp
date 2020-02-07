@@ -81,15 +81,16 @@ class DurationModel @Inject constructor() : BaseObservable() {
         return when (durationState) {
             is ReminderDurationState.EndDate -> {
                 Duration(
-                    isDate = true, value = Converters
+                    isDate = true,
+                    duration = Converters
                         .localDateToLong(currentEndDate)
                 )
             }
             is ReminderDurationState.DaysDuration -> {
-                Duration(isDate = false, value = currentDaysDuration.toLong())
+                Duration(isDate = false, duration = currentDaysDuration.toLong())
             }
             is ReminderDurationState.NoEndDate -> {
-                Duration(isDate = false, value = 0, noDate = true)
+                Duration(isDate = false, duration = 0, noDate = true)
             }
         }
     }

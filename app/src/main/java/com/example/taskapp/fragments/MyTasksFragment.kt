@@ -13,6 +13,8 @@ import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.di.viewModel
 
 
+//todo add fab
+//todo add navigation to addTask
 
 class MyTasksFragment : Fragment() {
 

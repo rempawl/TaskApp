@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.dao.TaskDao
+import com.example.taskapp.database.entities.Reminder
 
 @Database(
     entities = [Task::class],
@@ -15,7 +16,7 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
-        const val VERSION_INT = 2
+        const val VERSION_INT = 4
         private const val DB_NAME = "TaskApp DB"
 
         private var INSTANCE: AppDataBase? = null
