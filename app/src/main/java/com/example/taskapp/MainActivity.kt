@@ -26,9 +26,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         toolbar?.setupWithNavController(navController,appBarConfig)
 
-        val set : MutableSet<DayOfWeekHash> = mutableSetOf()
-        org.threeten.bp.DayOfWeek.values().forEach { set.add(it.hashCode()) }
-        Converters.daysOfWeekToInt(set)
 
     }
 
@@ -36,6 +33,5 @@ class MainActivity : AppCompatActivity() {
         const val TAG = "kruci"
         const val TODAY_FRAGMENT_INDEX = 0
         const val MY_TASKS_FRAGMENT_INDEX = 1
-        const val ADD_TASK_FRAGMENT_INDEX = 2
     }
 }

@@ -1,22 +1,18 @@
 package com.example.taskapp.viewmodels.addReminder
 
-import android.util.Log
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskapp.MainActivity
-import com.example.taskapp.database.entities.Duration
-import com.example.taskapp.fragments.addReminder.ReminderDurationState
-import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
+import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.database.entities.Task
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.viewmodels.addTask.TaskDetails
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
+//todo if date is invalid disable confirm btn
 
 /**
  * This [ViewModel] is shared between all addReminder package  Fragments
@@ -24,32 +20,45 @@ import org.threeten.bp.LocalTime
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
     val durationModel: DurationModel,
-    val frequencyModel: FrequencyModel
+    val frequencyModel: FrequencyModel,
+    val taskRepository: TaskRepository
+
 ) : ViewModel() {
-    init {
-        Log.d(MainActivity.TAG, "New ViewModel")
-    }
 
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(taskDetails: TaskDetails) : AddReminderViewModel
+        fun create(taskDetails: TaskDetails): AddReminderViewModel
     }
 
     val notificationTime = ObservableField<LocalTime>(INITIAL_TIME)
-    var isNotificationTimeSet = false
+    private var isNotificationTimeSet = false
 
-    fun setNotificationTime(time : LocalTime){
+    fun setNotificationTime(time: LocalTime) {
         notificationTime.set(time)
         isNotificationTimeSet = true
     }
 
-    fun sth(){
-     durationModel.getDuration()
+
+    fun saveTaskWithReminder() {
+        viewModelScope.launch {
+            val reminder = Reminder(
+                duration = durationModel.getDuration(),
+                frequency = frequencyModel.getFrequency()
+            )
+
+            taskRepository.saveTask(Task(
+                    name = taskDetails.name, description = taskDetails.description,
+                    reminder = reminder
+                )
+            )
+
+        }
+
     }
 
     companion object {
-        val INITIAL_TIME : LocalTime = LocalTime.of(18, 0, 0)
+        val INITIAL_TIME: LocalTime = LocalTime.of(18, 0, 0)
 
     }
 }

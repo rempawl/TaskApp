@@ -13,7 +13,11 @@ import javax.inject.Inject
 
 class DurationModel @Inject constructor() : BaseObservable() {
 
+
     private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
+
+
+
 
 
     @Bindable

@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.taskapp.MainActivity
 
 import com.example.taskapp.R
+import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.TodayViewModel
 
 class TodayFragment : Fragment() {
@@ -16,7 +18,8 @@ class TodayFragment : Fragment() {
         fun newInstance() = TodayFragment()
     }
 
-    private lateinit var viewModel: TodayViewModel
+    private val viewModel: TodayViewModel by viewModel { (activity as MainActivity).appComponent
+        .todayViewModel}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +30,6 @@ class TodayFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(TodayViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

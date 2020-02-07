@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.taskapp.MainActivity
@@ -17,7 +18,7 @@ class HomeViewPagerFragment : Fragment()  {
 
     lateinit var viewPager : ViewPager2
     lateinit var tabLayoutMediator: TabLayoutMediator
-
+    private val args : HomeViewPagerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +38,9 @@ class HomeViewPagerFragment : Fragment()  {
             }
         }.apply {  attach() }
 
+        if(args.wasTaskAdded ){
+            viewPager.currentItem = MainActivity.MY_TASKS_FRAGMENT_INDEX
+        }
         return binding.root
     }
 
@@ -51,13 +55,11 @@ class HomeViewPagerFragment : Fragment()  {
     private fun getTableIcon(position: Int) = when (position) {
         MainActivity.MY_TASKS_FRAGMENT_INDEX -> R.drawable.ic_assignment_black_24dp
         MainActivity.TODAY_FRAGMENT_INDEX -> R.drawable.ic_launcher_foreground
-        MainActivity.ADD_TASK_FRAGMENT_INDEX -> R.drawable.ic_add_black_24dp
         else -> throw IndexOutOfBoundsException()
     }
     private fun getTableText(position: Int) = when (position) {
         MainActivity.MY_TASKS_FRAGMENT_INDEX -> getString(R.string.my_tasks)
         MainActivity.TODAY_FRAGMENT_INDEX -> getString(R.string.today)
-        MainActivity.ADD_TASK_FRAGMENT_INDEX -> getString(R.string.add_task)
         else -> throw IndexOutOfBoundsException()
     }
 

@@ -23,17 +23,13 @@ class AddTaskViewModel @Inject constructor(
     }
 
     fun createTaskDetails(): TaskDetails {
-        return TaskDetails(taskFields.taskName, taskFields.taskDescription)
+        return TaskDetails(name = taskFields.taskName,description =  taskFields.taskDescription)
     }
 
      fun saveTask()  {
          viewModelScope.launch {
-             taskRepository.saveTask(
-                 Task(
-                     name = taskFields.taskName,
-                     description = taskFields.taskDescription
-                 )
-             )
+             taskRepository.saveTask(Task(name = taskFields.taskName,
+                 description = taskFields.taskDescription))
          }
 
     }

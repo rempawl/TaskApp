@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:text="potwierdz"
+                    android:text="@string/confirm"
                     app:backgroundTint="#0B530E" />
 
 

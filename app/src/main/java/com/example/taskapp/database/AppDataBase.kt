@@ -4,19 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.database.entities.Task
 
 @Database(
-    entities = [Task::class],
+    entities = [Task::class
+
+    ],
     version = AppDataBase.VERSION_INT
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
-        const val VERSION_INT = 4
+        const val VERSION_INT = 7
         private const val DB_NAME = "TaskApp DB"
 
         private var INSTANCE: AppDataBase? = null

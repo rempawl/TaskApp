@@ -11,7 +11,6 @@ import com.example.taskapp.databinding.AddTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 
-//todo after adding without reminder navigate to my tasks
 
 class AddTaskFragment : Fragment() {
 
@@ -42,14 +41,18 @@ class AddTaskFragment : Fragment() {
         }
     }
 
-     private fun saveTask() {
+    private fun saveTask() {
         viewModel.saveTask()
-
+        findNavController().navigate(
+            AddTaskFragmentDirections.actionNavigationAddTaskToNavigationHome()
+                .setWasTaskAdded(true)
+        )
     }
 
     private fun navigateToAddReminder() {
+
         findNavController().navigate(
-            HomeViewPagerFragmentDirections.navigationHomeToNavigationAddReminder(
+            AddTaskFragmentDirections.navigationAddTaskToNavigationAddReminder(
                 viewModel.createTaskDetails()
             )
         )

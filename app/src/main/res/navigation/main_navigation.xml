@@ -1,28 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
     app:startDestination="@id/navigation_home">
 
-<fragment
-    android:name="com.example.taskapp.fragments.HomeViewPagerFragment"
-    android:label="home"
-    android:id="@+id/navigation_home"
-    >
-    <action
-        app:destination="@id/navigation_add_reminder"
-        android:id="@+id/navigation_home_to_navigation_add_reminder"
-        />
-</fragment>
     <fragment
-        android:name="com.example.taskapp.fragments.addReminder.AddReminderFragment"
-        android:label="@string/reminder"
+        android:id="@+id/navigation_home"
+        android:name="com.example.taskapp.fragments.HomeViewPagerFragment"
+        android:label="home">
+        <action
+            android:id="@+id/navigation_home_to_navigation_add_task"
+            app:destination="@id/navigation_add_task" />
+        <argument
+            android:name="wasTaskAdded"
+            app:argType="boolean"
+            android:defaultValue="false"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_add_task"
+        android:name="com.example.taskapp.fragments.AddTaskFragment"
+        android:label="@string/add_task">
+        <action
+        android:id="@+id/navigation_add_task_to_navigation_add_reminder"
+        app:destination="@id/navigation_add_reminder" />
+        <action
+            android:id="@+id/action_navigation_add_task_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
+    <fragment
+        android:name="com.example.taskapp.fragments.TaskDetailsFragment"
+        android:id="@+id/navigation_task_details"
+        android:label="@string/task_details">
+        <argument
+            android:name="task"
+            app:argType="com.example.taskapp.database.entities.Task"
+            app:nullable="false"
+        />
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_add_reminder"
-        >
+        android:name="com.example.taskapp.fragments.addReminder.AddReminderFragment"
+        android:label="@string/reminder">
         <argument
             android:name="taskDetails"
             app:argType="com.example.taskapp.viewmodels.addTask.TaskDetails"
-            app:nullable="false"
+            app:nullable="false" />
+        <action
+            app:destination="@id/navigation_home"
+            android:id="@+id/navigation_add_reminder_to_navigation_home"
+
             />
+
     </fragment>
 
 </navigation>

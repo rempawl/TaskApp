@@ -11,7 +11,6 @@ class HomeViewPagerAdapter(fragment : Fragment) : FragmentStateAdapter(fragment)
 
     private val fragmentTab: Map<Int,() -> Fragment> = mapOf(
         MainActivity.TODAY_FRAGMENT_INDEX to { TodayFragment() },
-        MainActivity.ADD_TASK_FRAGMENT_INDEX to { AddTaskFragment() },
         MainActivity.MY_TASKS_FRAGMENT_INDEX to { MyTasksFragment() }
     )
     override fun getItemCount(): Int  = fragmentTab.size

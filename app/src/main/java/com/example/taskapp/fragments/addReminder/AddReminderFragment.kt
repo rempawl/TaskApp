@@ -9,6 +9,7 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
@@ -19,6 +20,8 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import kotlinx.android.synthetic.main.add_reminder_fragment.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+
+
 
 class AddReminderFragment : Fragment() {
 
@@ -33,9 +36,9 @@ class AddReminderFragment : Fragment() {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
             .create(args.taskDetails)
     }
-
-    private lateinit var binding: AddReminderFragmentBinding
+     private lateinit var binding: AddReminderFragmentBinding
     private val args: AddReminderFragmentArgs by navArgs()
+
 
 
     override fun onCreateView(
@@ -45,7 +48,6 @@ class AddReminderFragment : Fragment() {
     ): View? {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -65,12 +67,12 @@ class AddReminderFragment : Fragment() {
                     "tag"
                 )
             }
+            confirmButton.setOnClickListener { addTaskWithReminder() }
         }
         setupDurationLayout()
         setupFrequencyLayout()
         setupTaskDetailsLayout()
     }
-
 
     private fun setupTaskDetailsLayout() {
         binding.apply {
@@ -78,7 +80,7 @@ class AddReminderFragment : Fragment() {
                 R.string.task_name,
                 this@AddReminderFragment.viewModel.taskDetails.name
             )
-            taskDescription.text = getString(
+            taskDescription.text =      getString(
                 R.string.task_description,
                 this@AddReminderFragment.viewModel.taskDetails.description
             )
@@ -100,10 +102,11 @@ class AddReminderFragment : Fragment() {
     }
 
     private fun onDurationRadioChecked(id: Int) {
+        val durationModel = viewModel.durationModel
         when (activity?.findViewById<View>(id)!!) {
-            binding.xDaysDurationRadio -> { viewModel.durationModel.setDaysDurationState() }
-            binding.endDateRadio ->{viewModel.durationModel.setEndDateDurationState()}
-            binding.noEndDateRadio ->{ viewModel.durationModel.setNoEndDateDurationState() }
+            binding.xDaysDurationRadio -> { durationModel.setDaysDurationState() }
+            binding.endDateRadio ->{ durationModel.setEndDateDurationState() }
+            binding.noEndDateRadio ->{ durationModel.setNoEndDateDurationState() }
             else -> throw NoSuchElementException("There is no matching button")
         }
         setDurationButtonsVisibility(id)
@@ -124,10 +127,12 @@ class AddReminderFragment : Fragment() {
         }
     }
 
+
     private fun onFrequencyRadioCheck(id: Int) {
+        val frequencyModel = viewModel.frequencyModel
         when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding.dailyFreqRadio -> { viewModel.frequencyModel.setDailyFrequency()  }
-            binding.daysOfWeekRadio ->{ viewModel.frequencyModel.setDaysOfWeekFrequency()}
+            binding.dailyFreqRadio -> { frequencyModel.setDailyFrequency()  }
+            binding.daysOfWeekRadio ->{ frequencyModel.setDaysOfWeekFrequency()}
 
             else -> throw NoSuchElementException("There is no matching button")
         }
@@ -135,6 +140,16 @@ class AddReminderFragment : Fragment() {
         setFrequencyButtonsVisibility(id)
 
     }
+
+
+    private fun addTaskWithReminder() {
+        viewModel.saveTaskWithReminder()
+        findNavController().navigate(
+            AddReminderFragmentDirections.navigationAddReminderToNavigationHome()
+                .setWasTaskAdded(true)
+        )
+    }
+
 
     private fun showDurationDaysPickerDialog() {
         DaysDurationPickerFragment(viewModel).show(childFragmentManager, "days duration dialog")
@@ -166,6 +181,10 @@ class AddReminderFragment : Fragment() {
         changeViewsVisibility(currentList, allViews - currentList)
     }
 
+    /**
+     * function responsible for changing visibility of buttons under RadioGroup depending
+     * on current radio  checked
+     */
     private fun setDurationButtonsVisibility(id: Int) {
         val allBtns = listOf(
             binding.setDurationDaysBtn,
@@ -198,6 +217,8 @@ class AddReminderFragment : Fragment() {
 
 
 }
+
+
 
 fun <T : View> Fragment.changeViewsVisibility(
     visibleViews: List<T>,

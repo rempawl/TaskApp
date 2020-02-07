@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.TaskListAdapter
@@ -13,8 +14,6 @@ import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.di.viewModel
 
 
-//todo add fab
-//todo add navigation to addTask
 
 class MyTasksFragment : Fragment() {
 
@@ -23,8 +22,9 @@ class MyTasksFragment : Fragment() {
             MyTasksFragment()
     }
 
-    private val viewModel by viewModel { (activity as MainActivity)
-        .appComponent.myTaskViewModel
+    private val viewModel by viewModel {
+        (activity as MainActivity)
+            .appComponent.myTaskViewModel
     }
 
     private lateinit var taskListAdapter: TaskListAdapter
@@ -35,7 +35,7 @@ class MyTasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MyTasksFragmentBinding
-            .inflate(inflater,container,false)
+            .inflate(inflater, container, false)
         taskListAdapter = TaskListAdapter()
         setupBinding()
         updateTaskList()
@@ -52,15 +52,23 @@ class MyTasksFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(false)
             }
+            addTaskBtn.setOnClickListener { navigateToAddTask() }
         }
+    }
+
+    private fun navigateToAddTask() {
+        findNavController().navigate(
+            HomeViewPagerFragmentDirections.navigationHomeToNavigationAddTask()
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
     }
 
     private fun updateTaskList() {
-        viewModel.tasks.observe(viewLifecycleOwner, Observer {tasks ->
+        viewModel.tasks.observe(viewLifecycleOwner, Observer { tasks ->
             taskListAdapter.submitList(tasks)
         })
     }
