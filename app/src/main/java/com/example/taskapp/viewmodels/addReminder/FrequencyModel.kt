@@ -3,6 +3,8 @@ package com.example.taskapp.viewmodels.addReminder
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.example.taskapp.BR
+import com.example.taskapp.utils.Converters
+import com.example.taskapp.database.entities.Frequency
 import com.example.taskapp.fragments.addReminder.DayOfWeekHash
 import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
 import javax.inject.Inject
@@ -31,5 +33,15 @@ class FrequencyModel @Inject constructor(): BaseObservable(){
 
     }
 
+    fun getFrequency() : Frequency{
+        return when(frequencyState){
+            is ReminderFrequencyState.Daily ->{
+                Frequency(isDaily = true,value = currentDailyFrequency)
+            }
+            is ReminderFrequencyState.WeekDays -> {
+                Frequency(isDaily = false,value = Converters.daysOfWeekToInt(currentWeekDays))
+            }
+        }
+    }
 
 }

@@ -13,9 +13,9 @@ class MyTasksViewModel  @Inject constructor(private  val taskRepo: TaskRepositor
     @Volatile
     var tasks = liveData{
         val data = taskRepo.getTasks()
-        data.forEach {
-            Log.d(MainActivity.TAG, it.toString())
-        }
+//        data.forEach {
+//            Log.d(MainActivity.TAG, it.toString())
+//        }
         emit(data)
     }
 

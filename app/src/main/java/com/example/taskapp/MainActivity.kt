@@ -2,12 +2,13 @@ package com.example.taskapp
 
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.taskapp.di.AppComponent
+import com.example.taskapp.fragments.addReminder.DayOfWeekHash
+import com.example.taskapp.utils.Converters
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
         toolbar?.setupWithNavController(navController,appBarConfig)
+
+        val set : MutableSet<DayOfWeekHash> = mutableSetOf()
+        org.threeten.bp.DayOfWeek.values().forEach { set.add(it.hashCode()) }
+        Converters.daysOfWeekToInt(set)
 
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskapp.MainActivity
+import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
 import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.addTask.TaskDetails
@@ -41,6 +42,10 @@ class AddReminderViewModel @AssistedInject constructor(
     fun setNotificationTime(time : LocalTime){
         notificationTime.set(time)
         isNotificationTimeSet = true
+    }
+
+    fun sth(){
+     durationModel.getDuration()
     }
 
     companion object {

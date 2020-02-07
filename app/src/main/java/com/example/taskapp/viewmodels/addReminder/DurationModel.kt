@@ -4,6 +4,8 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
 import com.example.taskapp.BR
+import com.example.taskapp.utils.Converters
+import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
 import com.google.android.material.button.MaterialButton
 import org.threeten.bp.LocalDate
@@ -11,11 +13,9 @@ import javax.inject.Inject
 
 class DurationModel @Inject constructor() : BaseObservable() {
 
+    private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
 
-    //    @Bindable
-//    fun isValid() : Boolean{
-//        isBeginningDateValid()
-//    }
+
     @Bindable
     var currentDaysDuration = 10
         private set(value) {
@@ -26,7 +26,7 @@ class DurationModel @Inject constructor() : BaseObservable() {
 
     @Bindable
     var beginningDate = TODAY
-         set(value) {
+        set(value) {
             if (isBeginningDateValid(value)) {
                 field = value
                 notifyPropertyChanged(BR.beginningDate)
@@ -42,8 +42,6 @@ class DurationModel @Inject constructor() : BaseObservable() {
             notifyPropertyChanged(BR.currentEndDate)
         }
 
-
-    private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
 
     private fun isEndDateValid(date: LocalDate) = date.isAfter(TODAY) &&
             date.isAfter(beginningDate)
@@ -76,6 +74,24 @@ class DurationModel @Inject constructor() : BaseObservable() {
             //todo show error
         }
 
+    }
+
+
+    fun getDuration(): Duration {
+        return when (durationState) {
+            is ReminderDurationState.EndDate -> {
+                Duration(
+                    isDate = true, value = Converters
+                        .localDateToLong(currentEndDate)
+                )
+            }
+            is ReminderDurationState.DaysDuration -> {
+                Duration(isDate = false, value = currentDaysDuration.toLong())
+            }
+            is ReminderDurationState.NoEndDate -> {
+                Duration(isDate = false, value = 0, noDate = true)
+            }
+        }
     }
 
 
