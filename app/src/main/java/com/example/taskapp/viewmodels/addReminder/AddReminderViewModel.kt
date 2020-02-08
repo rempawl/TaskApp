@@ -3,9 +3,11 @@ package com.example.taskapp.viewmodels.addReminder
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.utils.Converters
 import com.example.taskapp.viewmodels.addTask.TaskDetails
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -21,7 +23,7 @@ class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
     val durationModel: DurationModel,
     val frequencyModel: FrequencyModel,
-    val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository
 
 ) : ViewModel() {
 
@@ -30,6 +32,7 @@ class AddReminderViewModel @AssistedInject constructor(
     interface Factory {
         fun create(taskDetails: TaskDetails): AddReminderViewModel
     }
+
 
     val notificationTime = ObservableField<LocalTime>(INITIAL_TIME)
     private var isNotificationTimeSet = false
@@ -42,9 +45,14 @@ class AddReminderViewModel @AssistedInject constructor(
 
     fun saveTaskWithReminder() {
         viewModelScope.launch {
-            val reminder = Reminder(
+            val temp = notificationTime.get() ?: INITIAL_TIME
+
+            val time = NotificationTime(temp.hour, temp.minute,isNotificationTimeSet)
+
+            val reminder = Reminder(begDate = durationModel.beginningDate,
                 duration = durationModel.getDuration(),
-                frequency = frequencyModel.getFrequency()
+                frequency = frequencyModel.getFrequency(),
+                notificationTime = time
             )
 
             taskRepository.saveTask(Task(

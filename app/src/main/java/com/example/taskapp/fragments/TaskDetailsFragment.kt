@@ -1,7 +1,6 @@
 package com.example.taskapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.R
+import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.utils.Converters
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
 
 class TaskDetailsFragment : Fragment() {
@@ -20,8 +21,8 @@ class TaskDetailsFragment : Fragment() {
         fun newInstance() = TaskDetailsFragment()
     }
 
-
     private val args: TaskDetailsFragmentArgs by navArgs()
+
 
     private val viewModel: TaskDetailsViewModel by viewModel {
         (activity as MainActivity)
@@ -37,14 +38,55 @@ class TaskDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = TaskDetailsFragmentBinding.inflate(inflater, container, false)
-        setupBinding()
+
+
+
+        viewModel.task.observe(viewLifecycleOwner, Observer { task ->
+            setupBinding(task.reminder)
+        })
+
         return binding.root
     }
 
-    private fun setupBinding() {
+
+    private fun setupBinding(reminder: Reminder?) {
+
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
+            if (reminder != null) {
+                setupReminderLayout(reminder )
+            }
+
+        }
+    }
+
+    private fun setupReminderLayout(reminder: Reminder) {
+        val converter = Converters.getInstance()
+
+        val duration = reminder.duration.duration
+        binding.apply {
+            reminderLayout.visibility = View.VISIBLE
+            begDate.text = getString(R.string.beginning_date,reminder.begDate)
+
+            when {
+                reminder.duration.noDate -> {
+                    durationText.text = getString(R.string.no_end_date)
+                }
+                reminder.duration.isDate -> {
+                    durationText.text = getString(
+                        R.string.end_date_format,
+                        converter.longToLocalDate(duration)
+                    )
+                }
+                else -> {
+                    durationText.text = resources.getQuantityString(
+                        R.plurals.days_duration,
+                        duration.toInt(),
+                        duration
+                    )
+                }
+            }
         }
     }
 

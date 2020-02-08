@@ -206,11 +206,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="gone" />
+
                     </LinearLayout>
                 </LinearLayout>
 
 
                 <com.google.android.material.button.MaterialButton
+                    android:enabled="@{viewModel.durationModel.dateValid}"
                     android:id="@+id/confirm_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

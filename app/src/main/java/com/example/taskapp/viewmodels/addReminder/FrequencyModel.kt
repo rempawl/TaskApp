@@ -39,7 +39,7 @@ class FrequencyModel @Inject constructor(): BaseObservable(){
                 Frequency(isDaily = true,frequency = currentDailyFrequency)
             }
             is ReminderFrequencyState.WeekDays -> {
-                Frequency(isDaily = false,frequency = Converters.daysOfWeekToInt(currentWeekDays))
+                Frequency(isDaily = false,frequency = Converters().daysOfWeekToInt(currentWeekDays))
             }
         }
     }

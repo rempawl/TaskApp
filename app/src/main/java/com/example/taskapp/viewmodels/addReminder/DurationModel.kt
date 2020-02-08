@@ -1,21 +1,26 @@
 package com.example.taskapp.viewmodels.addReminder
 
+import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableField
 import com.example.taskapp.BR
-import com.example.taskapp.utils.Converters
+import com.example.taskapp.MainActivity
+import com.example.taskapp.R
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
-import com.google.android.material.button.MaterialButton
+import com.example.taskapp.utils.Converters
+import com.google.android.material.textview.MaterialTextView
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class DurationModel @Inject constructor() : BaseObservable() {
-
-
     private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
-
+    set(value){
+        field = value
+        notifyPropertyChanged(BR.dateValid)
+    }
 
 
     @Bindable
@@ -25,7 +30,6 @@ class DurationModel @Inject constructor() : BaseObservable() {
             notifyPropertyChanged(BR.currentDaysDuration)
         }
 
-
     @Bindable
     var beginningDate = TODAY
         set(value) {
@@ -33,20 +37,35 @@ class DurationModel @Inject constructor() : BaseObservable() {
                 field = value
                 notifyPropertyChanged(BR.beginningDate)
             } else {
-                //todo show error
+                //todo toast
             }
         }
+
 
     @Bindable
     var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
         private set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentEndDate)
+            if(isEndDateValid(value)){
+                field = value
+                notifyPropertyChanged(BR.currentEndDate)
+            }else{
+                //todo toast
+            }
+
         }
 
 
-    private fun isEndDateValid(date: LocalDate) = date.isAfter(TODAY) &&
-            date.isAfter(beginningDate)
+    @Bindable
+    fun isDateValid(): Boolean {
+        return if(durationState is ReminderDurationState.EndDate){
+            isEndDateValid()
+        }else{
+            true
+        }
+    }
+
+    private fun isEndDateValid(date: LocalDate = currentEndDate) =
+        !date.isBefore(beginningDate)
 
 
     private fun isBeginningDateValid(date: LocalDate): Boolean {
@@ -56,7 +75,6 @@ class DurationModel @Inject constructor() : BaseObservable() {
         } else {
             isValid
         }
-
     }
 
     fun setNoEndDateDurationState() {
@@ -68,16 +86,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
         currentDaysDuration = days
     }
 
-
-    //todo validation of end date
     fun setEndDateDurationState(endDate: LocalDate = currentEndDate) {
-        if (isEndDateValid(endDate)) {
-            durationState = ReminderDurationState.EndDate(endDate)
-            currentEndDate = endDate
-        } else {
-            //todo show error
-        }
-
+        durationState = ReminderDurationState.EndDate(endDate)
+        currentEndDate = endDate
     }
 
 
@@ -86,7 +97,7 @@ class DurationModel @Inject constructor() : BaseObservable() {
             is ReminderDurationState.EndDate -> {
                 Duration(
                     isDate = true,
-                    duration = Converters
+                    duration = Converters()
                         .localDateToLong(currentEndDate)
                 )
             }
@@ -102,20 +113,8 @@ class DurationModel @Inject constructor() : BaseObservable() {
 
     companion object {
         val TODAY: LocalDate = LocalDate.now()
-        @JvmStatic
-        @BindingAdapter("error")
-        fun setError(view: MaterialButton, stringOrRsrcID: Any?) {
-            if (stringOrRsrcID != null) {
-                when (stringOrRsrcID) {
-                    is String -> view.error = stringOrRsrcID
-                    is Int -> view.apply {
-                        val text = context.resources.getString(stringOrRsrcID)
-                        error = text
-                    }
-                }
-            }
 
-        }
+
 
     }
 
