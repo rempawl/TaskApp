@@ -42,6 +42,9 @@
     <string name="end_date">Data Zakończenia</string>
     <string name="end_date_format">Data zakończenia: %1$s</string>
     <string name="no_end_date">Bez daty zakończenia </string>
+    <string name="no_days_number">Brak liczby dni </string>
+
+    <string name="number_starts_with_0">Liczba dni nie moze zaczynac sie od 0</string>
 
 
     <!--    NOTIFICATION TIME -->

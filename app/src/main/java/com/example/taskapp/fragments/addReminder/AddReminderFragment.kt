@@ -60,6 +60,7 @@ class AddReminderFragment : Fragment() {
 
     private fun setupBinding() {
         binding.apply {
+            lifecycleOwner = viewLifecycleOwner
             viewModel = this@AddReminderFragment.viewModel
             setTimeOfNotification.setOnClickListener {
                 NotificationTimePickerFragment(this@AddReminderFragment.viewModel).show(

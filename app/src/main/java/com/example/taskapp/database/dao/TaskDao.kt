@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.example.taskapp.database.BaseDao
 import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.TaskMinimal
 
 @Dao
 interface TaskDao : BaseDao<Task> {
@@ -14,6 +15,9 @@ interface TaskDao : BaseDao<Task> {
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
     fun loadTaskById(taskID:Long) : Task
+
+    @Query("SELECT taskID, name FROM tasks")
+    fun loadMinimalTasks() : List<TaskMinimal>
 
 
 //    @Transaction

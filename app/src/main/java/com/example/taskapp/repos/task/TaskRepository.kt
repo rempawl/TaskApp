@@ -14,4 +14,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     suspend fun saveTask(task : Task)= taskLocalDataSource.saveTask(task)
 
+    suspend fun getTaskByID(id: Long) = taskLocalDataSource.getTaskById(id)
+
+    suspend fun getMinimalTasks()  = taskLocalDataSource.getMinimalTasks()
 }

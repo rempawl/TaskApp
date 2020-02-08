@@ -12,7 +12,7 @@ class MyTasksViewModel  @Inject constructor(private  val taskRepo: TaskRepositor
 
     @Volatile
     var tasks = liveData{
-        val data = taskRepo.getTasks()
+        val data = taskRepo.getMinimalTasks()
 //        data.forEach {
 //            Log.d(MainActivity.TAG, it.toString())
 //        }

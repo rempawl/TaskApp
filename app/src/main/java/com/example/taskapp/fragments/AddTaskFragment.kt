@@ -35,6 +35,7 @@ class AddTaskFragment : Fragment() {
 
     private fun setupBinding() {
         binding.apply {
+            lifecycleOwner = viewLifecycleOwner
             viewModel = this@AddTaskFragment.viewModel
             addReminderBtn.setOnClickListener { navigateToAddReminder() }
             saveBtn.setOnClickListener { saveTask() }

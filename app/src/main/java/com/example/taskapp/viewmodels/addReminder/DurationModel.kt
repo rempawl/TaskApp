@@ -18,8 +18,6 @@ class DurationModel @Inject constructor() : BaseObservable() {
 
 
 
-
-
     @Bindable
     var currentDaysDuration = 10
         private set(value) {
@@ -70,6 +68,8 @@ class DurationModel @Inject constructor() : BaseObservable() {
         currentDaysDuration = days
     }
 
+
+    //todo validation of end date
     fun setEndDateDurationState(endDate: LocalDate = currentEndDate) {
         if (isEndDateValid(endDate)) {
             durationState = ReminderDurationState.EndDate(endDate)

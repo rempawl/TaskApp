@@ -18,6 +18,10 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) {
         taskDao.loadAllTasks()
     }
 
+    suspend fun getMinimalTasks() = withContext(Dispatchers.IO) {
+        taskDao.loadMinimalTasks()
+    }
+
     suspend fun getTaskById(id: Long) = withContext(Dispatchers.IO) {
         taskDao.loadTaskById(id)
     }

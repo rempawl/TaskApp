@@ -3,11 +3,13 @@ package com.example.taskapp.utils
 import com.example.taskapp.fragments.addReminder.DayOfWeekHash
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 
 object Converters {
     fun localDateToLong(date: LocalDate): Long = date.toEpochDay()
 
     fun longToLocalDate(date: Long): LocalDate = LocalDate.ofEpochDay(date)
+
 
     /**
      *  setting the i-th bit of result to 1 if dayOfWeek HashCode is  inside [daysOfWeek] set

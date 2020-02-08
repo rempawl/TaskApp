@@ -33,9 +33,9 @@ class DaysDurationPickerFragment(private val viewModel: AddReminderViewModel) : 
 
     private fun setDaysDuration(text: String?) {
         if (text.isNullOrBlank()) {
-            showToast("BRAK NUMERU")  // todo string.xml
+            showToast(getString(R.string.no_days_number))
         } else if (text[0] == '0') {
-            showToast("Liczba dni nie moze zaczynac sie od 0")  //todo string.xml
+            showToast(getString(R.string.number_starts_with_0))
         } else {
             val days = text.toInt()
             if (days < Int.MAX_VALUE) {

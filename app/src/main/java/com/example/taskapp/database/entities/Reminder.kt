@@ -20,8 +20,12 @@ data class Duration(
 ):Parcelable
 
 @Parcelize
+data class NotificationTime( val hour : Int=0,val minute : Int=0, val isSet : Boolean) : Parcelable
+
+@Parcelize
 data class Reminder(
     @Embedded val frequency: Frequency,
-    @Embedded val duration: Duration
+    @Embedded val duration: Duration,
+    @Embedded val  notificationTime: NotificationTime
 ) :Parcelable{
 }
