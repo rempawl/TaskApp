@@ -15,6 +15,11 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) {
         taskDao.insertItem(task)
     }
 
+
+    suspend fun deleteTask(id: Long) = withContext(Dispatchers.IO){
+        taskDao.deleteByID(id)
+    }
+
     suspend fun getTasks() = withContext(Dispatchers.IO) {
         return@withContext try {
             Result.Success(taskDao.loadAllTasks())

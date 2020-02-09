@@ -52,7 +52,7 @@ class AddTaskFragment : Fragment() {
         viewModel.saveTask()
         findNavController().navigate(
             AddTaskFragmentDirections.actionNavigationAddTaskToNavigationHome()
-                .setWasTaskAdded(true)
+                .setShowMyTasks(true)
         )
     }
 

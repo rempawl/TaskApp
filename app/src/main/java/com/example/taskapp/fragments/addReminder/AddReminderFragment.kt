@@ -147,7 +147,7 @@ class AddReminderFragment : Fragment() {
         viewModel.saveTaskWithReminder()
         findNavController().navigate(
             AddReminderFragmentDirections.navigationAddReminderToNavigationHome()
-                .setWasTaskAdded(true)
+                .setShowMyTasks(true)
         )
     }
 

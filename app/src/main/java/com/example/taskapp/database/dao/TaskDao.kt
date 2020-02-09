@@ -19,13 +19,8 @@ interface TaskDao : BaseDao<Task> {
     @Query("SELECT taskID, name FROM tasks")
     fun loadMinimalTasks() : List<TaskMinimal>
 
+    @Query("DELETE FROM tasks WHERE taskID == :id")
+    fun deleteByID(id: Long) : Int
 
-//    @Transaction
-//        @Query("SELECT * FROM tasks ")
-//    fun loadTasksWithReminders()  : List<TaskWithReminder>
-
-//    @Transaction
-//    @Query("SELECT * FROM tasks WHERE taskID = :taskID")
-//    fun loadTaskWithRemindersById(taskID: Long) : TaskWithReminder
 
 }

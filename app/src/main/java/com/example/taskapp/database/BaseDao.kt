@@ -11,6 +11,7 @@ interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItems(items : List<T>)
 
+
     @Delete
     fun deleteItem(item  : T)
 

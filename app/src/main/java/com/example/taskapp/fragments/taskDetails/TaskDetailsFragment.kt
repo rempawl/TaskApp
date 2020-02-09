@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
@@ -45,9 +46,21 @@ class TaskDetailsFragment : Fragment() {
 
             }
         })
+
+        viewModel.getTaskDeleted().observe(viewLifecycleOwner, Observer { isDeleted ->
+            if(isDeleted) { navigateToMyTasks() }
+        })
         setupBinding()
 
         return binding.root
+    }
+
+    private fun navigateToMyTasks() {
+        findNavController()
+            .navigate(TaskDetailsFragmentDirections.navigationTaskDetailsToNavigationHome()
+                .setShowMyTasks(true)
+            )
+
     }
 
 
@@ -55,8 +68,12 @@ class TaskDetailsFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
-            deleteBtn.setOnClickListener {  }
+            deleteBtn.setOnClickListener { showDeleteDialog() }
         }
+    }
+
+    private fun showDeleteDialog() {
+        DeleteDialogFragment(viewModel).show(childFragmentManager,"")
     }
 
     private fun setupReminderLayout(reminder: Reminder) {

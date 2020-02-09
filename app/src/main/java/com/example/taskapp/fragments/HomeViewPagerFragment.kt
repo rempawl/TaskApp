@@ -37,7 +37,7 @@ class HomeViewPagerFragment : Fragment() {
             }
         }.apply { attach() }
 
-        if (args.wasTaskAdded) {
+        if (args.showMyTasks) {
             viewPager.currentItem = MainActivity.MY_TASKS_FRAGMENT_INDEX
         }
         return binding.root
@@ -49,7 +49,6 @@ class HomeViewPagerFragment : Fragment() {
         if (viewPager.adapter != null) {
             viewPager.adapter == null
         }
-
     }
 
     private fun getTableIcon(position: Int) = when (position) {

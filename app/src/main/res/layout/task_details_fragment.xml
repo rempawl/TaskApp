@@ -8,9 +8,6 @@
             name="viewModel"
             type="com.example.taskapp.viewmodels.TaskDetailsViewModel" />
 
-        <variable
-            name="view"
-            type="android.view.View" />
     </data>
 
     <FrameLayout
@@ -18,11 +15,25 @@
         android:layout_height="match_parent"
         tools:context=".fragments.taskDetails.TaskDetailsFragment">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
         <LinearLayout
             android:id="@+id/main_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textSize="20sp"
+                android:id="@+id/delete_btn"
+                />
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_name"
@@ -35,7 +46,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{@string/task_description(viewModel.task.description)}" />
-
 
             <LinearLayout
                 android:id="@+id/reminder_layout"
@@ -81,15 +91,9 @@
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textSize="20sp"
-                android:id="@+id/delete_btn"
-                />
 
         </LinearLayout>
+        </ScrollView>
+
     </FrameLayout>
 </layout>

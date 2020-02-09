@@ -17,7 +17,7 @@
             android:id="@+id/navigation_home_to_navigation_add_task"
             app:destination="@id/navigation_add_task" />
         <argument
-            android:name="wasTaskAdded"
+            android:name="showMyTasks"
             app:argType="boolean"
             android:defaultValue="false"
             />
@@ -40,6 +40,11 @@
         android:name="com.example.taskapp.fragments.taskDetails.TaskDetailsFragment"
         android:id="@+id/navigation_task_details"
         android:label="@string/task_details">
+        <action
+            android:id="@+id/navigation_task_details_to_navigation_home"
+            app:destination="@id/navigation_home"
+            />
+
         <argument
             android:name="task"
             app:argType="com.example.taskapp.database.entities.TaskMinimal"
