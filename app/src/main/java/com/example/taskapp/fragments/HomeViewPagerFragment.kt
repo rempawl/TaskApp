@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
@@ -14,11 +13,11 @@ import com.example.taskapp.adapters.HomeViewPagerAdapter
 import com.example.taskapp.databinding.FragmentHomeViewPagerBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeViewPagerFragment : Fragment()  {
+class HomeViewPagerFragment : Fragment() {
 
-    lateinit var viewPager : ViewPager2
-    lateinit var tabLayoutMediator: TabLayoutMediator
-    private val args : HomeViewPagerFragmentArgs by navArgs()
+    private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayoutMediator: TabLayoutMediator
+    private val args: HomeViewPagerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,19 +25,19 @@ class HomeViewPagerFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeViewPagerBinding
-            .inflate(inflater,container,false)
+            .inflate(inflater, container, false)
         viewPager = binding.viewPager
         viewPager.adapter = HomeViewPagerAdapter(this)
 
         val tabLayout = binding.tabs
-        this.tabLayoutMediator = TabLayoutMediator(tabLayout,viewPager){tab, position ->
+        this.tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.apply {
                 setIcon(getTableIcon(position))
                 text = getTableText(position)
             }
-        }.apply {  attach() }
+        }.apply { attach() }
 
-        if(args.wasTaskAdded ){
+        if (args.wasTaskAdded) {
             viewPager.currentItem = MainActivity.MY_TASKS_FRAGMENT_INDEX
         }
         return binding.root
@@ -46,10 +45,11 @@ class HomeViewPagerFragment : Fragment()  {
 
     override fun onDestroy() {
         super.onDestroy()
-        this.tabLayoutMediator.detach()
-        if(viewPager.adapter != null){
+        tabLayoutMediator.detach()
+        if (viewPager.adapter != null) {
             viewPager.adapter == null
         }
+
     }
 
     private fun getTableIcon(position: Int) = when (position) {
@@ -57,6 +57,7 @@ class HomeViewPagerFragment : Fragment()  {
         MainActivity.TODAY_FRAGMENT_INDEX -> R.drawable.ic_launcher_foreground
         else -> throw IndexOutOfBoundsException()
     }
+
     private fun getTableText(position: Int) = when (position) {
         MainActivity.MY_TASKS_FRAGMENT_INDEX -> getString(R.string.my_tasks)
         MainActivity.TODAY_FRAGMENT_INDEX -> getString(R.string.today)

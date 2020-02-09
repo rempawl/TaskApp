@@ -1,4 +1,4 @@
-package com.example.taskapp.fragments
+package com.example.taskapp.fragments.taskDetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,21 +15,22 @@ import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.Converters
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
 
+//todo layout
+//todo delete
+
 class TaskDetailsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = TaskDetailsFragment()
+        fun newInstance() =
+            TaskDetailsFragment()
     }
 
     private val args: TaskDetailsFragmentArgs by navArgs()
-
-
     private val viewModel: TaskDetailsViewModel by viewModel {
         (activity as MainActivity)
             .appComponent.taskDetailsViewModelFactory
             .create(args.task)
     }
-
     private lateinit var binding: TaskDetailsFragmentBinding
 
 
@@ -38,26 +39,23 @@ class TaskDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = TaskDetailsFragmentBinding.inflate(inflater, container, false)
-
-
-
         viewModel.task.observe(viewLifecycleOwner, Observer { task ->
-            setupBinding(task.reminder)
+            if(task.reminder != null){
+                setupReminderLayout(task.reminder)
+
+            }
         })
+        setupBinding()
 
         return binding.root
     }
 
 
-    private fun setupBinding(reminder: Reminder?) {
-
+    private fun setupBinding() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
-            if (reminder != null) {
-                setupReminderLayout(reminder )
-            }
-
+            deleteBtn.setOnClickListener {  }
         }
     }
 
@@ -67,7 +65,7 @@ class TaskDetailsFragment : Fragment() {
         val duration = reminder.duration.duration
         binding.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text = getString(R.string.beginning_date,reminder.begDate)
+            begDate.text = getString(R.string.beginning_date, reminder.begDate)
 
             when {
                 reminder.duration.noDate -> {
@@ -89,9 +87,4 @@ class TaskDetailsFragment : Fragment() {
             }
         }
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
 }

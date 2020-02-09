@@ -33,6 +33,12 @@ class AddTaskFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.viewModel = null
+        binding.lifecycleOwner = null
+    }
+
     private fun setupBinding() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner

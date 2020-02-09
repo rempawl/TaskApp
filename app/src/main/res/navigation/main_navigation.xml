@@ -37,7 +37,7 @@
     </fragment>
 
     <fragment
-        android:name="com.example.taskapp.fragments.TaskDetailsFragment"
+        android:name="com.example.taskapp.fragments.taskDetails.TaskDetailsFragment"
         android:id="@+id/navigation_task_details"
         android:label="@string/task_details">
         <argument

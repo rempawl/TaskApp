@@ -16,7 +16,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.TaskDetailsFragment">
+        tools:context=".fragments.taskDetails.TaskDetailsFragment">
 
         <LinearLayout
             android:id="@+id/main_container"
@@ -36,26 +36,59 @@
                 android:layout_height="wrap_content"
                 android:text="@{@string/task_description(viewModel.task.description)}" />
 
+
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/reminder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/beg_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-/>
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/duration_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/frequency_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/duration_text"
-                    />
+                    android:id="@+id/notification_text"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+
 
 
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textSize="20sp"
+                android:id="@+id/delete_btn"
+                />
 
         </LinearLayout>
     </FrameLayout>

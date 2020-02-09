@@ -5,6 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.*
 
+//todo
  class DurationModelTest{
     private lateinit var model : DurationModel
      @Before
@@ -13,7 +14,29 @@ import org.junit.jupiter.api.Assertions.*
      }
 
      @Test
-     fun beginningDate_isYesterday_error(){
-         //todo
+     fun beginningDate_yesterday_error(){
      }
+
+     @Test
+     fun beginningDate_afterEndDate_error(){
+
+     }
+
+     @Test
+     fun endDate_beforeBegDate_error(){
+
+     }
+
+     @Test
+     fun endDate_yesterday_error(){
+
+
+     }
+
+    @Test
+    fun durationState_endDateBeforeBegDate_confirmBtnDisabled(){
+
+    }
+
+
 }

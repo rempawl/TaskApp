@@ -31,7 +31,6 @@ class AddTaskViewModel @Inject constructor(
              taskRepository.saveTask(Task(name = taskFields.taskName,
                  description = taskFields.taskDescription))
          }
-
     }
 
     companion object

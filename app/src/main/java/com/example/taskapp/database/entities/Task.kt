@@ -5,7 +5,6 @@ import androidx.room.*
 import kotlinx.android.parcel.Parcelize
 import javax.inject.Inject
 
-//todo db loading states
 
 @Entity(tableName = "tasks",
     indices = [Index(value = ["name"],unique = true)]

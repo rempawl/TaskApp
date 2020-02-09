@@ -14,7 +14,6 @@ import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
-//todo if date is invalid disable confirm btn
 
 /**
  * This [ViewModel] is shared between all addReminder package  Fragments

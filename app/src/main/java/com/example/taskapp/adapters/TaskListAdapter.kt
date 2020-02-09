@@ -4,31 +4,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
 import com.example.taskapp.fragments.HomeViewPagerFragmentDirections
 
-class TaskListAdapter : ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(DiffCallBack()) {
+class TaskListAdapter
+    : ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(DiffCallBack()) {
 
     inner class TaskViewHolder(private val binding: TaskListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(task: TaskMinimal) {
             binding.apply {
-              this.task = task
-                detailsBtn.setOnClickListener { navigateToTaskDetails(it,task) }
+                this.task = task
+                detailsBtn.setOnClickListener { navigateToTaskDetails(it, task) }
             }
         }
 
-        private fun navigateToTaskDetails(view: View,task: TaskMinimal) {
+        private fun navigateToTaskDetails(view: View, task: TaskMinimal) {
             Navigation.createNavigateOnClickListener(
-                HomeViewPagerFragmentDirections.
-                    navigationHomeToNavigationTaskDetails(task)
+                HomeViewPagerFragmentDirections.navigationHomeToNavigationTaskDetails(task)
             ).onClick(view)
         }
     }
