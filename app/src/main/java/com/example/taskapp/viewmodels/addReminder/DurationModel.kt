@@ -2,6 +2,7 @@ package com.example.taskapp.viewmodels.addReminder
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
@@ -10,11 +11,16 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class DurationModel @Inject constructor() : BaseObservable() {
+
     private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
     set(value){
         field = value
         notifyPropertyChanged(BR.dateValid)
     }
+
+    //true when error message should be displayed
+    val begDateError  = ObservableField<Boolean>(false)
+    val endDateError = ObservableField<Boolean>(false)
 
 
     @Bindable
@@ -30,8 +36,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
             if (isBeginningDateValid(value)) {
                 field = value
                 notifyPropertyChanged(BR.beginningDate)
+                begDateError.set(false)
             } else {
-                //todo toast
+                begDateError.set(true)
             }
         }
 
@@ -42,8 +49,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
             if(isEndDateValid(value)){
                 field = value
                 notifyPropertyChanged(BR.currentEndDate)
+                endDateError.set(false)
             }else{
-                //todo toast
+                endDateError.set(true)
             }
 
         }
@@ -90,11 +98,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
 
 
 
+
     companion object {
         val TODAY: LocalDate = LocalDate.now()
-
-
-
     }
 
 

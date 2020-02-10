@@ -26,7 +26,7 @@ class TaskListAdapter
 
         private fun navigateToTaskDetails(view: View, task: TaskMinimal) {
             Navigation.createNavigateOnClickListener(
-                HomeViewPagerFragmentDirections.navigationHomeToNavigationTaskDetails(task)
+                HomeViewPagerFragmentDirections.navigationHomeToNavigationTaskDetails(task.taskID)
             ).onClick(view)
         }
     }

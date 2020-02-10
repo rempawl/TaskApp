@@ -4,15 +4,13 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.Task
-import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.repos.task.TaskRepository
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class TaskDetailsViewModel @AssistedInject constructor(
-    @Assisted val taskMinimal: TaskMinimal,
+    @Assisted val taskID: Long,
     private val taskRepository: TaskRepository
 ) : ViewModel() {
 
@@ -22,18 +20,18 @@ class TaskDetailsViewModel @AssistedInject constructor(
     //todo editBtn
     fun deleteTask() {
         viewModelScope.launch {
-            Log.d(MainActivity.TAG, taskRepository.deleteByID(taskMinimal.taskID).toString())
+            Log.d(MainActivity.TAG, taskRepository.deleteByID(taskID).toString())
         }
         isTaskDeleted.value = true
     }
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(taskMinimal: TaskMinimal): TaskDetailsViewModel
+        fun create(taskID: Long): TaskDetailsViewModel
     }
 
     val task: LiveData<Task> = liveData {
-        val data = taskRepository.getTaskByID(taskMinimal.taskID) ?: Task(name="error")
+        val data = taskRepository.getTaskByID(taskID)
         emit(data)
     }
 

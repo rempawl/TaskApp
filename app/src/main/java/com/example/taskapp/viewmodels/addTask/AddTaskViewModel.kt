@@ -4,10 +4,8 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
@@ -22,14 +20,21 @@ class AddTaskViewModel @Inject constructor(
         }
     }
 
-    fun createTaskDetails(): TaskDetails {
-        return TaskDetails(name = taskFields.taskName,description =  taskFields.taskDescription)
+
+    val onFocusTaskDescription = View.OnFocusChangeListener{view,focused ->
+        val text = (view as EditText).text.toString()
+        if(!focused && text.isBlank()){
+            taskFields.validateTaskDescription()
+        }
+    }
+
+    fun getTaskDetails(): TaskDetails {
+        return taskFields.createTaskDetails()
     }
 
      fun saveTask()  {
          viewModelScope.launch {
-             taskRepository.saveTask(Task(name = taskFields.taskName,
-                 description = taskFields.taskDescription))
+             taskRepository.saveTask(taskFields.createTask())
          }
     }
 

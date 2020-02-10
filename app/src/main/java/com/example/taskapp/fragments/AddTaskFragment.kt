@@ -60,7 +60,7 @@ class AddTaskFragment : Fragment() {
 
         findNavController().navigate(
             AddTaskFragmentDirections.navigationAddTaskToNavigationAddReminder(
-                viewModel.createTaskDetails()
+                viewModel.getTaskDetails()
             )
         )
     }

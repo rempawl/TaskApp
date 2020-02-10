@@ -46,8 +46,8 @@
             />
 
         <argument
-            android:name="task"
-            app:argType="com.example.taskapp.database.entities.TaskMinimal"
+            android:name="taskID"
+            app:argType="long"
             app:nullable="false"
         />
     </fragment>

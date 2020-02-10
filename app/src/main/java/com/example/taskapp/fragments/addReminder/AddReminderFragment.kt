@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
@@ -17,6 +18,7 @@ import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.add_reminder_fragment.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -48,8 +50,15 @@ class AddReminderFragment : Fragment() {
     ): View? {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
+
+        viewModel.getToastText().observe(viewLifecycleOwner, Observer{ id ->
+            if(id != null){
+                Toast.makeText(context,getString(id),Toast.LENGTH_SHORT).show()
+            }
+        })
         return binding.root
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

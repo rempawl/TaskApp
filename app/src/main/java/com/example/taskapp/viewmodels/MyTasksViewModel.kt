@@ -11,7 +11,7 @@ class MyTasksViewModel @Inject constructor(private val taskRepo: TaskRepository)
 
     @Volatile
     var tasks = liveData {
-        val tasks = taskRepo.getMinimalTasks()  ?: emptyList()
+        val tasks = taskRepo.getMinimalTasks()
         emit(tasks)
     }
 }

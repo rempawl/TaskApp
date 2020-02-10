@@ -32,7 +32,6 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
         val layout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
         }
-
         var i = 0
         val days = DayOfWeek.values()
         /**

@@ -48,7 +48,8 @@
 
     <!--    NOTIFICATION TIME -->
     <string name="set_notification_time">Ustaw czas powiadomienia</string>
-
+    <string name="notification_time">Czas powiadomienia</string>
+    <string name="no_notificaton">Brak powiadomienia</string>
 
     <!--    COMMON STRINGS -->
     <string name="details">Informacje</string>
@@ -59,7 +60,7 @@
     <string name="cancel"> Anuluj</string>
     <string name="delete">Usuń</string>
     <string name="ok">OK</string>
-
+    <string name="edit">Edytuj</string>
 
     <!--TASK -->
     <string name="my_tasks">Moje zadania</string>

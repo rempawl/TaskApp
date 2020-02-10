@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:onFocus="@{viewModel.onFocusTaskName}"
                 app:setError="@{viewModel.taskFields.taskNameError}"
-                />
+                android:importantForAutofill="no" />
 
             <EditText
                 android:text="@={viewModel.taskFields.taskDescription}"
@@ -41,7 +41,9 @@
                 android:hint= "@string/task_description_hint"
                 android:inputType="textMultiLine"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/task_name" />
+                app:layout_constraintTop_toBottomOf="@id/task_name"
+                app:onFocus="@{viewModel.onFocusTaskDescription}"
+                android:importantForAutofill="no" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_reminder_btn"
