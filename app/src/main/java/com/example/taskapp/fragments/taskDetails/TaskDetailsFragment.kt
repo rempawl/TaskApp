@@ -13,11 +13,15 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.fragments.addReminder.DayOfWeekHash
+import com.example.taskapp.fragments.addReminder.ReminderDurationState
+import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
 import com.example.taskapp.utils.Converters
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
+import java.time.DayOfWeek
 
-//todo layout
-//todo delete
+//todo notification
+//todo editTask
 
 class TaskDetailsFragment : Fragment() {
 
@@ -77,31 +81,56 @@ class TaskDetailsFragment : Fragment() {
     }
 
     private fun setupReminderLayout(reminder: Reminder) {
-        val converter = Converters.getInstance()
-
-        val duration = reminder.duration.duration
+        val durationState = reminder.duration.convertToDurationState()
+        val frequencyState  = reminder.frequency.convertToFrequencyState()
+        setDurationText(durationState)
+        setFrequencyText(frequencyState)
         binding.apply {
             reminderLayout.visibility = View.VISIBLE
             begDate.text = getString(R.string.beginning_date, reminder.begDate)
+        }
+    }
 
-            when {
-                reminder.duration.noDate -> {
-                    durationText.text = getString(R.string.no_end_date)
+    private fun setFrequencyText(frequencyState: ReminderFrequencyState) {
+        var freqText = "${getString(R.string.frequency)} "
+        freqText += when(frequencyState){
+            is ReminderFrequencyState.Daily -> resources
+                .getQuantityString(R.plurals.daily_frequency,frequencyState.frequency
+                    ,frequencyState.frequency)
+            is ReminderFrequencyState.WeekDays ->  getWeekDays(frequencyState.daysOfWeek)
+        }
+        binding.frequencyText.text = freqText
+    }
+
+    private fun getWeekDays(weekDays: Set<DayOfWeekHash>) : String{
+        val days  = org.threeten.bp.DayOfWeek.values()
+        var i =0
+        var result = ""
+        resources.getStringArray(R.array.week_days_list).forEach {dayName ->
+                if(weekDays.contains(days[i].hashCode())){
+                    result += "$dayName, "
                 }
-                reminder.duration.isDate -> {
-                    durationText.text = getString(
-                        R.string.end_date_format,
-                        converter.longToLocalDate(duration)
-                    )
-                }
-                else -> {
-                    durationText.text = resources.getQuantityString(
-                        R.plurals.days_duration,
-                        duration.toInt(),
-                        duration
-                    )
-                }
+            i++
+        }
+        return  result
+    }
+
+    private fun  setDurationText(durationState: ReminderDurationState){
+        var durText = "${getString(R.string.duration)}: "
+        durText += when(durationState) {
+            is ReminderDurationState.NoEndDate -> getString(R.string.no_end_date)
+            is ReminderDurationState.EndDate-> getString(
+                R.string.end_date_format,
+                durationState.date
+            )
+            is ReminderDurationState.DaysDuration -> {
+                resources.getQuantityString(
+                    R.plurals.days_duration,
+                    durationState.days,
+                    durationState.days
+                )
             }
         }
+        binding.durationText.text = durText
     }
 }

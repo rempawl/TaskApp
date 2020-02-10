@@ -1,17 +1,11 @@
 package com.example.taskapp.viewmodels.addReminder
 
-import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.databinding.BindingAdapter
-import androidx.databinding.ObservableField
 import com.example.taskapp.BR
-import com.example.taskapp.MainActivity
-import com.example.taskapp.R
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
 import com.example.taskapp.utils.Converters
-import com.google.android.material.textview.MaterialTextView
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
@@ -92,23 +86,8 @@ class DurationModel @Inject constructor() : BaseObservable() {
     }
 
 
-    fun getDuration(): Duration {
-        return when (durationState) {
-            is ReminderDurationState.EndDate -> {
-                Duration(
-                    isDate = true,
-                    duration = Converters()
-                        .localDateToLong(currentEndDate)
-                )
-            }
-            is ReminderDurationState.DaysDuration -> {
-                Duration(isDate = false, duration = currentDaysDuration.toLong())
-            }
-            is ReminderDurationState.NoEndDate -> {
-                Duration(isDate = false, duration = 0, noDate = true)
-            }
-        }
-    }
+    fun getDuration(): Duration  = durationState.convertToDuration()
+
 
 
     companion object {

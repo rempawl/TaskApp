@@ -46,9 +46,7 @@
 
     <string name="number_starts_with_0">Liczba dni nie moze zaczynac sie od 0</string>
 
-
     <!--    NOTIFICATION TIME -->
-
     <string name="set_notification_time">Ustaw czas powiadomienia</string>
 
 
@@ -74,9 +72,7 @@
     <string name="task_details">Informacje o zadaniu</string>
     <string name="task_delete_title">Czy na pewno chcesz usunąć?</string>
 
-
     <string name="task_name_error">Nazwa musi składać się z conajmniej 3 znaków</string>
-
 
     <!--    TODAY  -->
     <string name="today">Dzisiaj</string>

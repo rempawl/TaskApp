@@ -34,7 +34,7 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
         }
 
         var i = 0
-        val list = DayOfWeek.values()
+        val days = DayOfWeek.values()
         /**
          *iterating over names of days, setting id to matching [DayOfWeek] hashcode,
          */
@@ -42,7 +42,7 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
             val box = MaterialCheckBox(requireContext()).apply {
                 gravity = Gravity.CENTER_HORIZONTAL
                 text = day
-                val code = list[i].hashCode()
+                val code = days[i].hashCode()
                 id = code
                 isChecked = checkedDays.contains(code)
                 setOnCheckedChangeListener { box, isChecked ->
