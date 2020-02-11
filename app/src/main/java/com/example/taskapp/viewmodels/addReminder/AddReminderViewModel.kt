@@ -16,7 +16,6 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
-import java.io.ObjectStreamException
 
 
 /**
@@ -30,7 +29,6 @@ class AddReminderViewModel @AssistedInject constructor(
     private val taskRepository: TaskRepository
 
 ) : ViewModel() {
-
 
     @AssistedInject.Factory
     interface Factory {
@@ -60,7 +58,6 @@ class AddReminderViewModel @AssistedInject constructor(
         }
         durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
         durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
-
     }
 
     private val toastText = MutableLiveData<Int>(null)
@@ -78,7 +75,6 @@ class AddReminderViewModel @AssistedInject constructor(
     fun saveTaskWithReminder() {
         viewModelScope.launch {
             val temp = notificationTime.get() ?: INITIAL_TIME
-
             val time = NotificationTime(temp.hour, temp.minute, isNotificationTimeSet)
 
             val reminder = Reminder(
@@ -87,17 +83,19 @@ class AddReminderViewModel @AssistedInject constructor(
                 frequency = frequencyModel.getFrequency(),
                 notificationTime = time
             )
-
             taskRepository.saveTask(
                 Task(
                     name = taskDetails.name, description = taskDetails.description,
-                    reminder = reminder
+                    reminder = reminder,
+                    updateDate = frequencyModel.getUpdateDate(reminder.begDate),
+                    expirationDate = durationModel.getExpirationDate()
+
                 )
             )
 
         }
-
     }
+
 
     companion object {
         val INITIAL_TIME: LocalTime = LocalTime.of(18, 0, 0)

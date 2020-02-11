@@ -1,9 +1,12 @@
 package com.example.taskapp.database.entities
 
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import javax.inject.Inject
+import org.threeten.bp.LocalDate
 
 
 @Entity(tableName = "tasks",
@@ -14,8 +17,9 @@ data class Task  constructor(
     @PrimaryKey(autoGenerate = true) val taskID: Long = 0,
     val name: String,
     val description: String = "",
-  @Embedded  val reminder: Reminder? = null
-
+  @Embedded  val reminder: Reminder? = null,
+    val expirationDate : LocalDate? = null,
+    var updateDate: LocalDate? = null
 ) : Parcelable
 
 

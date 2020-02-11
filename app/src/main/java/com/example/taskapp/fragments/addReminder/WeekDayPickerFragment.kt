@@ -13,7 +13,7 @@ import org.threeten.bp.DayOfWeek
 
 class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
 
-    private val checkedDays: MutableSet<DayOfWeekHash> by lazy {
+    private val checkedDays: MutableSet<DayOfWeekValue> by lazy {
         viewModel.frequencyModel.currentWeekDays.toMutableSet()
     }
 
@@ -41,9 +41,9 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
             val box = MaterialCheckBox(requireContext()).apply {
                 gravity = Gravity.CENTER_HORIZONTAL
                 text = day
-                val code = days[i].hashCode()
-                id = code
-                isChecked = checkedDays.contains(code)
+                val dayValue = days[i].value
+                id = dayValue
+                isChecked = checkedDays.contains(dayValue)
                 setOnCheckedChangeListener { box, isChecked ->
                     if (isChecked) {
                         checkedDays.add(box.id)

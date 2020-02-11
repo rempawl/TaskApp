@@ -6,21 +6,21 @@ import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
-import com.example.taskapp.utils.Converters
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class DurationModel @Inject constructor() : BaseObservable() {
 
     private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
-    set(value){
-        field = value
-        notifyPropertyChanged(BR.dateValid)
-    }
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.dateValid)
+        }
 
     //true when error message should be displayed
-    val begDateError  = ObservableField<Boolean>(false)
+    val begDateError = ObservableField<Boolean>(false)
     val endDateError = ObservableField<Boolean>(false)
+
 
 
     @Bindable
@@ -46,11 +46,11 @@ class DurationModel @Inject constructor() : BaseObservable() {
     @Bindable
     var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
         private set(value) {
-            if(isEndDateValid(value)){
+            if (isEndDateValid(value)) {
                 field = value
                 notifyPropertyChanged(BR.currentEndDate)
                 endDateError.set(false)
-            }else{
+            } else {
                 endDateError.set(true)
             }
 
@@ -59,9 +59,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
 
     @Bindable
     fun isDateValid(): Boolean {
-        return if(durationState is ReminderDurationState.EndDate){
+        return if (durationState is ReminderDurationState.EndDate) {
             isEndDateValid()
-        }else{
+        } else {
             true
         }
     }
@@ -93,12 +93,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
         currentEndDate = endDate
     }
 
+    fun getDuration(): Duration = durationState.convertToDuration()
 
-    fun getDuration(): Duration  = durationState.convertToDuration()
-
-
-
-
+    fun getExpirationDate() = durationState.calculateEndDate(beginningDate)
     companion object {
         val TODAY: LocalDate = LocalDate.now()
     }

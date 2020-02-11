@@ -14,7 +14,7 @@ import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
-import com.example.taskapp.fragments.addReminder.DayOfWeekHash
+import com.example.taskapp.fragments.addReminder.DayOfWeekValue
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
 import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
@@ -23,6 +23,9 @@ import org.threeten.bp.format.DateTimeFormatter
 
 //todo notifications workManager
 //todo editTask
+//todo expirationDate
+//todo nextUpdateDate
+//todo TodayTasks
 
 class TaskDetailsFragment : Fragment() {
 
@@ -131,12 +134,12 @@ class TaskDetailsFragment : Fragment() {
         binding.frequencyText.text = freqText
     }
 
-    private fun getWeekDays(weekDays: Set<DayOfWeekHash>): String {
+    private fun getWeekDays(weekDays: Set<DayOfWeekValue>): String {
         val days = org.threeten.bp.DayOfWeek.values()
         var i = 0
         var result = ""
         resources.getStringArray(R.array.week_days_list).forEach { dayName ->
-            if (weekDays.contains(days[i].hashCode())) {
+            if (weekDays.contains(days[i].value)) {
                 result += "$dayName, "
             }
             i++

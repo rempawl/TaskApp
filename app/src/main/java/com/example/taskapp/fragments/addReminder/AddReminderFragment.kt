@@ -6,23 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
-import com.example.taskapp.R
 import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.add_reminder_fragment.*
-import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
-
 
 
 class AddReminderFragment : Fragment() {
@@ -38,9 +31,8 @@ class AddReminderFragment : Fragment() {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
             .create(args.taskDetails)
     }
-     private lateinit var binding: AddReminderFragmentBinding
+    private lateinit var binding: AddReminderFragmentBinding
     private val args: AddReminderFragmentArgs by navArgs()
-
 
 
     override fun onCreateView(
@@ -51,11 +43,12 @@ class AddReminderFragment : Fragment() {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
 
-        viewModel.getToastText().observe(viewLifecycleOwner, Observer{ id ->
-            if(id != null){
-                Toast.makeText(context,getString(id),Toast.LENGTH_SHORT).show()
+        viewModel.getToastText().observe(viewLifecycleOwner, Observer { id ->
+            if (id != null) {
+                Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
             }
         })
+
         return binding.root
     }
 
@@ -65,7 +58,11 @@ class AddReminderFragment : Fragment() {
         setupBinding()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.viewModel = null
 
+    }
 
     private fun setupBinding() {
         binding.apply {
@@ -81,21 +78,8 @@ class AddReminderFragment : Fragment() {
         }
         setupDurationLayout()
         setupFrequencyLayout()
-        setupTaskDetailsLayout()
     }
 
-    private fun setupTaskDetailsLayout() {
-        binding.apply {
-            taskName.text = getString(
-                R.string.task_name,
-                this@AddReminderFragment.viewModel.taskDetails.name
-            )
-            taskDescription.text =      getString(
-                R.string.task_description,
-                this@AddReminderFragment.viewModel.taskDetails.description
-            )
-        }
-    }
 
     private fun setupDurationLayout() {
         binding.apply {
@@ -114,9 +98,15 @@ class AddReminderFragment : Fragment() {
     private fun onDurationRadioChecked(id: Int) {
         val durationModel = viewModel.durationModel
         when (activity?.findViewById<View>(id)!!) {
-            binding.xDaysDurationRadio -> { durationModel.setDaysDurationState() }
-            binding.endDateRadio ->{ durationModel.setEndDateDurationState() }
-            binding.noEndDateRadio ->{ durationModel.setNoEndDateDurationState() }
+            binding.xDaysDurationRadio -> {
+                durationModel.setDaysDurationState()
+            }
+            binding.endDateRadio -> {
+                durationModel.setEndDateDurationState()
+            }
+            binding.noEndDateRadio -> {
+                durationModel.setNoEndDateDurationState()
+            }
             else -> throw NoSuchElementException("There is no matching button")
         }
         setDurationButtonsVisibility(id)
@@ -141,8 +131,12 @@ class AddReminderFragment : Fragment() {
     private fun onFrequencyRadioCheck(id: Int) {
         val frequencyModel = viewModel.frequencyModel
         when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding.dailyFreqRadio -> { frequencyModel.setDailyFrequency()  }
-            binding.daysOfWeekRadio ->{ frequencyModel.setDaysOfWeekFrequency()}
+            binding.dailyFreqRadio -> {
+                frequencyModel.setDailyFrequency()
+            }
+            binding.daysOfWeekRadio -> {
+                frequencyModel.setDaysOfWeekFrequency()
+            }
 
             else -> throw NoSuchElementException("There is no matching button")
         }
@@ -180,7 +174,6 @@ class AddReminderFragment : Fragment() {
         EndDatePickerFragment(viewModel).show(childFragmentManager, END_DATE_TAG)
     }
 
-
     private fun showBegDatePickerDialog() {
         BeginningDatePickerFragment(viewModel).show(childFragmentManager, BEGINNING_DATE_TAG)
     }
@@ -201,7 +194,10 @@ class AddReminderFragment : Fragment() {
             binding.setEndDateBtn
         )
         when (activity?.findViewById<View>(id)!!) {
-            binding.xDaysDurationRadio -> changeViewsHelper(listOf(binding.setDurationDaysBtn), allBtns)
+            binding.xDaysDurationRadio -> changeViewsHelper(
+                listOf(binding.setDurationDaysBtn),
+                allBtns
+            )
             binding.endDateRadio -> changeViewsHelper(listOf(binding.setEndDateBtn), allBtns)
             binding.noEndDateRadio -> changeViewsHelper(null, allBtns)
             else -> throw NoSuchElementException("There is no matching button")
@@ -218,7 +214,10 @@ class AddReminderFragment : Fragment() {
             binding.setDaysOfWeekBtn
         )
         when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding.dailyFreqRadio -> changeViewsHelper(listOf(binding.setDailyFrequencyBtn), allBtns)
+            binding.dailyFreqRadio -> changeViewsHelper(
+                listOf(binding.setDailyFrequencyBtn),
+                allBtns
+            )
             binding.daysOfWeekRadio -> changeViewsHelper(listOf(binding.setDaysOfWeekBtn), allBtns)
             else -> throw NoSuchElementException("There is no matching button")
         }
@@ -227,7 +226,6 @@ class AddReminderFragment : Fragment() {
 
 
 }
-
 
 
 fun <T : View> Fragment.changeViewsVisibility(

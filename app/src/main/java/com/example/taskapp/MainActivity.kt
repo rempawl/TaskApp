@@ -1,14 +1,12 @@
 package com.example.taskapp
 
-import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.taskapp.di.AppComponent
-import com.example.taskapp.fragments.addReminder.DayOfWeekHash
-import com.example.taskapp.utils.Converters
 
 class MainActivity : AppCompatActivity() {
 

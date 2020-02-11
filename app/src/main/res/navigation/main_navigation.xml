@@ -23,6 +23,14 @@
             />
     </fragment>
 
+<fragment
+    android:id="@+id/navigation_edit_task"
+    android:name="com.example.taskapp.fragments.EditTaskFragment"
+    android:label="@string/edit_task"
+    >
+
+</fragment>
+
 
     <fragment
         android:id="@+id/navigation_add_task"

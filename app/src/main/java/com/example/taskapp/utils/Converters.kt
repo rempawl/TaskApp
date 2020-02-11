@@ -1,11 +1,7 @@
 package com.example.taskapp.utils
 
 import androidx.room.TypeConverter
-import com.example.taskapp.database.entities.Reminder
-import com.example.taskapp.fragments.addReminder.DayOfWeekHash
-import com.example.taskapp.fragments.addReminder.ReminderDurationState
 import dagger.Reusable
-import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 

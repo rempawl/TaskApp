@@ -2,7 +2,7 @@ package com.example.taskapp.database.entities
 
 import android.os.Parcelable
 import androidx.room.Embedded
-import com.example.taskapp.fragments.addReminder.DayOfWeekHash
+import com.example.taskapp.fragments.addReminder.DayOfWeekValue
 import com.example.taskapp.fragments.addReminder.ReminderDurationState
 import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
 import com.example.taskapp.utils.Converters
@@ -16,12 +16,12 @@ data class Frequency(
     val freqState: Int,
     val frequency: Int
 ) : Parcelable {
-    private fun intToDaysOfWeek(): Set<DayOfWeekHash> {
+    private fun intToDaysOfWeek(): Set<DayOfWeekValue> {
         val days = DayOfWeek.values()
-        val result = mutableSetOf<DayOfWeekHash>()
+        val result = mutableSetOf<DayOfWeekValue>()
         for (i in 0..days.lastIndex) {
             if (frequency.ushr(i).and(1) == 1) {
-                result.add(days[i].hashCode())
+                result.add(days[i].value)
             }
         }
         return result
@@ -67,5 +67,4 @@ data class Reminder(
     @Embedded val frequency: Frequency,
     @Embedded val duration: Duration,
     @Embedded val notificationTime: NotificationTime
-) : Parcelable {
-}
+) : Parcelable

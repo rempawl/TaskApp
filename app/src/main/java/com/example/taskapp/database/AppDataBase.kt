@@ -1,9 +1,11 @@
 package com.example.taskapp.database
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.taskapp.database.dao.TaskDao
-import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.utils.Converters
 
@@ -18,8 +20,8 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
-        const val VERSION_INT = 11
-       private const val DB_NAME = "TaskApp DB"
+        const val VERSION_INT = 12
+        const val DB_NAME = "TaskApp DB"
 
         @Volatile
         private var INSTANCE: AppDataBase? = null

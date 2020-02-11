@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
-     val taskFields: TaskFields,
+    val taskFields: TaskFields,
     private val taskRepository: TaskRepository
 ) : ViewModel() {
 
@@ -21,9 +21,9 @@ class AddTaskViewModel @Inject constructor(
     }
 
 
-    val onFocusTaskDescription = View.OnFocusChangeListener{view,focused ->
+    val onFocusTaskDescription = View.OnFocusChangeListener { view, focused ->
         val text = (view as EditText).text.toString()
-        if(!focused && text.isBlank()){
+        if (!focused && text.isBlank()) {
             taskFields.validateTaskDescription()
         }
     }
@@ -32,10 +32,10 @@ class AddTaskViewModel @Inject constructor(
         return taskFields.createTaskDetails()
     }
 
-     fun saveTask()  {
-         viewModelScope.launch {
-             taskRepository.saveTask(taskFields.createTask())
-         }
+    fun saveTask() {
+        viewModelScope.launch {
+            taskRepository.saveTask(taskFields.createTask())
+        }
     }
 
     companion object

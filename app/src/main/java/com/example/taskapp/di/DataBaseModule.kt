@@ -9,12 +9,14 @@ import dagger.Provides
 import dagger.Reusable
 
 @Module
-class DataBaseModule() {
+class DataBaseModule {
 
     @Reusable
     @Provides
     fun provideDataBase(context: Context): AppDataBase {
-        return AppDataBase.getInstance(context)
+        return Room.databaseBuilder(context, AppDataBase::class.java, AppDataBase.DB_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Reusable
