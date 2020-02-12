@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
 import com.example.taskapp.fragments.HomeViewPagerFragmentDirections
+import javax.inject.Inject
 
-class TaskListAdapter
+class TaskListAdapter @Inject constructor()
     : ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(DiffCallBack()) {
 
     inner class TaskViewHolder(private val binding: TaskListItemBinding) :

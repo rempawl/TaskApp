@@ -38,7 +38,7 @@ class AddReminderViewModel @AssistedInject constructor(
     init {
         val errorCallback = object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (sender != null ) {
+                if (sender != null) {
                     val value = (sender as ObservableField<Boolean>).get()
                     if (value == true) {
                         sender.set(false)
@@ -81,15 +81,15 @@ class AddReminderViewModel @AssistedInject constructor(
                 begDate = durationModel.beginningDate,
                 duration = durationModel.getDuration(),
                 frequency = frequencyModel.getFrequency(),
-                notificationTime = time
+                notificationTime = time,
+                updateDate = frequencyModel.getUpdateDate(durationModel.beginningDate),
+                expirationDate = durationModel.getExpirationDate()
+
             )
             taskRepository.saveTask(
                 Task(
                     name = taskDetails.name, description = taskDetails.description,
-                    reminder = reminder,
-                    updateDate = frequencyModel.getUpdateDate(reminder.begDate),
-                    expirationDate = durationModel.getExpirationDate()
-
+                    reminder = reminder
                 )
             )
 

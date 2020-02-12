@@ -6,6 +6,7 @@ import com.example.taskapp.database.entities.Task
 import dagger.Reusable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @Reusable
@@ -15,8 +16,16 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) {
         taskDao.insertItem(task)
     }
 
+    suspend fun getTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(taskDao.loadMinTasksByUpdateDate(date))
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
 
-    suspend fun deleteTask(id: Long) = withContext(Dispatchers.IO){
+
+    suspend fun deleteTask(id: Long) = withContext(Dispatchers.IO) {
         taskDao.deleteByID(id)
     }
 

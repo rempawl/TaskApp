@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.databinding.MyTasksFragmentBinding
-import com.example.taskapp.di.viewModel
+import com.example.taskapp.viewmodels.MyTasksViewModel
+import javax.inject.Inject
 
 
 class MyTasksFragment : Fragment() {
@@ -24,12 +25,15 @@ class MyTasksFragment : Fragment() {
     }
 
 
-    private val viewModel by viewModel {
-        (activity as MainActivity)
-            .appComponent.myTaskViewModel
-    }
+    @Inject
+    lateinit var viewModel : MyTasksViewModel
+//            by viewModel {
+//        (activity as MainActivity)
+//            .appComponent.myTaskViewModel
+//    }
 
-    private lateinit var taskListAdapter: TaskListAdapter
+    @Inject
+    lateinit var taskListAdapter: TaskListAdapter
 
     private lateinit var binding: MyTasksFragmentBinding
 
@@ -37,9 +41,11 @@ class MyTasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).appComponent.inject(this)
+
         binding = MyTasksFragmentBinding
             .inflate(inflater, container, false)
-        taskListAdapter = TaskListAdapter()
+//        taskListAdapter = TaskListAdapter()
         setupBinding()
         updateTaskList()
 
@@ -77,11 +83,6 @@ class MyTasksFragment : Fragment() {
         findNavController().navigate(
             HomeViewPagerFragmentDirections.navigationHomeToNavigationAddTask()
         )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
     }
 
     private fun updateTaskList() {

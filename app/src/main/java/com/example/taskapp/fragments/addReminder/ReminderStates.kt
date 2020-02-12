@@ -35,7 +35,6 @@ sealed class ReminderFrequencyState {
          * if it doesn't returning next week date
          */
         override fun getUpdateDate(lastUpdate: LocalDate): LocalDate {
-            val days = DayOfWeek.values()
             val begIndex = lastUpdate.dayOfWeek.value
 //            Log.d(MainActivity.TAG,begIndex.toString())
             println(begIndex)
@@ -91,9 +90,9 @@ sealed class ReminderDurationState {
         }
     }
 
-    fun calculateEndDate(begDate: LocalDate): LocalDate? {
+    fun calculateEndDate(begDate: LocalDate): LocalDate {
         return when (this) {
-            is NoEndDate -> null
+            is NoEndDate -> LocalDate.ofEpochDay(begDate.toEpochDay()-1)
             is EndDate -> date
             is DaysDuration -> LocalDate.ofEpochDay(begDate.toEpochDay() + days)
         }

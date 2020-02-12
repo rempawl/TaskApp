@@ -4,6 +4,7 @@ import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
 import dagger.Reusable
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 
@@ -24,12 +25,23 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     suspend fun saveTask(task: Task) = taskLocalDataSource.saveTask(task)
 
+
+    suspend fun getTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<TaskMinimal> {
+        val result = taskLocalDataSource.getTasksByUpdateDate(date)
+        return if (result is Result.Success<*>) {
+            result.items as List<TaskMinimal>
+        } else {
+            emptyList()
+        }
+
+    }
+
     suspend fun getTaskByID(id: Long): Task {
         val result = taskLocalDataSource.getTaskById(id)
         return if (result is Result.Success<*>) {
             result.items as Task
         } else {
-            Task(name="Error")
+            Task(name = "Error")
         }
     }
 

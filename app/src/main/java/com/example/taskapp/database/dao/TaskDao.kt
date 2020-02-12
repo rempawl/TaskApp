@@ -1,12 +1,11 @@
 package com.example.taskapp.database.dao
 
-import  androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.taskapp.database.BaseDao
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
+import org.threeten.bp.LocalDate
 
 @Dao
 interface TaskDao : BaseDao<Task> {
@@ -22,5 +21,7 @@ interface TaskDao : BaseDao<Task> {
     @Query("DELETE FROM tasks WHERE taskID == :id")
     fun deleteByID(id: Long) : Int
 
+    @Query("SELECT taskID,name FROM tasks WHERE updateDate = :date")
+    fun loadMinTasksByUpdateDate(date: LocalDate ) : List<TaskMinimal>
 
 }

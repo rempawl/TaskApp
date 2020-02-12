@@ -1,9 +1,9 @@
 package com.example.taskapp.di
 
 import android.content.Context
-import com.example.taskapp.viewmodels.MyTasksViewModel
+import com.example.taskapp.fragments.MyTasksFragment
+import com.example.taskapp.fragments.TodayFragment
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
-import com.example.taskapp.viewmodels.TodayViewModel
 import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 import dagger.BindsInstance
@@ -22,9 +22,13 @@ interface AppComponent {
         ): AppComponent
     }
 
-    val todayViewModel : TodayViewModel
+    fun inject(todayFragment: TodayFragment)
+
+    fun inject(myTasksFragment : MyTasksFragment)
+
+    //    val todayViewModel : TodayViewModel
     val addReminderViewModelFactory: AddReminderViewModel.Factory
     val addTaskViewModel: AddTaskViewModel
-    val myTaskViewModel: MyTasksViewModel
+    //    val myTaskViewModel: MyTasksViewModel
     val taskDetailsViewModelFactory: TaskDetailsViewModel.Factory
 }
