@@ -4,15 +4,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
 import com.example.taskapp.fragments.MyTasksFragmentDirections
-import javax.inject.Inject
+import com.example.taskapp.fragments.TodayFragmentDirections
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 
-class TaskListAdapter @Inject constructor()
-    : ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
+sealed class ParentFragmentType {
+    object TodayFragment : ParentFragmentType()
+    object MyTasksFragment : ParentFragmentType()
+}
+
+class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFragment: ParentFragmentType) :
+    ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
+
+    @AssistedInject.Factory
+    interface Factory{
+        fun create(parentFragment: ParentFragmentType) : TaskListAdapter
+    }
+
 
     inner class TaskViewHolder(private val binding: TaskListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -25,9 +39,16 @@ class TaskListAdapter @Inject constructor()
         }
 
         private fun navigateToTaskDetails(view: View, task: TaskMinimal) {
-            Navigation.createNavigateOnClickListener(
-                MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
-            ).onClick(view)
+            when (parentFragment) {
+                is ParentFragmentType.MyTasksFragment -> {
+                    Navigation.createNavigateOnClickListener(
+                        MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
+                    )
+                }
+                is ParentFragmentType.TodayFragment -> Navigation.createNavigateOnClickListener(
+                    TodayFragmentDirections.navigationTodayToNavigationTaskDetails(task.taskID)
+                )
+            }.apply { onClick(view) }
         }
     }
 
@@ -46,3 +67,10 @@ class TaskListAdapter @Inject constructor()
 }
 
 
+class TaskMinimalDiffCallback : DiffUtil.ItemCallback<TaskMinimal>() {
+    override fun areItemsTheSame(oldItem: TaskMinimal, newItem: TaskMinimal): Boolean =
+        oldItem == newItem
+
+    override fun areContentsTheSame(oldItem: TaskMinimal, newItem: TaskMinimal): Boolean =
+        oldItem.taskID == newItem.taskID
+}

@@ -37,30 +37,32 @@ class AddReminderViewModel @AssistedInject constructor(
         fun create(taskDetails: TaskDetails): AddReminderViewModel
     }
 
-    init {
-        val errorCallback = object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (sender != null) {
-                    val value = (sender as ObservableField<Boolean>).get()
-                    if (value == true) {
-                        sender.set(false)
-                        when (sender) {
-                            durationModel.begDateError -> {
-                                toastText.value = R.string.beginning_date_error
-                            }
-                            durationModel.endDateError -> {
-                                toastText.value = R.string.end_date_error
-                            }
+    private val errorCallback = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (sender != null) {
+                val value = (sender as ObservableField<Boolean>).get()
+                if (value == true) {
+                    sender.set(false)
+                    when (sender) {
+                        durationModel.begDateError -> {
+                            toastText.value = R.string.beginning_date_error
                         }
-                    } else {
-                        toastText.value = null
+                        durationModel.endDateError -> {
+                            toastText.value = R.string.end_date_error
+                        }
                     }
+                } else {
+                    toastText.value = null
                 }
             }
         }
+    }
+
+    init {
         durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
         durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
     }
+
 
     private val toastText = MutableLiveData<Int>(null)
     fun getToastText(): LiveData<Int> = toastText
@@ -88,7 +90,10 @@ class AddReminderViewModel @AssistedInject constructor(
                 expirationDate = durationModel.getExpirationDate()
             )
 
-            Log.d(MainActivity.TAG,frequencyModel.getUpdateDate(durationModel.beginningDate).toString())
+            Log.d(
+                MainActivity.TAG,
+                frequencyModel.getUpdateDate(durationModel.beginningDate).toString()
+            )
             taskRepository.saveTask(
                 Task(
                     name = taskDetails.name, description = taskDetails.description,
@@ -97,6 +102,12 @@ class AddReminderViewModel @AssistedInject constructor(
             )
 
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        durationModel.begDateError.removeOnPropertyChangedCallback(errorCallback)
+        durationModel.endDateError.removeOnPropertyChangedCallback(errorCallback)
     }
 
 

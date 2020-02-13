@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.MainActivity
+import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.viewmodels.MyTasksViewModel
@@ -33,8 +34,12 @@ class MyTasksFragment : Fragment() {
 //    }
 
     @Inject
-    lateinit var taskListAdapter: TaskListAdapter
+    lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
+
+    private val taskListAdapter: TaskListAdapter by lazy{
+        taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
+    }
     private lateinit var binding: MyTasksFragmentBinding
 
     override fun onCreateView(
@@ -45,7 +50,6 @@ class MyTasksFragment : Fragment() {
 
         binding = MyTasksFragmentBinding
             .inflate(inflater, container, false)
-//        taskListAdapter = TaskListAdapter()
         setupBinding()
         updateTaskList()
 

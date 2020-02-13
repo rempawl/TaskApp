@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.MainActivity
-import com.example.taskapp.adapters.TodayListAdapter
+import com.example.taskapp.adapters.ParentFragmentType
+import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.databinding.TodayFragmentBinding
 import com.example.taskapp.viewmodels.TodayViewModel
 import javax.inject.Inject
@@ -21,11 +22,13 @@ class TodayFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: TodayViewModel
-//            by viewModel { (activity as MainActivity).appComponent
-//        .todayViewModel}
+
 
     @Inject
-    lateinit var taskAdapter : TodayListAdapter
+    lateinit var taskListAdapterFactory: TaskListAdapter.Factory
+    private val taskAdapter : TaskListAdapter by lazy{
+        taskListAdapterFactory.create(ParentFragmentType.TodayFragment)
+    }
 
     private lateinit var binding: TodayFragmentBinding
 
@@ -36,6 +39,7 @@ class TodayFragment : Fragment() {
         (activity as MainActivity).appComponent.inject(this)
         binding = TodayFragmentBinding
             .inflate(inflater,container,false)
+//        taskAdapter = TaskListAdapter(viewModel)
         setUpBinding()
         updateTaskList()
         return binding.root
