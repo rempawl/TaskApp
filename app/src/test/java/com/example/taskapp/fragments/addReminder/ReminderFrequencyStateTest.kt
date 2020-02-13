@@ -12,34 +12,61 @@ internal class ReminderFrequencyStateTest {
         loadTimeZone()
     }
 
-    private val monday = MONDAY.value
-    private val tuesday = TUESDAY.value
-    private val friday = FRIDAY.value
-    val lastUpdate = LocalDate.of(2020,2,11) //tuesday
-
+    private val monday by lazy { MONDAY.value }
+    private val tuesday by lazy { TUESDAY.value }
+    private val friday by lazy { FRIDAY.value }
+    private val lastUpdate: LocalDate by lazy { LocalDate.of(2020, 2, 11) } //tuesday
 
     @Test
-    fun getUpdateDate_lastUpdateTuesdayWeekDaysMondayTuesdayFriday_FridayDate() {
-        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay()+3)
-        val weekdays = ReminderFrequencyState.WeekDays(setOf(monday,tuesday,friday))
-        val actualValue = weekdays.getUpdateDate(lastUpdate)
-        assertThat(actualValue,`is`(expectedDate))
+    fun calculateUpdateDate_lastUpdateIsBeginningTrueFreqStateDaily_lastUpdateDate() {
+        val expectedDate = lastUpdate
+        val freqState = ReminderFrequencyState.Daily(1)
+        val actual = freqState.calculateUpdateDate(lastUpdate, true)
+        assertThat(actual, `is`(expectedDate))
     }
 
     @Test
-    fun getUpdateDate_lastUpdateTuesdayWeekDaysTuesday_nextTuesday(){
-        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay()+7)
+    fun calculateUpdateDate_lastUpdateIsBeginningTrueFreqStateWeekDaysTuesday_lastUpdateDate() {
+        val expectedDate = lastUpdate
+        val freqState = ReminderFrequencyState.WeekDays(setOf(tuesday))
+        val actual = freqState.calculateUpdateDate(lastUpdate, true)
+        assertThat(actual, `is`(expectedDate))
+    }
+
+    @Test
+    fun calculateUpdateDate_lastUpdateIsBeginningTrueFreqStateWeekDaysFriday_FridayDate() {
+
+        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay() +3)
+        val freqState = ReminderFrequencyState.WeekDays(setOf(friday))
+        val actual = freqState.calculateUpdateDate(lastUpdate, true)
+        assertThat(actual, `is`(expectedDate))
+
+    }
+
+
+    @Test
+    fun calculateUpdateDate_lastUpdateWeekDaysMondayTuesdayFridayIsBeginningFalse_FridayDate() {
+        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay() + 3)
+        val weekdays = ReminderFrequencyState.WeekDays(setOf(monday, tuesday, friday))
+        val actualValue = weekdays.calculateUpdateDate(lastUpdate)
+        assertThat(actualValue, `is`(expectedDate))
+    }
+
+    @Test
+    fun calculateUpdateDate_lastUpdateWeekDaysTuesdayIsBeginningFalse_nextTuesday() {
+        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay() + 7)
         val weekDays = ReminderFrequencyState.WeekDays(setOf(tuesday))
-        val actualValue = weekDays.getUpdateDate(lastUpdate)
-        assertThat(actualValue,`is`(expectedDate))
+        val actualValue = weekDays.calculateUpdateDate(lastUpdate)
+        assertThat(actualValue, `is`(expectedDate))
     }
 
+
     @Test
-    fun getUpdateDate_lastUpdateTuesdayWeekDaysMondayTuesday_nextMonday(){
-        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay()+6)
-        val weekDays = ReminderFrequencyState.WeekDays(setOf(monday,tuesday))
-        val actualValue = weekDays.getUpdateDate(lastUpdate)
-        assertThat(actualValue,`is`(expectedDate))
+    fun calculateUpdateDate_lastUpdateWeekDaysMondayTuesdayIsBeginningFalse_nextMonday() {
+        val expectedDate = LocalDate.ofEpochDay(lastUpdate.toEpochDay() + 6)
+        val weekDays = ReminderFrequencyState.WeekDays(setOf(monday, tuesday))
+        val actualValue = weekDays.calculateUpdateDate(lastUpdate)
+        assertThat(actualValue, `is`(expectedDate))
     }
 
 }

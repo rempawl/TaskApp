@@ -2,34 +2,50 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/navigation_today">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.taskapp.fragments.HomeViewPagerFragment"
-        android:label="home">
-    <action
-        android:id="@+id/navigation_home_to_navigation_task_details"
-        app:destination="@id/navigation_task_details"
-        />
+        android:id="@+id/navigation_my_tasks"
+        android:name="com.example.taskapp.fragments.MyTasksFragment"
+        android:label="@string/my_tasks">
 
         <action
-            android:id="@+id/navigation_home_to_navigation_add_task"
+            android:id="@+id/navigation_my_tasks_to_navigation_add_task"
             app:destination="@id/navigation_add_task" />
-        <argument
-            android:name="showMyTasks"
-            app:argType="boolean"
-            android:defaultValue="false"
-            />
+
+        <action
+            android:id="@+id/navigation_my_tasks_to_navigation_task_details"
+            app:destination="@id/navigation_task_details" />
     </fragment>
 
-<fragment
-    android:id="@+id/navigation_edit_task"
-    android:name="com.example.taskapp.fragments.EditTaskFragment"
-    android:label="@string/edit_task"
-    >
 
-</fragment>
+    <fragment
+        android:id="@+id/navigation_today"
+        android:name="com.example.taskapp.fragments.TodayFragment"
+        android:label="@string/today">
+
+        <action
+            android:id="@+id/navigation_today_to_navigation_task_details"
+            app:destination="@id/navigation_task_details" />
+
+
+        <!--    <fragment-->
+        <!--        android:id="@+id/navigation_home"-->
+        <!--        android:name="com.example.taskapp.fragments.HomeViewPagerFragment"-->
+        <!--        android:label="home">-->
+
+        <!--        <argument-->
+        <!--            android:name="showMyTasks"-->
+        <!--            android:defaultValue="false"-->
+        <!--            app:argType="boolean" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_edit_task"
+        android:name="com.example.taskapp.fragments.EditTaskFragment"
+        android:label="@string/edit_task">
+
+    </fragment>
 
 
     <fragment
@@ -37,27 +53,24 @@
         android:name="com.example.taskapp.fragments.AddTaskFragment"
         android:label="@string/add_task">
         <action
-        android:id="@+id/navigation_add_task_to_navigation_add_reminder"
-        app:destination="@id/navigation_add_reminder" />
+            android:id="@+id/navigation_add_task_to_navigation_add_reminder"
+            app:destination="@id/navigation_add_reminder" />
         <action
-            android:id="@+id/action_navigation_add_task_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_navigation_add_task_to_navigation_my_tasks"
+            app:destination="@id/navigation_my_tasks" />
     </fragment>
 
     <fragment
-        android:name="com.example.taskapp.fragments.taskDetails.TaskDetailsFragment"
         android:id="@+id/navigation_task_details"
+        android:name="com.example.taskapp.fragments.taskDetails.TaskDetailsFragment"
         android:label="@string/task_details">
         <action
-            android:id="@+id/navigation_task_details_to_navigation_home"
-            app:destination="@id/navigation_home"
-            />
-
+            android:id="@+id/navigation_task_details_to_navigation_my_tasks"
+            app:destination="@id/navigation_my_tasks" />
         <argument
             android:name="taskID"
             app:argType="long"
-            app:nullable="false"
-        />
+            app:nullable="false" />
     </fragment>
 
     <fragment
@@ -69,8 +82,8 @@
             app:argType="com.example.taskapp.viewmodels.addTask.TaskDetails"
             app:nullable="false" />
         <action
-            app:destination="@id/navigation_home"
-            android:id="@+id/navigation_add_reminder_to_navigation_home"
+            android:id="@+id/navigation_add_reminder_to_navigation_my_tasks"
+            app:destination="@id/navigation_my_tasks"
 
             />
 

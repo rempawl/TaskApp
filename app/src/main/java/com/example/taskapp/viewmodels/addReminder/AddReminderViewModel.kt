@@ -1,11 +1,13 @@
 package com.example.taskapp.viewmodels.addReminder
 
+import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskapp.MainActivity
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
@@ -84,8 +86,9 @@ class AddReminderViewModel @AssistedInject constructor(
                 notificationTime = time,
                 updateDate = frequencyModel.getUpdateDate(durationModel.beginningDate),
                 expirationDate = durationModel.getExpirationDate()
-
             )
+
+            Log.d(MainActivity.TAG,frequencyModel.getUpdateDate(durationModel.beginningDate).toString())
             taskRepository.saveTask(
                 Task(
                     name = taskDetails.name, description = taskDetails.description,

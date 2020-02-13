@@ -36,7 +36,7 @@ class FrequencyModel @Inject constructor(private val converter: Converters) : Ba
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 
-    fun getUpdateDate(begDate: LocalDate) = frequencyState.getUpdateDate(begDate)
+    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateUpdateDate(begDate,true)
 
 
 

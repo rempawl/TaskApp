@@ -72,25 +72,21 @@ class TaskDetailsFragment : Fragment() {
     private fun navigateToMyTasks() {
         findNavController()
             .navigate(
-                TaskDetailsFragmentDirections.navigationTaskDetailsToNavigationHome()
-                    .setShowMyTasks(true)
+                TaskDetailsFragmentDirections.navigationTaskDetailsToNavigationMyTasks()
             )
 
     }
-
 
     private fun setupBinding() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
-//            view = View.GONE
             deleteBtn.setOnClickListener { showDeleteDialog() }
             editBtn.setOnClickListener { navigateToEditTask() }
         }
     }
 
     private fun navigateToEditTask() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun showDeleteDialog() {

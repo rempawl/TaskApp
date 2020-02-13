@@ -16,13 +16,22 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) {
         taskDao.insertItem(task)
     }
 
-    suspend fun getTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
+    suspend fun getMinTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
             Result.Success(taskDao.loadMinTasksByUpdateDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
+    suspend fun getTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(taskDao.loadTasksByUpdateDate(date))
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+
 
 
     suspend fun deleteTask(id: Long) = withContext(Dispatchers.IO) {
@@ -52,6 +61,10 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) {
             Result.Error(e)
         }
 
+    }
+
+    suspend fun updateTask(task: Task) = withContext(Dispatchers.IO){
+        taskDao.updateItem(task)
     }
 
 

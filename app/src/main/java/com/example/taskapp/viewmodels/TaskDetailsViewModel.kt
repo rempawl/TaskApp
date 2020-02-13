@@ -1,8 +1,6 @@
 package com.example.taskapp.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
 import com.squareup.inject.assisted.Assisted
@@ -20,7 +18,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
     //todo editBtn
     fun deleteTask() {
         viewModelScope.launch {
-            Log.d(MainActivity.TAG, taskRepository.deleteByID(taskID).toString())
+            taskRepository.deleteByID(taskID).toString()
         }
         isTaskDeleted.value = true
     }

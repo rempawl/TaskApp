@@ -17,10 +17,13 @@ sealed class ReminderFrequencyState {
     }
 
     data class Daily(val frequency: Int = INITIAL_FREQUENCY) : ReminderFrequencyState() {
-        override fun convertToFrequency() = Frequency(DAILY_FREQUENCY_INDEX, frequency)
 
-        override fun getUpdateDate(lastUpdate: LocalDate): LocalDate =
-            LocalDate.ofEpochDay(lastUpdate.toEpochDay() + frequency)
+        override fun convertToFrequency() = Frequency(DAILY_FREQUENCY_INDEX, frequency)
+        /**
+         * fun is returning beginningDate as updateDate if [lastUpdate] is beginning date
+         */
+        override fun calculateUpdateDate(lastUpdate: LocalDate, isBeginning: Boolean): LocalDate =
+            LocalDate.ofEpochDay(lastUpdate.toEpochDay() + if (!isBeginning) frequency else 0)
     }
 
 
@@ -28,18 +31,21 @@ sealed class ReminderFrequencyState {
         ReminderFrequencyState() {
 
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
-
-
         /**
          * checking if [daysOfWeek] contains days after or before [lastUpdate] [DayOfWeek]
          * if it doesn't returning next week date
          */
-        override fun getUpdateDate(lastUpdate: LocalDate): LocalDate {
+        override fun calculateUpdateDate(lastUpdate: LocalDate, isBeginning: Boolean): LocalDate {
             val begIndex = lastUpdate.dayOfWeek.value
-//            Log.d(MainActivity.TAG,begIndex.toString())
-            println(begIndex)
 
-            for (thisWeek in begIndex+1..DayOfWeek.SUNDAY.value) {
+            if (isBeginning && lastUpdate.dayOfWeek.value == begIndex && daysOfWeek.contains(
+                    begIndex
+                )
+            ) {
+                return lastUpdate
+            }
+
+            for (thisWeek in begIndex + 1..DayOfWeek.SUNDAY.value) {
                 if (daysOfWeek.contains(thisWeek)) {
                     return LocalDate.ofEpochDay(lastUpdate.toEpochDay() + (thisWeek - begIndex))
                 }
@@ -52,10 +58,11 @@ sealed class ReminderFrequencyState {
             }
             return LocalDate.ofEpochDay(lastUpdate.toEpochDay() + 7)
         }
+
         /**
          *  *  setting the i-th bit of result to 1 if dayOfWeek HashCode is  inside [daysOfWeek] set
          */
-        fun daysOfWeekToInt(): Int {
+        private fun daysOfWeekToInt(): Int {
             var result = 0
             val days = DayOfWeek.values()
             for (i in 0..days.lastIndex) {
@@ -67,7 +74,7 @@ sealed class ReminderFrequencyState {
         }
     }
 
-    abstract fun getUpdateDate(lastUpdate: LocalDate): LocalDate
+    abstract fun calculateUpdateDate(lastUpdate: LocalDate, isBeginning: Boolean = false): LocalDate
     abstract fun convertToFrequency(): Frequency
 }
 
@@ -92,7 +99,7 @@ sealed class ReminderDurationState {
 
     fun calculateEndDate(begDate: LocalDate): LocalDate {
         return when (this) {
-            is NoEndDate -> LocalDate.ofEpochDay(begDate.toEpochDay()-1)
+            is NoEndDate -> LocalDate.ofEpochDay(begDate.toEpochDay() - 1)
             is EndDate -> date
             is DaysDuration -> LocalDate.ofEpochDay(begDate.toEpochDay() + days)
         }

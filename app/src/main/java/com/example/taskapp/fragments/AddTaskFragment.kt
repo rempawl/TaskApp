@@ -51,8 +51,7 @@ class AddTaskFragment : Fragment() {
     private fun saveTask() {
         viewModel.saveTask()
         findNavController().navigate(
-            AddTaskFragmentDirections.actionNavigationAddTaskToNavigationHome()
-                .setShowMyTasks(true)
+            AddTaskFragmentDirections.actionNavigationAddTaskToNavigationMyTasks()
         )
     }
 
@@ -63,10 +62,6 @@ class AddTaskFragment : Fragment() {
                 viewModel.getTaskDetails()
             )
         )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
 }

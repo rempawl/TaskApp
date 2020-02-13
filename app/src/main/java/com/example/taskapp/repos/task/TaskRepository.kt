@@ -26,10 +26,19 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
     suspend fun saveTask(task: Task) = taskLocalDataSource.saveTask(task)
 
 
-    suspend fun getTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<TaskMinimal> {
-        val result = taskLocalDataSource.getTasksByUpdateDate(date)
+    suspend fun getMinTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<TaskMinimal> {
+        val result = taskLocalDataSource.getMinTasksByUpdateDate(date)
         return if (result is Result.Success<*>) {
             result.items as List<TaskMinimal>
+        } else {
+            emptyList()
+        }
+
+    }
+    suspend fun getTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<Task> {
+        val result = taskLocalDataSource.getTasksByUpdateDate(date)
+        return if (result is Result.Success<*>) {
+            result.items as List<Task>
         } else {
             emptyList()
         }
@@ -53,5 +62,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
             emptyList()
         }
     }
+
+    suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
 
 }

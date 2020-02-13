@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
@@ -17,7 +16,7 @@ class HomeViewPagerFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayoutMediator: TabLayoutMediator
-    private val args: HomeViewPagerFragmentArgs by navArgs()
+//    private val args: HomeViewPagerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +36,9 @@ class HomeViewPagerFragment : Fragment() {
             }
         }.apply { attach() }
 
-        if (args.showMyTasks) {
-            viewPager.currentItem = MainActivity.MY_TASKS_FRAGMENT_INDEX
-        }
+//        if (args.showMyTasks) {
+//            viewPager.currentItem = MainActivity.MY_TASKS_FRAGMENT_INDEX
+//        }
         return binding.root
     }
 

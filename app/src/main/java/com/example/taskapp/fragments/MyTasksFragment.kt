@@ -81,7 +81,7 @@ class MyTasksFragment : Fragment() {
 
     private fun navigateToAddTask() {
         findNavController().navigate(
-            HomeViewPagerFragmentDirections.navigationHomeToNavigationAddTask()
+            MyTasksFragmentDirections.navigationMyTasksToNavigationAddTask()
         )
     }
 

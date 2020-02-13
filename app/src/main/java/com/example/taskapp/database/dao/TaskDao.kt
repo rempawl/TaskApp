@@ -24,4 +24,9 @@ interface TaskDao : BaseDao<Task> {
     @Query("SELECT taskID,name FROM tasks WHERE updateDate = :date")
     fun loadMinTasksByUpdateDate(date: LocalDate ) : List<TaskMinimal>
 
+    @Query("SELECT * FROM tasks WHERE updateDate = :date")
+    fun loadTasksByUpdateDate(date: LocalDate ) : List<Task>
+
+
+
 }
