@@ -15,13 +15,13 @@ interface TaskDao : BaseDao<Task> {
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
     fun loadTaskById(taskID:Long) : Task
 
-    @Query("SELECT taskID, name FROM tasks")
+    @Query("SELECT taskID, name,description FROM tasks")
     fun loadMinimalTasks() : List<TaskMinimal>
 
     @Query("DELETE FROM tasks WHERE taskID == :id")
     fun deleteByID(id: Long) : Int
 
-    @Query("SELECT taskID,name FROM tasks WHERE updateDate = :date")
+    @Query("SELECT taskID,name,description FROM tasks WHERE updateDate = :date")
     fun loadMinTasksByUpdateDate(date: LocalDate ) : List<TaskMinimal>
 
     @Query("SELECT * FROM tasks WHERE updateDate = :date")

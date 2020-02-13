@@ -22,7 +22,6 @@ class DurationModel @Inject constructor() : BaseObservable() {
     val endDateError = ObservableField<Boolean>(false)
 
 
-
     @Bindable
     var currentDaysDuration = 10
         private set(value) {
@@ -96,6 +95,7 @@ class DurationModel @Inject constructor() : BaseObservable() {
     fun getDuration(): Duration = durationState.convertToDuration()
 
     fun getExpirationDate() = durationState.calculateEndDate(beginningDate)
+
     companion object {
         val TODAY: LocalDate = LocalDate.now()
     }

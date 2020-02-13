@@ -31,7 +31,7 @@ class AddReminderFragment : Fragment() {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
             .create(args.taskDetails)
     }
-    private lateinit var binding: AddReminderFragmentBinding
+    private var binding: AddReminderFragmentBinding? = null
     private val args: AddReminderFragmentArgs by navArgs()
 
 
@@ -49,7 +49,7 @@ class AddReminderFragment : Fragment() {
             }
         })
 
-        return binding.root
+        return binding?.root
     }
 
 
@@ -58,14 +58,18 @@ class AddReminderFragment : Fragment() {
         setupBinding()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.viewModel = null
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding?.apply {
+            viewModel = null
+            lifecycleOwner = null
 
+        }
+        binding = null
     }
 
     private fun setupBinding() {
-        binding.apply {
+        binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@AddReminderFragment.viewModel
             setTimeOfNotification.setOnClickListener {
@@ -82,7 +86,7 @@ class AddReminderFragment : Fragment() {
 
 
     private fun setupDurationLayout() {
-        binding.apply {
+        binding?.apply {
             beginningDateBtn.setOnClickListener { showBegDatePickerDialog() }
             setDurationDaysBtn.setOnClickListener { showDurationDaysPickerDialog() }
             setEndDateBtn.setOnClickListener { showEndDatePickerDialog() }
@@ -98,13 +102,13 @@ class AddReminderFragment : Fragment() {
     private fun onDurationRadioChecked(id: Int) {
         val durationModel = viewModel.durationModel
         when (activity?.findViewById<View>(id)!!) {
-            binding.xDaysDurationRadio -> {
+            binding!!.xDaysDurationRadio -> {
                 durationModel.setDaysDurationState()
             }
-            binding.endDateRadio -> {
+            binding!!.endDateRadio -> {
                 durationModel.setEndDateDurationState()
             }
-            binding.noEndDateRadio -> {
+            binding!!.noEndDateRadio -> {
                 durationModel.setNoEndDateDurationState()
             }
             else -> throw NoSuchElementException("There is no matching button")
@@ -114,7 +118,7 @@ class AddReminderFragment : Fragment() {
 
 
     private fun setupFrequencyLayout() {
-        binding.apply {
+        binding?.apply {
             frequencyRadioGroup.apply {
                 setFrequencyButtonsVisibility(checkedRadioButtonId) //on rotation
                 setOnCheckedChangeListener { _, id ->
@@ -131,10 +135,10 @@ class AddReminderFragment : Fragment() {
     private fun onFrequencyRadioCheck(id: Int) {
         val frequencyModel = viewModel.frequencyModel
         when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding.dailyFreqRadio -> {
+            binding?.dailyFreqRadio -> {
                 frequencyModel.setDailyFrequency()
             }
-            binding.daysOfWeekRadio -> {
+            binding?.daysOfWeekRadio -> {
                 frequencyModel.setDaysOfWeekFrequency()
             }
 
@@ -189,16 +193,16 @@ class AddReminderFragment : Fragment() {
      */
     private fun setDurationButtonsVisibility(id: Int) {
         val allBtns = listOf(
-            binding.setDurationDaysBtn,
-            binding.setEndDateBtn
+            binding!!.setDurationDaysBtn,
+            binding!!.setEndDateBtn
         )
         when (activity?.findViewById<View>(id)!!) {
-            binding.xDaysDurationRadio -> changeViewsHelper(
-                listOf(binding.setDurationDaysBtn),
+            binding?.xDaysDurationRadio -> changeViewsHelper(
+                listOf(binding!!.setDurationDaysBtn),
                 allBtns
             )
-            binding.endDateRadio -> changeViewsHelper(listOf(binding.setEndDateBtn), allBtns)
-            binding.noEndDateRadio -> changeViewsHelper(null, allBtns)
+            binding?.endDateRadio -> changeViewsHelper(listOf(binding!!.setEndDateBtn), allBtns)
+            binding?.noEndDateRadio -> changeViewsHelper(null, allBtns)
             else -> throw NoSuchElementException("There is no matching button")
         }
     }
@@ -209,15 +213,18 @@ class AddReminderFragment : Fragment() {
      */
     private fun setFrequencyButtonsVisibility(id: Int) {
         val allBtns = listOf(
-            binding.setDailyFrequencyBtn,
-            binding.setDaysOfWeekBtn
+            binding!!.setDailyFrequencyBtn,
+            binding!!.setDaysOfWeekBtn
         )
         when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding.dailyFreqRadio -> changeViewsHelper(
-                listOf(binding.setDailyFrequencyBtn),
+            binding!!.dailyFreqRadio -> changeViewsHelper(
+                listOf(binding!!.setDailyFrequencyBtn),
                 allBtns
             )
-            binding.daysOfWeekRadio -> changeViewsHelper(listOf(binding.setDaysOfWeekBtn), allBtns)
+            binding?.daysOfWeekRadio -> changeViewsHelper(
+                listOf(binding!!.setDaysOfWeekBtn),
+                allBtns
+            )
             else -> throw NoSuchElementException("There is no matching button")
         }
 

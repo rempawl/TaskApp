@@ -12,6 +12,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
     private val taskRepository: TaskRepository
 ) : ViewModel() {
 
+
     private val isTaskDeleted  = MutableLiveData<Boolean>(false)
     fun getTaskDeleted() : LiveData<Boolean> = isTaskDeleted
 

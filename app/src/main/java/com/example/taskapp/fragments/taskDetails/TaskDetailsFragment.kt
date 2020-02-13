@@ -23,9 +23,6 @@ import org.threeten.bp.format.DateTimeFormatter
 
 //todo notifications workManager
 //todo editTask
-//todo expirationDate
-//todo nextUpdateDate
-//todo TodayTasks
 
 class TaskDetailsFragment : Fragment() {
 
@@ -40,7 +37,7 @@ class TaskDetailsFragment : Fragment() {
             .appComponent.taskDetailsViewModelFactory
             .create(args.taskID)
     }
-    private lateinit var binding: TaskDetailsFragmentBinding
+    private  var binding: TaskDetailsFragmentBinding? = null
 
 
     override fun onCreateView(
@@ -51,8 +48,17 @@ class TaskDetailsFragment : Fragment() {
 
         setUpObservers()
         setupBinding()
+        return binding?.root
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding?.apply{
+            viewModel = null
+            lifecycleOwner = null
+
+        }
+        binding = null
     }
 
     private fun setUpObservers() {
@@ -78,7 +84,7 @@ class TaskDetailsFragment : Fragment() {
     }
 
     private fun setupBinding() {
-        binding.apply {
+        binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
             deleteBtn.setOnClickListener { showDeleteDialog() }
@@ -100,14 +106,14 @@ class TaskDetailsFragment : Fragment() {
         setFrequencyText(frequencyState)
         setNotificationText(reminder.notificationTime)
 
-        binding.apply {
+        binding?.apply {
             reminderLayout.visibility = View.VISIBLE
             begDate.text = getString(R.string.beginning_date, reminder.begDate)
         }
     }
 
     private fun setNotificationText(notificationTime: NotificationTime) {
-        binding.notificationText.text = if (notificationTime.isSet) {
+        binding?.notificationText?.text = if (notificationTime.isSet) {
             val txt = "${getString(R.string.notification_time)}: " +
                     LocalTime.of(notificationTime.hour,notificationTime.minute).format(
                         DateTimeFormatter.ISO_LOCAL_TIME)
@@ -127,7 +133,7 @@ class TaskDetailsFragment : Fragment() {
                 )
             is ReminderFrequencyState.WeekDays -> getWeekDays(frequencyState.daysOfWeek)
         }
-        binding.frequencyText.text = freqText
+        binding?.frequencyText?.text = freqText
     }
 
     private fun getWeekDays(weekDays: Set<DayOfWeekValue>): String {
@@ -159,6 +165,6 @@ class TaskDetailsFragment : Fragment() {
                 )
             }
         }
-        binding.durationText.text = durText
+        binding?.durationText?.text = durText
     }
 }

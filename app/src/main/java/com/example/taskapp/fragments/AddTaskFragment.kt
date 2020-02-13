@@ -22,7 +22,8 @@ class AddTaskFragment : Fragment() {
         (activity as MainActivity).appComponent.addTaskViewModel
     }
 
-    private lateinit var binding: AddTaskFragmentBinding
+    private var binding: AddTaskFragmentBinding? =null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,17 +31,20 @@ class AddTaskFragment : Fragment() {
         binding = AddTaskFragmentBinding
             .inflate(inflater, container, false)
         setupBinding()
-        return binding.root
+        return binding?.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.viewModel = null
-        binding.lifecycleOwner = null
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding?.apply{
+            viewModel = null
+            lifecycleOwner = null
+        }
+        binding = null
     }
 
     private fun setupBinding() {
-        binding.apply {
+        binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@AddTaskFragment.viewModel
             addReminderBtn.setOnClickListener { navigateToAddReminder() }

@@ -17,7 +17,6 @@ import com.example.taskapp.viewmodels.addTask.TaskDetails
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalTime
 
 
 /**
@@ -28,6 +27,7 @@ class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
     val durationModel: DurationModel,
     val frequencyModel: FrequencyModel,
+    val notificationModel: NotificationModel,
     private val taskRepository: TaskRepository
 
 ) : ViewModel() {
@@ -67,19 +67,12 @@ class AddReminderViewModel @AssistedInject constructor(
     private val toastText = MutableLiveData<Int>(null)
     fun getToastText(): LiveData<Int> = toastText
 
-    val notificationTime = ObservableField<LocalTime>(INITIAL_TIME)
-    private var isNotificationTimeSet = false
-
-    fun setNotificationTime(time: LocalTime) {
-        notificationTime.set(time)
-        isNotificationTimeSet = true
-    }
 
 
     fun saveTaskWithReminder() {
         viewModelScope.launch {
-            val temp = notificationTime.get() ?: INITIAL_TIME
-            val time = NotificationTime(temp.hour, temp.minute, isNotificationTimeSet)
+            val temp = notificationModel.notificationTime
+            val time = NotificationTime(temp.hour, temp.minute, notificationModel.isNotificationTimeSet)
 
             val reminder = Reminder(
                 begDate = durationModel.beginningDate,
@@ -111,8 +104,5 @@ class AddReminderViewModel @AssistedInject constructor(
     }
 
 
-    companion object {
-        val INITIAL_TIME: LocalTime = LocalTime.of(18, 0, 0)
-
-    }
+    companion object
 }

@@ -23,8 +23,8 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
     ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
 
     @AssistedInject.Factory
-    interface Factory{
-        fun create(parentFragment: ParentFragmentType) : TaskListAdapter
+    interface Factory {
+        fun create(parentFragment: ParentFragmentType): TaskListAdapter
     }
 
 
@@ -34,7 +34,7 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
         fun bind(task: TaskMinimal) {
             binding.apply {
                 this.task = task
-                detailsBtn.setOnClickListener { navigateToTaskDetails(it, task) }
+                taskCard.setOnClickListener { navigateToTaskDetails(it,task) }
             }
         }
 
@@ -63,7 +63,10 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
         holder.bind(getItem(position))
     }
 
-
+    companion object {
+         const val PORTAIT_COLUMN_COUNT = 2
+         const val LANDSCAPE_COLUMN_COUNT = 4
+    }
 }
 
 

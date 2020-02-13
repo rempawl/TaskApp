@@ -10,8 +10,7 @@ import org.threeten.bp.LocalDate
 
 class BeginningDatePickerFragment(
     private val viewModel: AddReminderViewModel
-) : DialogFragment(),
-    DatePickerDialog.OnDateSetListener {
+) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val date = viewModel.durationModel.beginningDate
