@@ -11,6 +11,8 @@ import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        retainInstance = true
+
         val numberPicker = NumberPicker(requireContext()).apply {
             minValue = 1
             maxValue = 100

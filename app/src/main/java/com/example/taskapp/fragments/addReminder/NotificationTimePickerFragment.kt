@@ -13,6 +13,7 @@ class NotificationTimePickerFragment(private val viewModel: AddReminderViewModel
     TimePickerDialog.OnTimeSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        retainInstance = true
         val time = viewModel.notificationModel.notificationTime
         val hour = time.hour
         val minute = time.minute

@@ -64,7 +64,7 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
     }
 
     companion object {
-         const val PORTAIT_COLUMN_COUNT = 2
+         const val PORTRAIT_COLUMN_COUNT = 2
          const val LANDSCAPE_COLUMN_COUNT = 4
     }
 }

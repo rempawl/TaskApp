@@ -13,7 +13,7 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
-import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTAIT_COLUMN_COUNT
+import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
 import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.viewmodels.MyTasksViewModel
 import javax.inject.Inject
@@ -78,7 +78,7 @@ class MyTasksFragment : Fragment() {
                 val columnCount = if (resources.configuration.orientation ==
                     Configuration.ORIENTATION_PORTRAIT
                 ) {
-                    PORTAIT_COLUMN_COUNT
+                    PORTRAIT_COLUMN_COUNT
                 } else {
                     LANDSCAPE_COLUMN_COUNT
                 }

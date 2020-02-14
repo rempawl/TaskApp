@@ -13,6 +13,7 @@ import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 class DaysDurationPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        retainInstance = true
         val durationPicker = EditText(requireContext()).apply {
             hint = getString(R.string.days_duration_hint)
             inputType = TYPE_CLASS_NUMBER

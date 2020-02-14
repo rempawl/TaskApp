@@ -4,13 +4,12 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import com.example.taskapp.R
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
-import kotlin.IllegalStateException
 
 class DeleteDialogFragment(private val viewModel: TaskDetailsViewModel): DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        retainInstance = true
         return activity?.let{
             AlertDialog
                 .Builder(requireContext())
@@ -24,6 +23,10 @@ class DeleteDialogFragment(private val viewModel: TaskDetailsViewModel): DialogF
 
     private fun deleteTask() {
         viewModel.deleteTask()
+
+    }
+    companion object{
+        const val TAG = "delete dialog fragment tag"
 
     }
 }

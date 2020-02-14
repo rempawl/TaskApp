@@ -13,6 +13,7 @@ class BeginningDatePickerFragment(
 ) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        retainInstance = true
         val date = viewModel.durationModel.beginningDate
         val year = date.year
         val day = date.dayOfMonth

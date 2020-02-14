@@ -59,7 +59,9 @@ class TaskDetailsFragment : Fragment() {
 
         }
         binding = null
+
     }
+
 
     private fun setUpObservers() {
         viewModel.getTaskDeleted().observe(viewLifecycleOwner, Observer { isDeleted ->
@@ -96,7 +98,7 @@ class TaskDetailsFragment : Fragment() {
     }
 
     private fun showDeleteDialog() {
-        DeleteDialogFragment(viewModel).show(childFragmentManager, "")
+        DeleteDialogFragment(viewModel).showNow(childFragmentManager, DeleteDialogFragment.TAG)
     }
 
     private fun setupReminderLayout(reminder: Reminder) {

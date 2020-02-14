@@ -18,7 +18,7 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
+        retainInstance = true
         val layout = setupLayout()
         return AlertDialog.Builder(requireContext())
             .setView(layout)

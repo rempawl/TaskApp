@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.taskapp.di.AppComponent
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,14 +22,22 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        appBarConfig = AppBarConfiguration(setOf(R.id.navigation_my_tasks, R.id.navigation_today))
+        appBarConfig = AppBarConfiguration(
+            setOf(R.id.navigation_my_tasks, R.id.navigation_today),
+            findViewById(R.id.main_drawer_layout)
+        )
 
         val navController = findNavController(R.id.nav_host_fragment)
         toolbar?.setupWithNavController(navController, appBarConfig)
 
         setupBottomNavMenu(navController)
+        setupSideNav(navController)
 
+    }
 
+    private fun setupSideNav(navController: NavController) {
+        findViewById<NavigationView>(R.id.side_nav_view)
+            ?.setupWithNavController(navController)
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
