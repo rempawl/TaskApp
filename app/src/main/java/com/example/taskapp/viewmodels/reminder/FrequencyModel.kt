@@ -38,15 +38,13 @@ class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?
     var currentWeekDays = ReminderFrequencyState.WeekDays().daysOfWeek
 
     fun setDailyFrequency(freq: Int = currentDailyFrequency) {
-        frequencyState = ReminderFrequencyState.Daily(currentDailyFrequency)
+        frequencyState = ReminderFrequencyState.Daily(freq)
         currentDailyFrequency = freq
     }
 
     fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue> = currentWeekDays) {
         currentWeekDays = daysOfWeek
         frequencyState = ReminderFrequencyState.WeekDays(daysOfWeek)
-
-
     }
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()

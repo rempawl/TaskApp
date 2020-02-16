@@ -21,20 +21,3 @@ class MyApp : Application() {
         AndroidThreeTen.init(this)
     }
 }
-//fun atoi(str: String) : Int{
-//    //minus   whitespace ' ' plus
-//    var num = 0
-//    var sign =1
-//    str.forEach {c ->
-//        when (c) {
-//            '-' -> sign =-1
-//            '+' -> sign =1
-//            in '0'..'9' -> {
-//                num = num* 10 +  (c-'0')
-//            }
-//        }
-//
-//    }
-//
-//    return 0
-//}
