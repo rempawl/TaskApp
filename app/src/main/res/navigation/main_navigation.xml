@@ -44,6 +44,11 @@
         android:id="@+id/navigation_edit_task"
         android:name="com.example.taskapp.fragments.EditTaskFragment"
         android:label="@string/edit_task">
+        <argument
+            android:name="task"
+            app:argType="com.example.taskapp.database.entities.Task"
+            app:nullable="false"
+            />
 
     </fragment>
 
@@ -67,6 +72,10 @@
         <action
             android:id="@+id/navigation_task_details_to_navigation_my_tasks"
             app:destination="@id/navigation_my_tasks" />
+        <action
+            android:id="@+id/navigation_task_details_to_navigation_edit_task"
+            app:destination="@id/navigation_edit_task"
+            />
         <argument
             android:name="taskID"
             app:argType="long"
@@ -75,7 +84,7 @@
 
     <fragment
         android:id="@+id/navigation_add_reminder"
-        android:name="com.example.taskapp.fragments.addReminder.AddReminderFragment"
+        android:name="com.example.taskapp.fragments.AddReminderFragment"
         android:label="@string/reminder">
         <argument
             android:name="taskDetails"

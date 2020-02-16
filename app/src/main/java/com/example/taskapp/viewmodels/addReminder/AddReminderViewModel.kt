@@ -1,78 +1,38 @@
 package com.example.taskapp.viewmodels.addReminder
 
-import android.util.Log
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskapp.MainActivity
-import com.example.taskapp.R
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.viewmodels.ReminderViewModel
 import com.example.taskapp.viewmodels.addTask.TaskDetails
+import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.FrequencyModel
+import com.example.taskapp.viewmodels.reminder.NotificationModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 
-/**
- * This [ViewModel] is shared between all addReminder package  Fragments
- * */
-@Suppress("UNCHECKED_CAST")
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
-    val durationModel: DurationModel,
-    val frequencyModel: FrequencyModel,
-    val notificationModel: NotificationModel,
-    private val taskRepository: TaskRepository
-
-) : ViewModel() {
+    private val taskRepository: TaskRepository,
+    durationModelFactory: DurationModel.Factory,
+    notificationModelFactory: NotificationModel.Factory,
+    frequencyModelFactory: FrequencyModel.Factory
+) : ReminderViewModel(durationModelFactory, frequencyModelFactory, notificationModelFactory) {
 
     @AssistedInject.Factory
     interface Factory {
         fun create(taskDetails: TaskDetails): AddReminderViewModel
     }
 
-    private val errorCallback = object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (sender != null) {
-                val value = (sender as ObservableField<Boolean>).get()
-                if (value == true) {
-                    sender.set(false)
-                    when (sender) {
-                        durationModel.begDateError -> {
-                            toastText.value = R.string.beginning_date_error
-                        }
-                        durationModel.endDateError -> {
-                            toastText.value = R.string.end_date_error
-                        }
-                    }
-                } else {
-                    toastText.value = null
-                }
-            }
-        }
-    }
-
-    init {
-        durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
-        durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
-    }
-
-
-    private val toastText = MutableLiveData<Int>(null)
-    fun getToastText(): LiveData<Int> = toastText
-
-
-
     fun saveTaskWithReminder() {
         viewModelScope.launch {
             val temp = notificationModel.notificationTime
-            val time = NotificationTime(temp.hour, temp.minute, notificationModel.isNotificationTimeSet)
+            val time =
+                NotificationTime(temp.hour, temp.minute, notificationModel.isNotificationTimeSet)
 
             val reminder = Reminder(
                 begDate = durationModel.beginningDate,
@@ -83,26 +43,16 @@ class AddReminderViewModel @AssistedInject constructor(
                 expirationDate = durationModel.getExpirationDate()
             )
 
-            Log.d(
-                MainActivity.TAG,
-                frequencyModel.getUpdateDate(durationModel.beginningDate).toString()
-            )
             taskRepository.saveTask(
                 Task(
                     name = taskDetails.name, description = taskDetails.description,
                     reminder = reminder
                 )
             )
-
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        durationModel.begDateError.removeOnPropertyChangedCallback(errorCallback)
-        durationModel.endDateError.removeOnPropertyChangedCallback(errorCallback)
     }
 
 
     companion object
 }
+

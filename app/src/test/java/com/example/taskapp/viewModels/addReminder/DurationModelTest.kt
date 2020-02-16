@@ -1,9 +1,8 @@
 package com.example.taskapp.viewModels.addReminder
 
-import com.example.taskapp.viewmodels.addReminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DurationModel
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.*
 
 //todo
  class DurationModelTest{

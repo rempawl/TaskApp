@@ -1,17 +1,32 @@
-package com.example.taskapp.viewmodels.addReminder
+package com.example.taskapp.viewmodels.reminder
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.database.entities.Duration
-import com.example.taskapp.fragments.addReminder.ReminderDurationState
+import com.example.taskapp.utils.reminder.ReminderDurationState
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
-import javax.inject.Inject
 
-class DurationModel @Inject constructor() : BaseObservable() {
+class DurationModel @AssistedInject constructor(@Assisted duration: Duration?) : BaseObservable() {
 
-    private var durationState: ReminderDurationState = (ReminderDurationState.NoEndDate)
+    @AssistedInject.Factory
+    interface Factory{
+        fun create(duration: Duration?  = null) : DurationModel
+    }
+    init{
+        if(duration != null){
+            when(val durState = duration.convertToDurationState()){
+                   is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
+                   is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
+                   is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
+               }
+        }
+    }
+
+    private var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         set(value) {
             field = value
             notifyPropertyChanged(BR.dateValid)
@@ -30,7 +45,8 @@ class DurationModel @Inject constructor() : BaseObservable() {
         }
 
     @Bindable
-    var beginningDate = TODAY
+    var beginningDate =
+        TODAY
         set(value) {
             if (isBeginningDateValid(value)) {
                 field = value
@@ -70,7 +86,9 @@ class DurationModel @Inject constructor() : BaseObservable() {
 
 
     private fun isBeginningDateValid(date: LocalDate): Boolean {
-        val isValid = (date.isEqual(TODAY) || date.isAfter(TODAY))
+        val isValid = (date.isEqual(TODAY) || date.isAfter(
+            TODAY
+        ))
         return if (durationState is ReminderDurationState.EndDate) {
             isValid && date.isBefore(currentEndDate)
         } else {

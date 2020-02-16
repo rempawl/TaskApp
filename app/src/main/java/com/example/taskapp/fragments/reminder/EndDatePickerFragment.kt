@@ -1,42 +1,30 @@
-package com.example.taskapp.fragments.addReminder
+package com.example.taskapp.fragments.reminder
 
-import  android.app.DatePickerDialog
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
+import com.example.taskapp.viewmodels.reminder.DurationModel
 import org.threeten.bp.LocalDate
 
 class EndDatePickerFragment(
-    private val viewModel: AddReminderViewModel
+    private val model: DurationModel
 ) : DialogFragment(),
     DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val endDate = viewModel.durationModel.currentEndDate
+        val endDate = model.currentEndDate
         val year =endDate.year
         val day = endDate.dayOfMonth
         val month = endDate.monthValue-1  //java util time
         return DatePickerDialog(requireContext(), this, year, month, day)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
         val date = LocalDate.of(year,month+1,day)
-        viewModel.durationModel.setEndDateDurationState(endDate = date)
+        model.setEndDateDurationState(endDate = date)
     }
 
 }

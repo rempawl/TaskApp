@@ -1,4 +1,4 @@
-package com.example.taskapp.fragments.addReminder
+package com.example.taskapp.utils.reminder
 
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.database.entities.Frequency
@@ -27,7 +27,7 @@ sealed class ReminderFrequencyState {
     }
 
 
-    data class WeekDays(val daysOfWeek: Set<DayOfWeekValue> = emptySet()) :
+    data class WeekDays (val daysOfWeek: Set<DayOfWeekValue> = emptySet()) :
         ReminderFrequencyState() {
 
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
@@ -88,12 +88,15 @@ sealed class ReminderDurationState {
 
     fun convertToDuration(): Duration {
         return when (this) {
-            is NoEndDate -> Duration(NO_END_DATE_DURATION_INDEX)
+            is NoEndDate -> Duration(
+                NO_END_DATE_DURATION_INDEX
+            )
             is EndDate -> Duration(
                 END_DATE_DURATION_INDEX,
                 Converters.getInstance().localDateToLong(date)
             )
-            is DaysDuration -> Duration(DAYS_DURATION_INDEX, duration = days.toLong())
+            is DaysDuration -> Duration(
+                DAYS_DURATION_INDEX, duration = days.toLong())
         }
     }
 

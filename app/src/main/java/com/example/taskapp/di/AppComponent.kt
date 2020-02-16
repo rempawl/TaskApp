@@ -3,6 +3,7 @@ package com.example.taskapp.di
 import android.content.Context
 import com.example.taskapp.fragments.MyTasksFragment
 import com.example.taskapp.fragments.TodayFragment
+import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
@@ -30,5 +31,6 @@ interface AppComponent {
     val addReminderViewModelFactory: AddReminderViewModel.Factory
     val addTaskViewModel: AddTaskViewModel
     //    val myTaskViewModel: MyTasksViewModel
+    val editTaskViewModelFactory : EditTaskViewModel.Factory
     val taskDetailsViewModelFactory: TaskDetailsViewModel.Factory
 }

@@ -40,7 +40,7 @@ class MyTasksFragment : Fragment() {
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
 
-    private val taskListAdapter: TaskListAdapter by lazy {
+    private val taskListAdapter: TaskListAdapter by lazy(LazyThreadSafetyMode.NONE) {
         taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
     }
     private var binding: MyTasksFragmentBinding? = null

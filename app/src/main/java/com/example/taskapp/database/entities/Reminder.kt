@@ -2,13 +2,14 @@ package com.example.taskapp.database.entities
 
 import android.os.Parcelable
 import androidx.room.Embedded
-import com.example.taskapp.fragments.addReminder.DayOfWeekValue
-import com.example.taskapp.fragments.addReminder.ReminderDurationState
-import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
 import com.example.taskapp.utils.Converters
+import com.example.taskapp.utils.reminder.DayOfWeekValue
+import com.example.taskapp.utils.reminder.ReminderDurationState
+import com.example.taskapp.utils.reminder.ReminderFrequencyState
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 
 
 @Parcelize
@@ -58,7 +59,10 @@ data class Duration(
 }
 
 @Parcelize
-data class NotificationTime(val hour: Int, val minute: Int, val isSet: Boolean = false) : Parcelable
+data class  NotificationTime(val hour: Int, val minute: Int, val isSet: Boolean = false) : Parcelable{
+    fun convertToLocalTime() : LocalTime = LocalTime.of(hour, minute)
+
+}
 
 @Parcelize
 //@Entity(tableName = "reminders")

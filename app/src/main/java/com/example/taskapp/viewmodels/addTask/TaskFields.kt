@@ -22,9 +22,13 @@ class TaskFields @Inject constructor() : BaseObservable() {
             notifyPropertyChanged(BR.valid)
         }
 
+
     @Bindable
     var taskDescription: String = ""
-
+        set(value){
+            field = value
+            notifyPropertyChanged(BR.taskDescription)
+        }
 
     @Bindable
     fun isValid(): Boolean {
@@ -33,7 +37,7 @@ class TaskFields @Inject constructor() : BaseObservable() {
 
     fun validateTaskDescription() {
         taskDescription = ""
-        notifyPropertyChanged(BR.taskDescription)
+
     }
 
 

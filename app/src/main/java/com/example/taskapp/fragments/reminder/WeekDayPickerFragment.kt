@@ -1,20 +1,21 @@
-package com.example.taskapp.fragments.addReminder
+package com.example.taskapp.fragments.reminder
 
-import  android.app.AlertDialog
+import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
-import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
+import com.example.taskapp.utils.reminder.DayOfWeekValue
+import com.example.taskapp.viewmodels.reminder.FrequencyModel
 import com.google.android.material.checkbox.MaterialCheckBox
 import org.threeten.bp.DayOfWeek
 
-class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
+class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment() {
 
     private val checkedDays: MutableSet<DayOfWeekValue> by lazy {
-        viewModel.frequencyModel.currentWeekDays.toMutableSet()
+        model.currentWeekDays.toMutableSet()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -59,6 +60,6 @@ class WeekDayPickerFragment(private val viewModel: AddReminderViewModel) : Dialo
     }
 
     private fun setWeekDaysFrequency() {
-        viewModel.frequencyModel.setDaysOfWeekFrequency(checkedDays)
+        model.setDaysOfWeekFrequency(checkedDays)
     }
 }

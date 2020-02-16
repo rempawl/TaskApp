@@ -1,4 +1,4 @@
-package com.example.taskapp.fragments.addReminder
+package com.example.taskapp.fragments.reminder
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
-import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
+import com.example.taskapp.viewmodels.reminder.FrequencyModel
 
-class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : DialogFragment() {
+class FrequencyPickerFragment(private val model: FrequencyModel) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
@@ -16,7 +16,7 @@ class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : Dia
         val numberPicker = NumberPicker(requireContext()).apply {
             minValue = 1
             maxValue = 100
-            value = viewModel.frequencyModel.currentDailyFrequency
+            value = model.currentDailyFrequency
         }
         return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.frequency))
@@ -27,7 +27,7 @@ class FrequencyPickerFragment(private val viewModel: AddReminderViewModel) : Dia
     }
 
     private fun setDailyFrequency(frequency: Int) {
-        viewModel.frequencyModel.setDailyFrequency(frequency)
+        model.setDailyFrequency(frequency)
     }
 
 }

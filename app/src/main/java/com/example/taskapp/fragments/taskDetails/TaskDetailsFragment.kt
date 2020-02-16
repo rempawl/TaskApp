@@ -14,9 +14,9 @@ import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
-import com.example.taskapp.fragments.addReminder.DayOfWeekValue
-import com.example.taskapp.fragments.addReminder.ReminderDurationState
-import com.example.taskapp.fragments.addReminder.ReminderFrequencyState
+import com.example.taskapp.utils.reminder.DayOfWeekValue
+import com.example.taskapp.utils.reminder.ReminderDurationState
+import com.example.taskapp.utils.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -37,7 +37,7 @@ class TaskDetailsFragment : Fragment() {
             .appComponent.taskDetailsViewModelFactory
             .create(args.taskID)
     }
-    private  var binding: TaskDetailsFragmentBinding? = null
+    private var binding: TaskDetailsFragmentBinding? = null
 
 
     override fun onCreateView(
@@ -47,13 +47,13 @@ class TaskDetailsFragment : Fragment() {
         binding = TaskDetailsFragmentBinding.inflate(inflater, container, false)
 
         setUpObservers()
-        setupBinding()
+        setUpBinding()
         return binding?.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding?.apply{
+        binding?.apply {
             viewModel = null
             lifecycleOwner = null
 
@@ -85,20 +85,25 @@ class TaskDetailsFragment : Fragment() {
 
     }
 
-    private fun setupBinding() {
+    private fun setUpBinding() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
+
             deleteBtn.setOnClickListener { showDeleteDialog() }
             editBtn.setOnClickListener { navigateToEditTask() }
         }
     }
 
     private fun navigateToEditTask() {
+        viewModel.task.observe(viewLifecycleOwner, Observer { task ->
+            findNavController().navigate(TaskDetailsFragmentDirections
+                .navigationTaskDetailsToNavigationEditTask(task))
+        })
     }
 
     private fun showDeleteDialog() {
-        DeleteDialogFragment(viewModel).showNow(childFragmentManager, DeleteDialogFragment.TAG)
+        DeleteDialogFragment(viewModel).show(childFragmentManager, DeleteDialogFragment.TAG)
     }
 
     private fun setupReminderLayout(reminder: Reminder) {
@@ -117,8 +122,9 @@ class TaskDetailsFragment : Fragment() {
     private fun setNotificationText(notificationTime: NotificationTime) {
         binding?.notificationText?.text = if (notificationTime.isSet) {
             val txt = "${getString(R.string.notification_time)}: " +
-                    LocalTime.of(notificationTime.hour,notificationTime.minute).format(
-                        DateTimeFormatter.ISO_LOCAL_TIME)
+                    LocalTime.of(notificationTime.hour, notificationTime.minute).format(
+                        DateTimeFormatter.ISO_LOCAL_TIME
+                    )
             txt
         } else {
             getString(R.string.no_notificaton)

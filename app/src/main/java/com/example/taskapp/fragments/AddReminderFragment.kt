@@ -1,11 +1,10 @@
-package com.example.taskapp.fragments.addReminder
+package com.example.taskapp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -13,19 +12,24 @@ import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.fragments.reminder.*
+import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
+import com.example.taskapp.utils.reminder.Reminder
 import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
 import org.threeten.bp.format.DateTimeFormatter
 
 
-class AddReminderFragment : Fragment() {
+class AddReminderFragment : Fragment(),
+    Reminder {
 
     companion object {
         fun newInstance() = AddReminderFragment()
-        const val END_DATE_TAG: String = "END DATE DIALOG"
-        const val BEGINNING_DATE_TAG = "Beginning date Dialog"
+        const val END_DATE_DIALOG_TAG: String = "END DATE DIALOG"
+        const val BEGINNING_DATE_DIALOG_TAG = "Beginning date Dialog"
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
     }
+
 
     private val viewModel: AddReminderViewModel by viewModel {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
@@ -55,7 +59,7 @@ class AddReminderFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupBinding()
+        setUpBinding()
     }
 
     override fun onDestroyView() {
@@ -63,29 +67,33 @@ class AddReminderFragment : Fragment() {
         binding?.apply {
             viewModel = null
             lifecycleOwner = null
-
         }
         binding = null
     }
 
-    private fun setupBinding() {
+     override  fun setUpBinding() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@AddReminderFragment.viewModel
-            setTimeOfNotification.setOnClickListener {
-                NotificationTimePickerFragment(this@AddReminderFragment.viewModel).show(
-                    childFragmentManager,
-                    "tag"
-                )
-            }
+            setTimeOfNotification.setOnClickListener { showNotificationPickerDialog() }
             confirmButton.setOnClickListener { addTaskWithReminder() }
         }
-        setupDurationLayout()
+        setUpDurationLayout()
         setupFrequencyLayout()
     }
 
+     override fun showNotificationPickerDialog() {
+        NotificationTimePickerFragment(
+            viewModel.notificationModel
+        ).show(
+            childFragmentManager,
+            "Notification dialog tag"
+        )
 
-    private fun setupDurationLayout() {
+    }
+
+
+    override fun setUpDurationLayout() {
         binding?.apply {
             beginningDateBtn.setOnClickListener { showBegDatePickerDialog() }
             setDurationDaysBtn.setOnClickListener { showDurationDaysPickerDialog() }
@@ -99,16 +107,17 @@ class AddReminderFragment : Fragment() {
         }
     }
 
-    private fun onDurationRadioChecked(id: Int) {
+    override fun onDurationRadioChecked(id: Int) {
+        val binding = binding ?: return
         val durationModel = viewModel.durationModel
         when (activity?.findViewById<View>(id)!!) {
-            binding!!.xDaysDurationRadio -> {
+            binding.xDaysDurationRadio -> {
                 durationModel.setDaysDurationState()
             }
-            binding!!.endDateRadio -> {
+            binding.endDateRadio -> {
                 durationModel.setEndDateDurationState()
             }
-            binding!!.noEndDateRadio -> {
+            binding.noEndDateRadio -> {
                 durationModel.setNoEndDateDurationState()
             }
             else -> throw NoSuchElementException("There is no matching button")
@@ -117,7 +126,7 @@ class AddReminderFragment : Fragment() {
     }
 
 
-    private fun setupFrequencyLayout() {
+    override fun setupFrequencyLayout() {
         binding?.apply {
             frequencyRadioGroup.apply {
                 setFrequencyButtonsVisibility(checkedRadioButtonId) //on rotation
@@ -132,7 +141,7 @@ class AddReminderFragment : Fragment() {
     }
 
 
-    private fun onFrequencyRadioCheck(id: Int) {
+    override fun onFrequencyRadioCheck(id: Int) {
         val frequencyModel = viewModel.frequencyModel
         when (activity?.findViewById<MaterialRadioButton>(id)) {
             binding?.dailyFreqRadio -> {
@@ -149,7 +158,6 @@ class AddReminderFragment : Fragment() {
 
     }
 
-
     private fun addTaskWithReminder() {
         viewModel.saveTaskWithReminder()
         findNavController().navigate(
@@ -158,40 +166,46 @@ class AddReminderFragment : Fragment() {
     }
 
 
-    private fun showDurationDaysPickerDialog() {
-        DaysDurationPickerFragment(viewModel).show(childFragmentManager, "days duration dialog")
+    override fun showDurationDaysPickerDialog() {
+        DaysDurationPickerFragment(
+            viewModel.durationModel
+        ).show(childFragmentManager, "days duration dialog")
     }
 
 
-    private fun showDaysOfWeekPickerDialog() {
-        WeekDayPickerFragment(viewModel).show(childFragmentManager, "weekday picker dialog")
+    override fun showDaysOfWeekPickerDialog() {
+        WeekDayPickerFragment(viewModel.frequencyModel)
+            .show(childFragmentManager, "weekday picker dialog")
     }
 
 
-    private fun showFrequencyPickerDialog() {
-        FrequencyPickerFragment(viewModel).show(childFragmentManager, "FREQUENCY PICKER DIALOG")
+    override fun showFrequencyPickerDialog() {
+        FrequencyPickerFragment(viewModel.frequencyModel)
+            .show(childFragmentManager, "FREQUENCY PICKER DIALOG")
     }
 
 
-    private fun showEndDatePickerDialog() {
-        EndDatePickerFragment(viewModel).show(childFragmentManager, END_DATE_TAG)
+    override fun showEndDatePickerDialog() {
+        EndDatePickerFragment(viewModel.durationModel)
+            .show(childFragmentManager,
+                END_DATE_DIALOG_TAG
+            )
     }
 
-    private fun showBegDatePickerDialog() {
-        BeginningDatePickerFragment(viewModel).show(childFragmentManager, BEGINNING_DATE_TAG)
+    override fun showBegDatePickerDialog() {
+        BeginningDatePickerFragment(
+            viewModel.durationModel
+        ).show(childFragmentManager,
+            BEGINNING_DATE_DIALOG_TAG
+        )
     }
 
-
-    private fun changeViewsHelper(currentViews: List<View>?, allViews: List<View>) {
-        val currentList = currentViews ?: emptyList()
-        changeViewsVisibility(currentList, allViews - currentList)
-    }
 
     /**
      * function responsible for changing visibility of buttons under RadioGroup depending
      * on current radio  checked
      */
-    private fun setDurationButtonsVisibility(id: Int) {
+    override fun setDurationButtonsVisibility(id: Int) {
         val allBtns = listOf(
             binding!!.setDurationDaysBtn,
             binding!!.setEndDateBtn
@@ -211,7 +225,7 @@ class AddReminderFragment : Fragment() {
      * function responsible for changing visibility of buttons under RadioGroup depending
      * on current radio  checked
      */
-    private fun setFrequencyButtonsVisibility(id: Int) {
+    override fun setFrequencyButtonsVisibility(id: Int) {
         val allBtns = listOf(
             binding!!.setDailyFrequencyBtn,
             binding!!.setDaysOfWeekBtn
@@ -234,14 +248,3 @@ class AddReminderFragment : Fragment() {
 }
 
 
-fun <T : View> Fragment.changeViewsVisibility(
-    visibleViews: List<T>,
-    goneViews: List<T>
-) {
-    visibleViews.forEach { view ->
-        if (!view.isVisible) view.visibility = View.VISIBLE
-    }
-    goneViews.forEach { view ->
-        if (view.isVisible) view.visibility = View.GONE
-    }
-}
