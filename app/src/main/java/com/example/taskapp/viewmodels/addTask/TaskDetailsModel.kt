@@ -11,7 +11,7 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.Task
 import javax.inject.Inject
 
-class TaskFields @Inject constructor() : BaseObservable() {
+class TaskDetailsModel @Inject constructor() : BaseObservable() {
 
 
     val taskNameError: ObservableField<Int> = ObservableField()

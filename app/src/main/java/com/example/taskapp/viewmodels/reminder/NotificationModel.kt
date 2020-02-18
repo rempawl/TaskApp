@@ -6,16 +6,16 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalTime
 
-class NotificationModel @AssistedInject constructor(@Assisted notificationTime : NotificationTime?)
-    : BaseObservable() {
+class NotificationModel @AssistedInject constructor(@Assisted notificationTime: NotificationTime?) :
+    BaseObservable() {
 
     @AssistedInject.Factory
-    interface Factory{
-        fun create(notificationTime: NotificationTime? = null) : NotificationModel
+    interface Factory {
+        fun create(notificationTime: NotificationTime? = null): NotificationModel
     }
 
-    init{
-        if(notificationTime != null && notificationTime.isSet){
+    init {
+        if (notificationTime != null && notificationTime.isSet) {
             setNotificationTime(notificationTime.convertToLocalTime())
         }
     }
@@ -29,9 +29,14 @@ class NotificationModel @AssistedInject constructor(@Assisted notificationTime :
 
 
     fun setNotificationTime(time: LocalTime) {
-        notificationTime =(time)
+        notificationTime = (time)
         isNotificationTimeSet = true
     }
+
+    fun getNotificationTime(): NotificationTime = NotificationTime(
+        notificationTime.hour,
+        notificationTime.minute, isNotificationTimeSet
+    )
 
     companion object {
         val INITIAL_TIME: LocalTime = LocalTime.of(18, 0, 0)

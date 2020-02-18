@@ -7,8 +7,9 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 
 //todo changing updateDate
 //todo mockK
-//todo editTask init
+//todo editTask init reminder state radio check
 //todo save editTask
+
 class MyApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()

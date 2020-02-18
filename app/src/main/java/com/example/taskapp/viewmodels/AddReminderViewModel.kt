@@ -10,7 +10,7 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
-import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
+import com.example.taskapp.viewmodels.addTask.TaskDetails
 import com.example.taskapp.viewmodels.reminder.DurationModel
 import com.example.taskapp.viewmodels.reminder.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.NotificationModel
@@ -18,43 +18,47 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
-class EditTaskViewModel @AssistedInject constructor(
-    @Assisted val task: Task,
-    private val taskRepo: TaskRepository,
-    val taskDetailsModel: TaskDetailsModel,
+
+class AddReminderViewModel @AssistedInject constructor(
+    @Assisted val taskDetails: TaskDetails,
+    private val taskRepository: TaskRepository,
     durationModelFactory: DurationModel.Factory,
-    frequencyModelFactory: FrequencyModel.Factory,
-    notificationModelFactory: NotificationModel.Factory
+    notificationModelFactory: NotificationModel.Factory,
+    frequencyModelFactory: FrequencyModel.Factory
 ) : ViewModel() {
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(task: Task): EditTaskViewModel
+        fun create(taskDetails: TaskDetails): AddReminderViewModel
     }
 
-    val durationModel: DurationModel
-    val frequencyModel: FrequencyModel
-    val notificationModel: NotificationModel
+    fun saveTaskWithReminder() {
+        viewModelScope.launch {
 
-    init {
-        val reminder = task.reminder
-        if (reminder != null) {
-            durationModel = durationModelFactory.create(reminder.duration, reminder.begDate)
-            frequencyModel = frequencyModelFactory.create(reminder.frequency)
-            notificationModel = notificationModelFactory.create(reminder.notificationTime)
-        } else {
-            notificationModel = notificationModelFactory.create()
-            durationModel = durationModelFactory.create()
-            frequencyModel = frequencyModelFactory.create()
+            val reminder = Reminder(
+                begDate = durationModel.beginningDate,
+                duration = durationModel.getDuration(),
+                frequency = frequencyModel.getFrequency(),
+                notificationTime = notificationModel.getNotificationTime(),
+                updateDate = frequencyModel.getUpdateDate(durationModel.beginningDate),
+                expirationDate = durationModel.getExpirationDate()
+            )
 
+            taskRepository.saveTask(
+                Task(
+                    name = taskDetails.name, description = taskDetails.description,
+                    reminder = reminder
+                )
+            )
         }
-        taskDetailsModel.taskDescription = task.description
     }
 
-    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
-
+    val notificationModel = notificationModelFactory.create()
+    val durationModel = durationModelFactory.create()
+    val frequencyModel: FrequencyModel = frequencyModelFactory.create()
 
     private val errorCallback by lazy(LazyThreadSafetyMode.NONE) {
+
         object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (sender != null) {
@@ -64,7 +68,6 @@ class EditTaskViewModel @AssistedInject constructor(
                         when (sender) {
                             durationModel.begDateError -> {
                                 toastText.value = R.string.beginning_date_error
-
                             }
                             durationModel.endDateError -> {
                                 toastText.value = R.string.end_date_error
@@ -73,14 +76,11 @@ class EditTaskViewModel @AssistedInject constructor(
                     } else {
                         toastText.value = null
                     }
-
                 }
-
             }
-
         }
-
     }
+
 
     init {
         durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
@@ -91,36 +91,13 @@ class EditTaskViewModel @AssistedInject constructor(
     private val toastText = MutableLiveData<Int>(null)
     fun getToastText(): LiveData<Int> = toastText
 
-
     override fun onCleared() {
         super.onCleared()
         durationModel.begDateError.removeOnPropertyChangedCallback(errorCallback)
         durationModel.endDateError.removeOnPropertyChangedCallback(errorCallback)
-
     }
 
-    fun saveEditedTask() {
-        viewModelScope.launch {
-            var reminder: Reminder? = null
-            if (isReminderSwitchChecked.get() == true) {
-                reminder = Reminder(
-                    begDate = durationModel.beginningDate,
-                    frequency = frequencyModel.getFrequency(),
-                    duration = durationModel.getDuration(),
-                    notificationTime = notificationModel.getNotificationTime(),
-                    expirationDate = durationModel.getExpirationDate(),
-                    updateDate = frequencyModel.getUpdateDate(durationModel.beginningDate)
-                )
-            }
-            val edited = task.copy(
-                description = taskDetailsModel.taskDescription,
-                reminder = reminder
-            )
-            taskRepo.updateTask(edited)
-        }
-    }
+
+    companion object
 }
-
-
-
 

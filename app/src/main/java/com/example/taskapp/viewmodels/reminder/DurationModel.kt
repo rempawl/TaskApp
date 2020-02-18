@@ -10,21 +10,17 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
-class DurationModel @AssistedInject constructor(@Assisted duration: Duration?) : BaseObservable() {
+class DurationModel @AssistedInject constructor(@Assisted duration: Duration?,
+                                                @Assisted begDate: LocalDate) : BaseObservable() {
 
     @AssistedInject.Factory
     interface Factory{
-        fun create(duration: Duration?  = null) : DurationModel
+        fun create(duration: Duration?  = null, begDate: LocalDate = LocalDate.now()) : DurationModel
     }
-    init{
-        if(duration != null){
-            when(val durState = duration.convertToDurationState()){
-                   is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
-                   is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
-                   is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
-               }
-        }
-    }
+
+    //Today for new tasks begDate for edited tasks
+    private val validationDate: LocalDate = begDate
+
 
     private var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         set(value) {
@@ -45,8 +41,7 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?) :
         }
 
     @Bindable
-    var beginningDate =
-        TODAY
+    var beginningDate = validationDate
         set(value) {
             if (isBeginningDateValid(value)) {
                 field = value
@@ -59,7 +54,7 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?) :
 
 
     @Bindable
-    var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
+    var currentEndDate: LocalDate = LocalDate.ofYearDay(validationDate.year, validationDate.dayOfYear + 10)
         private set(value) {
             if (isEndDateValid(value)) {
                 field = value
@@ -80,15 +75,24 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?) :
             true
         }
     }
+    init{
+        if(duration != null){
+            when(val durState = duration.convertToDurationState()){
+                is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
+                is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
+                is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
+            }
+
+        }
+    }
+
 
     private fun isEndDateValid(date: LocalDate = currentEndDate) =
         !date.isBefore(beginningDate)
 
 
     private fun isBeginningDateValid(date: LocalDate): Boolean {
-        val isValid = (date.isEqual(TODAY) || date.isAfter(
-            TODAY
-        ))
+        val isValid = !date.isBefore(validationDate)
         return if (durationState is ReminderDurationState.EndDate) {
             isValid && date.isBefore(currentEndDate)
         } else {
@@ -114,9 +118,7 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?) :
 
     fun getExpirationDate() = durationState.calculateEndDate(beginningDate)
 
-    companion object {
-        val TODAY: LocalDate = LocalDate.now()
-    }
+    companion object
 
 
 }

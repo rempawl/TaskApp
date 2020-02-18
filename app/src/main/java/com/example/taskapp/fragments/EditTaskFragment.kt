@@ -22,10 +22,11 @@ class EditTaskFragment : Fragment(),
         fun newInstance() = EditTaskFragment()
     }
 
-    private val viewmodel: EditTaskViewModel by viewModel {
+    private val viewModel: EditTaskViewModel by viewModel {
         (activity as MainActivity)
             .appComponent.editTaskViewModelFactory.create(args.task)
     }
+
     private val args: EditTaskFragmentArgs by navArgs()
 
     private var binding: EditTaskFragmentBinding? = null
@@ -55,12 +56,16 @@ class EditTaskFragment : Fragment(),
 
     override fun setUpBinding() {
         binding?.apply {
-            viewModel = this@EditTaskFragment.viewmodel
+            viewModel = this@EditTaskFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
-
+            confirmButton.setOnClickListener { editTask() }
         }
         setUpDurationLayout()
         setupFrequencyLayout()
+    }
+
+    private fun editTask() {
+        viewModel.saveEditedTask()
     }
 
     override fun setUpDurationLayout() {
@@ -79,7 +84,7 @@ class EditTaskFragment : Fragment(),
 
     override fun onDurationRadioChecked(id: Int) {
         val binding = binding ?: return
-        val durationModel = viewmodel.durationModel
+        val durationModel = viewModel.durationModel
         when (activity?.findViewById<View>(id)!!) {
             binding.xDaysDurationRadio -> {
                 durationModel.setDaysDurationState()
@@ -111,7 +116,7 @@ class EditTaskFragment : Fragment(),
     }
 
     override fun onFrequencyRadioCheck(id: Int) {
-        val frequencyModel = viewmodel.frequencyModel
+        val frequencyModel = viewModel.frequencyModel
         when (activity?.findViewById<MaterialRadioButton>(id)) {
             binding?.dailyFreqRadio -> {
                 frequencyModel.setDailyFrequency()
@@ -125,23 +130,23 @@ class EditTaskFragment : Fragment(),
     }
 
     override fun showDurationDaysPickerDialog() {
-        DaysDurationPickerFragment(viewmodel.durationModel).show(childFragmentManager, "days duration dialog")
+        DaysDurationPickerFragment(viewModel.durationModel).show(childFragmentManager, "days duration dialog")
     }
 
     override fun showDaysOfWeekPickerDialog() {
-        WeekDayPickerFragment(viewmodel.frequencyModel)
+        WeekDayPickerFragment(viewModel.frequencyModel)
             .show(childFragmentManager, "weekday picker dialog")
 
 
     }
 
     override fun showFrequencyPickerDialog() {
-        FrequencyPickerFragment(this.viewmodel.frequencyModel)
+        FrequencyPickerFragment(this.viewModel.frequencyModel)
             .show(childFragmentManager, "FREQUENCY PICKER DIALOG")
     }
 
     override fun showEndDatePickerDialog() {
-        EndDatePickerFragment(this.viewmodel.durationModel)
+        EndDatePickerFragment(this.viewModel.durationModel)
             .show(childFragmentManager,
                 AddReminderFragment.END_DATE_DIALOG_TAG
             )
@@ -149,13 +154,13 @@ class EditTaskFragment : Fragment(),
     }
 
     override fun showBegDatePickerDialog() {
-        BeginningDatePickerFragment(this.viewmodel.durationModel).show(childFragmentManager,
+        BeginningDatePickerFragment(this.viewModel.durationModel).show(childFragmentManager,
             AddReminderFragment.BEGINNING_DATE_DIALOG_TAG
         )
     }
 
     override fun showNotificationPickerDialog() {
-            NotificationTimePickerFragment(viewmodel.notificationModel).show(childFragmentManager,"")
+            NotificationTimePickerFragment(viewModel.notificationModel).show(childFragmentManager,"")
     }
 
     override fun setDurationButtonsVisibility(id: Int) {

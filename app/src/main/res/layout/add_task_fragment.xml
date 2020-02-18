@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enabled="@{viewModel.taskFields.valid}"
-                android:text="@string/reminder"
+                android:text="@string/add_reminder"
                 app:layout_constraintTop_toBottomOf="@id/task_description"
                 app:layout_constraintBottom_toTopOf="@id/save_btn"
                 app:layout_constraintLeft_toLeftOf="parent" />

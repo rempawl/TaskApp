@@ -3,9 +3,9 @@ package com.example.taskapp.di
 import android.content.Context
 import com.example.taskapp.fragments.MyTasksFragment
 import com.example.taskapp.fragments.TodayFragment
+import com.example.taskapp.viewmodels.AddReminderViewModel
 import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
-import com.example.taskapp.viewmodels.addReminder.AddReminderViewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 import dagger.BindsInstance
 import dagger.Component

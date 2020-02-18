@@ -10,9 +10,11 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
-class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) : BaseObservable() {
+class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
+    BaseObservable() {
 
     private var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
+    private val isEdited : Boolean
 
     @AssistedInject.Factory
     interface Factory {
@@ -21,10 +23,13 @@ class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?
 
     init {
         if (frequency != null) {
+            isEdited = true
             when (val freqState = frequency.convertToFrequencyState()) {
                 is ReminderFrequencyState.Daily -> setDailyFrequency(freq = freqState.frequency)
                 is ReminderFrequencyState.WeekDays -> setDaysOfWeekFrequency(daysOfWeek = freqState.daysOfWeek)
             }
+        } else {
+            isEdited = false
         }
     }
 
@@ -49,7 +54,7 @@ class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 
-    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateUpdateDate(begDate, true)
+    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateUpdateDate(begDate, !isEdited)
 
 
 }

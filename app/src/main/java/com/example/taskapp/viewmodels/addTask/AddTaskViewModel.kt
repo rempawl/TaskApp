@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
-    val taskFields: TaskFields,
+    val taskFields: TaskDetailsModel,
     private val taskRepository: TaskRepository
 ) : ViewModel() {
 

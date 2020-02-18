@@ -85,7 +85,7 @@
     <fragment
         android:id="@+id/navigation_add_reminder"
         android:name="com.example.taskapp.fragments.AddReminderFragment"
-        android:label="@string/reminder">
+        android:label="@string/add_reminder">
         <argument
             android:name="taskDetails"
             app:argType="com.example.taskapp.viewmodels.addTask.TaskDetails"
