@@ -7,9 +7,13 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.taskapp.di.AppComponent
+import com.example.taskapp.utils.SetAlarmsWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        setUpAlarm()
+
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -32,6 +39,18 @@ class MainActivity : AppCompatActivity() {
 
         setupBottomNavMenu(navController)
         setupSideNav(navController)
+
+    }
+
+    private fun setUpAlarm() {
+        val setAlarmsRequest  =
+            PeriodicWorkRequestBuilder<SetAlarmsWorker>(1,TimeUnit.DAYS)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueue(setAlarmsRequest)
+
+
 
     }
 

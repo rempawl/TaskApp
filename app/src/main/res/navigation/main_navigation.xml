@@ -29,15 +29,6 @@
             app:destination="@id/navigation_task_details" />
 
 
-        <!--    <fragment-->
-        <!--        android:id="@+id/navigation_home"-->
-        <!--        android:name="com.example.taskapp.fragments.HomeViewPagerFragment"-->
-        <!--        android:label="home">-->
-
-        <!--        <argument-->
-        <!--            android:name="showMyTasks"-->
-        <!--            android:defaultValue="false"-->
-        <!--            app:argType="boolean" />-->
     </fragment>
 
     <fragment
@@ -48,6 +39,11 @@
             android:name="task"
             app:argType="com.example.taskapp.database.entities.Task"
             app:nullable="false"
+            />
+        <action
+            app:destination="@id/navigation_my_tasks"
+            android:id="@+id/navigation_edit_task_to_navigation_my_tasks"
+
             />
 
     </fragment>

@@ -12,7 +12,8 @@ import dagger.Component
 
 @Component(
     modules = [AssistedInjectModule::class,
-        DataBaseModule::class
+        DataBaseModule::class,
+        RepositoryModule::class
     ]
 )
 interface AppComponent {
@@ -25,12 +26,12 @@ interface AppComponent {
 
     fun inject(todayFragment: TodayFragment)
 
-    fun inject(myTasksFragment : MyTasksFragment)
+    fun inject(myTasksFragment: MyTasksFragment)
 
     //    val todayViewModel : TodayViewModel
     val addReminderViewModelFactory: AddReminderViewModel.Factory
     val addTaskViewModel: AddTaskViewModel
     //    val myTaskViewModel: MyTasksViewModel
-    val editTaskViewModelFactory : EditTaskViewModel.Factory
+    val editTaskViewModelFactory: EditTaskViewModel.Factory
     val taskDetailsViewModelFactory: TaskDetailsViewModel.Factory
 }

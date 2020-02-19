@@ -27,36 +27,36 @@ sealed class ReminderFrequencyState {
     }
 
 
-    data class WeekDays (val daysOfWeek: Set<DayOfWeekValue> = emptySet()) :
+    data class WeekDays(val daysOfWeek: Set<DayOfWeekValue> = emptySet()) :
         ReminderFrequencyState() {
 
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
         /**
-         * checking if [daysOfWeek] contains days after or before [lastUpdate] [DayOfWeek]
+         * checking if [daysOfWeek] contains days after or before [startDate] [DayOfWeek]
          * if it doesn't returning next week date
          */
-        override fun calculateUpdateDate(lastUpdate: LocalDate, isBeginning: Boolean): LocalDate {
-            val begIndex = lastUpdate.dayOfWeek.value
+        override fun calculateUpdateDate(startDate: LocalDate, isBeginning: Boolean): LocalDate {
+            val begIndex = startDate.dayOfWeek.value
 
-            if (isBeginning && lastUpdate.dayOfWeek.value == begIndex && daysOfWeek.contains(
-                    begIndex
-                )
+
+            if (isBeginning && startDate.dayOfWeek.value == begIndex &&
+                daysOfWeek.contains(begIndex)
             ) {
-                return lastUpdate
+                return startDate
             }
 
             for (thisWeek in begIndex + 1..DayOfWeek.SUNDAY.value) {
                 if (daysOfWeek.contains(thisWeek)) {
-                    return LocalDate.ofEpochDay(lastUpdate.toEpochDay() + (thisWeek - begIndex))
+                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (thisWeek - begIndex))
                 }
             }
             for (nextWeek in DayOfWeek.MONDAY.value until begIndex) {
                 if (daysOfWeek.contains(nextWeek)) {
                     println(nextWeek)
-                    return LocalDate.ofEpochDay(lastUpdate.toEpochDay() + (7 - begIndex + nextWeek))
+                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (7 - begIndex + nextWeek))
                 }
             }
-            return LocalDate.ofEpochDay(lastUpdate.toEpochDay() + 7)
+            return LocalDate.ofEpochDay(startDate.toEpochDay() + 7)
         }
 
         /**
@@ -96,7 +96,8 @@ sealed class ReminderDurationState {
                 Converters.getInstance().localDateToLong(date)
             )
             is DaysDuration -> Duration(
-                DAYS_DURATION_INDEX, duration = days.toLong())
+                DAYS_DURATION_INDEX, duration = days.toLong()
+            )
         }
     }
 

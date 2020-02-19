@@ -9,7 +9,7 @@ import dagger.Provides
 import dagger.Reusable
 
 @Module
-class DataBaseModule {
+ class DataBaseModule {
 
     @Reusable
     @Provides

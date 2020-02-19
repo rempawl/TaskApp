@@ -18,6 +18,30 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
+class ErrorCallback(private val durationModel: DurationModel,private val toastText: MutableLiveData<Int>) :
+    Observable.OnPropertyChangedCallback() {
+    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+        if (sender != null) {
+            val value = (sender as ObservableField<Boolean>).get()
+            if (value == true) {
+                sender.set(false)
+                when (sender) {
+                    durationModel.begDateError -> {
+                        toastText.value = R.string.beginning_date_error
+                    }
+                    durationModel.endDateError -> {
+                        toastText.value = R.string.end_date_error
+                    }
+                }
+            } else {
+                toastText.value = null
+            }
+        }
+    }
+}
+
+
+
 
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
@@ -56,31 +80,10 @@ class AddReminderViewModel @AssistedInject constructor(
     val notificationModel = notificationModelFactory.create()
     val durationModel = durationModelFactory.create()
     val frequencyModel: FrequencyModel = frequencyModelFactory.create()
+    private val toastText = MutableLiveData<Int>(null)
+    fun getToastText(): LiveData<Int> = toastText
 
-    private val errorCallback by lazy(LazyThreadSafetyMode.NONE) {
-
-        object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (sender != null) {
-                    val value = (sender as ObservableField<Boolean>).get()
-                    if (value == true) {
-                        sender.set(false)
-                        when (sender) {
-                            durationModel.begDateError -> {
-                                toastText.value = R.string.beginning_date_error
-                            }
-                            durationModel.endDateError -> {
-                                toastText.value = R.string.end_date_error
-                            }
-                        }
-                    } else {
-                        toastText.value = null
-                    }
-                }
-            }
-        }
-    }
-
+    private val errorCallback = ErrorCallback(durationModel,toastText)
 
     init {
         durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
@@ -88,8 +91,6 @@ class AddReminderViewModel @AssistedInject constructor(
     }
 
 
-    private val toastText = MutableLiveData<Int>(null)
-    fun getToastText(): LiveData<Int> = toastText
 
     override fun onCleared() {
         super.onCleared()

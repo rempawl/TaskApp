@@ -17,10 +17,18 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?,
     interface Factory{
         fun create(duration: Duration?  = null, begDate: LocalDate = LocalDate.now()) : DurationModel
     }
+    init{
+        if(duration != null){
+            when(val durState = duration.convertToDurationState()){
+                is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
+                is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
+                is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
+            }
 
+        }
+    }
     //Today for new tasks begDate for edited tasks
     private val validationDate: LocalDate = begDate
-
 
     private var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         set(value) {
@@ -31,7 +39,6 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?,
     //true when error message should be displayed
     val begDateError = ObservableField<Boolean>(false)
     val endDateError = ObservableField<Boolean>(false)
-
 
     @Bindable
     var currentDaysDuration = 10
@@ -75,20 +82,10 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?,
             true
         }
     }
-    init{
-        if(duration != null){
-            when(val durState = duration.convertToDurationState()){
-                is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
-                is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
-                is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
-            }
-
-        }
-    }
 
 
     private fun isEndDateValid(date: LocalDate = currentEndDate) =
-        !date.isBefore(beginningDate)
+        !date.isBefore(beginningDate) && !date.isBefore(LocalDate.now())
 
 
     private fun isBeginningDateValid(date: LocalDate): Boolean {

@@ -10,9 +10,10 @@ import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 @Reusable
-class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLocalDataSource) {
+class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLocalDataSource) :
+    TaskRepositoryInterface {
 
-    suspend fun getTasks(): List<Task> {
+    override suspend fun getTasks(): List<Task> {
         val data = taskLocalDataSource.getTasks()
         return if (data is Result.Success<*>) {
             data.items as List<Task>
@@ -21,12 +22,12 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
-    suspend fun deleteByID(id: Long) = taskLocalDataSource.deleteTask(id)
+    override suspend fun deleteByID(id: Long) = taskLocalDataSource.deleteTask(id)
 
-    suspend fun saveTask(task: Task) = taskLocalDataSource.saveTask(task)
+    override suspend fun saveTask(task: Task) = taskLocalDataSource.saveTask(task)
 
 
-    suspend fun getMinTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<TaskMinimal> {
+    override suspend fun getMinTasksByUpdateDate(date: LocalDate): List<TaskMinimal> {
         val result = taskLocalDataSource.getMinTasksByUpdateDate(date)
         return if (result is Result.Success<*>) {
             result.items as List<TaskMinimal>
@@ -35,7 +36,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
 
     }
-    suspend fun getTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<Task> {
+    override suspend fun getTasksByUpdateDate(date: LocalDate): List<Task> {
         val result = taskLocalDataSource.getTasksByUpdateDate(date)
         return if (result is Result.Success<*>) {
             result.items as List<Task>
@@ -45,7 +46,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     }
 
-    suspend fun getTaskByID(id: Long): Task {
+    override suspend fun getTaskByID(id: Long): Task {
         val result = taskLocalDataSource.getTaskById(id)
         return if (result is Result.Success<*>) {
             result.items as Task
@@ -54,7 +55,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
-    suspend fun getMinimalTasks(): List<TaskMinimal> {
+    override suspend fun getMinimalTasks(): List<TaskMinimal> {
         val data = taskLocalDataSource.getMinimalTasks()
         return if (data is Result.Success<*>) {
             data.items as List<TaskMinimal>
@@ -63,6 +64,6 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
-    suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
+    override suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
 
 }

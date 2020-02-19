@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.EditTaskFragmentBinding
@@ -15,8 +17,7 @@ import com.example.taskapp.utils.reminder.Reminder
 import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
 
-class EditTaskFragment : Fragment(),
-    Reminder {
+class EditTaskFragment : Fragment(),   Reminder {
 
     companion object {
         fun newInstance() = EditTaskFragment()
@@ -36,7 +37,11 @@ class EditTaskFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         binding = EditTaskFragmentBinding.inflate(inflater, container, false)
-
+        viewModel.getToastText().observe(viewLifecycleOwner, Observer  { id ->
+            if (id != null) {
+                Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
+            }
+        })
         return binding!!.root
     }
 
@@ -59,6 +64,7 @@ class EditTaskFragment : Fragment(),
             viewModel = this@EditTaskFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
             confirmButton.setOnClickListener { editTask() }
+            setTimeOfNotification.setOnClickListener { showNotificationPickerDialog() }
         }
         setUpDurationLayout()
         setupFrequencyLayout()
@@ -160,7 +166,7 @@ class EditTaskFragment : Fragment(),
     }
 
     override fun showNotificationPickerDialog() {
-            NotificationTimePickerFragment(viewModel.notificationModel).show(childFragmentManager,"")
+            NotificationTimePickerFragment(viewModel.notificationModel).show(childFragmentManager,"sth")
     }
 
     override fun setDurationButtonsVisibility(id: Int) {
