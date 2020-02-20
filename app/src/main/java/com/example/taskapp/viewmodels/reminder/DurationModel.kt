@@ -17,16 +17,7 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?,
     interface Factory{
         fun create(duration: Duration?  = null, begDate: LocalDate = LocalDate.now()) : DurationModel
     }
-    init{
-        if(duration != null){
-            when(val durState = duration.convertToDurationState()){
-                is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
-                is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
-                is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
-            }
 
-        }
-    }
     //Today for new tasks begDate for edited tasks
     private val validationDate: LocalDate = begDate
 
@@ -72,6 +63,16 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration?,
             }
 
         }
+    init{
+        if(duration != null){
+            when(val durState = duration.convertToDurationState()){
+                is ReminderDurationState.NoEndDate -> {setNoEndDateDurationState() }
+                is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
+                is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
+            }
+
+        }
+    }
 
 
     @Bindable

@@ -2,7 +2,6 @@ package com.example.taskapp.utils.reminder
 
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.database.entities.Frequency
-import com.example.taskapp.utils.Converters
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
@@ -90,7 +89,7 @@ sealed class ReminderDurationState {
 
     data class EndDate(val date: LocalDate = LocalDate.now()) : ReminderDurationState() {
         override fun convertToDuration(): Duration =
-            Duration(END_DATE_DURATION_INDEX, Converters.getInstance().localDateToLong(date))
+            Duration(END_DATE_DURATION_INDEX, date.toEpochDay())
 
         override fun calculateEndDate(begDate: LocalDate): LocalDate = date
 

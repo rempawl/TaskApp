@@ -2,7 +2,6 @@ package com.example.taskapp.database.entities
 
 import android.os.Parcelable
 import androidx.room.Embedded
-import com.example.taskapp.utils.Converters
 import com.example.taskapp.utils.reminder.DayOfWeekValue
 import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.example.taskapp.utils.reminder.ReminderFrequencyState
@@ -50,7 +49,7 @@ data class Duration(
         return when (durState) {
             ReminderDurationState.DAYS_DURATION_INDEX -> ReminderDurationState.DaysDuration(duration.toInt())
             ReminderDurationState.END_DATE_DURATION_INDEX -> {
-                ReminderDurationState.EndDate(Converters.getInstance().longToLocalDate(duration))
+                ReminderDurationState.EndDate(LocalDate.ofEpochDay(duration))
             }
             ReminderDurationState.NO_END_DATE_DURATION_INDEX -> ReminderDurationState.NoEndDate
             else -> throw IndexOutOfBoundsException()
