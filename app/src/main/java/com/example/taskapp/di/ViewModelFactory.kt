@@ -1,6 +1,7 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.taskapp.di
 
-import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels

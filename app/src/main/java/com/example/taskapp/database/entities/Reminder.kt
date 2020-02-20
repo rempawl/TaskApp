@@ -44,7 +44,7 @@ data class Frequency(
 @Parcelize
 data class Duration(
     val durState: Int,
-    val duration: Long= 0
+    val duration: Long= 0 //when durState is NoEndDate then duration is 0
 ) : Parcelable {
     fun convertToDurationState(): ReminderDurationState {
         return when (durState) {

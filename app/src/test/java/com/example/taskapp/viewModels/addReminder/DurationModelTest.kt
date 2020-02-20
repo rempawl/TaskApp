@@ -9,7 +9,7 @@ import org.junit.Test
     private lateinit var model : DurationModel
      @Before
     fun setup(){
-         model = DurationModel()
+//         model = DurationModel()
      }
 
      @Test

@@ -20,10 +20,10 @@ sealed class ReminderFrequencyState {
 
         override fun convertToFrequency() = Frequency(DAILY_FREQUENCY_INDEX, frequency)
         /**
-         * fun is returning beginningDate as updateDate if [lastUpdate] is beginning date
+         * fun is returning beginningDate as updateDate if [startDate] is beginning date
          */
-        override fun calculateUpdateDate(lastUpdate: LocalDate, isBeginning: Boolean): LocalDate =
-            LocalDate.ofEpochDay(lastUpdate.toEpochDay() + if (!isBeginning) frequency else 0)
+        override fun calculateUpdateDate(startDate: LocalDate, isBeginning: Boolean): LocalDate =
+            LocalDate.ofEpochDay(startDate.toEpochDay() + if (!isBeginning) frequency else 0)
     }
 
 
@@ -31,6 +31,7 @@ sealed class ReminderFrequencyState {
         ReminderFrequencyState() {
 
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
+
         /**
          * checking if [daysOfWeek] contains days after or before [startDate] [DayOfWeek]
          * if it doesn't returning next week date
@@ -74,40 +75,43 @@ sealed class ReminderFrequencyState {
         }
     }
 
-    abstract fun calculateUpdateDate(lastUpdate: LocalDate, isBeginning: Boolean = false): LocalDate
+    abstract fun calculateUpdateDate(startDate: LocalDate, isBeginning: Boolean = false): LocalDate
     abstract fun convertToFrequency(): Frequency
 }
 
 sealed class ReminderDurationState {
 
-    object NoEndDate : ReminderDurationState()
+    object NoEndDate : ReminderDurationState() {
+        override fun convertToDuration(): Duration = Duration(NO_END_DATE_DURATION_INDEX)
+        override fun calculateEndDate(begDate: LocalDate): LocalDate =
+            LocalDate.ofEpochDay(begDate.toEpochDay() - 1)
 
-    data class EndDate(val date: LocalDate = LocalDate.now()) : ReminderDurationState()
-
-    data class DaysDuration(val days: Int = 0) : ReminderDurationState()
-
-    fun convertToDuration(): Duration {
-        return when (this) {
-            is NoEndDate -> Duration(
-                NO_END_DATE_DURATION_INDEX
-            )
-            is EndDate -> Duration(
-                END_DATE_DURATION_INDEX,
-                Converters.getInstance().localDateToLong(date)
-            )
-            is DaysDuration -> Duration(
-                DAYS_DURATION_INDEX, duration = days.toLong()
-            )
-        }
     }
 
-    fun calculateEndDate(begDate: LocalDate): LocalDate {
-        return when (this) {
-            is NoEndDate -> LocalDate.ofEpochDay(begDate.toEpochDay() - 1)
-            is EndDate -> date
-            is DaysDuration -> LocalDate.ofEpochDay(begDate.toEpochDay() + days)
-        }
+    data class EndDate(val date: LocalDate = LocalDate.now()) : ReminderDurationState() {
+        override fun convertToDuration(): Duration =
+            Duration(END_DATE_DURATION_INDEX, Converters.getInstance().localDateToLong(date))
+
+        override fun calculateEndDate(begDate: LocalDate): LocalDate = date
+
+
     }
+
+    data class DaysDuration(val days: Int = 0) : ReminderDurationState() {
+        override fun convertToDuration(): Duration = Duration(
+            DAYS_DURATION_INDEX, duration = days.toLong()
+        )
+
+        override fun calculateEndDate(begDate: LocalDate): LocalDate =
+            LocalDate.ofEpochDay(begDate.toEpochDay() + days)
+
+
+    }
+
+    abstract fun convertToDuration(): Duration
+
+    abstract fun calculateEndDate(begDate: LocalDate): LocalDate
+
 
     companion object {
         const val END_DATE_DURATION_INDEX = 1

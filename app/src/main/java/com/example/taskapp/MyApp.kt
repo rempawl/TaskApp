@@ -10,7 +10,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 //todo editTask init reminder state radio check
 //todo showing notifications of upcoming tasks
 //todo settings menu
-
+//todo tests
+//todo myTasks switchMap
 class MyApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
@@ -23,18 +24,36 @@ class MyApp : Application() {
     }
 
 
-    fun longestCommonPrefix(strs: Array<String>): String {
-        var prefix = ""
-        var i = 0
-        strs.forEach { str ->
-            if (i < str.length) {
-            } else {
-                return@forEach
-            }
-        }
 
-        return ""
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

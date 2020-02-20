@@ -2,14 +2,14 @@ package com.example.taskapp.viewmodels
 
 import androidx.lifecycle.*
 import com.example.taskapp.database.entities.Task
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class TaskDetailsViewModel @AssistedInject constructor(
-    @Assisted val taskID: Long,
-    private val taskRepository: TaskRepository
+    @Assisted private val taskID: Long,
+    private val taskRepository: TaskRepositoryInterface
 ) : ViewModel() {
 
 
