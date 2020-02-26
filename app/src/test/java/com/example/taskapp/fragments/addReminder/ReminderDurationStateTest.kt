@@ -15,6 +15,7 @@ internal class ReminderDurationStateTest {
     init {
         loadTimeZone()
     }
+
     private val begDate = LocalDate.of(2020, 1, 11) as LocalDate
     private val noEndDate = ReminderDurationState.NoEndDate
     private val endDate = LocalDate.of(2022, 2, 21)

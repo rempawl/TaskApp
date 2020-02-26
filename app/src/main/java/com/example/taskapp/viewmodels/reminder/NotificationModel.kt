@@ -14,19 +14,19 @@ class NotificationModel @AssistedInject constructor(@Assisted notificationTime: 
         fun create(notificationTime: NotificationTime? = null): NotificationModel
     }
 
-    init {
-        if (notificationTime != null && notificationTime.isSet) {
-            setNotificationTime(notificationTime.convertToLocalTime())
-        }
-    }
 
-    var notificationTime: LocalTime =
-        INITIAL_TIME
+
+    var notificationTime: LocalTime = INITIAL_TIME
         private set
 
     var isNotificationTimeSet = false
         private set
 
+    init {
+        if (notificationTime != null && notificationTime.isSet) {
+            setNotificationTime(notificationTime.convertToLocalTime())
+        }
+    }
 
     fun setNotificationTime(time: LocalTime) {
         notificationTime = (time)

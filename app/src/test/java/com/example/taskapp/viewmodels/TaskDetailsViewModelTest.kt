@@ -1,7 +1,6 @@
-package com.example.taskapp.viewModels
+package com.example.taskapp.viewmodels
 
 import com.example.taskapp.repos.task.FakeTaskRepository
-import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
