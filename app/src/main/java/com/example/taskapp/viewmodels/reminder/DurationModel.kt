@@ -10,8 +10,8 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
-class DurationModel @AssistedInject constructor(@Assisted duration: Duration? = null,
-                                                @Assisted begDate: LocalDate = LocalDate.now()) : BaseObservable() {
+class DurationModel @AssistedInject constructor(@Assisted duration: Duration? ,
+                                                @Assisted begDate: LocalDate )  : BaseObservable() {
 
     @AssistedInject.Factory
     interface Factory{

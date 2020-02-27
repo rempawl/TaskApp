@@ -26,9 +26,8 @@ internal class ReminderDurationStateTest {
         @Nested
         @DisplayName("When ReminderDurationState is")
         inner class ReminderDurState {
-            @DisplayName("EndDate(date = 21-02-2022)")
             @Test
-            fun `then Duration equals  Duration(END_DATE_DURATION_INDEX,endDate toEpoch)  `() {
+            fun `EndDate(date = 21-02-2022),then Duration equals  Duration(END_DATE_DURATION_INDEX,endDate toEpoch)  `() {
                 val durState = ReminderDurationState.EndDate(endDate)
                 val expected =
                     Duration(ReminderDurationState.END_DATE_DURATION_INDEX, endDate.toEpochDay())
@@ -36,9 +35,8 @@ internal class ReminderDurationStateTest {
                 assertThat(actual, `is`(expected))
             }
 
-            @DisplayName("DaysDuration(10 days)")
             @Test
-            fun `then Duration equals Duration(DAYS_DURATION_INDEX,10)`() {
+            fun `DaysDuration(10 days), then Duration equals Duration(DAYS_DURATION_INDEX,10)`() {
                 val durationState = ReminderDurationState.DaysDuration(10)
                 val expected = Duration(ReminderDurationState.DAYS_DURATION_INDEX, 10)
                 val actual = durationState.convertToDuration()
@@ -58,8 +56,7 @@ internal class ReminderDurationStateTest {
 
 
                 @Test
-                @DisplayName("DaysDuration  10 days ")
-                fun `Then expiration date is ten days after BegDate`() {
+                fun `DaysDuration  10 days, Then expiration date is ten days after BegDate`() {
                     val expectedDate = LocalDate.ofEpochDay(begDate.toEpochDay() + 10)
                     val duration = ReminderDurationState.DaysDuration(10)
                     assertThat(
@@ -78,8 +75,7 @@ internal class ReminderDurationStateTest {
                 }
 
                 @Test
-                @DisplayName(" NoEndDate")
-                fun `Then expiration date is begDate - 1`() {
+                fun `NoEndDate, Then expiration date is begDate - 1`() {
                     val actual = noEndDate.calculateEndDate(begDate)
                     val expectedDate = LocalDate.ofEpochDay(begDate.toEpochDay() - 1)
                     assertThat(actual, `is`(expectedDate))
@@ -87,8 +83,7 @@ internal class ReminderDurationStateTest {
 
 
                 @Test
-                @DisplayName(" EndDate 21-02-2022")
-                fun `Then expiration date is  21-02-2022 `() {
+                fun `EndDate 21-02-2022, Then expiration date is  21-02-2022 `() {
                     val endDate = ReminderDurationState.EndDate(endDate)
                     val actual = endDate.calculateEndDate(begDate)
                     assertThat(actual, `is`(endDate.date))

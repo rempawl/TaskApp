@@ -13,16 +13,14 @@ internal class DurationTest{
     @DisplayName("When Duration is")
     inner class ConvertToDurationState{
         @Test
-        @DisplayName("Duration(NoEndDateIndex,0) ")
-        fun `Then returns ReminderFrequencyState NoEndDate`(){
+        fun `Duration(NoEndDateIndex,0), Then returns ReminderFrequencyState NoEndDate`(){
             val actual : ReminderDurationState = Duration(ReminderDurationState.NO_END_DATE_DURATION_INDEX,0)
                 .convertToDurationState()
             val expected : ReminderDurationState = ReminderDurationState.NoEndDate
             assertThat(actual,`is`(expected))
         }
         @Test
-        @DisplayName("Duration(EndDateIndex,20-07-2014 toEpoch) ")
-        fun `Then returns ReminderFrequencyState EndDate`(){
+        fun `Duration(EndDateIndex,20-07-2014 toEpoch) ,Then returns ReminderFrequencyState EndDate`(){
             val date = LocalDate.of(2014,7,20)
             val actual : ReminderDurationState = Duration(ReminderDurationState.END_DATE_DURATION_INDEX,date.toEpochDay())
                 .convertToDurationState()
@@ -30,8 +28,7 @@ internal class DurationTest{
             assertThat(actual,`is`(expected))
         }
         @Test
-        @DisplayName("Duration(DaysDurationIndex,2) ")
-        fun `Then returns ReminderFrequencyState Daily92)`(){
+        fun `Duration(DaysDurationIndex,2), Then returns ReminderFrequencyState Daily92)`(){
             val actual : ReminderDurationState = Duration(ReminderDurationState.DAYS_DURATION_INDEX,2)
                 .convertToDurationState()
             val expected : ReminderDurationState = ReminderDurationState.DaysDuration(2)

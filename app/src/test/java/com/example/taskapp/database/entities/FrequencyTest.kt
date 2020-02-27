@@ -13,8 +13,7 @@ internal class FrequencyTest {
     @DisplayName("When Frequency is")
     inner class ConvertToFrequencyState {
         @Test
-        @DisplayName("Frequency(DAILY_FREQUENCY_INDEX,2)")
-        fun `Then returns  ReminderFrequencyState Daily(2)`() {
+        fun `Frequency(DAILY_FREQUENCY_INDEX,2), Then returns  ReminderFrequencyState Daily(2)`() {
             val expected = ReminderFrequencyState.Daily(2) as ReminderFrequencyState
             val actual = Frequency(ReminderFrequencyState.DAILY_FREQUENCY_INDEX, 2)
                 .convertToFrequencyState()
@@ -29,7 +28,7 @@ internal class FrequencyTest {
                 val expected =
                     ReminderFrequencyState.WeekDays(setOf(Day.MONDAY.value)) as ReminderFrequencyState
                 val actual = Frequency(
-                    ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX,
+                     ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX,
                     1
                 ).convertToFrequencyState()
                 assertThat(actual, `is`(expected))

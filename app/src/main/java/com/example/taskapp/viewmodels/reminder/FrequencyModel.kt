@@ -13,13 +13,24 @@ import org.threeten.bp.LocalDate
 class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
     BaseObservable() {
 
-    private var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
+    var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
+        private set
     private val isEdited : Boolean
 
     @AssistedInject.Factory
     interface Factory {
         fun create(frequency: Frequency? = null): FrequencyModel
     }
+
+
+    @Bindable
+    var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currentDailyFrequency)
+        }
+
+    var currentWeekDays = ReminderFrequencyState.WeekDays().daysOfWeek
 
     init {
         if (frequency != null) {
@@ -32,15 +43,6 @@ class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?
             isEdited = false
         }
     }
-
-    @Bindable
-    var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentDailyFrequency)
-        }
-
-    var currentWeekDays = ReminderFrequencyState.WeekDays().daysOfWeek
 
     fun setDailyFrequency(freq: Int = currentDailyFrequency) {
         frequencyState = ReminderFrequencyState.Daily(freq)
