@@ -14,7 +14,6 @@ import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
-import com.example.taskapp.utils.reminder.Reminder
 import com.example.taskapp.viewmodels.AddReminderViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
 import org.threeten.bp.format.DateTimeFormatter

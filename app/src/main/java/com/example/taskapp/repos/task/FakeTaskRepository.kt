@@ -6,6 +6,7 @@ import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.example.taskapp.utils.reminder.ReminderFrequencyState
+import io.reactivex.Single
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
@@ -80,12 +81,15 @@ class FakeTaskRepository : TaskRepositoryInterface {
         }
     }
 
-    override suspend fun saveTask(task: Task) {
+    override suspend fun saveTask(task: Task)
+            : Single<Long>
+    {
         val predicate = { t: Task -> t.name == task.name || t.taskID == task.taskID }
         if (tasks.any(predicate)) {
             tasks.remove(tasks.first(predicate))
             tasks.add(task)
         }
+        TODO()
     }
 
     override suspend fun getMinTasksByUpdateDate(date: LocalDate): List<TaskMinimal> {

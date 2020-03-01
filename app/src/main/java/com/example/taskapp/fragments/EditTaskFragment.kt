@@ -13,11 +13,11 @@ import com.example.taskapp.databinding.EditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger
-import com.example.taskapp.utils.reminder.Reminder
 import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
 
-class EditTaskFragment : Fragment(),   Reminder {
+class EditTaskFragment : Fragment(),
+    Reminder {
 
     companion object {
         fun newInstance() = EditTaskFragment()

@@ -21,6 +21,11 @@ interface TaskDao : BaseDao<Task> {
     @Query("DELETE FROM tasks WHERE taskID == :id")
     fun deleteByID(id: Long) : Int
 
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun insertTask(item: Task): Single<Long>
+
+
+
     @Query("SELECT taskID,name,description FROM tasks WHERE updateDate = :date")
     fun loadMinTasksByUpdateDate(date: LocalDate ) : List<TaskMinimal>
 

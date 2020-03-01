@@ -1,11 +1,13 @@
 package com.example.taskapp.viewmodels
 
+import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskapp.MainActivity
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
@@ -16,9 +18,15 @@ import com.example.taskapp.viewmodels.reminder.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.NotificationModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import io.reactivex.SingleObserver
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
-class ErrorCallback(private val durationModel: DurationModel,private val toastText: MutableLiveData<Int>) :
+class ErrorCallback(
+    private val durationModel: DurationModel,
+    private val toastText: MutableLiveData<Int>
+) :
     Observable.OnPropertyChangedCallback() {
     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
         if (sender != null) {
@@ -39,8 +47,6 @@ class ErrorCallback(private val durationModel: DurationModel,private val toastTe
         }
     }
 }
-
-
 
 
 class AddReminderViewModel @AssistedInject constructor(
@@ -68,28 +74,45 @@ class AddReminderViewModel @AssistedInject constructor(
                 expirationDate = durationModel.getExpirationDate()
             )
 
-            taskRepository.saveTask(
+          taskRepository.saveTask(
                 Task(
                     name = taskDetails.name, description = taskDetails.description,
                     reminder = reminder
                 )
-            )
+            ).subscribeOn(Schedulers.io())
+              .subscribeWith( object : SingleObserver<Long> {
+              override fun onSuccess(t: Long) {
+                  Log.d(MainActivity.TAG,t.toString())
+              }
+
+              override fun onError(e: Throwable) {
+                    e.printStackTrace()
+              }
+
+              override fun onSubscribe(d: Disposable) {
+
+              }
+
+          })
+
+
+
         }
     }
 
     val notificationModel = notificationModelFactory.create()
     val durationModel = durationModelFactory.create()
     val frequencyModel: FrequencyModel = frequencyModelFactory.create()
+
     private val toastText = MutableLiveData<Int>(null)
     fun getToastText(): LiveData<Int> = toastText
 
-    private val errorCallback = ErrorCallback(durationModel,toastText)
+    private val errorCallback = ErrorCallback(durationModel, toastText)
 
     init {
         durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
         durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
     }
-
 
 
     override fun onCleared() {

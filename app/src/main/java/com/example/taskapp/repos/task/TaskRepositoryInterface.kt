@@ -2,6 +2,7 @@ package com.example.taskapp.repos.task
 
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
+import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
 interface TaskRepositoryInterface {
@@ -10,6 +11,7 @@ interface TaskRepositoryInterface {
     suspend fun deleteByID(id: Long): Int
 
     suspend fun saveTask(task: Task)
+            : Single<Long>
 
     suspend fun getMinTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<TaskMinimal>
 

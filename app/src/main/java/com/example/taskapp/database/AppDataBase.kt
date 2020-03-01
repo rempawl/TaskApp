@@ -20,7 +20,7 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
-        const val VERSION_INT = 14
+        const val VERSION_INT = 15
         const val DB_NAME = "TaskApp DB"
         val INITIAL_TASKS = listOf<Task>()
 
@@ -28,16 +28,12 @@ abstract class AppDataBase : RoomDatabase() {
         private var INSTANCE: AppDataBase? = null
 
         fun getInstance(context: Context): AppDataBase {
-            return if (INSTANCE != null) {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE = Room
+                    .databaseBuilder(context, AppDataBase::class.java, DB_NAME)
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE as AppDataBase
-            } else {
-                synchronized(this) {
-                    INSTANCE = Room
-                        .databaseBuilder(context, AppDataBase::class.java, DB_NAME)
-                        .fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE as AppDataBase
-                }
             }
         }
     }

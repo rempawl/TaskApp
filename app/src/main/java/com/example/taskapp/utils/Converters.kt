@@ -15,18 +15,6 @@ class Converters @Inject constructor(){
 
 
 
-    companion object{
-
-        @Volatile private var INSTANCE  : Converters? = null
-
-        fun getInstance() : Converters{
-            if(INSTANCE != null){
-                return INSTANCE as Converters
-            }else{
-                INSTANCE = Converters()
-                return INSTANCE as Converters
-            }
-        }
-    }
+    companion object
 
 }

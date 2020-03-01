@@ -21,8 +21,8 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration? ,
     //Today for new tasks begDate for edited tasks
     private val validationDate: LocalDate = begDate
 
-    private var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
-        set(value) {
+     var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
+        private set(value) {
             field = value
             notifyPropertyChanged(BR.dateValid)
         }
@@ -52,7 +52,7 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration? ,
 
 
     @Bindable
-    var currentEndDate: LocalDate = LocalDate.ofYearDay(validationDate.year, validationDate.dayOfYear + 10)
+    var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
         private set(value) {
             if (isEndDateValid(value)) {
                 field = value
@@ -116,7 +116,9 @@ class DurationModel @AssistedInject constructor(@Assisted duration: Duration? ,
 
     fun getExpirationDate() = durationState.calculateEndDate(beginningDate)
 
-    companion object
+    companion object{
+        private val TODAY = LocalDate.now()
+    }
 
 
 }

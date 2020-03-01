@@ -12,7 +12,8 @@ import javax.inject.Inject
 @Reusable
 class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : TaskDataSource {
 
-    override suspend fun saveTask(task: Task) = withContext(Dispatchers.IO) {
+    override suspend fun
+            saveTask(task: Task) = withContext(Dispatchers.IO) {
         taskDao.insertItem(task)
     }
 

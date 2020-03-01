@@ -1,5 +1,4 @@
-package com.example.taskapp.utils.reminder
-
+package com.example.taskapp.fragments.reminder
 
 interface Reminder {
     fun setUpBinding()
@@ -7,12 +6,12 @@ interface Reminder {
     fun onDurationRadioChecked(id: Int)
     fun setupFrequencyLayout()
     fun onFrequencyRadioCheck(id: Int)
+    fun showNotificationPickerDialog()
     fun showDurationDaysPickerDialog()
     fun showDaysOfWeekPickerDialog()
     fun showFrequencyPickerDialog()
     fun showEndDatePickerDialog()
     fun showBegDatePickerDialog()
-    fun showNotificationPickerDialog()
 
 
     /**
