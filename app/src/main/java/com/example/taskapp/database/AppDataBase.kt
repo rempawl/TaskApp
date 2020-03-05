@@ -20,7 +20,7 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     companion object {
-        const val VERSION_INT = 15
+        const val VERSION_INT = 16
         const val DB_NAME = "TaskApp DB"
         val INITIAL_TASKS = listOf<Task>()
 

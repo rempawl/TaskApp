@@ -1,10 +1,13 @@
 package com.example.taskapp.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.taskapp.database.BaseDao
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
+import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
 @Dao
@@ -13,25 +16,26 @@ interface TaskDao : BaseDao<Task> {
     fun loadAllTasks(): List<Task>
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
-    fun loadTaskById(taskID:Long) : Task
+    fun loadTaskById(taskID: Long): Task
 
     @Query("SELECT taskID, name,description FROM tasks")
-    fun loadMinimalTasks() : List<TaskMinimal>
+    fun loadMinimalTasks(): List<TaskMinimal>
 
     @Query("DELETE FROM tasks WHERE taskID == :id")
-    fun deleteByID(id: Long) : Int
+    fun deleteByID(id: Long): Int
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insertTask(item: Task): Single<Long>
-
-
-
-    @Query("SELECT taskID,name,description FROM tasks WHERE updateDate = :date")
-    fun loadMinTasksByUpdateDate(date: LocalDate ) : List<TaskMinimal>
-
-    @Query("SELECT * FROM tasks WHERE updateDate = :date")
-    fun loadTasksByUpdateDate(date: LocalDate ) : List<Task>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTask(item: Task): Single<Long>
 
 
+    @Query("SELECT taskID,name,description FROM tasks WHERE notificationDate = :date")
+    fun loadMinTasksByNotificationDate(date: LocalDate): List<TaskMinimal>
+
+    @Query("SELECT * FROM tasks WHERE notificationDate = :date")
+    fun loadTasksByNotificationDate(date: LocalDate): List<Task>
+
+
+    @Query("SELECT * FROm tasks WHERE notificationDate <= :date")
+    fun loadTaskWithNotificationDateUntilDate(date: LocalDate): List<Task>
 
 }

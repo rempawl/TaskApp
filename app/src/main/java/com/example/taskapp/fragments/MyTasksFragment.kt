@@ -43,6 +43,7 @@ class MyTasksFragment : Fragment() {
     private val taskListAdapter: TaskListAdapter by lazy(LazyThreadSafetyMode.NONE) {
         taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
     }
+
     private var binding: MyTasksFragmentBinding? = null
 
     override fun onCreateView(
@@ -50,7 +51,6 @@ class MyTasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         (activity as MainActivity).appComponent.inject(this)
-
         binding = MyTasksFragmentBinding
             .inflate(inflater, container, false)
         setupBinding()

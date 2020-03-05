@@ -1,5 +1,6 @@
 package com.example.taskapp.fragments
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,17 +36,21 @@ class TodayFragment : Fragment() {
 
     private  var binding: TodayFragmentBinding? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).appComponent.inject(this)
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as MainActivity).appComponent.inject(this)
         binding = TodayFragmentBinding
             .inflate(inflater, container, false)
 //        taskAdapter = TaskListAdapter(viewModel)
         setUpBinding()
         updateTaskList()
-        return binding?.root
+        return binding!!.root
     }
 
     override fun onDestroyView() {

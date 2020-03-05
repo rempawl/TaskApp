@@ -5,6 +5,8 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskapp.repos.task.TaskRepository
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,6 +15,7 @@ class AddTaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository
 ) : ViewModel() {
 
+    private val compositeDisposable = CompositeDisposable()
     val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
         val text = (view as EditText).text.toString()
         if (!focused && text.isNotEmpty()) {
@@ -34,8 +37,19 @@ class AddTaskViewModel @Inject constructor(
 
     fun saveTask() {
         viewModelScope.launch {
-            taskRepository.saveTask(taskFields.createTask())
+            compositeDisposable.add(
+                taskRepository.saveTask(taskFields.createTask())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({}, { it.printStackTrace() })
+            )
         }
+    }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
+
     }
 
     companion object

@@ -12,6 +12,8 @@ interface TaskDataSource {
 
     suspend fun getMinTasksByUpdateDate(date: LocalDate): Result<List<TaskMinimal>>
 
+    suspend fun getTasksUntilDate(date: LocalDate) : Result<List<Task>>
+
     suspend fun getTasksByUpdateDate(date: LocalDate): Result<List<Task>>
 
     suspend fun deleteTask(id: Long): Int

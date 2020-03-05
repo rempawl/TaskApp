@@ -78,5 +78,5 @@ data class Reminder(
     @Embedded val duration: Duration,
     @Embedded val notificationTime: NotificationTime,
     val expirationDate : LocalDate,
-    val updateDate: LocalDate
+    val notificationDate: LocalDate
 ) : Parcelable

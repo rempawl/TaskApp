@@ -17,6 +17,10 @@ class FakeTaskDataSource : TaskDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getTasksUntilDate(date: LocalDate): Result<List<Task>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun getTasksByUpdateDate(date: LocalDate): Result<List<Task>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

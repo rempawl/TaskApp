@@ -12,21 +12,29 @@ import javax.inject.Inject
 @Reusable
 class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : TaskDataSource {
 
-    override suspend fun
-            saveTask(task: Task) = withContext(Dispatchers.IO) {
-        taskDao.insertItem(task)
+    override suspend fun saveTask(task: Task) = withContext(Dispatchers.IO) {
+        taskDao.insertTask(task)
     }
 
     override suspend fun getMinTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadMinTasksByUpdateDate(date))
+            Result.Success(taskDao.loadMinTasksByNotificationDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
+
+    override suspend fun getTasksUntilDate(date: LocalDate): Result<List<Task>> = withContext(Dispatchers.IO){
+        return@withContext try{
+            Result.Success(taskDao.loadTaskWithNotificationDateUntilDate(date))
+        }catch (e: Exception){
+            Result.Error(e)
+        }
+    }
+
     override suspend fun getTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadTasksByUpdateDate(date))
+            Result.Success(taskDao.loadTasksByNotificationDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }

@@ -41,7 +41,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         return if (result is Result.Success<*>) {
             result.items as List<Task>
         } else {
-            emptyList()
+            listOf(ERROR_TASK)
         }
 
     }
@@ -51,7 +51,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         return if (result is Result.Success<*>) {
             result.items as Task
         } else {
-            Task(name = "Error")
+            (ERROR_TASK)
         }
     }
 
@@ -64,6 +64,19 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
+    override suspend fun getTasksUntilDate(date: LocalDate): List<Task> {
+        val data = taskLocalDataSource.getTasksUntilDate(date)
+        return if(data is Result.Success<*>){
+            data.items as List<Task>
+        }else{
+            listOf(ERROR_TASK)
+        }
+
+    }
+
     override suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
 
+    companion object{
+        val ERROR_TASK = Task(taskID = -1,name="ERROR")
+    }
 }
