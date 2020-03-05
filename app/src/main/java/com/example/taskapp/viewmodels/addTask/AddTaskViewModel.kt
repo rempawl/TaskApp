@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
     val taskFields: TaskDetailsModel,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepositoryInterface
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

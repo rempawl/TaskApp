@@ -1,9 +1,11 @@
 package com.example.taskapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -15,11 +17,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     val appComponent: AppComponent by lazy { (application as MyApp).appComponent }
 
     private lateinit var appBarConfig: AppBarConfiguration
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,17 +43,29 @@ class MainActivity : AppCompatActivity() {
 
         setupBottomNavMenu(navController)
         setupSideNav(navController)
+        navController.addOnDestinationChangedListener(this)
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController, destination: NavDestination,
+        arguments: Bundle?
+    ) { if (noNavMenuDestinations.contains(destination.id)) {
+            findViewById<BottomNavigationView>(R.id.bottom_nav_view)?.visibility = View.GONE
+        } else {
+            findViewById<BottomNavigationView>(R.id.bottom_nav_view)?.visibility = View.VISIBLE
+        }
+
 
     }
 
+
     private fun setUpAlarm() {
-        val setAlarmsRequest  =
-            PeriodicWorkRequestBuilder<SetAlarmsWorker>(1,TimeUnit.DAYS)
-            .build()
+        val setAlarmsRequest =
+            PeriodicWorkRequestBuilder<SetAlarmsWorker>(1, TimeUnit.DAYS)
+                .build()
 
         WorkManager.getInstance(applicationContext)
             .enqueue(setAlarmsRequest)
-
 
 
     }
@@ -65,8 +81,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        val noNavMenuDestinations =
+            setOf(R.id.navigation_edit_task, R.id.navigation_task_details)
+
         const val TAG = "kruci"
         const val TODAY_FRAGMENT_INDEX = 0
         const val MY_TASKS_FRAGMENT_INDEX = 1
     }
+
 }

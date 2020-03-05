@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 class MyTasksViewModel @Inject constructor(private val taskRepo: TaskRepositoryInterface) : ViewModel() {
 
-    @Volatile
-    var tasks = liveData {
+    val tasks = liveData {
         val tasks = taskRepo.getMinimalTasks()
         emit(tasks)
     }
+
 }

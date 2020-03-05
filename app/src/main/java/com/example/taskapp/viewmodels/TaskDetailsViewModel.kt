@@ -16,7 +16,6 @@ class TaskDetailsViewModel @AssistedInject constructor(
     private val isTaskDeleted  = MutableLiveData<Boolean>(false)
     fun getTaskDeleted() : LiveData<Boolean> = isTaskDeleted
 
-    //todo editBtn
     fun deleteTask() {
         viewModelScope.launch {
             taskRepository.deleteByID(taskID).toString()
@@ -33,6 +32,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
         val data = taskRepository.getTaskByID(taskID)
         emit(data)
     }
+
 
 
 }

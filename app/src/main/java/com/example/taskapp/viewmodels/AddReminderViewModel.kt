@@ -1,17 +1,17 @@
 package com.example.taskapp.viewmodels
 
-import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskapp.MainActivity
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.database.entities.Streak
 import com.example.taskapp.database.entities.Task
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.repos.streak.StreakDataSource
+import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.addTask.TaskDetails
 import com.example.taskapp.viewmodels.reminder.DurationModel
 import com.example.taskapp.viewmodels.reminder.FrequencyModel
@@ -21,11 +21,13 @@ import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
 
 
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
-    private val taskRepository: TaskRepository,
+    private val taskRepository: TaskRepositoryInterface,
+    private val streakLocalDataSource: StreakDataSource,
     durationModelFactory: DurationModel.Factory,
     notificationModelFactory: NotificationModel.Factory,
     frequencyModelFactory: FrequencyModel.Factory
@@ -36,11 +38,10 @@ class AddReminderViewModel @AssistedInject constructor(
         fun create(taskDetails: TaskDetails): AddReminderViewModel
     }
 
-    private val compositeDisposable  = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     fun saveTaskWithReminder() {
         viewModelScope.launch {
-
             val reminder = Reminder(
                 begDate = durationModel.beginningDate,
                 duration = durationModel.getDuration(),
@@ -50,18 +51,23 @@ class AddReminderViewModel @AssistedInject constructor(
                 expirationDate = durationModel.getExpirationDate()
             )
 
-            compositeDisposable.add(taskRepository.saveTask(
-                Task(
-                    name = taskDetails.name, description = taskDetails.description,
-                    reminder = reminder
-                )
-            ).subscribeOn(Schedulers.io())
-                .subscribe(
-                    { Log.d(MainActivity.TAG, it.toString()) },
-                    { e -> e.printStackTrace() })
+            compositeDisposable.add(
+                taskRepository.saveTask(
+                        Task(
+                            name = taskDetails.name, description = taskDetails.description,
+                            reminder = reminder
+                        )
+                    ).subscribeOn(Schedulers.io())
+                    .subscribe(
+                        { taskID -> saveStreak(taskID) },
+                        { e -> e.printStackTrace() })
             )
-            //todo make stats entity
         }
+    }
+
+    private fun saveStreak(taskID: Long) = viewModelScope.launch {
+        val streak = Streak(parentTaskID = taskID, duration = 0, begDate = LocalDate.now())
+        streakLocalDataSource.saveStreak(streak)
     }
 
     val notificationModel = notificationModelFactory.create()

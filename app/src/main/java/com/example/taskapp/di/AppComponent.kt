@@ -9,6 +9,7 @@ import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
 @Component(
     modules = [AssistedInjectModule::class,
@@ -16,6 +17,7 @@ import dagger.Component
         RepositoryModule::class
     ]
 )
+@Singleton
 interface AppComponent {
     @Component.Factory
     interface Factory {

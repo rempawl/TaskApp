@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.taskapp.database.dao.StreakDao
 import com.example.taskapp.database.dao.TaskDao
+import com.example.taskapp.database.entities.Streak
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.utils.Converters
 
 @Database(
-    entities = [Task::class
+    entities = [Task::class,
+    Streak::class
 
     ],
     version = AppDataBase.VERSION_INT
@@ -19,8 +22,9 @@ import com.example.taskapp.utils.Converters
 abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
+    abstract fun streakDao() : StreakDao
     companion object {
-        const val VERSION_INT = 16
+        const val VERSION_INT = 17
         const val DB_NAME = "TaskApp DB"
         val INITIAL_TASKS = listOf<Task>()
 
