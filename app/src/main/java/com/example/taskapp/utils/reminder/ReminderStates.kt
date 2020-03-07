@@ -10,6 +10,7 @@ typealias DayOfWeekValue = Int
 
 sealed class ReminderFrequencyState {
     companion object {
+        val TODAY: LocalDate = LocalDate.now()
         const val INITIAL_FREQUENCY = 1
         const val WEEKDAYS_FREQUENCY_INDEX = 0
         const val DAILY_FREQUENCY_INDEX = 1
@@ -18,11 +19,23 @@ sealed class ReminderFrequencyState {
     data class Daily(val frequency: Int = INITIAL_FREQUENCY) : ReminderFrequencyState() {
 
         override fun convertToFrequency() = Frequency(DAILY_FREQUENCY_INDEX, frequency)
+
         /**
-         * fun is returning beginningDate as updateDate if [startDate] is beginning date
+         * fun is returning beginningDate as updateDate if [lastRealizationDate] is beginning date
          */
-        override fun calculateUpdateDate(startDate: LocalDate, isBeginning: Boolean): LocalDate =
-            LocalDate.ofEpochDay(startDate.toEpochDay() + if (!isBeginning) frequency else 0)
+        override fun calculateRealizationDate(
+            lastRealizationDate: LocalDate,
+            isBeginning: Boolean
+        ): LocalDate {
+            var date = lastRealizationDate
+            do {
+                date =
+                    LocalDate.ofEpochDay(lastRealizationDate.toEpochDay() + if (!isBeginning) frequency else 0)
+            } while (date.isBefore(TODAY))
+            return date
+
+        }
+
     }
 
 
@@ -32,10 +45,21 @@ sealed class ReminderFrequencyState {
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
 
         /**
-         * checking if [daysOfWeek] contains days after or before [startDate] [DayOfWeek]
+         * checking if [daysOfWeek] contains days after or before [lastRealizationDate] [DayOfWeek]
          * if it doesn't returning next week date
          */
-        override fun calculateUpdateDate(startDate: LocalDate, isBeginning: Boolean): LocalDate {
+        override fun calculateRealizationDate(
+            lastRealizationDate: LocalDate,
+            isBeginning: Boolean
+        ): LocalDate {
+            val startDate = if(TODAY.toEpochDay() > (lastRealizationDate.toEpochDay()+7)){
+                //if date wasn't updated for longer than a week
+                TODAY
+            }else{
+                lastRealizationDate
+            }
+
+
             val begIndex = startDate.dayOfWeek.value
 
 
@@ -74,7 +98,12 @@ sealed class ReminderFrequencyState {
         }
     }
 
-    abstract fun calculateUpdateDate(startDate: LocalDate, isBeginning: Boolean = false): LocalDate
+
+    abstract fun calculateRealizationDate(
+        lastRealizationDate: LocalDate,
+        isBeginning: Boolean = false
+    ): LocalDate
+
     abstract fun convertToFrequency(): Frequency
 }
 

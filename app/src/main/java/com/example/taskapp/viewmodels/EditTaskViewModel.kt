@@ -76,7 +76,7 @@ class EditTaskViewModel @AssistedInject constructor(
                     duration = durationModel.getDuration(),
                     notificationTime = notificationModel.getNotificationTime(),
                     expirationDate = durationModel.getExpirationDate(),
-                    notificationDate = frequencyModel.getUpdateDate(durationModel.beginningDate)
+                    realizationDate = frequencyModel.getUpdateDate(durationModel.beginningDate)
                 )
             }
             val edited = task.copy(

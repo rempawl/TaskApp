@@ -56,7 +56,7 @@ class FrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 
-    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateUpdateDate(begDate, !isEdited)
+    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(begDate, !isEdited)
 
 
 }

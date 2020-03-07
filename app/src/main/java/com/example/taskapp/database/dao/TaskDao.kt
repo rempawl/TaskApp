@@ -28,14 +28,14 @@ interface TaskDao : BaseDao<Task> {
     fun insertTask(item: Task): Single<Long>
 
 
-    @Query("SELECT taskID,name,description FROM tasks WHERE notificationDate = :date")
+    @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")
     fun loadMinTasksByNotificationDate(date: LocalDate): List<TaskMinimal>
 
-    @Query("SELECT * FROM tasks WHERE notificationDate = :date")
+    @Query("SELECT * FROM tasks WHERE realizationDate = :date")
     fun loadTasksByNotificationDate(date: LocalDate): List<Task>
 
 
-    @Query("SELECT * FROm tasks WHERE notificationDate <= :date")
+    @Query("SELECT * FROm tasks WHERE realizationDate <= :date")
     fun loadTaskWithNotificationDateUntilDate(date: LocalDate): List<Task>
 
 }

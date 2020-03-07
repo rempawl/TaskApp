@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 17,
-    "identityHash": "0764483b3e065152546a8d11c28860b1",
+    "version": 18,
+    "identityHash": "4376199f1be7bd964faea7c2075fa9fd",
     "entities": [
       {
         "tableName": "tasks",
@@ -107,7 +107,7 @@
       },
       {
         "tableName": "streaks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`streakID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parentTaskID` INTEGER NOT NULL, `isCurrent` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `begDate` INTEGER NOT NULL, `endDate` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`streakID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parentTaskID` INTEGER NOT NULL, `isCurrent` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `begDate` INTEGER NOT NULL, `endDate` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "streakID",
@@ -143,7 +143,7 @@
             "fieldPath": "endDate",
             "columnName": "endDate",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -159,7 +159,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0764483b3e065152546a8d11c28860b1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4376199f1be7bd964faea7c2075fa9fd')"
     ]
   }
 }

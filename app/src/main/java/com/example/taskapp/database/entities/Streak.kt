@@ -12,6 +12,5 @@ data class Streak(@PrimaryKey(autoGenerate = true) val streakID : Long =0,
                   var isCurrent : Boolean = true,
                   val duration: Int,
                   val begDate : LocalDate,
-                  var endDate : LocalDate? = null
-
+                  var endDate : LocalDate
 )

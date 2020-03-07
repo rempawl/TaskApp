@@ -17,7 +17,23 @@ data class Task  constructor(
     val name: String,
     val description: String = "",
     @Embedded  val reminder: Reminder? = null
-) : Parcelable
+) : Parcelable{
+
+    /**
+     * returns null if realization date didn't change
+     */
+    fun updateRealizationDate(): Task? {
+        val reminder = this.reminder!!.updateRealizationDate()
+
+        //if date has not been updated the reminder instance stays the same
+        return if (this.reminder === reminder) {
+            null
+        } else {
+            this.copy(reminder = reminder)
+        }
+    }
+
+}
 
 
 @Parcelize

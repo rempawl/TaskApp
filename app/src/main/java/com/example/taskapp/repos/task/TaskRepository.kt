@@ -76,6 +76,8 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     override suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
 
+    override suspend fun updateTasks(tasks : List<Task>) = taskLocalDataSource.updateTasks(tasks)
+
     companion object{
         val ERROR_TASK = Task(taskID = -1,name="ERROR")
     }

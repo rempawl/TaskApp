@@ -47,11 +47,12 @@ class AddReminderFragment : Fragment(),
             .inflate(inflater, container, false)
 
 
-        viewModel.getToastText().observe(viewLifecycleOwner, Observer { id ->
+        viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
             if (id != null) {
                 Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
             }
         })
+
 
         return binding!!.root
     }

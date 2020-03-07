@@ -24,7 +24,7 @@ abstract class AppDataBase : RoomDatabase() {
 
     abstract fun streakDao() : StreakDao
     companion object {
-        const val VERSION_INT = 17
+        const val VERSION_INT = 19
         const val DB_NAME = "TaskApp DB"
         val INITIAL_TASKS = listOf<Task>()
 

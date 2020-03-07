@@ -28,7 +28,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
         frequency = frequencyMondayTuesday.convertToFrequency(),
         duration = duration10Days.convertToDuration(),
         expirationDate = duration10Days.calculateEndDate(begDate = today),
-        notificationDate = frequencyMondayTuesday.calculateUpdateDate(today, true),
+        realizationDate = frequencyMondayTuesday.calculateRealizationDate(today, true),
         notificationTime = notificationTimeTwelve
     )
 
@@ -37,7 +37,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
         frequency = frequency2days.convertToFrequency(),
         duration = durationEndDate.convertToDuration(),
         expirationDate = durationEndDate.calculateEndDate(today),
-        notificationDate = frequency2days.calculateUpdateDate(today, true),
+        realizationDate = frequency2days.calculateRealizationDate(today, true),
         notificationTime = notificationTimeTwelve
     )
 
@@ -126,5 +126,9 @@ class FakeTaskRepository : TaskRepositoryInterface {
 
     override suspend fun updateTask(task: Task): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun updateTasks(tasks: List<Task>): Int {
+        TODO("Not yet implemented")
     }
 }

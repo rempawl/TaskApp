@@ -44,7 +44,7 @@ inner class ConvertToFrequency{
 }
 
     @Nested
-    inner class CalculateUpdateDate {
+    inner class CalculateRealizationDate {
 
 
         @Nested
@@ -59,7 +59,7 @@ inner class ConvertToFrequency{
                  fun `Daily(days = 1), Then UpdateDate is startDate`() {
                      val expectedDate = startDate
                      val freqState = ReminderFrequencyState.Daily(1)
-                     val actual = freqState.calculateUpdateDate(startDate, true)
+                     val actual = freqState.calculateRealizationDate(startDate, true)
                      assertThat(actual, `is`(expectedDate))
                  }
 
@@ -67,7 +67,7 @@ inner class ConvertToFrequency{
                  fun ` WeekDays(Tuesday) UpdateDate is startDate`() {
                      val expectedDate = startDate
                      val freqState = ReminderFrequencyState.WeekDays(setOf(tuesday))
-                     val actual = freqState.calculateUpdateDate(startDate, true)
+                     val actual = freqState.calculateRealizationDate(startDate, true)
                      assertThat(actual, `is`(expectedDate))
                  }
 
@@ -76,7 +76,7 @@ inner class ConvertToFrequency{
 
                      val expectedDate = LocalDate.ofEpochDay(startDate.toEpochDay() + 3)
                      val freqState = ReminderFrequencyState.WeekDays(setOf(friday))
-                     val actual = freqState.calculateUpdateDate(startDate, true)
+                     val actual = freqState.calculateRealizationDate(startDate, true)
                      assertThat(actual, `is`(expectedDate))
 
                  }
@@ -91,7 +91,7 @@ inner class ConvertToFrequency{
                 fun `WeekDays(Monday Tuesday Friday) updateDate is FridayDate`() {
                     val expectedDate = LocalDate.ofEpochDay(startDate.toEpochDay() + 3)
                     val weekdays = ReminderFrequencyState.WeekDays(setOf(monday, tuesday, friday))
-                    val actualValue = weekdays.calculateUpdateDate(startDate,false)
+                    val actualValue = weekdays.calculateRealizationDate(startDate,false)
                     assertThat(actualValue, `is`(expectedDate))
                 }
 
@@ -99,7 +99,7 @@ inner class ConvertToFrequency{
                 fun `WeekDays(Tuesday)  updateDate is nextTuesday`() {
                     val expectedDate = LocalDate.ofEpochDay(startDate.toEpochDay() + 7)
                     val weekDays = ReminderFrequencyState.WeekDays(setOf(tuesday))
-                    val actualValue = weekDays.calculateUpdateDate(startDate,false)
+                    val actualValue = weekDays.calculateRealizationDate(startDate,false)
                     assertThat(actualValue, `is`(expectedDate))
                 }
 
@@ -108,7 +108,7 @@ inner class ConvertToFrequency{
                 fun `WeekDays(Monday Tuesday) updateDate is nextMonday`() {
                     val expectedDate = LocalDate.ofEpochDay(startDate.toEpochDay() + 6)
                     val weekDays = ReminderFrequencyState.WeekDays(setOf(monday, tuesday))
-                    val actualValue = weekDays.calculateUpdateDate(startDate,false)
+                    val actualValue = weekDays.calculateRealizationDate(startDate,false)
                     assertThat(actualValue, `is`(expectedDate))
                 }
             }

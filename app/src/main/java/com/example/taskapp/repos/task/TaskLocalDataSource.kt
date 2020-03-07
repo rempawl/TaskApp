@@ -76,5 +76,9 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
         taskDao.updateItem(task)
     }
 
+    override suspend fun updateTasks(tasks: List<Task>) = withContext(Dispatchers.IO){
+        taskDao.updateItems(tasks)
+    }
+
 
 }

@@ -1,18 +1,15 @@
 package com.example.taskapp
 
 import android.app.Application
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.taskapp.di.AppComponent
 import com.example.taskapp.di.DaggerAppComponent
-import com.example.taskapp.work.UpdateNotificationsWorker
+import com.example.taskapp.workers.WorkersInitializer
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
+import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
 //todo changing updateDate
 //todo mockK
@@ -22,45 +19,35 @@ import java.util.concurrent.TimeUnit
 //todo myTasks switchMap
 //todo Realization Entity
 //todo realization btn for  task without reminders
+
 class MyApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
-            .create(applicationContext)
+            .create(applicationContext,this)
     }
+    @Inject
+    lateinit var workersInitializer: WorkersInitializer
+
     private val applicationScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate() {
         super.onCreate()
-        AndroidThreeTen.init(this@MyApp)
-
-//        delayedInit()
+        appComponent.inject(this)
+        delayedInit()
     }
 
 
     private fun delayedInit() {
         applicationScope.launch {
-
+            AndroidThreeTen.init(this@MyApp)
+            workersInitializer.setUpWorkers(context = applicationContext)
         }
     }
 
-    private fun setupWorkers() {
-        val constraints = Constraints.Builder()
-            .setRequiresBatteryNotLow(true)
-            .build()
-
-        val repeatingRequest =
-            PeriodicWorkRequestBuilder<UpdateNotificationsWorker>(1, TimeUnit.DAYS)
-                .setConstraints(constraints)
-                .build()
-
-        WorkManager.getInstance(applicationContext)
-            .enqueueUniquePeriodicWork(
-                UpdateNotificationsWorker.WORK_NAME,
-                ExistingPeriodicWorkPolicy.KEEP,
-                repeatingRequest
-            )
-
+    companion object{
+        const val PREFERENCES_NAME = "com.example.taskapp"
+        val TODAY: LocalDate = LocalDate.now()
+        val TOMORROW: LocalDate = LocalDate.ofEpochDay(TODAY.toEpochDay() + 1)
     }
-
 
 }

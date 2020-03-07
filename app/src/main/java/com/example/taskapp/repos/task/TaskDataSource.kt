@@ -25,4 +25,5 @@ interface TaskDataSource {
     suspend fun getTaskById(id: Long): Result<Task>
 
     suspend fun updateTask(task: Task): Int
+    suspend fun updateTasks(tasks: List<Task>): Int
 }

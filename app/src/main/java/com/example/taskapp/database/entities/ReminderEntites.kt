@@ -27,6 +27,9 @@ data class Frequency(
         return result
     }
 
+    fun getUpdateDate(lastRealizationDate : LocalDate) =
+        this.convertToFrequencyState().calculateRealizationDate(lastRealizationDate)
+
     fun convertToFrequencyState(): ReminderFrequencyState {
         return when (freqState) {
             ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX -> ReminderFrequencyState.WeekDays(
@@ -78,5 +81,21 @@ data class Reminder(
     @Embedded val duration: Duration,
     @Embedded val notificationTime: NotificationTime,
     val expirationDate : LocalDate,
-    val notificationDate: LocalDate
-) : Parcelable
+    val realizationDate: LocalDate
+) : Parcelable{
+
+    /**
+     * returns this if realization date has not been updated
+     * else new instance with updated realization date
+     */
+    fun updateRealizationDate() : Reminder {
+        val date = frequency.getUpdateDate(lastRealizationDate = realizationDate)
+        return if(date != realizationDate){
+            this.copy(realizationDate = date)
+        }else{
+            this
+        }
+    }
+
+
+}

@@ -44,4 +44,8 @@ class FakeTaskDataSource : TaskDataSource {
     override suspend fun updateTask(task: Task): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun updateTasks(tasks: List<Task>): Int {
+        TODO("Not yet implemented")
+    }
 }

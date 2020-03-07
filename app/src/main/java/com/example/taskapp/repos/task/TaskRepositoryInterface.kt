@@ -24,4 +24,5 @@ interface TaskRepositoryInterface {
     suspend fun getTasksUntilDate(date: LocalDate = LocalDate.now()): List<Task>
 
     suspend fun updateTask(task: Task): Int
+    suspend fun updateTasks(tasks: List<Task>): Int
 }
