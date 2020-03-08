@@ -32,7 +32,6 @@ class NotificationAndTaskWorkersInitializer  @Inject constructor() : WorkersInit
                 ExistingPeriodicWorkPolicy.KEEP,
                 repeatingRequest
             )
-
     }
 
     companion object

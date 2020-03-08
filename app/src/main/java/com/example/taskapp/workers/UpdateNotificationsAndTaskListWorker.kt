@@ -38,6 +38,8 @@ class UpdateNotificationsAndTaskListWorker constructor(
         (applicationContext as MyApp).appComponent.inject(this)
 
         val allTasks = taskRepo.getTasks()
+        if (allTasks.isEmpty()) return Result.success()
+
         if (allTasks.first() == TaskRepository.ERROR_TASK) {
             return Result.retry()
         }
@@ -51,19 +53,33 @@ class UpdateNotificationsAndTaskListWorker constructor(
                     && task.reminder.notificationTime.isSet
         }
 
-        if (currentDate == -1L || LocalDate.ofEpochDay(currentDate) != TODAY) {
-            setTodayNotifications(tasks, predicate)
-            updateTaskList(tasks)
+        if (currentDate == -1L || LocalDate.ofEpochDay(currentDate).isBefore(TODAY)) {
+            val todayTasks = updateTaskList(tasks)
+            setTodayNotifications(todayTasks, predicate)
         }
-        setTomorrowNotifications(tasks,predicate)
-        preferences.edit().putLong(CURRENT_DATE_KEY, TOMORROW.toEpochDay()).apply()
+        if (LocalDate.ofEpochDay(currentDate).isEqual(TODAY)) {
+            //todo setting tomorrow notifs after updating tasks
+            val tomorrowTasksIds = setTomorrowNotifications(tasks, predicate)
+            alarmCreator.setUpdateTaskListAlarm(tomorrowTasksIds)
+
+            preferences.edit().putLong(CURRENT_DATE_KEY, TOMORROW.toEpochDay()).apply()
+        }
+
+
         return Result.success()
     }
 
 
-    private suspend fun updateTaskList(tasks: List<Task>) {
-        val updatedTasks = tasks.mapNotNull { task -> task.updateRealizationDate() }
-        taskRepo.updateTasks(updatedTasks)
+    private suspend fun updateTaskList(tasks: List<Task>): List<Task> {
+        val partitionedTasks = tasks
+            .partition { task -> task.updateRealizationDate() != null }
+
+        taskRepo.updateTasks(partitionedTasks.first)
+
+        return partitionedTasks.toList()[0]
+            .filter { task ->
+            task.reminder!!.realizationDate.isEqual(TODAY)
+        }
     }
 
     private fun setTodayNotifications(tasks: List<Task>, predicate: DatePredicate) {
@@ -76,10 +92,12 @@ class UpdateNotificationsAndTaskListWorker constructor(
 
     }
 
-    private fun setTomorrowNotifications(tasks: List<Task>,predicate: DatePredicate) {
-        tasks
+    private fun setTomorrowNotifications(tasks: List<Task>, predicate: DatePredicate): List<Long> {
+        val tomorrowTasks = tasks
             .filter { task -> predicate(TOMORROW, task) }
+        tomorrowTasks
             .forEach { task -> alarmCreator.setTaskNotificationAlarm(task) }
+        return tomorrowTasks.map { task -> task.taskID }
     }
 
 }

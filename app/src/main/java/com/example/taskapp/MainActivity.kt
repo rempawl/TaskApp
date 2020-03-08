@@ -1,6 +1,5 @@
 package com.example.taskapp
 
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.taskapp.di.AppComponent
-import com.example.taskapp.workers.CreateNotificationBroadcastReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -19,10 +17,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     val appComponent: AppComponent by lazy { (application as MyApp).appComponent }
 
-    //    @Inject
-    private val createCreateNotificationBroadcastReceiver: CreateNotificationBroadcastReceiver by lazy {
-        CreateNotificationBroadcastReceiver()
-    }
+
 
     private lateinit var appBarConfig: AppBarConfiguration
     private val noNavMenuDestinations =
@@ -33,11 +28,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        appComponent.inject(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val navController = findNavController(R.id.nav_host_fragment)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -52,15 +45,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setupSideNav(navController)
         navController.addOnDestinationChangedListener(this)
 
-        registerReceiver(
-            createCreateNotificationBroadcastReceiver, IntentFilter(CREATE_NOTIFICATION_ACTION)
-        )
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(createCreateNotificationBroadcastReceiver)
     }
 
     override fun onDestinationChanged(

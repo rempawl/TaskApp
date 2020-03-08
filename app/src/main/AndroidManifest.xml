@@ -13,9 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
+            android:name=".workers.UpdateTaskListReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+        <receiver
             android:name=".workers.CreateNotificationBroadcastReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
         <uses-library
             android:name="android.test.runner"
             android:required="false" />

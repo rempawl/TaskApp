@@ -12,30 +12,39 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.TaskMinimal
 
 class CreateNotificationBroadcastReceiver :
     BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent != null && context != null ) {
-            //todo intent
-            val task: Task = intent.getParcelableArrayListExtra<Task>(TASK_KEY)?.first() ?:
-                throw IllegalStateException("task passed from alarm is null")
+        if (intent != null && context != null) {
+            val action = intent.action
+            if (action == CREATE_NOTIFICATION_ACTION) {
+                Log.d(MainActivity.TAG, action)
+                createNotificationChannel(context)
+                showNotification(context, createTaskMinimal(intent))
+            } else {
+                Log.d(MainActivity.TAG, action ?: "null")
+            }
 
 
-            createNotificationChannel(context)
-            showNotification(context, task)
         }
     }
 
-    private fun showNotification(context: Context, task: Task) {
+    private fun createTaskMinimal(intent: Intent): TaskMinimal {
+        val name = intent.getStringExtra(TASK_NAME_KEY) ?: "error"
+        val desc = intent.getStringExtra(TASK_DESC_KEY) ?: "error"
+        val id = intent.getLongExtra(TASK_ID_KEY, -1)
+
+        return TaskMinimal(id, name, desc)
+    }
+
+    private fun showNotification(context: Context, task: TaskMinimal) {
 
         val intent =
-            Intent(context, MainActivity::class.java).putParcelableArrayListExtra(
-                TASK_KEY, arrayListOf(task)
-            )
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            Intent(context, MainActivity::class.java).putExtra(TASK_ID_KEY,task.taskID)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setAutoCancel(true)
@@ -45,9 +54,10 @@ class CreateNotificationBroadcastReceiver :
             .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .build()
+
 //         todo addAction(confirm)
 //         todo addAction(delay)
-        Log.d(MainActivity.TAG,"showing notification")
+        Log.d(MainActivity.TAG, "showing notification")
 
         NotificationManagerCompat.from(context).notify(0, notification)
 
@@ -55,7 +65,7 @@ class CreateNotificationBroadcastReceiver :
 
     private fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(MainActivity.TAG,"creating channel")
+            Log.d(MainActivity.TAG, "creating channel")
 
             val channel =
                 NotificationChannel(CHANNEL_ID, "task channel", NotificationManager.IMPORTANCE_HIGH)
@@ -65,9 +75,11 @@ class CreateNotificationBroadcastReceiver :
     }
 
     companion object {
-        const val TASK_KEY = "task"
+        const val TASK_NAME_KEY = "task name"
+        const val TASK_DESC_KEY = "task desc"
+        const val TASK_ID_KEY = "task id"
         const val CHANNEL_ID = "pending task Notifications channel"
-        const val TASK_NOTIFICATION_ID = 0
+        const val TASK_NOTIFICATION_ID = 0x1
         const val CREATE_NOTIFICATION_ACTION = "create notification action"
 
     }
