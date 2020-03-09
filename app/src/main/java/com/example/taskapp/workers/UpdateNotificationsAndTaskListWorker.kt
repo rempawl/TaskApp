@@ -54,8 +54,8 @@ class UpdateNotificationsAndTaskListWorker constructor(
         }
 
         if (currentDate == -1L || LocalDate.ofEpochDay(currentDate).isBefore(TODAY)) {
-            val todayTasks = updateTaskList(tasks)
-            setTodayNotifications(todayTasks, predicate)
+            val updatedTasks = updateTaskList(tasks)
+            setTodayNotifications(updatedTasks, predicate)
         }
         if (LocalDate.ofEpochDay(currentDate).isEqual(TODAY)) {
             //todo setting tomorrow notifs after updating tasks
@@ -77,9 +77,6 @@ class UpdateNotificationsAndTaskListWorker constructor(
         taskRepo.updateTasks(partitionedTasks.first)
 
         return partitionedTasks.toList()[0]
-            .filter { task ->
-            task.reminder!!.realizationDate.isEqual(TODAY)
-        }
     }
 
     private fun setTodayNotifications(tasks: List<Task>, predicate: DatePredicate) {
