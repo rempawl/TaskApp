@@ -4,9 +4,8 @@ Android App for:
 - showing list of today tasks 
 - showing list of added tasks 
 - editing added tasks
-
-
+- showing notifications of upcoming tasks
 - stats of execution //todo
--showing notifications of upcoming tasks //todo
+
 
    
