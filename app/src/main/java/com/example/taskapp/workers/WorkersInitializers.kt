@@ -9,7 +9,7 @@ interface WorkersInitializer {
     fun setUpWorkers(context: Context)
 }
 
-class NotificationAndTaskWorkersInitializer  @Inject constructor() : WorkersInitializer{
+class UpdateRemindersWorkerInitializer  @Inject constructor() : WorkersInitializer{
 
     override fun setUpWorkers(context: Context) {
         val constraints = Constraints.Builder()
@@ -17,7 +17,7 @@ class NotificationAndTaskWorkersInitializer  @Inject constructor() : WorkersInit
             .build()
 
         val repeatingRequest =
-            PeriodicWorkRequestBuilder<UpdateNotificationsAndTaskListWorker>(1, TimeUnit.DAYS)
+            PeriodicWorkRequestBuilder<UpdateRemindersWorker>(1, TimeUnit.DAYS)
                 .setBackoffCriteria(
                     BackoffPolicy.LINEAR,
                     PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
@@ -28,7 +28,7 @@ class NotificationAndTaskWorkersInitializer  @Inject constructor() : WorkersInit
 
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
-                UpdateNotificationsAndTaskListWorker.WORK_NAME,
+                UpdateRemindersWorker.WORK_NAME,
                 ExistingPeriodicWorkPolicy.KEEP,
                 repeatingRequest
             )

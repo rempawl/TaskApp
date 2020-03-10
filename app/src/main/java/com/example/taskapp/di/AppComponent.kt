@@ -10,7 +10,7 @@ import com.example.taskapp.viewmodels.AddReminderViewModel
 import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
-import com.example.taskapp.workers.UpdateNotificationsAndTaskListWorker
+import com.example.taskapp.workers.UpdateRemindersWorker
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -30,7 +30,7 @@ interface AppComponent {
     }
 
     fun inject(todayFragment: TodayFragment)
-    fun inject(updateNotificationsAndTaskListWorker: UpdateNotificationsAndTaskListWorker)
+    fun inject(updateNotificationsAndTaskListWorker: UpdateRemindersWorker)
     fun inject(myTasksFragment: MyTasksFragment)
     fun inject(myApp: MyApp)
     fun inject(mainActivity: MainActivity)
