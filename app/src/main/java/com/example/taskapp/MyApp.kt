@@ -9,21 +9,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
-//todo changing updateDate
 //todo mockK
 //todo editTask init reminder state radio check
 //todo settings menu
 //todo tests
 //todo myTasks switchMap
 //todo Realization Entity
-//todo realization btn for  task without reminders
 
 class MyApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
-            .create(applicationContext,this)
+            .create(applicationContext)
     }
     @Inject
     lateinit var workersInitializer: WorkersInitializer
@@ -48,6 +47,8 @@ class MyApp : Application() {
         const val PREFERENCES_NAME = "com.example.taskapp"
         val TODAY: LocalDate = LocalDate.now()
         val TOMORROW: LocalDate = LocalDate.ofEpochDay(TODAY.toEpochDay() + 1)
+        val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+
     }
 
 }

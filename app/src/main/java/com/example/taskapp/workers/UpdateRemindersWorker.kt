@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.taskapp.MyApp
+import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.SharedPreferencesHelper
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
@@ -25,7 +27,8 @@ class UpdateRemindersWorker constructor(
     lateinit var taskRepo: TaskRepositoryInterface
     @Inject
     lateinit var alarmCreator: AlarmCreator
-
+    @Inject
+    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
 
     override suspend fun doWork(): Result {
@@ -39,9 +42,7 @@ class UpdateRemindersWorker constructor(
         }
         val tasks = allTasks.filter { task -> task.reminder != null }
 
-        val preferences = applicationContext
-            .getSharedPreferences(MyApp.PREFERENCES_NAME, Context.MODE_PRIVATE)
-        val currentDate = preferences.getLong(CURRENT_DATE_KEY, -1)
+        val currentDate = sharedPreferencesHelper.getCurrentDate()
 
         if (currentDate == -1L || LocalDate.ofEpochDay(currentDate).isBefore(TODAY)) {
             val updatedTasks = updateTaskList(tasks)
@@ -81,9 +82,6 @@ class UpdateRemindersWorker constructor(
 
         private const val TASK_KEY = "task"
         const val WORK_NAME = "UpdateNotificationDatesWorker"
-        private val TODAY: LocalDate = LocalDate.now()
-        val TOMORROW: LocalDate = LocalDate.ofEpochDay(TODAY.toEpochDay() + 1)
-        const val CURRENT_DATE_KEY = "current updated Date"
     }
 
 }

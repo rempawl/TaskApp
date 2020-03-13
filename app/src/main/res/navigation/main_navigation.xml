@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/navigation_today"
-        android:name="com.example.taskapp.fragments.TodayFragment"
+        android:name="com.example.taskapp.fragments.today.TodayFragment"
         android:label="@string/today">
 
         <action

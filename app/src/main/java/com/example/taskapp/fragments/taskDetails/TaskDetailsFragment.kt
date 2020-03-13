@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
+import com.example.taskapp.MyApp.Companion.DATE_FORMATTER
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
@@ -115,7 +116,8 @@ class TaskDetailsFragment : Fragment() {
 
         binding?.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text = getString(R.string.beginning_date, reminder.begDate)
+            begDate.text = getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
+            realizationDateText.text = getString(R.string.next_realization_date,reminder.realizationDate.format(DATE_FORMATTER))
         }
     }
 
@@ -141,7 +143,11 @@ class TaskDetailsFragment : Fragment() {
                 )
             is ReminderFrequencyState.WeekDays -> getWeekDays(frequencyState.daysOfWeek)
         }
-        binding?.frequencyText?.text = freqText
+        binding?.apply{
+            frequencyText.text = freqText
+
+        }
+
     }
 
     private fun getWeekDays(weekDays: Set<DayOfWeekValue>): String {

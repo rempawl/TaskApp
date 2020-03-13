@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp
+import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.SharedPreferencesHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,19 +16,18 @@ import javax.inject.Inject
 
 class UpdateTomorrowRemindersReceiver @Inject constructor(
     private val taskRepository: TaskRepositoryInterface,
-    private val alarmCreator: AlarmCreator
+    private val alarmCreator: AlarmCreator,
+    private val sharedPreferencesHelper: SharedPreferencesHelper
 ) : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.Default).launch {
             val tasks: List<Task> = taskRepository.getTasks()
-            val preferencesEditor =
-                context.getSharedPreferences(MyApp.PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
 
             if (tasks.first() == TaskRepository.ERROR_TASK) {
                 //if repo returns error UpdateNotificationsWorker will have to update the reminders
-                preferencesEditor.putLong(CURRENT_DATE_KEY, -1).apply()
+                sharedPreferencesHelper.setErrorCurrentDate()
                 return@launch
             }
 
@@ -36,10 +37,7 @@ class UpdateTomorrowRemindersReceiver @Inject constructor(
             val updatedTasks = updateTaskList(tasksToUpdate)
             setTomorrowNotifications(updatedTasks)
 
-            preferencesEditor
-                .putLong(CURRENT_DATE_KEY, MyApp.TOMORROW.toEpochDay())
-                .apply()
-
+            sharedPreferencesHelper.updateCurrentDate(TOMORROW)
         }
     }
 
@@ -60,7 +58,6 @@ class UpdateTomorrowRemindersReceiver @Inject constructor(
     }
 
     companion object {
-        const val CURRENT_DATE_KEY = "currentDate"
         private val DATE_PREDICATE: DatePredicate = { date, task ->
             task.reminder!!.realizationDate == date
                     && task.reminder.notificationTime.isSet

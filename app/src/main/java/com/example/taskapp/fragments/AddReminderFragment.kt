@@ -16,7 +16,6 @@ import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
 import com.example.taskapp.viewmodels.AddReminderViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
-import org.threeten.bp.format.DateTimeFormatter
 
 
 class AddReminderFragment : Fragment(),
@@ -26,7 +25,6 @@ class AddReminderFragment : Fragment(),
         fun newInstance() = AddReminderFragment()
         const val END_DATE_DIALOG_TAG: String = "END DATE DIALOG"
         const val BEGINNING_DATE_DIALOG_TAG = "Beginning date Dialog"
-        val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
     }
 
 

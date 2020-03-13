@@ -3,9 +3,8 @@ package com.example.taskapp.adapters
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.taskapp.MainActivity
-import com.example.taskapp.fragments.AddTaskFragment
 import com.example.taskapp.fragments.MyTasksFragment
-import com.example.taskapp.fragments.TodayFragment
+import com.example.taskapp.fragments.today.TodayFragment
 
 class HomeViewPagerAdapter(fragment : Fragment) : FragmentStateAdapter(fragment)  {
 

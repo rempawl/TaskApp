@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
 import com.example.taskapp.fragments.MyTasksFragmentDirections
-import com.example.taskapp.fragments.TodayFragmentDirections
+import com.example.taskapp.fragments.today.TodayFragmentDirections
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
@@ -72,7 +72,7 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
 
 class TaskMinimalDiffCallback : DiffUtil.ItemCallback<TaskMinimal>() {
     override fun areItemsTheSame(oldItem: TaskMinimal, newItem: TaskMinimal): Boolean =
-        oldItem == newItem
+        oldItem === newItem
 
     override fun areContentsTheSame(oldItem: TaskMinimal, newItem: TaskMinimal): Boolean =
         oldItem.taskID == newItem.taskID

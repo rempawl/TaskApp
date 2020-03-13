@@ -16,10 +16,6 @@
         android:layout_height="match_parent"
         tools:context=".fragments.taskDetails.TaskDetailsFragment">
 
-        <!--        <ScrollView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_margin="10dp">-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_container"
             android:layout_width="match_parent"
@@ -98,6 +94,15 @@
                     android:gravity="center_horizontal"
                     android:textAlignment="center"
                     android:textSize="20sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:id="@+id/realizationDate_text"
+                    />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/frequency_text"
@@ -119,7 +124,6 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--        </ScrollView>-->
 
     </FrameLayout>
 </layout>

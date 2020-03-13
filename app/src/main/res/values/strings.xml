@@ -1,9 +1,10 @@
 <resources>
 
+
     <!-- REMINDER -->
 
     <string name="add_reminder"> Dodaj przypomnienie</string>
-
+    <string name="next_realization_date">Najbliższy termin wykonania: %1$s</string>
 
     <!--FREQUENCY  -->
     <string name="frequency">Częstotliwość</string>
@@ -74,13 +75,12 @@
     <string name="task_delete_title">Czy na pewno chcesz usunąć zadanie?</string>
     <string name="edit_task">Edytuj zadanie</string>
     <string name="task_name_error">Nazwa musi składać się z conajmniej 3 znaków</string>
-    <string name="completed">Wykonana</string>
+    <string name="completed">Wykonane</string>
 
     <!--    TODAY  -->
     <string name="today">Dzisiaj</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_spontaneous_tasks">Dodaj spontaniczne zadania</string>
+    <string name="add">Dodaj</string>
 
 
 </resources>

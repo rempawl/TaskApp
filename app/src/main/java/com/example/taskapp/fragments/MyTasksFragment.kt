@@ -10,12 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskapp.MainActivity
+import com.example.taskapp.R
 import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
-import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.viewmodels.MyTasksViewModel
+import kotlinx.android.synthetic.main.add_spontaneous_tasks_fragment.task_list
+import kotlinx.android.synthetic.main.my_tasks_fragment.*
 import javax.inject.Inject
 
 
@@ -44,50 +46,47 @@ class MyTasksFragment : Fragment() {
         taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
     }
 
-    private var binding: MyTasksFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         (activity as MainActivity).appComponent.inject(this)
-        binding = MyTasksFragmentBinding
-            .inflate(inflater, container, false)
-        setupBinding()
+
+        return inflater.inflate(R.layout.my_tasks_fragment, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setUpLayout()
         updateTaskList()
 
-        return binding?.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding?.apply {
-            taskList.adapter = null
-            viewModel = null
-        }
-        binding = null
+
+        task_list.adapter = null
+
     }
 
 
-    private fun setupBinding() {
-        binding?.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = this@MyTasksFragment.viewModel
-            taskList.apply {
-                adapter = taskListAdapter
-                val columnCount = if (resources.configuration.orientation ==
-                    Configuration.ORIENTATION_PORTRAIT
-                ) {
-                    PORTRAIT_COLUMN_COUNT
-                } else {
-                    LANDSCAPE_COLUMN_COUNT
-                }
-                layoutManager = GridLayoutManager(requireContext(), columnCount)
-                setHasFixedSize(false)
+    private fun setUpLayout() {
+        task_list.apply {
+            adapter = taskListAdapter
+            val columnCount = if (resources.configuration.orientation ==
+                Configuration.ORIENTATION_PORTRAIT
+            ) {
+                PORTRAIT_COLUMN_COUNT
+            } else {
+                LANDSCAPE_COLUMN_COUNT
             }
-            addTaskBtn.setOnClickListener { navigateToAddTask() }
+            layoutManager = GridLayoutManager(requireContext(), columnCount)
+            setHasFixedSize(false)
         }
+        add_task_btn.setOnClickListener { navigateToAddTask() }
     }
+
 
     private fun navigateToAddTask() {
         findNavController().navigate(

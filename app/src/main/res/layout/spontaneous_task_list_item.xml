@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="task"
+            type="com.example.taskapp.database.entities.Task" />
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/task_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="@{@string/task_name(task.name)}"
+                android:textAlignment="center"
+                android:textColor="#B8AEAE"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/task_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="@{@string/task_description(task.description)}"
+                android:textAlignment="center"
+                android:textColor="#B8AEAE"
+                android:textSize="20sp"
+                android:visibility='@{task.description.equalsIgnoreCase("")  ? View.GONE : View.VISIBLE}'
+                tools:text="text" />
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/add"
+                android:checked="false"
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
