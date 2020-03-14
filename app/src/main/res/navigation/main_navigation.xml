@@ -5,6 +5,17 @@
     app:startDestination="@id/navigation_today">
 
     <fragment
+        android:id="@+id/navigation_pick_custom_delay"
+        android:name="com.example.taskapp.fragments.PickCustomNotificationDelayFragment"
+        android:label="@string/pick_delay_time"
+
+        >
+        <action
+            android:id="@+id/navigation_pick_custom_delay_to_navigation_today"
+            app:destination="@id/navigation_today" />
+
+    </fragment>
+    <fragment
         android:id="@+id/navigation_my_tasks"
         android:name="com.example.taskapp.fragments.MyTasksFragment"
         android:label="@string/my_tasks">
@@ -38,11 +49,10 @@
         <argument
             android:name="task"
             app:argType="com.example.taskapp.database.entities.Task"
-            app:nullable="false"
-            />
+            app:nullable="false" />
         <action
-            app:destination="@id/navigation_my_tasks"
             android:id="@+id/navigation_edit_task_to_navigation_my_tasks"
+            app:destination="@id/navigation_my_tasks"
 
             />
 
@@ -70,8 +80,7 @@
             app:destination="@id/navigation_my_tasks" />
         <action
             android:id="@+id/navigation_task_details_to_navigation_edit_task"
-            app:destination="@id/navigation_edit_task"
-            />
+            app:destination="@id/navigation_edit_task" />
         <argument
             android:name="taskID"
             app:argType="long"

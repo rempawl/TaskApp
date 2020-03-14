@@ -10,10 +10,22 @@ import com.example.taskapp.database.entities.TaskMinimal
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
+/**
+ * DAO for Task and SpontaneousTask entities
+ */
 @Dao
 interface TaskDao : BaseDao<Task> {
+
+
+//    @Transaction
+//    fun loadTodayTasks()
+
+//    @Query("SELECT * FROM tasks WHERE taskID == (SELECT  parentTaskID FROM  `spontaneous tasks` WHERE date == :date)")
+//    fun loadTodaySpontaneousTasks(date : LocalDate = LocalDate.now()) : List<Task>
+
     @Query("SELECT * FROM tasks")
     fun loadAllTasks(): List<Task>
+
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
     fun loadTaskById(taskID: Long): Task
@@ -29,13 +41,13 @@ interface TaskDao : BaseDao<Task> {
 
 
     @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")
-    fun loadMinTasksByNotificationDate(date: LocalDate): List<TaskMinimal>
+    fun loadMinTasksByRealizationDate(date: LocalDate): List<TaskMinimal>
+
 
     @Query("SELECT * FROM tasks WHERE realizationDate = :date")
-    fun loadTasksByNotificationDate(date: LocalDate): List<Task>
-
+    fun loadTasksByRealizationDate(date: LocalDate): List<Task>
 
     @Query("SELECT * FROm tasks WHERE realizationDate <= :date")
-    fun loadTaskWithNotificationDateUntilDate(date: LocalDate): List<Task>
+    fun loadTaskWithRealizationDateUntilDate(date: LocalDate): List<Task>
 
 }

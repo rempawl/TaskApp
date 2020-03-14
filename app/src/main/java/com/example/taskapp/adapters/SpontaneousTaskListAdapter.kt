@@ -9,21 +9,46 @@ import com.example.taskapp.database.entities.Task
 import com.example.taskapp.databinding.SpontaneousTaskListItemBinding
 import javax.inject.Inject
 
-class SpontaneousTaskListAdapter @Inject constructor():
+typealias taskID = Long
+
+class SpontaneousTaskListAdapter @Inject constructor() :
     ListAdapter<Task, SpontaneousTaskListAdapter.SpontaneousTaskViewHolder>(TaskDiffUtilCallback()) {
 
-    class SpontaneousTaskViewHolder(private val binding : SpontaneousTaskListItemBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(task: Task){
+    private val _checkedTasksIds = mutableSetOf<taskID>()
+    val checkedTasksIds : List<taskID>
+    get() = _checkedTasksIds.toList()
+
+    inner class SpontaneousTaskViewHolder(private val binding: SpontaneousTaskListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.addCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                onAddCheckboxChecked(
+                    isChecked
+                )
+            }
+        }
+
+        fun bind(task: Task) {
             binding.task = task
         }
+
+        private fun onAddCheckboxChecked(isChecked: Boolean) {
+            val id = binding.task?.taskID ?: return
+            if (isChecked) {
+                _checkedTasksIds.add(id)
+            } else {
+                _checkedTasksIds.remove(id)
+            }
+        }
+
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpontaneousTaskViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        val binding = SpontaneousTaskListItemBinding.inflate(inflater,parent,false)
+        val binding = SpontaneousTaskListItemBinding.inflate(inflater, parent, false)
         return SpontaneousTaskViewHolder(binding)
     }
 
@@ -32,13 +57,13 @@ class SpontaneousTaskListAdapter @Inject constructor():
     }
 }
 
-private class TaskDiffUtilCallback : DiffUtil.ItemCallback<Task>(){
+private class TaskDiffUtilCallback : DiffUtil.ItemCallback<Task>() {
     override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
         return oldItem === newItem
     }
 
     override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
-        return oldItem.taskID  == newItem.taskID
+        return oldItem.taskID == newItem.taskID
     }
 
 }

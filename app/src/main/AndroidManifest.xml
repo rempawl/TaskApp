@@ -13,11 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".workers.UpdateTomorrowRemindersReceiver"
+            android:name=".workers.notification.DelayNotificationReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
         <receiver
-            android:name=".workers.CreateNotificationBroadcastReceiver"
+            android:name=".workers.notification.ConfirmTaskCompletedReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name=".workers.UpdateTomorrowRemindersReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name=".workers.notification.CreateNotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="true" />
 

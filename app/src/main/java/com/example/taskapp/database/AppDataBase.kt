@@ -15,6 +15,7 @@ import com.example.taskapp.utils.Converters
     entities = [Task::class,
     Streak::class
 
+
     ],
     version = AppDataBase.VERSION_INT
 )

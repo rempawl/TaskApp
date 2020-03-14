@@ -14,6 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * class responsible for updating realization dates of tasks and setting alarms for tomorrow tasks
+ */
 class UpdateTomorrowRemindersReceiver @Inject constructor(
     private val taskRepository: TaskRepositoryInterface,
     private val alarmCreator: AlarmCreator,

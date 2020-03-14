@@ -51,7 +51,6 @@ class AddReminderViewModel @AssistedInject constructor(
         get() = _toastText
 
 
-
     private val errorCallback = ErrorCallback(durationModel, _toastText)
 
     init {
@@ -88,16 +87,17 @@ class AddReminderViewModel @AssistedInject constructor(
             compositeDisposable.add(
                 taskRepository.saveTask(task)
                     .subscribeOn(Schedulers.io())
-                    .subscribe({ taskID ->isSuccess= true
+                    .subscribe({ taskID ->
+                        isSuccess = true
                         saveStreak(taskID)
                     },
                         { e -> e.printStackTrace() }
                     )
             )
-            if(isRealizationToday &&
-                reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
-            ){
-                alarmCreator.setTaskNotificationAlarm(task,true)
+            if (isRealizationToday
+                && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
+            ) {
+                alarmCreator.setTaskNotificationAlarm(task, true)
             }
 
 

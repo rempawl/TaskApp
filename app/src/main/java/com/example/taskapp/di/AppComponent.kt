@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
 import com.example.taskapp.fragments.MyTasksFragment
+import com.example.taskapp.fragments.PickCustomNotificationDelayFragment
 import com.example.taskapp.fragments.today.AddSpontaneousTaskDialogFragment
 import com.example.taskapp.fragments.today.TodayFragment
 import com.example.taskapp.viewmodels.AddReminderViewModel
@@ -37,6 +38,7 @@ interface AppComponent {
     fun inject(myApp: MyApp)
     fun inject(mainActivity: MainActivity)
     fun inject(addSpontaneousTaskDialogFragment: AddSpontaneousTaskDialogFragment)
+    fun inject(pickCustomNotificationDelayFragment: PickCustomNotificationDelayFragment)
 
     val addReminderViewModelFactory: AddReminderViewModel.Factory
     val addTaskViewModel: AddTaskViewModel

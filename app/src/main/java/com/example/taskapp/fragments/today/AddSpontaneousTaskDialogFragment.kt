@@ -58,8 +58,9 @@ class AddSpontaneousTaskDialogFragment
 
     private fun setupLayout(binding: AddSpontaneousTasksFragmentBinding) {
         binding.apply {
-            confirmButton.setOnClickListener {  }
+            confirmButton.setOnClickListener { addSpontaneousTasks() }
             cancelButton.setOnClickListener { dismiss() }
+
             taskList.apply {
                 adapter = spontaneousTaskListAdapter
 //                val spanCount =
@@ -81,7 +82,14 @@ class AddSpontaneousTaskDialogFragment
     }
 
     private fun addSpontaneousTasks() {
-        TODO("Not yet implemented")
+
+        viewModel.addSpontaneousTasks(spontaneousTaskListAdapter.checkedTasksIds)
+        spontaneousTaskListAdapter.checkedTasksIds.forEach {
+            Log.d(MainActivity.TAG, it.toString())
+
+        }
+        //add to db
+        dismiss()
     }
 
     companion object {

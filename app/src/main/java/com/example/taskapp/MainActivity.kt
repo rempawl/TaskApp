@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private val noNavMenuDestinations =
         setOf(
             R.id.navigation_edit_task, R.id.navigation_task_details, R.id.navigation_add_reminder,
-            R.id.navigation_add_task
+            R.id.navigation_add_task,R.id.navigation_pick_custom_delay
         )
 
 

@@ -16,7 +16,7 @@ import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
 import com.example.taskapp.viewmodels.AddReminderViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
-
+//todo decorator
 
 class AddReminderFragment : Fragment(),
     Reminder {

@@ -18,7 +18,7 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
     override suspend fun getMinTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadMinTasksByNotificationDate(date))
+            Result.Success(taskDao.loadMinTasksByRealizationDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -26,7 +26,7 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
     override suspend fun getTasksUntilDate(date: LocalDate): Result<List<Task>> = withContext(Dispatchers.IO){
         return@withContext try{
-            Result.Success(taskDao.loadTaskWithNotificationDateUntilDate(date))
+            Result.Success(taskDao.loadTaskWithRealizationDateUntilDate(date))
         }catch (e: Exception){
             Result.Error(e)
         }
@@ -34,7 +34,7 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
     override suspend fun getTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadTasksByNotificationDate(date))
+            Result.Success(taskDao.loadTasksByRealizationDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }

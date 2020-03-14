@@ -32,7 +32,6 @@ class TodayFragment : Fragment() {
     @Inject
     lateinit var viewModel: TodayViewModel
 
-
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
     private val taskAdapter: TaskListAdapter by lazy {
@@ -43,7 +42,6 @@ class TodayFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
-
     }
 
     override fun onCreateView(
@@ -57,7 +55,6 @@ class TodayFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setUpLayout()
         updateTaskList()
-
     }
 
     override fun onDestroyView() {
@@ -83,9 +80,6 @@ class TodayFragment : Fragment() {
     }
 
 
-    private fun navigateToAddSpontaneousTasks() {
-        TODO("Not yet implemented")
-    }
 
     private fun updateTaskList() {
         viewModel.tasks.observe(viewLifecycleOwner, Observer { tasks ->

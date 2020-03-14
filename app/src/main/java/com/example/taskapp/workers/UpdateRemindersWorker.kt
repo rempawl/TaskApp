@@ -15,6 +15,10 @@ import javax.inject.Inject
 
 typealias DatePredicate = (LocalDate, Task) -> (Boolean)
 
+/**
+ * class that checks if today tasks are up to date
+ * *sets reminder update alarm
+ */
 class UpdateRemindersWorker constructor(
     appContext: Context,
     workerParameters: WorkerParameters

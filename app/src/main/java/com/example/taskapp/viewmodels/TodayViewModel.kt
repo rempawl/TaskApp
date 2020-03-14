@@ -17,20 +17,6 @@ class TodayViewModel @Inject constructor(private val taskRepository: TaskReposit
         emit(data)
     }
 
-    init{
-//        updateTasks()
-    }
-//    private fun updateTasks() {
-//        viewModelScope.launch {
-//             taskRepository.getTasksByUpdateDate(TODAY).forEach { task: Task ->
-//                val freqState = task.reminder!!.frequency.convertToFrequencyState()
-//                val newDate = freqState.calculateUpdateDate(TODAY,false)
-//                val newReminder = task.reminder.copy(updateDate = newDate)
-//                Log.d(MainActivity.TAG,task.reminder.toString())
-//                Log.d(MainActivity.TAG,newReminder.toString())
-//                taskRepository.updateTask(task.copy(reminder = newReminder))
-//            }
-//        }
-//    }
+
 
 }

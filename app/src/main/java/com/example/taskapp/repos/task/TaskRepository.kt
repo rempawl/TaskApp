@@ -3,6 +3,7 @@ package com.example.taskapp.repos.task
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.workers.toTaskMinimal
 import dagger.Reusable
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -18,7 +19,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         return if (data is Result.Success<*>) {
             data.items as List<Task>
         } else {
-            emptyList()
+            listOf(ERROR_TASK)
         }
     }
 
@@ -32,7 +33,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         return if (result is Result.Success<*>) {
             result.items as List<TaskMinimal>
         } else {
-            emptyList()
+            listOf(ERROR_TASK.toTaskMinimal())
         }
 
     }
