@@ -37,6 +37,16 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
 
     }
+
+    override suspend fun getTodayMinTasks(): List<TaskMinimal>{
+        val result = taskLocalDataSource.getMinTasksByUpdateDate(LocalDate.now())
+        return if (result is Result.Success<*>) {
+            result.items as List<TaskMinimal>
+        } else {
+            listOf(ERROR_TASK.toTaskMinimal())
+        }
+
+    }
     override suspend fun getTasksByUpdateDate(date: LocalDate): List<Task> {
         val result = taskLocalDataSource.getTasksByUpdateDate(date)
         return if (result is Result.Success<*>) {

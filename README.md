@@ -2,9 +2,10 @@
 Android App for:
 - adding tasks with or without reminders 
 - showing list of today tasks 
-- showing list of added tasks 
+- showing list of added tasks
 - editing added tasks
-- showing notifications of upcoming tasks
+- showing notifications for upcoming tasks
+
 - stats of execution //todo
 
 

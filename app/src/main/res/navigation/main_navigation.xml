@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/navigation_pick_custom_delay"
         android:name="com.example.taskapp.fragments.PickCustomNotificationDelayFragment"
-        android:label="@string/pick_delay_time"
+        android:label="@string/determine_delay_time"
 
         >
         <action

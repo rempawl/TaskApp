@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pick_delay_time"
+            android:text="@string/determine_delay_time"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/pick_text"
             />

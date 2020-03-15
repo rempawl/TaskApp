@@ -13,7 +13,7 @@ class TodayViewModel @Inject constructor(private val taskRepository: TaskReposit
     }
 
     val tasks = liveData {
-        val data = taskRepository.getMinTasksByUpdateDate(TODAY)
+        val data = taskRepository.getTodayMinTasks()
         emit(data)
     }
 

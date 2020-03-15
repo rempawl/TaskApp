@@ -35,6 +35,10 @@ class MyApp : Application() {
         delayedInit()
     }
 
+//    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+//        TODO()
+//    }
+
 
     private fun delayedInit() {
         applicationScope.launch {

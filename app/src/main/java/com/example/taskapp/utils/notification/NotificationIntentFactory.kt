@@ -1,4 +1,4 @@
-package com.example.taskapp.utils
+package com.example.taskapp.utils.notification
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,6 @@ class NotificationIntentFactory {
     companion object {
         fun createDelayNotificationIntent(context: Context, delayValue: Int, task: TaskMinimal)
                 : Intent {
-
             return Intent(context, DelayNotificationReceiver::class.java)
                 .apply {
                     putExtra(PickCustomNotificationDelayFragment.DELAY_VALUE_KEY, delayValue)

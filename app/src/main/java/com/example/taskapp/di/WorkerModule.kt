@@ -7,6 +7,7 @@ import dagger.Module
 
 @Module
 abstract class WorkerModule {
+
     @Binds
     abstract fun provideNotificationsAndTaskWorkersCreator(
         workersInitializer: UpdateRemindersWorkerInitializer

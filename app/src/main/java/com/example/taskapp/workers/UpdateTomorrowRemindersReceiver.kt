@@ -17,6 +17,7 @@ import javax.inject.Inject
 /**
  * class responsible for updating realization dates of tasks and setting alarms for tomorrow tasks
  */
+//todo it will crash android injector needed
 class UpdateTomorrowRemindersReceiver @Inject constructor(
     private val taskRepository: TaskRepositoryInterface,
     private val alarmCreator: AlarmCreator,

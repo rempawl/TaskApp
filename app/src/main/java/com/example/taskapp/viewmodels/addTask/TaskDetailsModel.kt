@@ -61,6 +61,7 @@ class TaskDetailsModel @Inject constructor() : BaseObservable() {
             } else {
                 taskNameError.set(null)
             }
+
             false
         }
 
@@ -69,6 +70,7 @@ class TaskDetailsModel @Inject constructor() : BaseObservable() {
 
     companion object {
         const val MIN_LENGTH = 3
+
         @JvmStatic
         @BindingAdapter("setError")
         fun setError(view: EditText, stringOrRsrcID: Any?) {

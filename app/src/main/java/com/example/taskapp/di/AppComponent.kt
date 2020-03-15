@@ -14,15 +14,19 @@ import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
 import com.example.taskapp.workers.UpdateRemindersWorker
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
 @Component(
     modules = [AssistedInjectModule::class,
+        AndroidInjectionModule::class,
         DataBaseModule::class,
         RepositoryModule::class,
-        WorkerModule::class
+    WorkerModule::class
     ]
+
 )
+
 @Singleton
 interface AppComponent {
     @Component.Factory
@@ -31,6 +35,7 @@ interface AppComponent {
             @BindsInstance context: Context
         ): AppComponent
     }
+
 
     fun inject(todayFragment: TodayFragment)
     fun inject(updateNotificationsAndTaskListWorker: UpdateRemindersWorker)

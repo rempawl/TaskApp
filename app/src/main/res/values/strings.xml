@@ -43,9 +43,9 @@
     <string name="end_date">Data Zakończenia</string>
     <string name="end_date_format">Data zakończenia: %1$s</string>
     <string name="no_end_date">Bez daty zakończenia </string>
-    <string name="no_days_number">Brak liczby dni </string>
+    <string name="error_blank_input">Brak liczby dni </string>
 
-    <string name="number_starts_with_0">Liczba dni nie moze zaczynac sie od 0</string>
+    <string name="error_number_starts_with_0">Liczba dni nie moze zaczynac sie od 0</string>
 
     <!--    NOTIFICATION TIME -->
     <string name="set_notification_time">Ustaw czas powiadomienia</string>
@@ -81,7 +81,7 @@
     <string name="today">Dzisiaj</string>
     <string name="add_spontaneous_tasks">Dodaj spontaniczne zadania</string>
     <string name="add">Dodaj</string>
-    <string name="pick_delay_time">Określ czas zwłoki</string>
+    <string name="determine_delay_time">Określ czas zwłoki</string>
     <string name="delay_30_min">odłóż na 30min</string>
     <string name="delay_later">odłóż na później</string>
 

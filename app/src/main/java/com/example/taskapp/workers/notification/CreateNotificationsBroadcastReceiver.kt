@@ -15,15 +15,19 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.example.taskapp.MainActivity
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.utils.NotificationIntentFactory
+import com.example.taskapp.utils.notification.NotificationIntentFactory
 
 /**
  * class responsible for creating and showing task notifications
  */
+
+
 class CreateNotificationBroadcastReceiver :
     BroadcastReceiver() {
 
+
     override fun onReceive(context: Context?, intent: Intent?) {
+//        super.onReceive(context, intent)
         if (intent != null && context != null) {
             val action = intent.action
             if (action == CREATE_NOTIFICATION_ACTION) {
@@ -63,10 +67,12 @@ class CreateNotificationBroadcastReceiver :
             .addAction(confirmAction)
             .addAction(delay30MinAction)
             .addAction(delayCustomTimeAction)
+            .setAutoCancel(true)
             .build()
+
         Log.d(MainActivity.TAG,"Showing notifi")
 
-        NotificationManagerCompat.from(context).notify(0, notification)
+        NotificationManagerCompat.from(context).notify(TASK_NOTIFICATION_ID, notification)
 
     }
 
@@ -79,7 +85,7 @@ class CreateNotificationBroadcastReceiver :
             .setGraph(R.navigation.main_navigation)
             .setDestination(R.id.navigation_pick_custom_delay)
             .setArguments(args)
-            .createPendingIntent()
+                        .createPendingIntent()
 
         val title = context.getString(R.string.delay_later)
         return NotificationCompat.Action
@@ -135,6 +141,7 @@ class CreateNotificationBroadcastReceiver :
             NotificationManagerCompat.from(context).createNotificationChannel(channel)
         }
     }
+
 
     companion object {
         const val TASK_NAME_KEY = "task name"

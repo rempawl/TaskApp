@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <!-- REMINDER -->
+
+        <string name="add_reminder"> Add reminder</string>
+        <string name="next_realization_date">Next realization date: %1$s</string>
+
+        <!--FREQUENCY  -->
+        <string name="frequency">Frequency</string>
+
+        <string name="set_days_of_week">Choose days of week</string>
+        <string-array name="week_days_list">
+            <item>Monday</item>
+            <item>Tuesday</item>
+            <item>Wednesday</item>
+            <item>Thursday</item>
+            <item>Friday</item>
+            <item>Saturday</item>
+            <item>Sunday</item>
+        </string-array>
+
+        <string name="x_days_frequency">Every X days</string>
+        <plurals name="daily_frequency">
+            <item quantity="one"> Everyday</item>
+            <item quantity="other"> Every  %1$d days</item>
+        </plurals>
+
+
+        <!--      DURATION  -->
+        <string name="duration">Duration</string>
+        <string name="beginning_date">Beginning date: %1$s</string>
+        <string name="beginning_date_error">Invalid beginning date! </string>
+        <string name="days_duration_hint">Type amount of days</string>
+
+        <string name="x_days_duration">For x days</string>
+        <plurals name="days_duration">
+            <item quantity="one"> %1$d day</item>
+            <item quantity="other"> %1$d days</item>
+        </plurals>
+
+        <string name="end_date_error"> Invalid ending date! </string>
+        <string name="end_date">Ending date</string>
+        <string name="end_date_format">Ending date: %1$s</string>
+        <string name="no_end_date">Without ending date </string>
+
+        <string name="error_blank_input">Input can not be blank </string>
+        <string name="error_number_starts_with_0">Amount of days can not start with 0</string>
+
+        <!--    NOTIFICATION TIME -->
+        <string name="set_notification_time">Set notification time</string>
+        <string name="notification_time">Time of notification</string>
+        <string name="no_notificaton">No notification</string>
+
+        <!--    COMMON STRINGS -->
+        <string name="details">Details</string>
+        <string name="save">Save</string>
+        <string name="confirm">Confirm</string>
+        <string name="name">Name</string>
+        <string name="app_name">Task App</string>
+        <string name="cancel">Cancel</string>
+        <string name="delete">Delete</string>
+        <string name="ok">OK</string>
+        <string name="edit">Edit</string>
+
+        <!--TASK -->
+        <string name="my_tasks">My tasks</string>
+        <string name="add_task">Add task</string>
+        <string name="save_without_reminder">Save without reminder</string>
+        <string name="task_name"> Task name:  %1$s</string>
+        <string name="task_name_hint"> Task name:</string>
+        <string name="task_description">Task description:  %1$s</string>
+        <string name="task_description_hint">Task description (optional)</string>
+        <string name="task_details">Task details</string>
+        <string name="task_delete_title">Are you sure?</string>
+        <string name="edit_task">Edit task</string>
+        <string name="task_name_error">Name must be at least 3 characters long</string>
+        <string name="completed">Completed</string>
+
+        <!--    TODAY  -->
+        <string name="today">Today</string>
+        <string name="add_spontaneous_tasks">Add spontaneous task</string>
+        <string name="add">Add</string>
+        <string name="determine_delay_time">Determine delay time</string>
+        <string name="delay_30_min">Delay for 30min</string>
+        <string name="delay_later">Delay for later</string>
+
+</resources>

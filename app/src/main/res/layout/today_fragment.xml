@@ -7,13 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     tools:context=".fragments.today.TodayFragment">
-    >
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_tasks_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_spontaneous_tasks_btn"
@@ -22,4 +21,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="10dp"
         android:src="@drawable/ic_list_add_black_24dp" />
+
 </FrameLayout>

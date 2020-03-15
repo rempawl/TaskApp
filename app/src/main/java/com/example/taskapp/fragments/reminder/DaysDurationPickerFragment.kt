@@ -34,9 +34,9 @@ class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragm
 
     private fun setDaysDuration(text: String?) {
         if (text.isNullOrBlank()) {
-            showToast(getString(R.string.no_days_number))
+            showToast(getString(R.string.error_blank_input))
         } else if (text[0] == '0') {
-            showToast(getString(R.string.number_starts_with_0))
+            showToast(getString(R.string.error_number_starts_with_0))
         } else {
             val days = text.toInt()
             if (days < Int.MAX_VALUE) {

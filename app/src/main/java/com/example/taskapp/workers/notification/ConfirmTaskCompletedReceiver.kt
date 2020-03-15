@@ -3,11 +3,12 @@ package com.example.taskapp.workers.notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.example.taskapp.utils.notification.TaskNotificationManager
 
 class ConfirmTaskCompletedReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+        TaskNotificationManager.cancelNotification(context)
         //todo
     }
 }

@@ -9,7 +9,7 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.utils.NotificationIntentFactory.Companion.createNotificationReceiverIntent
+import com.example.taskapp.utils.notification.NotificationIntentFactory.Companion.createNotificationReceiverIntent
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
@@ -48,15 +48,6 @@ class AlarmCreator @Inject constructor(private val context: Context) {
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime, interval, pendingIntent)
     }
 
-    fun setDelayAlarm(task: TaskMinimal, interval: Long = 30) {
-
-        val intent = createNotificationReceiverIntent(task,context)
-        val pending =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val triggerTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(interval)
-
-        manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerTime,pending)
-    }
 
 
 //    fun setRetryAlarm( date : LocalDate){
@@ -76,9 +67,21 @@ class AlarmCreator @Inject constructor(private val context: Context) {
     companion object {
         const val DATE_KEY = "date"
         val ZONE_OFFSET: ZoneOffset = OffsetDateTime.now().offset
+        fun setDelayAlarm(task: TaskMinimal, interval: Long = 30,context: Context) {
+            val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val intent = createNotificationReceiverIntent(task,context)
+            val pending =
+                PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val triggerTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(interval)
+
+            manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerTime,pending)
+        }
+
     }
 
 }
+
 fun Task.toTaskMinimal(): TaskMinimal {
     return TaskMinimal(
         taskID = this.taskID,

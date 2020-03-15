@@ -25,4 +25,5 @@ interface TaskRepositoryInterface {
 
     suspend fun updateTask(task: Task): Int
     suspend fun updateTasks(tasks: List<Task>): Int
+    suspend fun getTodayMinTasks(): List<TaskMinimal>
 }

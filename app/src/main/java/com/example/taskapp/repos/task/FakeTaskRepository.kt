@@ -133,4 +133,8 @@ class FakeTaskRepository : TaskRepositoryInterface {
     override suspend fun updateTasks(tasks: List<Task>): Int {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getTodayMinTasks(): List<TaskMinimal> {
+        TODO("Not yet implemented")
+    }
 }
