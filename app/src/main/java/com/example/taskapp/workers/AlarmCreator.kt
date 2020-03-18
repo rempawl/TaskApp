@@ -25,8 +25,7 @@ class AlarmCreator @Inject constructor(private val context: Context) {
 
 
     fun setTaskNotificationAlarm(task: Task, isToday: Boolean = false) {
-
-        val intent = createNotificationReceiverIntent(task.toTaskMinimal(),context)
+        val intent = createNotificationReceiverIntent(task.toTaskMinimal(), context)
         val date = if (isToday) TODAY else TOMORROW
         val pending =
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -36,7 +35,6 @@ class AlarmCreator @Inject constructor(private val context: Context) {
 
         manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notifyTime, pending)
     }
-
     fun setUpdateTaskListAlarm() {
         val updateTime = LocalDateTime.of(TODAY, LocalTime.of(23, 55))
             .toInstant(ZONE_OFFSET).toEpochMilli()
@@ -67,15 +65,16 @@ class AlarmCreator @Inject constructor(private val context: Context) {
     companion object {
         const val DATE_KEY = "date"
         val ZONE_OFFSET: ZoneOffset = OffsetDateTime.now().offset
-        fun setDelayAlarm(task: TaskMinimal, interval: Long = 30,context: Context) {
+
+        fun setDelayAlarm(task: TaskMinimal, interval: Long = 30, context: Context) {
             val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            val intent = createNotificationReceiverIntent(task,context)
+            val intent = createNotificationReceiverIntent(task, context)
             val pending =
                 PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             val triggerTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(interval)
 
-            manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerTime,pending)
+            manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pending)
         }
 
     }

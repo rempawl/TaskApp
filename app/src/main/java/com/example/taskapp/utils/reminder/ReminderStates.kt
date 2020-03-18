@@ -52,16 +52,14 @@ sealed class ReminderFrequencyState {
             lastRealizationDate: LocalDate,
             isBeginning: Boolean
         ): LocalDate {
-            val startDate = if(TODAY.toEpochDay() > (lastRealizationDate.toEpochDay()+7)){
+            val startDate = if (TODAY.toEpochDay() > (lastRealizationDate.toEpochDay() + 7)) {
                 //if date wasn't updated for longer than a week
                 TODAY
-            }else{
+            } else {
                 lastRealizationDate
             }
 
-
             val begIndex = startDate.dayOfWeek.value
-
 
             if (isBeginning && startDate.dayOfWeek.value == begIndex &&
                 daysOfWeek.contains(begIndex)
@@ -74,6 +72,7 @@ sealed class ReminderFrequencyState {
                     return LocalDate.ofEpochDay(startDate.toEpochDay() + (thisWeek - begIndex))
                 }
             }
+
             for (nextWeek in DayOfWeek.MONDAY.value until begIndex) {
                 if (daysOfWeek.contains(nextWeek)) {
                     println(nextWeek)

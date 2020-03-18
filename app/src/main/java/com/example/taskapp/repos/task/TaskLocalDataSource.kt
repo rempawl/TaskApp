@@ -1,5 +1,6 @@
 package com.example.taskapp.repos.task
 
+import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.Task
@@ -42,6 +43,13 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
 
 
+    override suspend fun getNotTodayTasks() = withContext(Dispatchers.IO){
+        return@withContext try{
+            Result.Success(taskDao.loadTasksWithRealizationDateDifferentThanDate(TODAY))
+        }catch (e:Exception){
+            Result.Error(e)
+        }
+    }
 
     override suspend fun deleteTask(id: Long) = withContext(Dispatchers.IO) {
         taskDao.deleteByID(id)

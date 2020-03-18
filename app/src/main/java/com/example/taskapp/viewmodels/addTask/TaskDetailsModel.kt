@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class TaskDetailsModel @Inject constructor() : BaseObservable() {
 
-
     val taskNameError: ObservableField<Int> = ObservableField()
 
     var taskName: String = ""
@@ -25,7 +24,7 @@ class TaskDetailsModel @Inject constructor() : BaseObservable() {
 
     @Bindable
     var taskDescription: String = ""
-        set(value){
+        set(value) {
             field = value
             notifyPropertyChanged(BR.taskDescription)
         }
@@ -37,7 +36,6 @@ class TaskDetailsModel @Inject constructor() : BaseObservable() {
 
     fun validateTaskDescription() {
         taskDescription = ""
-
     }
 
 
@@ -61,7 +59,6 @@ class TaskDetailsModel @Inject constructor() : BaseObservable() {
             } else {
                 taskNameError.set(null)
             }
-
             false
         }
 

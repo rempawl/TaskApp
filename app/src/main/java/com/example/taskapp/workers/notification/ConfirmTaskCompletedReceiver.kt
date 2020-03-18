@@ -7,8 +7,9 @@ import com.example.taskapp.utils.notification.TaskNotificationManager
 
 class ConfirmTaskCompletedReceiver : BroadcastReceiver() {
 
+
     override fun onReceive(context: Context, intent: Intent) {
         TaskNotificationManager.cancelNotification(context)
-        //todo
+        //todo update stats
     }
 }

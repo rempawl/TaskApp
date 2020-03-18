@@ -22,11 +22,9 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         DataBaseModule::class,
         RepositoryModule::class,
-    WorkerModule::class
+        WorkerModule::class
     ]
-
 )
-
 @Singleton
 interface AppComponent {
     @Component.Factory

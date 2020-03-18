@@ -26,4 +26,5 @@ interface TaskDataSource {
 
     suspend fun updateTask(task: Task): Int
     suspend fun updateTasks(tasks: List<Task>): Int
+    suspend fun getNotTodayTasks(): Result<List<Task>>
 }

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.taskapp.viewmodels.EditTaskViewModel" />
@@ -18,7 +20,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
 
             <!--            MAIN LAYOUT-->
             <LinearLayout
@@ -34,9 +37,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:enabled="false"
                     android:padding="10dp"
                     android:text="@string/details"
-                    app:backgroundTint="#0B102C" />
+                    android:textColor="@color/design_default_color_background"
+                    app:backgroundTint="@color/colorPrimaryDark" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,28 +55,34 @@
                         android:gravity="center_horizontal"
                         android:text="@{@string/task_name(viewModel.task.name)}"
                         android:textAlignment="center"
+                        android:textColor="@color/design_default_color_background"
                         android:textSize="20sp" />
 
+                    <!--                    different-->
                     <EditText
                         android:id="@+id/task_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:hint="@string/task_description_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
                         android:text="@={viewModel.taskDetailsModel.taskDescription}"
                         android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:inputType="text"
-                        android:importantForAutofill="no" />
+                        android:textColor="@color/design_default_color_background"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
+                <!--                different -->
+
+                <!--REMINDER LAYOUT -->
                 <Switch
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_reminder"
                     android:checked="@={viewModel.isReminderSwitchChecked}"
-                    />
-                <!--REMINDER LAYOUT -->
+                    android:text="@string/add_reminder"
+                    android:textColor="@color/design_default_color_background" />
+
                 <LinearLayout
                     android:id="@+id/reminder_layout"
                     android:layout_width="match_parent"
@@ -81,21 +92,21 @@
 
                     <!--                    NOTIFICATION LAYOUT -->
                     <com.google.android.material.button.MaterialButton
+
                         android:id="@+id/set_time_of_notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="10dp"
                         android:text="@string/set_notification_time"
-                        app:backgroundTint="#03A9F4" />
-
+                        android:textColor="@color/design_default_color_background"
+                        app:backgroundTint="@color/colorPrimaryDark" />
 
                     <!-- FREQUENCY LAYOUT -->
                     <LinearLayout
                         android:id="@+id/frequency_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#3F51B5"
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -104,9 +115,8 @@
                             android:gravity="center_horizontal"
                             android:text="@string/frequency"
                             android:textAlignment="center"
-                            android:textSize="30sp"
-                            app:backgroundTint="#3F51B5" />
-
+                            android:textColor="@color/design_default_color_background"
+                            android:textSize="30sp" />
 
                         <RadioGroup
                             android:id="@+id/frequency_radioGroup"
@@ -136,15 +146,20 @@
                             android:id="@+id/set_daily_frequency_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
                             android:text="@{@plurals/daily_frequency(viewModel.frequencyModel.currentDailyFrequency,viewModel.frequencyModel.currentDailyFrequency)}"
-                            android:visibility="visible" />
+                            android:textColor="@color/design_default_color_background"
+                            android:visibility="visible"
+                            app:backgroundTint="@color/colorPrimaryDark" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/set_days_of_week_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/set_days_of_week"
-                            android:visibility="gone" />
+                            android:textColor="@color/design_default_color_background"
+                            android:visibility="gone"
+                            app:backgroundTint="@color/colorPrimaryDark" />
 
 
                     </LinearLayout>
@@ -156,15 +171,16 @@
                         android:id="@+id/duration_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#8BC34A"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+
                             android:gravity="center_horizontal"
                             android:text="@string/duration"
                             android:textAlignment="center"
+                            android:textColor="@color/design_default_color_background"
                             android:textSize="30sp" />
 
 
@@ -173,10 +189,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:padding="10dp"
                             android:enabled="false"
-                            android:backgroundTint="@color/colorAccent"
-                            android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}" />
+                            android:padding="10dp"
+                            android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}"
+
+                            android:textColor="@color/design_default_color_background"
+                            app:backgroundTint="@color/colorPrimaryDark" />
 
                         <RadioGroup
                             android:id="@+id/duration_radioGroup"
@@ -211,14 +229,15 @@
                             android:layout_height="wrap_content"
                             android:text="@{@plurals/days_duration(viewModel.durationModel.currentDaysDuration,viewModel.durationModel.currentDaysDuration)}"
                             android:visibility="gone"
-                            app:backgroundTint="@color/colorPrimary" />
+                            app:backgroundTint="@color/colorPrimaryDark" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/set_end_date_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@{@string/end_date_format(viewModel.durationModel.currentEndDate)}"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            app:backgroundTint="@color/colorPrimaryDark" />
 
                     </LinearLayout>
                 </LinearLayout>

@@ -27,6 +27,14 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     override suspend fun saveTask(task: Task) = taskLocalDataSource.saveTask(task)
 
+    override suspend fun getNotTodayTasks(): List<Task> {
+        val data = taskLocalDataSource.getNotTodayTasks()
+        return if (data is Result.Success<*>) {
+            data.items as List<Task>
+        } else {
+            listOf(ERROR_TASK)
+        }
+    }
 
     override suspend fun getMinTasksByUpdateDate(date: LocalDate): List<TaskMinimal> {
         val result = taskLocalDataSource.getMinTasksByUpdateDate(date)
@@ -38,7 +46,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     }
 
-    override suspend fun getTodayMinTasks(): List<TaskMinimal>{
+    override suspend fun getTodayMinTasks(): List<TaskMinimal> {
         val result = taskLocalDataSource.getMinTasksByUpdateDate(LocalDate.now())
         return if (result is Result.Success<*>) {
             result.items as List<TaskMinimal>
@@ -47,6 +55,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
 
     }
+
     override suspend fun getTasksByUpdateDate(date: LocalDate): List<Task> {
         val result = taskLocalDataSource.getTasksByUpdateDate(date)
         return if (result is Result.Success<*>) {
@@ -77,9 +86,9 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     override suspend fun getTasksUntilDate(date: LocalDate): List<Task> {
         val data = taskLocalDataSource.getTasksUntilDate(date)
-        return if(data is Result.Success<*>){
+        return if (data is Result.Success<*>) {
             data.items as List<Task>
-        }else{
+        } else {
             listOf(ERROR_TASK)
         }
 
@@ -87,9 +96,9 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     override suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
 
-    override suspend fun updateTasks(tasks : List<Task>) = taskLocalDataSource.updateTasks(tasks)
+    override suspend fun updateTasks(tasks: List<Task>) = taskLocalDataSource.updateTasks(tasks)
 
-    companion object{
-        val ERROR_TASK = Task(taskID = -1,name="ERROR")
+    companion object {
+        val ERROR_TASK = Task(taskID = -1, name = "ERROR")
     }
 }

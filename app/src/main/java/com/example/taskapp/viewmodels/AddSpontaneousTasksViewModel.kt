@@ -13,7 +13,7 @@ class AddSpontaneousTasksViewModel @Inject constructor(private val taskRepositor
     }
 
     val tasks = liveData {
-        val data = taskRepository.getTasks()
+        val data = taskRepository.getNotTodayTasks()
         emit(data)
     }
 }

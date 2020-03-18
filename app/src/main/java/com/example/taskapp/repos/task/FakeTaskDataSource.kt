@@ -48,4 +48,8 @@ class FakeTaskDataSource : TaskDataSource {
     override suspend fun updateTasks(tasks: List<Task>): Int {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getNotTodayTasks(): Result<List<Task>> {
+        TODO("Not yet implemented")
+    }
 }

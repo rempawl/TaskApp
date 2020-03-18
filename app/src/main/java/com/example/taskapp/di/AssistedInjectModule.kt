@@ -1,6 +1,5 @@
 package com.example.taskapp.di
 
-import com.squareup.inject.assisted.AssistedInject
 import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Module
 
