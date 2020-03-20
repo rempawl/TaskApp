@@ -21,7 +21,7 @@ sealed class ReminderFrequencyState {
         override fun convertToFrequency() = Frequency(DAILY_FREQUENCY_INDEX, frequency)
 
         /**
-         * fun is returning beginningDate as updateDate if [lastRealizationDate] is beginning date
+         * fun returns beginningDate as updateDate if [lastRealizationDate] is beginning date
          */
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,
@@ -45,8 +45,8 @@ sealed class ReminderFrequencyState {
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
 
         /**
-         * checking if [daysOfWeek] contains days after or before [lastRealizationDate] [DayOfWeek]
-         * if it doesn't returning next week date
+         * checks if [daysOfWeek] contains days after or before [lastRealizationDate] [DayOfWeek]
+         * if it doesn't returns next week date
          */
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,

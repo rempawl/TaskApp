@@ -37,8 +37,9 @@ class AddTaskViewModel @Inject constructor(
 
     fun saveTask() {
         viewModelScope.launch {
+            val newTask = taskFields.createTask()
             compositeDisposable.add(
-                taskRepository.saveTask(taskFields.createTask())
+                taskRepository.saveTask(newTask)
                     .subscribeOn(Schedulers.io())
                     .subscribe({}, { it.printStackTrace() })
             )

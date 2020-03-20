@@ -84,6 +84,6 @@
     <string name="determine_delay_time">Określ czas zwłoki</string>
     <string name="delay_30_min">odłóż na 30min</string>
     <string name="delay_later">odłóż na później</string>
-
+    <string name="enable_notification">Włącz powiadomienia</string>
 
 </resources>

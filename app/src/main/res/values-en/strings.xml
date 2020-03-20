@@ -83,5 +83,6 @@
         <string name="determine_delay_time">Determine delay time</string>
         <string name="delay_30_min">Delay for 30min</string>
         <string name="delay_later">Delay for later</string>
+        <string name="enable_notification">Enable notifications</string>
 
 </resources>

@@ -11,9 +11,10 @@ import dagger.Reusable
 import javax.inject.Singleton
 
 @Module
- class DataBaseModule {
+ object DataBaseModule {
 
     @Singleton
+    @JvmStatic
     @Provides
     fun provideDataBase(context: Context): AppDataBase {
         return Room.databaseBuilder(context, AppDataBase::class.java, AppDataBase.DB_NAME)
@@ -22,10 +23,11 @@ import javax.inject.Singleton
     }
 
     @Reusable
+   @JvmStatic
     @Provides
     fun provideTaskDao(appDataBase: AppDataBase): TaskDao = appDataBase.taskDao()
 
-
+    @JvmStatic
     @Reusable
     @Provides
     fun provideStreakDao(appDataBase: AppDataBase): StreakDao = appDataBase.streakDao()

@@ -22,8 +22,6 @@ import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
-//todo notifications workManager
-//todo editTask
 
 class TaskDetailsFragment : Fragment() {
 

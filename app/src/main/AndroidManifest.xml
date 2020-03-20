@@ -15,7 +15,7 @@
         <receiver
             android:name=".workers.notification.DelayNotificationReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true"/>
         <receiver
             android:name=".workers.notification.ConfirmTaskCompletedReceiver"
             android:enabled="true"

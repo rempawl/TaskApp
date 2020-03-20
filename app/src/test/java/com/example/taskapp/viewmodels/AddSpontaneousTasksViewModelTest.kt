@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.getOrAwaitValue
 import com.example.taskapp.loadTimeZone
-import com.example.taskapp.repos.task.FakeTaskRepository
+import com.example.taskapp.repos.task.DefaultTasks.tasks
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -29,7 +29,7 @@ class AddSpontaneousTasksViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
     lateinit var viewModel: AddSpontaneousTasksViewModel
 
-    private val defaultTasks = FakeTaskRepository.tasks.toList()
+    private val defaultTasks = tasks.toList()
 
     @MockK
     lateinit var taskRepository: TaskRepositoryInterface

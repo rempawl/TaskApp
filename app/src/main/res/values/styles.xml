@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SwitchTheme"  >
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorSwitchThumbNormal">@color/material_on_primary_disabled</item>
+        <item name="android:colorForeground">#C50808</item>
+    </style>
 </resources>

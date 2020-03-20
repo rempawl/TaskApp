@@ -82,6 +82,6 @@ class PickCustomNotificationDelayFragment : Fragment() {
         fun newInstance() = PickCustomNotificationDelayFragment()
     }
 
-//todo on navigate up send broadcast with current time
+//todo onNavigateUp -> send broadcast with current time
 
 }

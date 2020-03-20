@@ -3,7 +3,6 @@ package com.example.taskapp.utils.notification
 import android.content.Context
 import android.content.Intent
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.fragments.PickCustomNotificationDelayFragment
 import com.example.taskapp.workers.notification.CreateNotificationBroadcastReceiver
 import com.example.taskapp.workers.notification.DelayNotificationReceiver
 
@@ -14,8 +13,8 @@ class NotificationIntentFactory {
                 : Intent {
             return Intent(context, DelayNotificationReceiver::class.java)
                 .apply {
-                    putExtra(PickCustomNotificationDelayFragment.DELAY_VALUE_KEY, delayValue)
-                    putExtra(CreateNotificationBroadcastReceiver.TASK_KEY, task)
+                    putExtra(DELAY_VALUE_KEY, delayValue)
+                    putExtra(TASK_KEY, task)
                 }
         }
 
@@ -29,6 +28,8 @@ class NotificationIntentFactory {
 
         }
 
+        const val TASK_KEY = "task"
+        const val DELAY_VALUE_KEY = "delay value"
         const val TASK_NAME_KEY = "task name"
         const val TASK_DESC_KEY = "task desc"
         const val TASK_ID_KEY = "task id"

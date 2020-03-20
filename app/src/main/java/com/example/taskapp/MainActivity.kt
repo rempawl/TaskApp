@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setSupportActionBar(toolbar)
 
         appBarConfig = AppBarConfiguration(
-            setOf(R.id.navigation_my_tasks, R.id.navigation_today),
+            setOf(R.id.navigation_my_tasks, R.id.navigation_today,R.id.navigation_pick_custom_delay),
             findViewById(R.id.main_drawer_layout)
         )
         toolbar?.setupWithNavController(navController, appBarConfig)

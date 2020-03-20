@@ -25,8 +25,6 @@ internal class DurationModelTest {
     private val today = LocalDate.now()
 
 
-    //todo
-
     @Nested
     @DisplayName("When initial Duration is DaysDuration(15) and begDate is 20,03,2000")
     inner class InitWithDailyDuration {

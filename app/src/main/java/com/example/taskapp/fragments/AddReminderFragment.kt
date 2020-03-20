@@ -6,20 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showBegDatePickerDialog
+import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showDaysOfWeekPickerDialog
+import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showDurationDaysPickerDialog
+import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showEndDatePickerDialog
+import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showFrequencyPickerDialog
+import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showNotificationPickerDialog
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
-import com.example.taskapp.viewmodels.AddReminderViewModel
+import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.FrequencyModel
+import com.example.taskapp.viewmodels.reminder.NotificationModel
 import com.google.android.material.radiobutton.MaterialRadioButton
-//todo decorator
 
-class AddReminderFragment : Fragment(),
-    Reminder {
+class AddReminderFragment : Fragment(), Reminder {
 
     companion object {
         fun newInstance() = AddReminderFragment()
@@ -28,10 +35,11 @@ class AddReminderFragment : Fragment(),
     }
 
 
-    private val viewModel: AddReminderViewModel by viewModel {
+    private val viewModel by viewModel {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
             .create(args.taskDetails)
     }
+
     private var binding: AddReminderFragmentBinding? = null
     private val args: AddReminderFragmentArgs by navArgs()
 
@@ -43,7 +51,6 @@ class AddReminderFragment : Fragment(),
     ): View? {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
-
 
         viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
             if (id != null) {
@@ -71,33 +78,43 @@ class AddReminderFragment : Fragment(),
         binding = null
     }
 
-     override  fun setUpBinding() {
-         binding?.apply {
-             lifecycleOwner = viewLifecycleOwner
-             viewModel = this@AddReminderFragment.viewModel
-             setTimeOfNotification.setOnClickListener { showNotificationPickerDialog() }
-             confirmButton.setOnClickListener { addTaskWithReminder() }
-         }
+    override fun setUpBinding() {
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@AddReminderFragment.viewModel
+            setTimeOfNotification.setOnClickListener {
+                showNotificationPickerDialog(
+                    this@AddReminderFragment.viewModel.notificationModel,
+                    childFragmentManager
+                )
+            }
+            confirmButton.setOnClickListener { addTaskWithReminder() }
+        }
         setUpDurationLayout()
         setupFrequencyLayout()
-    }
-
-     override fun showNotificationPickerDialog() {
-        NotificationTimePickerFragment(
-            viewModel.notificationModel
-        ).show(
-            childFragmentManager,
-            "Notification dialog tag"
-        )
-
     }
 
 
     override fun setUpDurationLayout() {
         binding?.apply {
-            beginningDateBtn.setOnClickListener { showBegDatePickerDialog() }
-            setDurationDaysBtn.setOnClickListener { showDurationDaysPickerDialog() }
-            setEndDateBtn.setOnClickListener { showEndDatePickerDialog() }
+            beginningDateBtn.setOnClickListener {
+                showBegDatePickerDialog(
+                    this@AddReminderFragment.viewModel.durationModel,
+                    childFragmentManager
+                )
+            }
+            setDurationDaysBtn.setOnClickListener {
+                showDurationDaysPickerDialog(
+                    this@AddReminderFragment.viewModel.durationModel,
+                    childFragmentManager
+                )
+            }
+            setEndDateBtn.setOnClickListener {
+                showEndDatePickerDialog(
+                    this@AddReminderFragment.viewModel.durationModel,
+                    childFragmentManager
+                )
+            }
             durationRadioGroup.apply {
                 setDurationButtonsVisibility(checkedRadioButtonId) //to show proper one on rotation
                 setOnCheckedChangeListener { _, id ->
@@ -135,8 +152,18 @@ class AddReminderFragment : Fragment(),
                     setFrequencyButtonsVisibility(id)
                 }
             }
-            setDailyFrequencyBtn.setOnClickListener { showFrequencyPickerDialog() }
-            setDaysOfWeekBtn.setOnClickListener { showDaysOfWeekPickerDialog() }
+            setDailyFrequencyBtn.setOnClickListener {
+                showFrequencyPickerDialog(
+                    this@AddReminderFragment.viewModel.frequencyModel,
+                    childFragmentManager
+                )
+            }
+            setDaysOfWeekBtn.setOnClickListener {
+                showDaysOfWeekPickerDialog(
+                    this@AddReminderFragment.viewModel.frequencyModel,
+                    childFragmentManager
+                )
+            }
         }
     }
 
@@ -162,41 +189,6 @@ class AddReminderFragment : Fragment(),
         viewModel.saveTaskWithReminder()
         findNavController().navigate(
             AddReminderFragmentDirections.navigationAddReminderToNavigationMyTasks()
-        )
-    }
-
-
-    override fun showDurationDaysPickerDialog() {
-        DaysDurationPickerFragment(
-            viewModel.durationModel
-        ).show(childFragmentManager, "days duration dialog")
-    }
-
-
-    override fun showDaysOfWeekPickerDialog() {
-        WeekDayPickerFragment(viewModel.frequencyModel)
-            .show(childFragmentManager, "weekday picker dialog")
-    }
-
-
-    override fun showFrequencyPickerDialog() {
-        FrequencyPickerFragment(viewModel.frequencyModel)
-            .show(childFragmentManager, "FREQUENCY PICKER DIALOG")
-    }
-
-
-    override fun showEndDatePickerDialog() {
-        EndDatePickerFragment(viewModel.durationModel)
-            .show(childFragmentManager,
-                END_DATE_DIALOG_TAG
-            )
-    }
-
-    override fun showBegDatePickerDialog() {
-        BeginningDatePickerFragment(
-            viewModel.durationModel
-        ).show(childFragmentManager,
-            BEGINNING_DATE_DIALOG_TAG
         )
     }
 
@@ -243,8 +235,83 @@ class AddReminderFragment : Fragment(),
         }
 
     }
-
-
 }
 
 
+interface DialogFragmentsDisplayer
+
+
+object ReminderDialogFragmentsDisplayer :
+    DialogFragmentsDisplayer {
+
+
+    fun showNotificationPickerDialog(
+        notificationModel: NotificationModel
+        , childFragmentManager: FragmentManager
+    ) {
+        NotificationTimePickerFragment(
+            notificationModel
+        ).show(
+            childFragmentManager,
+            "Notification dialog tag"
+        )
+
+    }
+
+
+    fun showDurationDaysPickerDialog(
+        durationModel: DurationModel
+        , childFragmentManager: FragmentManager
+
+    ) {
+        DaysDurationPickerFragment(
+            durationModel
+        ).show(childFragmentManager, "days duration dialog")
+    }
+
+
+    fun showDaysOfWeekPickerDialog(
+        frequencyModel: FrequencyModel,
+        childFragmentManager: FragmentManager
+
+    ) {
+        WeekDayPickerFragment(frequencyModel)
+            .show(childFragmentManager, "weekday picker dialog")
+    }
+
+
+    fun showFrequencyPickerDialog(
+        frequencyModel: FrequencyModel
+        , childFragmentManager: FragmentManager
+
+    ) {
+        FrequencyPickerFragment(frequencyModel)
+            .show(childFragmentManager, "FREQUENCY PICKER DIALOG")
+    }
+
+
+    fun showEndDatePickerDialog(
+        durationModel: DurationModel
+        , childFragmentManager: FragmentManager
+
+    ) {
+        EndDatePickerFragment(durationModel)
+            .show(
+                childFragmentManager,
+                AddReminderFragment.END_DATE_DIALOG_TAG
+            )
+    }
+
+    fun showBegDatePickerDialog(
+        durationModel: DurationModel
+        , childFragmentManager: FragmentManager
+
+    ) {
+        BeginningDatePickerFragment(
+            durationModel
+        ).show(
+            childFragmentManager,
+            AddReminderFragment.BEGINNING_DATE_DIALOG_TAG
+        )
+    }
+}

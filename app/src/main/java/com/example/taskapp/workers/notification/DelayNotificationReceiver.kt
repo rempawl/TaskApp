@@ -12,15 +12,10 @@ import com.example.taskapp.utils.notification.TaskNotificationManager
 import com.example.taskapp.workers.AlarmCreator
 import com.example.taskapp.workers.notification.CreateNotificationBroadcastReceiver.Companion.TASK_KEY
 import com.example.taskapp.workers.toTaskMinimal
-import javax.inject.Inject
 
 class DelayNotificationReceiver :
     BroadcastReceiver() {
 
-    //todo android injector.. alarm creator
-
-    @Inject
-    lateinit var alarmCreator: AlarmCreator
 
     override fun onReceive(context: Context, intent: Intent) {
 
