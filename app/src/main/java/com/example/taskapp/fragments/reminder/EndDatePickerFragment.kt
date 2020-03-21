@@ -5,16 +5,16 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
 import org.threeten.bp.LocalDate
 
 class EndDatePickerFragment(
-    private val model: DurationModel
+    private val modelDefault: DefaultDurationModel
 ) : DialogFragment(),
     DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val endDate = model.currentEndDate
+        val endDate = modelDefault.currentEndDate
         val year =endDate.year
         val day = endDate.dayOfMonth
         val month = endDate.monthValue-1  //java util time
@@ -24,7 +24,7 @@ class EndDatePickerFragment(
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
         val date = LocalDate.of(year,month+1,day)
-        model.setEndDateDurationState(endDate = date)
+        modelDefault.setEndDateDurationState(endDate = date)
     }
 
 }

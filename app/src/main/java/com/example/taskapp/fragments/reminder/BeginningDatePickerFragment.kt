@@ -5,16 +5,16 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
 import org.threeten.bp.LocalDate
 
 class BeginningDatePickerFragment(
-    private val model: DurationModel
+    private val modelDefault: DefaultDurationModel
 ) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
-        val date = model.beginningDate
+        val date = modelDefault.beginningDate
         val year = date.year
         val day = date.dayOfMonth
         val month = date.monthValue - 1 //java.util.time
@@ -23,7 +23,7 @@ class BeginningDatePickerFragment(
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-        model.beginningDate = (LocalDate.of(year, month + 1, day))
+        modelDefault.beginningDate = (LocalDate.of(year, month + 1, day))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -3,15 +3,15 @@ package com.example.taskapp.viewmodels
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
-import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultNotificationModel
 import com.example.taskapp.viewmodels.reminder.FrequencyModel
-import com.example.taskapp.viewmodels.reminder.NotificationModel
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -20,29 +20,29 @@ class EditTaskViewModel @AssistedInject constructor(
     @Assisted val task: Task,
     private val taskRepo: TaskRepository,
     val taskDetailsModel: TaskDetailsModel,
-    durationModelFactory: DurationModel.Factory,
+    defaultDurationModelFactory: DefaultDurationModel.Factory,
     frequencyModelFactory: FrequencyModel.Factory,
-    notificationModelFactory: NotificationModel.Factory
-) : ViewModel() {
+    defaultNotificationModelFactory: DefaultNotificationModel.Factory
+) :ReminderViewModel() {
 
     @AssistedInject.Factory
     interface Factory {
         fun create(task: Task): EditTaskViewModel
     }
 
-    val durationModel: DurationModel
+    val durationModel: DefaultDurationModel
     val frequencyModel: FrequencyModel
-    val notificationModel: NotificationModel
+    val notificationModel: DefaultNotificationModel
 
     init {
         val reminder = task.reminder
         if (reminder != null) {
-            durationModel = durationModelFactory.create(reminder.duration, reminder.begDate)
+            durationModel = defaultDurationModelFactory.create(reminder.duration, reminder.begDate)
             frequencyModel = frequencyModelFactory.create(reminder.frequency)
-            notificationModel = notificationModelFactory.create(reminder.notificationTime)
+            notificationModel = defaultNotificationModelFactory.create(reminder.notificationTime)
         } else {
-            notificationModel = notificationModelFactory.create()
-            durationModel = durationModelFactory.create()
+            notificationModel = defaultNotificationModelFactory.create()
+            durationModel = defaultDurationModelFactory.create()
             frequencyModel = frequencyModelFactory.create()
 
         }

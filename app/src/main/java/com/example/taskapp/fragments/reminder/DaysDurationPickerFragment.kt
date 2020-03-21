@@ -8,9 +8,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
-import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
 
-class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragment() {
+class DaysDurationPickerFragment(private val modelDefault: DefaultDurationModel) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
@@ -40,7 +40,7 @@ class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragm
         } else {
             val days = text.toInt()
             if (days < Int.MAX_VALUE) {
-                model.setDaysDurationState(days)
+                modelDefault.setDaysDurationState(days)
             } else {
                 showToast("Really over ${Int.MAX_VALUE} days?")
             }

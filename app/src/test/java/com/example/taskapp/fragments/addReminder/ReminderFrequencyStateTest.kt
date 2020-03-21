@@ -22,7 +22,7 @@ internal class ReminderFrequencyStateTest {
         private val monday by lazy { MONDAY.value }
         private val tuesday by lazy { TUESDAY.value }
         private val friday by lazy { FRIDAY.value }
-        private val START_DATE: LocalDate by lazy { LocalDate.of(2020, 2, 11) } //tuesday
+        private val START_DATE: LocalDate by lazy { LocalDate.of(2030, 2, 12) } //tuesday
         private val TODAY: LocalDate by lazy { LocalDate.now() }
     }
 

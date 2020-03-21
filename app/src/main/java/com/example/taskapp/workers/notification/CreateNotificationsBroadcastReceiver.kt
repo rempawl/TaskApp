@@ -20,8 +20,6 @@ import com.example.taskapp.utils.notification.NotificationIntentFactory
 /**
  * class responsible for creating and showing task notifications
  */
-
-
 class CreateNotificationBroadcastReceiver :
     BroadcastReceiver() {
 
@@ -64,9 +62,9 @@ class CreateNotificationBroadcastReceiver :
             .setContentText(" ${task.name}  ${task.description} ")
             .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
-            .addAction(confirmAction)
-            .addAction(delay30MinAction)
-            .addAction(delayCustomTimeAction)
+            .addAction(confirmAction.build())
+            .addAction(delay30MinAction.build())
+            .addAction(delayCustomTimeAction.build())
             .setAutoCancel(true)
             .build()
 
@@ -79,7 +77,7 @@ class CreateNotificationBroadcastReceiver :
     private fun createDelayCustomTimeAction(
         context: Context,
         task: TaskMinimal
-    ): NotificationCompat.Action {
+    ): NotificationCompat.Action.Builder {
         val args = Bundle().apply { putParcelable(TASK_KEY, task) }
         val deepLink = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.main_navigation)
@@ -90,14 +88,13 @@ class CreateNotificationBroadcastReceiver :
         val title = context.getString(R.string.delay_later)
         return NotificationCompat.Action
             .Builder(R.drawable.ic_later_black_24dp, title, deepLink)
-            .build()
     }
 
 
     private fun createConfirmAction(
         context: Context,
         task: TaskMinimal
-    ): NotificationCompat.Action {
+    ): NotificationCompat.Action.Builder {
         val confirmIntent = Intent(context, ConfirmTaskCompletedReceiver::class.java)
             .putExtra(TASK_ID_KEY, task.taskID)
 
@@ -108,7 +105,7 @@ class CreateNotificationBroadcastReceiver :
             R.drawable.ic_task_completed_24dp,
             context.getString(R.string.confirm),
             confirmPendingIntent
-        ).build()
+        )
 
     }
 
@@ -116,7 +113,7 @@ class CreateNotificationBroadcastReceiver :
     private fun createDelay30MinAction(
         context: Context,
         task: TaskMinimal
-    ): NotificationCompat.Action {
+    ): NotificationCompat.Action.Builder {
         val intent = NotificationIntentFactory.createDelayNotificationIntent(
             context, 30, task
         )
@@ -127,7 +124,7 @@ class CreateNotificationBroadcastReceiver :
 
         return NotificationCompat.Action
             .Builder(R.drawable.ic_alarm_on_black_24dp, title, delay30Pending)
-            .build()
+
 
     }
 

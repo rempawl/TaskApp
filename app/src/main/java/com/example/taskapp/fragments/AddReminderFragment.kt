@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
+import com.example.taskapp.database.entities.Task
 import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showBegDatePickerDialog
@@ -21,9 +22,10 @@ import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showFreque
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showNotificationPickerDialog
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
-import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultNotificationModel
 import com.example.taskapp.viewmodels.reminder.FrequencyModel
-import com.example.taskapp.viewmodels.reminder.NotificationModel
+import com.example.taskapp.workers.AlarmCreator
 import com.google.android.material.radiobutton.MaterialRadioButton
 
 class AddReminderFragment : Fragment(), Reminder {
@@ -52,15 +54,14 @@ class AddReminderFragment : Fragment(), Reminder {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
 
-        viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
-            if (id != null) {
-                Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
-            }
-        })
+        setUpObservers()
+
 
 
         return binding!!.root
     }
+
+
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -185,6 +186,31 @@ class AddReminderFragment : Fragment(), Reminder {
 
     }
 
+    private fun setUpObservers() {
+        viewModel.apply {
+            toastText.observe(viewLifecycleOwner, Observer { id ->
+                if (id != null) {
+                    Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
+                }
+            })
+
+            /**
+             * when _addedTask is not null then  notification alarm should be set
+             */
+            addedTask.observe(viewLifecycleOwner, Observer { task ->
+                if (task != null) setAlarm(task)
+            })
+        }
+
+    }
+
+    private fun setAlarm(task: Task) {
+        context?.let { ctx ->
+            AlarmCreator.setTaskNotificationAlarm(task, true, ctx)
+        }
+    }
+
+
     private fun addTaskWithReminder() {
         viewModel.saveTaskWithReminder()
         findNavController().navigate(
@@ -246,11 +272,11 @@ object ReminderDialogFragmentsDisplayer :
 
 
     fun showNotificationPickerDialog(
-        notificationModel: NotificationModel
+        defaultNotificationModel: DefaultNotificationModel
         , childFragmentManager: FragmentManager
     ) {
         NotificationTimePickerFragment(
-            notificationModel
+            defaultNotificationModel
         ).show(
             childFragmentManager,
             "Notification dialog tag"
@@ -260,12 +286,12 @@ object ReminderDialogFragmentsDisplayer :
 
 
     fun showDurationDaysPickerDialog(
-        durationModel: DurationModel
+        defaultDurationModel: DefaultDurationModel
         , childFragmentManager: FragmentManager
 
     ) {
         DaysDurationPickerFragment(
-            durationModel
+            defaultDurationModel
         ).show(childFragmentManager, "days duration dialog")
     }
 
@@ -291,11 +317,11 @@ object ReminderDialogFragmentsDisplayer :
 
 
     fun showEndDatePickerDialog(
-        durationModel: DurationModel
+        defaultDurationModel: DefaultDurationModel
         , childFragmentManager: FragmentManager
 
     ) {
-        EndDatePickerFragment(durationModel)
+        EndDatePickerFragment(defaultDurationModel)
             .show(
                 childFragmentManager,
                 AddReminderFragment.END_DATE_DIALOG_TAG
@@ -303,12 +329,12 @@ object ReminderDialogFragmentsDisplayer :
     }
 
     fun showBegDatePickerDialog(
-        durationModel: DurationModel
+        defaultDurationModel: DefaultDurationModel
         , childFragmentManager: FragmentManager
 
     ) {
         BeginningDatePickerFragment(
-            durationModel
+            defaultDurationModel
         ).show(
             childFragmentManager,
             AddReminderFragment.BEGINNING_DATE_DIALOG_TAG

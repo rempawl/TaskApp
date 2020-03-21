@@ -20,7 +20,6 @@ import javax.inject.Inject
 //todo it will crash android injector needed
 class UpdateTomorrowRemindersReceiver @Inject constructor(
     private val taskRepository: TaskRepositoryInterface,
-    private val alarmCreator: AlarmCreator,
     private val sharedPreferencesHelper: SharedPreferencesHelper
 ) : BroadcastReceiver() {
 
@@ -39,7 +38,7 @@ class UpdateTomorrowRemindersReceiver @Inject constructor(
             if (tasksToUpdate.isEmpty()) return@launch
 
             val updatedTasks = updateTaskList(tasksToUpdate)
-            setTomorrowNotifications(updatedTasks)
+            setTomorrowNotifications(updatedTasks,context   )
 
             sharedPreferencesHelper.updateCurrentDate(TOMORROW)
         }
@@ -54,11 +53,11 @@ class UpdateTomorrowRemindersReceiver @Inject constructor(
     }
 
 
-    private fun setTomorrowNotifications(tasks: List<Task>) {
+    private fun setTomorrowNotifications(tasks: List<Task>,context: Context) {
         val tomorrowTasks = tasks
             .filter { task -> DATE_PREDICATE(MyApp.TOMORROW, task) }
         tomorrowTasks
-            .forEach { task -> alarmCreator.setTaskNotificationAlarm(task) }
+            .forEach { task -> AlarmCreator.setTaskNotificationAlarm(task,context = context) }
     }
 
     companion object {

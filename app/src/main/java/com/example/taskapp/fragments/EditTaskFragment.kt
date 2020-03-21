@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.EditTaskFragmentBinding
@@ -82,6 +83,9 @@ class EditTaskFragment : Fragment(), Reminder {
 
     private fun editTask() {
         viewModel.saveEditedTask()
+        findNavController().navigate(
+            EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
+        )
     }
 
     override fun setUpDurationLayout() {

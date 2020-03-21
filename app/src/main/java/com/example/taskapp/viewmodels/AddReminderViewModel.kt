@@ -4,20 +4,19 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
-import com.example.taskapp.repos.streak.StreakDataSource
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.addTask.TaskDetails
-import com.example.taskapp.viewmodels.reminder.DurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.DefaultNotificationModel
 import com.example.taskapp.viewmodels.reminder.FrequencyModel
-import com.example.taskapp.viewmodels.reminder.NotificationModel
-import com.example.taskapp.workers.AlarmCreator
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -28,12 +27,11 @@ import org.threeten.bp.LocalTime
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted val taskDetails: TaskDetails,
     private val taskRepository: TaskRepositoryInterface,
-    private val streakLocalDataSource: StreakDataSource,
-    private val alarmCreator: AlarmCreator,
-    durationModelFactory: DurationModel.Factory,
-    notificationModelFactory: NotificationModel.Factory,
+//    private val streakLocalDataSource: StreakDataSource,
+    defaultDurationModelFactory: DefaultDurationModel.Factory,
+    defaultNotificationModelFactory: DefaultNotificationModel.Factory,
     frequencyModelFactory: FrequencyModel.Factory
-) : ViewModel() {
+) : ReminderViewModel() {
 
     @AssistedInject.Factory
     interface Factory {
@@ -42,14 +40,20 @@ class AddReminderViewModel @AssistedInject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    val notificationModel = notificationModelFactory.create()
-    val durationModel = durationModelFactory.create()
+    val notificationModel = defaultNotificationModelFactory.create()
+    val durationModel = defaultDurationModelFactory.create()
     val frequencyModel: FrequencyModel = frequencyModelFactory.create()
 
     private val _toastText = MutableLiveData<Int>(null)
     val toastText: LiveData<Int>
         get() = _toastText
 
+    /**
+     * when _addedTask is not null then  notification alarm should be set
+     */
+    private val _addedTask = MutableLiveData<Task>(null)
+    val addedTask: LiveData<Task>
+        get() = _addedTask
 
     private val errorCallback = ErrorCallback(durationModel, _toastText)
 
@@ -68,27 +72,14 @@ class AddReminderViewModel @AssistedInject constructor(
 
     fun saveTaskWithReminder() {
         viewModelScope.launch {
-            val reminder = Reminder(
-                begDate = durationModel.beginningDate,
-                duration = durationModel.getDuration(),
-                frequency = frequencyModel.getFrequency(),
-                notificationTime = notificationModel.getNotificationTime(),
-                realizationDate = frequencyModel.getUpdateDate(durationModel.beginningDate),
-                expirationDate = durationModel.getExpirationDate()
-            )
-
-            val task = Task(
-                name = taskDetails.name, description = taskDetails.description,
-                reminder = reminder
-            )
+            val reminder = createReminder()
+            val task = createTask(reminder)
             val isRealizationToday = reminder.realizationDate.isEqual(TODAY)
-            var isSuccess = false
 
             compositeDisposable.add(
-                taskRepository.saveTask(task)
+                addTask(task)
                     .subscribeOn(Schedulers.io())
                     .subscribe({ taskID ->
-                        isSuccess = true
                         saveStreak(taskID)
                     },
                         { e -> e.printStackTrace() }
@@ -97,11 +88,34 @@ class AddReminderViewModel @AssistedInject constructor(
             if (isRealizationToday
                 && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
             ) {
-                alarmCreator.setTaskNotificationAlarm(task, true)
+                _addedTask.value = task
             }
 
 
         }
+    }
+
+    private  suspend fun addTask(task: Task) : Single<Long> = taskRepository.saveTask(task)
+
+    private fun createTask(reminder: Reminder): Task {
+        return Task(
+            name = taskDetails.name, description = taskDetails.description,
+            reminder = reminder
+        )
+
+    }
+
+    private fun createReminder(): Reminder {
+        return Reminder(
+            begDate = durationModel.beginningDate,
+            duration = durationModel.getDuration(),
+            frequency = frequencyModel.getFrequency(),
+            notificationTime = notificationModel.getNotificationTime(),
+            realizationDate = frequencyModel.getUpdateDate(durationModel.beginningDate),
+            expirationDate = durationModel.getExpirationDate()
+        )
+
+
     }
 
     private fun saveStreak(taskID: Long) = viewModelScope.launch {
@@ -119,7 +133,7 @@ class AddReminderViewModel @AssistedInject constructor(
 
 
 class ErrorCallback(
-    private val durationModel: DurationModel,
+    private val defaultDurationModel: DefaultDurationModel,
     private val toastText: MutableLiveData<Int>
 ) :
     Observable.OnPropertyChangedCallback() {
@@ -129,10 +143,10 @@ class ErrorCallback(
             if (value == true) {
                 sender.set(false)
                 when (sender) {
-                    durationModel.begDateError -> {
+                    defaultDurationModel.begDateError -> {
                         toastText.value = R.string.beginning_date_error
                     }
-                    durationModel.endDateError -> {
+                    defaultDurationModel.endDateError -> {
                         toastText.value = R.string.end_date_error
                     }
                 }

@@ -30,8 +30,6 @@ class UpdateRemindersWorker constructor(
     @Inject
     lateinit var taskRepo: TaskRepositoryInterface
     @Inject
-    lateinit var alarmCreator: AlarmCreator
-    @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
 
@@ -53,7 +51,7 @@ class UpdateRemindersWorker constructor(
             setTodayNotifications(updatedTasks)
         }
         if (LocalDate.ofEpochDay(currentDate).isEqual(TODAY)) {
-            alarmCreator.setUpdateTaskListAlarm()
+            AlarmCreator.setUpdateTaskListAlarm(applicationContext)
         }
 
 
@@ -75,7 +73,7 @@ class UpdateRemindersWorker constructor(
                 DATE_PREDICATE(TODAY, task)
                         && task.reminder!!.notificationTime.convertToLocalTime()
                     .isAfter(LocalTime.now())
-            }.forEach { task -> alarmCreator.setTaskNotificationAlarm(task) }
+            }.forEach { task -> AlarmCreator.setTaskNotificationAlarm(task,context = applicationContext) }
     }
 
     companion object {

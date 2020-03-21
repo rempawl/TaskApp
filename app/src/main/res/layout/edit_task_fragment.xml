@@ -58,7 +58,6 @@
                         android:textColor="@color/design_default_color_background"
                         android:textSize="20sp" />
 
-                    <!--                    different-->
                     <EditText
                         android:id="@+id/task_description"
                         android:layout_width="match_parent"
@@ -73,7 +72,6 @@
                         android:textSize="20sp" />
                 </LinearLayout>
 
-                <!--                different -->
 
                 <!--REMINDER LAYOUT -->
                 <Switch
@@ -101,6 +99,16 @@
                         android:text="@string/set_notification_time"
                         android:textColor="@color/design_default_color_background"
                         app:backgroundTint="@color/colorPrimaryDark" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/enable_notification"
+                        android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:theme="@style/SwitchTheme"
+                        />
 
                     <!-- FREQUENCY LAYOUT -->
                     <LinearLayout
