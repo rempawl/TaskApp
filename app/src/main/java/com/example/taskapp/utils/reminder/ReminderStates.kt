@@ -30,7 +30,7 @@ sealed class ReminderFrequencyState {
             var date = lastRealizationDate
             do {
                 date =
-                    LocalDate.ofEpochDay(lastRealizationDate.toEpochDay() + if (!isBeginning) frequency else 0)
+                    LocalDate.ofEpochDay(date.toEpochDay() + if (!isBeginning) frequency else 0)
             } while (date.isBefore(TODAY))
             return date
 

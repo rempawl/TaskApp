@@ -5,11 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import org.threeten.bp.LocalDate
 
 class BeginningDatePickerFragment(
-    private val modelDefault: DefaultDurationModel
+    private val modelDefault: DurationModel
 ) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

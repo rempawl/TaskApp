@@ -3,6 +3,7 @@ package com.example.taskapp.viewmodels.reminder
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.utils.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
 import org.junit.Rule
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -33,7 +34,11 @@ internal class DefaultDurationModelTest {
 
         @BeforeEach
         fun setUp() {
-            modelDefault = DefaultDurationModel(duration, begDate)
+            modelDefault =
+                DefaultDurationModel(
+                    duration,
+                    begDate
+                )
         }
 
         @Test
@@ -99,7 +104,11 @@ internal class DefaultDurationModelTest {
 
         @BeforeEach
         fun setUp() {
-            modelDefault = DefaultDurationModel(null, today)
+            modelDefault =
+                DefaultDurationModel(
+                    null,
+                    today
+                )
         }
 
         @Test

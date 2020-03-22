@@ -3,6 +3,8 @@ package com.example.taskapp.viewmodels.reminder
 import com.example.taskapp.database.entities.Frequency
 import com.example.taskapp.utils.reminder.DayOfWeekValue
 import com.example.taskapp.utils.reminder.ReminderFrequencyState
+import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyModel
+import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -17,7 +19,10 @@ internal class FrequencyModelTest {
     inner class InitWithNull {
         @BeforeEach
         fun setUp() {
-            model = FrequencyModel(null)
+            model =
+                DefaultFrequencyModel(
+                    null
+                )
         }
 
         @Test
@@ -68,7 +73,10 @@ internal class FrequencyModelTest {
 
         @BeforeEach
         fun setUp() {
-            model = FrequencyModel(freq)
+            model =
+                DefaultFrequencyModel(
+                    freq
+                )
         }
 
         @Test
@@ -120,7 +128,10 @@ internal class FrequencyModelTest {
 
         @BeforeEach
         fun setUp() {
-            model = FrequencyModel(freq)
+            model =
+                DefaultFrequencyModel(
+                    freq
+                )
         }
 
         @Test

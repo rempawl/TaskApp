@@ -2,6 +2,7 @@ package com.example.taskapp.viewmodels.reminder
 
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.loadTimeZone
+import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.jupiter.api.Assertions.*
@@ -17,23 +18,29 @@ internal class DefaultNotificationModelTest {
     }
 
 
-    lateinit var modelDefault: DefaultNotificationModel
+    lateinit var notificationModel: DefaultNotificationModel
 
     @Nested
     inner class Init{
 
         @Test
         fun `given notificationTime null,then  isNotificationTimeSet is false `(){
-            modelDefault = DefaultNotificationModel(null)
-            assertFalse(modelDefault.isNotificationTimeSet.get() as Boolean)
+            notificationModel =
+                DefaultNotificationModel(
+                    null
+                )
+            assertFalse(notificationModel.isNotificationTimeSet.get() as Boolean)
         }
 
         @Test
         fun ` given NotificationTime(3,20) then isNotificationTImeSet is true and notificationTIme is Given one`(){
             val expectedTime = LocalTime.of(3,20)
-            modelDefault = DefaultNotificationModel(NotificationTime.from(expectedTime))
-            val actualFlag = modelDefault.isNotificationTimeSet.get() as Boolean
-            val actualTime = modelDefault.notificationTime
+            notificationModel =
+                DefaultNotificationModel(
+                    NotificationTime.from(expectedTime)
+                )
+            val actualFlag = notificationModel.isNotificationTimeSet.get() as Boolean
+            val actualTime = notificationModel.notificationTime
 
             assertTrue(actualFlag)
             assertEquals(expectedTime,actualTime)
@@ -48,15 +55,18 @@ internal class DefaultNotificationModelTest {
 
         @BeforeEach
         fun setUp(){
-            modelDefault = DefaultNotificationModel(null)
+            notificationModel =
+                DefaultNotificationModel(
+                    null
+                )
 
         }
         @Test
         fun `Given LocalTime(1,25),then  IsNotificationTime is true and notificationTime is given one`() {
                 val time = LocalTime.of(1,25)
-                modelDefault.setNotificationTime(time)
-                val actualTime = modelDefault.notificationTime
-                val actualFlag = modelDefault.isNotificationTimeSet.get() as Boolean
+                notificationModel.notificationTime = (time)
+                val actualTime = notificationModel.notificationTime
+                val actualFlag = notificationModel.isNotificationTimeSet.get() as Boolean
 
                 assertThat(actualTime,`is`(time))
                 assertTrue(actualFlag)

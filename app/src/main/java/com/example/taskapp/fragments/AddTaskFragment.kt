@@ -11,7 +11,6 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
-import io.reactivex.disposables.CompositeDisposable
 
 
 class AddTaskFragment : Fragment() {
@@ -24,7 +23,7 @@ class AddTaskFragment : Fragment() {
         (activity as MainActivity).appComponent.addTaskViewModel
     }
 
-    private val disposables = CompositeDisposable()
+//    private val disposables = CompositeDisposable()
     private var binding: AddTaskFragmentBinding? =null
 
     override fun onCreateView(
@@ -42,7 +41,6 @@ class AddTaskFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding?.apply{
-            disposables.dispose()
             viewModel = null
             lifecycleOwner = null
         }
@@ -74,7 +72,7 @@ class AddTaskFragment : Fragment() {
 
         findNavController().navigate(
             AddTaskFragmentDirections.navigationAddTaskToNavigationAddReminder(
-                viewModel.getTaskDetails()
+                viewModel.getTask()
             )
         )
     }

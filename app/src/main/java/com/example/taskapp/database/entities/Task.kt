@@ -16,11 +16,11 @@ data class SpontaneousTask(
     ) val parentTaskID: Long
 )
 
+@Parcelize
 @Entity(
     tableName = "tasks",
     indices = [Index(value = ["name"], unique = true)]
 )
-@Parcelize
 data class Task constructor(
     @PrimaryKey(autoGenerate = true) val taskID: Long = 0,
     val name: String,

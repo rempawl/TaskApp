@@ -1,11 +1,11 @@
 package com.example.taskapp.viewmodels
 
+import com.example.taskapp.database.entities.Task
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.viewmodels.addTask.TaskDetails
-import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
-import com.example.taskapp.viewmodels.reminder.DefaultNotificationModel
-import com.example.taskapp.viewmodels.reminder.FrequencyModel
+import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyModel
+import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -25,26 +25,33 @@ class AddReminderViewModelTest {
     lateinit var defaultDurationModelFactory: DefaultDurationModel.Factory
 
     @MockK
-    lateinit var freqModelFactory: FrequencyModel.Factory
+    lateinit var freqModelFactory: DefaultFrequencyModel.Factory
 
     @MockK
     lateinit var defaultNotificationModelFactory: DefaultNotificationModel.Factory
 
     @MockK
-    lateinit var taskDetails: TaskDetails
+    lateinit var task: Task
 
     lateinit var viewModel: AddReminderViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { defaultNotificationModelFactory.create() } returns DefaultNotificationModel(null)
-        every { defaultDurationModelFactory.create() } returns DefaultDurationModel(null, LocalDate.now())
-        every { freqModelFactory.create() } returns FrequencyModel(null)
+        every { defaultNotificationModelFactory.create() } returns DefaultNotificationModel(
+            null
+        )
+        every { defaultDurationModelFactory.create() } returns DefaultDurationModel(
+            null,
+            LocalDate.now()
+        )
+        every { freqModelFactory.create() } returns DefaultFrequencyModel(
+            null
+        )
 
         viewModel = AddReminderViewModel(
             taskRepository = taskRepositoryInterface,
-            taskDetails = taskDetails,
+            task = task,
             defaultDurationModelFactory = defaultDurationModelFactory,
             defaultNotificationModelFactory = defaultNotificationModelFactory,
             frequencyModelFactory = freqModelFactory
@@ -54,6 +61,7 @@ class AddReminderViewModelTest {
 
     @Test
     fun `createTask returns `() {
+
     }
 
 }

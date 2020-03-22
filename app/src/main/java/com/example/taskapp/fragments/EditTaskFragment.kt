@@ -43,7 +43,7 @@ class EditTaskFragment : Fragment(), Reminder {
         savedInstanceState: Bundle?
     ): View? {
         binding = EditTaskFragmentBinding.inflate(inflater, container, false)
-        viewModel.getToastText().observe(viewLifecycleOwner, Observer { id ->
+        viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
             if (id != null) {
                 Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
             }

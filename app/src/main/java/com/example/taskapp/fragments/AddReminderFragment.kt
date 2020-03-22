@@ -22,9 +22,9 @@ import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showFreque
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showNotificationPickerDialog
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
-import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
-import com.example.taskapp.viewmodels.reminder.DefaultNotificationModel
-import com.example.taskapp.viewmodels.reminder.FrequencyModel
+import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
+import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
+import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.example.taskapp.workers.AlarmCreator
 import com.google.android.material.radiobutton.MaterialRadioButton
 
@@ -39,7 +39,7 @@ class AddReminderFragment : Fragment(), Reminder {
 
     private val viewModel by viewModel {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
-            .create(args.taskDetails)
+            .create(args.task)
     }
 
     private var binding: AddReminderFragmentBinding? = null
@@ -54,10 +54,6 @@ class AddReminderFragment : Fragment(), Reminder {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
 
-        setUpObservers()
-
-
-
         return binding!!.root
     }
 
@@ -67,6 +63,8 @@ class AddReminderFragment : Fragment(), Reminder {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpBinding()
+        setUpObservers()
+
     }
 
     override fun onDestroyView() {
@@ -272,7 +270,7 @@ object ReminderDialogFragmentsDisplayer :
 
 
     fun showNotificationPickerDialog(
-        defaultNotificationModel: DefaultNotificationModel
+        defaultNotificationModel: NotificationModel
         , childFragmentManager: FragmentManager
     ) {
         NotificationTimePickerFragment(
@@ -286,7 +284,7 @@ object ReminderDialogFragmentsDisplayer :
 
 
     fun showDurationDaysPickerDialog(
-        defaultDurationModel: DefaultDurationModel
+        defaultDurationModel: DurationModel
         , childFragmentManager: FragmentManager
 
     ) {
@@ -317,7 +315,7 @@ object ReminderDialogFragmentsDisplayer :
 
 
     fun showEndDatePickerDialog(
-        defaultDurationModel: DefaultDurationModel
+        defaultDurationModel: DurationModel
         , childFragmentManager: FragmentManager
 
     ) {
@@ -329,7 +327,7 @@ object ReminderDialogFragmentsDisplayer :
     }
 
     fun showBegDatePickerDialog(
-        defaultDurationModel: DefaultDurationModel
+        defaultDurationModel: DurationModel
         , childFragmentManager: FragmentManager
 
     ) {

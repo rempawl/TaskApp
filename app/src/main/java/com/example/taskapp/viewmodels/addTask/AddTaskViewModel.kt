@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -29,6 +30,10 @@ class AddTaskViewModel @Inject constructor(
         if (!focused && text.isBlank()) {
             taskFields.validateTaskDescription()
         }
+    }
+
+    fun getTask() : Task {
+        return taskFields.createTask()
     }
 
     fun getTaskDetails(): TaskDetails {

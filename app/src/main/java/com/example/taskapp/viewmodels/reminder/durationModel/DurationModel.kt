@@ -1,22 +1,15 @@
-package com.example.taskapp.viewmodels.reminder
+package com.example.taskapp.viewmodels.reminder.durationModel
 
+import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
-import com.example.taskapp.BR
+import androidx.databinding.library.baseAdapters.BR
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.utils.reminder.ReminderDurationState
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
-class DefaultDurationModel @AssistedInject constructor(@Assisted duration: Duration?,
-                                                       @Assisted begDate: LocalDate )  :
-    DurationModel() {
+abstract class DurationModel(duration: Duration?,begDate: LocalDate): BaseObservable(){
 
-    @AssistedInject.Factory
-    interface Factory{
-        fun create(duration: Duration?  = null, begDate: LocalDate = LocalDate.now()) : DefaultDurationModel
-    }
 
     //Today for new tasks begDate for edited tasks
     private val validationDate: LocalDate = begDate
@@ -119,6 +112,8 @@ class DefaultDurationModel @AssistedInject constructor(@Assisted duration: Durat
     companion object{
         private val TODAY = LocalDate.now()
     }
+
+
 
 
 }

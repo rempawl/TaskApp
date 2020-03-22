@@ -1,71 +1,44 @@
 package com.example.taskapp.viewmodels
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.database.entities.Task
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
-import com.example.taskapp.viewmodels.reminder.DefaultDurationModel
-import com.example.taskapp.viewmodels.reminder.DefaultNotificationModel
-import com.example.taskapp.viewmodels.reminder.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
+import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyModel
+import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class EditTaskViewModel @AssistedInject constructor(
-    @Assisted val task: Task,
-    private val taskRepo: TaskRepository,
     val taskDetailsModel: TaskDetailsModel,
+    @Assisted  task: Task,
+    taskRepository: TaskRepositoryInterface,
     defaultDurationModelFactory: DefaultDurationModel.Factory,
-    frequencyModelFactory: FrequencyModel.Factory,
+    frequencyModelFactory: DefaultFrequencyModel.Factory,
     defaultNotificationModelFactory: DefaultNotificationModel.Factory
-) :ReminderViewModel() {
+) :ReminderViewModel(
+    task, taskRepository, defaultDurationModelFactory,
+    defaultNotificationModelFactory,
+    frequencyModelFactory
+
+) {
 
     @AssistedInject.Factory
     interface Factory {
         fun create(task: Task): EditTaskViewModel
     }
 
-    val durationModel: DefaultDurationModel
-    val frequencyModel: FrequencyModel
-    val notificationModel: DefaultNotificationModel
-
-    init {
-        val reminder = task.reminder
-        if (reminder != null) {
-            durationModel = defaultDurationModelFactory.create(reminder.duration, reminder.begDate)
-            frequencyModel = frequencyModelFactory.create(reminder.frequency)
-            notificationModel = defaultNotificationModelFactory.create(reminder.notificationTime)
-        } else {
-            notificationModel = defaultNotificationModelFactory.create()
-            durationModel = defaultDurationModelFactory.create()
-            frequencyModel = frequencyModelFactory.create()
-
-        }
+    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
+    init{
         taskDetailsModel.taskDescription = task.description
     }
 
-    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
-    private val toastText = MutableLiveData<Int>(null)
-    fun getToastText(): LiveData<Int> = toastText
-
-    private val errorCallback = ErrorCallback(durationModel,toastText)
-
-    init {
-        durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
-        durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        durationModel.begDateError.removeOnPropertyChangedCallback(errorCallback)
-        durationModel.endDateError.removeOnPropertyChangedCallback(errorCallback)
-    }
-
+    //todo setting alarm for edited task
     fun saveEditedTask() {
         viewModelScope.launch {
             var reminder: Reminder? = null
@@ -83,7 +56,7 @@ class EditTaskViewModel @AssistedInject constructor(
                 description = taskDetailsModel.taskDescription,
                 reminder = reminder
             )
-            taskRepo.updateTask(edited)
+            taskRepository.updateTask(edited)
         }
     }
 }
