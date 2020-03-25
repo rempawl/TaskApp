@@ -5,14 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.taskapp.database.dao.StreakDao
 import com.example.taskapp.database.dao.TaskDao
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Streak
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.utils.Converters
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Database(
-    entities = [Task::class,
+    entities = [DefaultTask::class,
     Streak::class
 
 
@@ -25,10 +30,9 @@ abstract class AppDataBase : RoomDatabase() {
 
     abstract fun streakDao() : StreakDao
     companion object {
-        const val VERSION_INT = 19
+        const val VERSION_INT = 20
         const val DB_NAME = "TaskApp DB"
-        val INITIAL_TASKS = listOf<Task>()
-
+        val INITIAL_TASKS = listOf<DefaultTask>()
 
         private var INSTANCE: AppDataBase? = null
 
@@ -36,7 +40,16 @@ abstract class AppDataBase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE = Room
                     .databaseBuilder(context, AppDataBase::class.java, DB_NAME)
-                    .fallbackToDestructiveMigration()
+                    .addCallback(object : Callback(){
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                getInstance(context)
+                                    .taskDao()
+                                    .insertItems(DefaultTasks.tasks.toList())
+                            }
+                        }
+                    })
                     .build()
                 INSTANCE as AppDataBase
             }

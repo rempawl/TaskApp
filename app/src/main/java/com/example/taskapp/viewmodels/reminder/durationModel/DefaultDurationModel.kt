@@ -11,6 +11,6 @@ class DefaultDurationModel @AssistedInject constructor(@Assisted duration: Durat
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(duration: Duration? = null, begDate: LocalDate = LocalDate.now()): DurationModel
+        fun create(duration: Duration? = null, begDate: LocalDate = LocalDate.now()): DefaultDurationModel
     }
 }

@@ -1,9 +1,9 @@
 package com.example.taskapp.repos.task
 
 import com.example.taskapp.MyApp.Companion.TODAY
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
-import com.example.taskapp.database.entities.Task
 import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.example.taskapp.utils.reminder.ReminderFrequencyState
 import com.example.taskapp.workers.toTaskMinimal
@@ -40,27 +40,27 @@ object DefaultTasks {
         notificationTime = notificationTimeTwelve
     )
 
-    val tasks = mutableListOf<Task>(
-        Task(taskID = 0, name = "first", description = "no reminder"),
-        Task(
+    val tasks = mutableListOf<DefaultTask>(
+        DefaultTask(taskID = 0, name = "first", description = "no reminder"),
+        DefaultTask(
             taskID = 1,
             name = "second",
             description = "with first reminder",
             reminder = firstReminder
         ),
-        Task(
+        DefaultTask(
             taskID = 2,
             name = "third",
             description = "with second reminder",
             reminder = secondReminder
         ),
-        Task(
+        DefaultTask(
             taskID = 3,
             name = "fourth",
             description = "with first reminder",
             reminder = firstReminder
         ),
-        Task(
+        DefaultTask(
             taskID = 4,
             name = "fifth",
             description = "with second reminder",
@@ -70,6 +70,6 @@ object DefaultTasks {
 
     val minimalTasks = tasks.map { task ->task.toTaskMinimal() }
 
-    val errorTask = Task(taskID = -1,name = "error")
+    val errorTask = DefaultTask(taskID = -1,name = "error")
 
 }

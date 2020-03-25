@@ -4,8 +4,9 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class AddTaskViewModel @Inject constructor(
         }
     }
 
-    fun getTask() : Task {
+    fun getTask(): DefaultTask {
         return taskFields.createTask()
     }
 
@@ -43,12 +44,18 @@ class AddTaskViewModel @Inject constructor(
     fun saveTask() {
         viewModelScope.launch {
             val newTask = taskFields.createTask()
+
             compositeDisposable.add(
-                taskRepository.saveTask(newTask)
+                addTask(newTask)
                     .subscribeOn(Schedulers.io())
                     .subscribe({}, { it.printStackTrace() })
             )
         }
+    }
+
+    private suspend fun addTask(newTask: DefaultTask): Single<Long> {
+        return taskRepository.saveTask(newTask)
+
     }
 
 

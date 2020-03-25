@@ -5,7 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.taskapp.MyApp
 import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.SharedPreferencesHelper
@@ -13,7 +13,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
-typealias DatePredicate = (LocalDate, Task) -> (Boolean)
+typealias DatePredicate = (LocalDate, DefaultTask) -> (Boolean)
 
 /**
  * class that checks if today tasks are up to date
@@ -29,8 +29,6 @@ class UpdateRemindersWorker constructor(
     //todo constructor inject WorkerFactory
     @Inject
     lateinit var taskRepo: TaskRepositoryInterface
-    @Inject
-    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
 
     override suspend fun doWork(): Result {
@@ -44,7 +42,7 @@ class UpdateRemindersWorker constructor(
         }
         val tasks = allTasks.filter { task -> task.reminder != null }
 
-        val currentDate = sharedPreferencesHelper.getCurrentDate()
+        val currentDate = SharedPreferencesHelper.getCurrentDate(applicationContext)
 
         if (currentDate == -1L || LocalDate.ofEpochDay(currentDate).isBefore(TODAY)) {
             val updatedTasks = updateTaskList(tasks)
@@ -59,7 +57,7 @@ class UpdateRemindersWorker constructor(
     }
 
 
-    private suspend fun updateTaskList(tasks: List<Task>): List<Task> {
+    private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
         val partitionedTasks = tasks
             .partition { task -> task.updateRealizationDate() != null }
         taskRepo.updateTasks(partitionedTasks.first)
@@ -67,7 +65,7 @@ class UpdateRemindersWorker constructor(
         return partitionedTasks.toList()[0]
     }
 
-    private fun setTodayNotifications(tasks: List<Task>) {
+    private fun setTodayNotifications(tasks: List<DefaultTask>) {
         tasks
             .filter { task ->
                 DATE_PREDICATE(TODAY, task)

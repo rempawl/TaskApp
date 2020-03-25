@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp
 import com.example.taskapp.MyApp.Companion.TOMORROW
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.SharedPreferencesHelper
@@ -18,19 +18,20 @@ import javax.inject.Inject
  * class responsible for updating realization dates of tasks and setting alarms for tomorrow tasks
  */
 //todo it will crash android injector needed
-class UpdateTomorrowRemindersReceiver @Inject constructor(
-    private val taskRepository: TaskRepositoryInterface,
-    private val sharedPreferencesHelper: SharedPreferencesHelper
-) : BroadcastReceiver() {
+class UpdateTomorrowRemindersReceiver :
+    BroadcastReceiver() {
+    @Inject
+
+    lateinit var taskRepository: TaskRepositoryInterface
 
 
     override fun onReceive(context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.Default).launch {
-            val tasks: List<Task> = taskRepository.getTasks()
+            val tasks: List<DefaultTask> = taskRepository.getTasks()
 
             if (tasks.first() == TaskRepository.ERROR_TASK) {
                 //if repo returns error UpdateNotificationsWorker will have to update the reminders
-                sharedPreferencesHelper.setErrorCurrentDate()
+                SharedPreferencesHelper.setErrorCurrentDate(context)
                 return@launch
             }
 
@@ -40,11 +41,11 @@ class UpdateTomorrowRemindersReceiver @Inject constructor(
             val updatedTasks = updateTaskList(tasksToUpdate)
             setTomorrowNotifications(updatedTasks,context   )
 
-            sharedPreferencesHelper.updateCurrentDate(TOMORROW)
+            SharedPreferencesHelper.updateCurrentDate(TOMORROW,context)
         }
     }
 
-    private suspend fun updateTaskList(tasks: List<Task>): List<Task> {
+    private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
         val partitionedTasks = tasks
             .partition { task -> task.updateRealizationDate() != null }
 
@@ -53,7 +54,7 @@ class UpdateTomorrowRemindersReceiver @Inject constructor(
     }
 
 
-    private fun setTomorrowNotifications(tasks: List<Task>,context: Context) {
+    private fun setTomorrowNotifications(tasks: List<DefaultTask>, context: Context) {
         val tomorrowTasks = tasks
             .filter { task -> DATE_PREDICATE(MyApp.TOMORROW, task) }
         tomorrowTasks

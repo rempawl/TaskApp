@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels.addTask
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.mockk.MockKAnnotations
@@ -42,7 +42,7 @@ class AddTaskViewModelTest {
     fun `save Task  `() {
         //todo exception
         TestCoroutineScope().launch {
-            val newTask = Task(name = TEST_NAME, description = TEST_DESC)
+            val newTask = DefaultTask(name = TEST_NAME, description = TEST_DESC)
             coEvery { taskDetailsModel.createTask() } returns newTask
             coEvery { taskRepository.saveTask(taskDetailsModel.createTask()) } returns Single.just(1)
             viewModel.saveTask()

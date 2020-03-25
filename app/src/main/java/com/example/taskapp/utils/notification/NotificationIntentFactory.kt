@@ -8,6 +8,7 @@ import com.example.taskapp.workers.notification.DelayNotificationReceiver
 
 
 class NotificationIntentFactory {
+
     companion object {
         fun createDelayNotificationIntent(context: Context, delayValue: Int, task: TaskMinimal)
                 : Intent {

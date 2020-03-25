@@ -10,7 +10,7 @@ import org.threeten.bp.LocalDate
 data class Streak(
     @PrimaryKey(autoGenerate = true) val streakID: Long = 0,
     @ForeignKey(
-        entity = Task::class,
+        entity = DefaultTask::class,
         onDelete = CASCADE,
         childColumns = ["parentTaskID"],
         parentColumns = ["taskID"]

@@ -8,7 +8,7 @@ import android.os.SystemClock
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory.Companion.createNotificationReceiverIntent
 import org.threeten.bp.LocalDateTime
@@ -22,7 +22,7 @@ object AlarmCreator {
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
 
-    fun setTaskNotificationAlarm(task: Task, isToday: Boolean = false, context: Context) {
+    fun setTaskNotificationAlarm(task: DefaultTask, isToday: Boolean = false, context: Context) {
         val manager = createManager(context)
         val intent = createNotificationReceiverIntent(task.toTaskMinimal(), context)
         val date = if (isToday) TODAY else TOMORROW
@@ -65,7 +65,7 @@ object AlarmCreator {
 
 }
 
-fun Task.toTaskMinimal(): TaskMinimal {
+fun DefaultTask.toTaskMinimal(): TaskMinimal {
     return TaskMinimal(
         taskID = this.taskID,
         name = this.name,

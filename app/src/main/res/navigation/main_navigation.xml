@@ -48,7 +48,7 @@
         android:label="@string/edit_task">
         <argument
             android:name="task"
-            app:argType="com.example.taskapp.database.entities.Task"
+            app:argType="com.example.taskapp.database.entities.DefaultTask"
             app:nullable="false" />
         <action
             android:id="@+id/navigation_edit_task_to_navigation_my_tasks"
@@ -93,7 +93,7 @@
         android:label="@string/add_reminder">
         <argument
             android:name="task"
-            app:argType="com.example.taskapp.database.entities.Task"
+            app:argType="com.example.taskapp.database.entities.DefaultTask"
             app:nullable="false" />
         <action
             android:id="@+id/navigation_add_reminder_to_navigation_my_tasks"

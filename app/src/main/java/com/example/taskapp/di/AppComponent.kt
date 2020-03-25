@@ -22,7 +22,8 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         DataBaseModule::class,
         RepositoryModule::class,
-        WorkerModule::class
+        WorkerModule::class,
+    ViewModelModule::class
     ]
 )
 @Singleton

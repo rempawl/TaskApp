@@ -6,9 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskapp.MyApp
 import com.example.taskapp.R
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
-import com.example.taskapp.database.entities.Task
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
@@ -18,18 +19,27 @@ import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotifica
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalTime
 
 
 abstract class ReminderViewModel(
-    val task: Task,
+    val task: DefaultTask,
     protected val taskRepository: TaskRepositoryInterface,
     defaultDurationModelFactory: DefaultDurationModel.Factory,
     defaultNotificationModelFactory: DefaultNotificationModel.Factory,
     frequencyModelFactory: DefaultFrequencyModel.Factory
 
 ) : ViewModel() {
-    protected val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
+
+    /**
+     * when _addedTask is not null then  notification alarm should be set
+     */
+    private val _addedTask = MutableLiveData<DefaultTask>(null)
+    val addedTask: LiveData<DefaultTask>
+        get() = _addedTask
 
     val notificationModel: NotificationModel
     val frequencyModel: FrequencyModel
@@ -61,14 +71,11 @@ abstract class ReminderViewModel(
         durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
     }
 
-    protected suspend fun addTask(task: Task): Single<Long> = taskRepository.saveTask(task)
+    protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
 
-    protected fun createTask(reminder: Reminder): Task {
-        return task.copy(reminder = reminder)
+    protected abstract fun createTask(reminder: Reminder?): DefaultTask
 
-    }
-
-    protected fun createReminder(): Reminder {
+    private fun createReminder(): Reminder {
         return Reminder(
             begDate = durationModel.beginningDate,
             duration = durationModel.getDuration(),
@@ -80,6 +87,32 @@ abstract class ReminderViewModel(
 
 
     }
+
+    fun saveTask(setReminder: Boolean = true) {
+        viewModelScope.launch {
+            val reminder = if (setReminder) createReminder() else null
+            val task = createTask(reminder)
+            val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
+
+            compositeDisposable.add(
+                addTask(task)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ taskID ->
+//                        saveStreak(taskID)
+                    },
+                        { e -> e.printStackTrace() }
+                    )
+            )
+            if (isRealizationToday && reminder != null
+                && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
+            ) {
+                _addedTask.value = task
+            }
+
+
+        }
+    }
+
 
     private fun saveStreak(taskID: Long) = viewModelScope.launch {
         //todo

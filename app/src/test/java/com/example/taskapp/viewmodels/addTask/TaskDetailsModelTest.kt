@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels.addTask
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Rule
@@ -20,7 +20,7 @@ internal class TaskDetailsModelTest {
 
     @BeforeEach
     fun setUp() {
-        taskDetailsModel = TaskDetailsModel()
+        taskDetailsModel = DefaultTaskDetailsModel()
     }
 
     @DisplayName("when taskName is `TEST_NAME` and taskDesc is `TEST_DESC` ")
@@ -44,7 +44,7 @@ internal class TaskDetailsModelTest {
         fun `createTask returns Task(name=TEST_NAME,desc=TEST_DESC) `() {
             val expectedName = TEST_NAME
             val expectedDesc = TEST_DESC
-            val expectedValue = Task(name = expectedName, description = expectedDesc)
+            val expectedValue = DefaultTask(name = expectedName, description = expectedDesc)
 
             taskDetailsModel.taskName = TEST_NAME
             taskDetailsModel.taskDescription = TEST_DESC

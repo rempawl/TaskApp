@@ -14,7 +14,6 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
-//todo mockK
 //todo editTask init reminder state radio check
 //todo settings menu
 //todo tests

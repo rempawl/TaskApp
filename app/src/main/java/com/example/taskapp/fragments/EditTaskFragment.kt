@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
+import com.example.taskapp.R
 import com.example.taskapp.databinding.EditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showBegDatePickerDialog
@@ -48,12 +50,19 @@ class EditTaskFragment : Fragment(), Reminder {
                 Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
             }
         })
+
         return binding!!.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpBinding()
+        val toolbar = (activity as MainActivity).findViewById<Toolbar>(R.id.toolbar)
+        toolbar.apply{
+            setNavigationIcon(R.drawable.ic_close_black_24dp)
+            setNavigationOnClickListener {  } //todo show confirm dialog
+        }
+
     }
 
     override fun onDestroyView() {

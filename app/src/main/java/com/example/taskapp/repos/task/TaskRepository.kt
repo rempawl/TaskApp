@@ -1,7 +1,7 @@
 package com.example.taskapp.repos.task
 
 import com.example.taskapp.database.Result
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.workers.toTaskMinimal
 import dagger.Reusable
@@ -14,10 +14,10 @@ import javax.inject.Inject
 class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLocalDataSource) :
     TaskRepositoryInterface {
 
-    override suspend fun getTasks(): List<Task> {
+    override suspend fun getTasks(): List<DefaultTask> {
         val data = taskLocalDataSource.getTasks()
         return if (data is Result.Success<*>) {
-            data.items as List<Task>
+            data.items as List<DefaultTask>
         } else {
             listOf(ERROR_TASK)
         }
@@ -25,12 +25,12 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     override suspend fun deleteByID(id: Long) = taskLocalDataSource.deleteTask(id)
 
-    override suspend fun saveTask(task: Task) = taskLocalDataSource.saveTask(task)
+    override suspend fun saveTask(task: DefaultTask) = taskLocalDataSource.saveTask(task)
 
-    override suspend fun getNotTodayTasks(): List<Task> {
+    override suspend fun getNotTodayTasks(): List<DefaultTask> {
         val data = taskLocalDataSource.getNotTodayTasks()
         return if (data is Result.Success<*>) {
-            data.items as List<Task>
+            data.items as List<DefaultTask>
         } else {
             listOf(ERROR_TASK)
         }
@@ -56,20 +56,20 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     }
 
-    override suspend fun getTasksByUpdateDate(date: LocalDate): List<Task> {
+    override suspend fun getTasksByUpdateDate(date: LocalDate): List<DefaultTask> {
         val result = taskLocalDataSource.getTasksByUpdateDate(date)
         return if (result is Result.Success<*>) {
-            result.items as List<Task>
+            result.items as List<DefaultTask>
         } else {
             listOf(ERROR_TASK)
         }
 
     }
 
-    override suspend fun getTaskByID(id: Long): Task {
+    override suspend fun getTaskByID(id: Long): DefaultTask {
         val result = taskLocalDataSource.getTaskById(id)
         return if (result is Result.Success<*>) {
-            result.items as Task
+            result.items as DefaultTask
         } else {
             (ERROR_TASK)
         }
@@ -84,21 +84,21 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
-    override suspend fun getTasksUntilDate(date: LocalDate): List<Task> {
+    override suspend fun getTasksUntilDate(date: LocalDate): List<DefaultTask> {
         val data = taskLocalDataSource.getTasksUntilDate(date)
         return if (data is Result.Success<*>) {
-            data.items as List<Task>
+            data.items as List<DefaultTask>
         } else {
             listOf(ERROR_TASK)
         }
 
     }
 
-    override suspend fun updateTask(task: Task) = taskLocalDataSource.updateTask(task)
+    override suspend fun updateTask(task: DefaultTask) = taskLocalDataSource.updateTask(task)
 
-    override suspend fun updateTasks(tasks: List<Task>) = taskLocalDataSource.updateTasks(tasks)
+    override suspend fun updateTasks(tasks: List<DefaultTask>) = taskLocalDataSource.updateTasks(tasks)
 
     companion object {
-        val ERROR_TASK = Task(taskID = -1, name = "ERROR")
+        val ERROR_TASK = DefaultTask(taskID = -1, name = "ERROR")
     }
 }

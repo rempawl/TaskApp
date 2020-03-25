@@ -62,6 +62,7 @@
     <string name="delete">Usuń</string>
     <string name="ok">OK</string>
     <string name="edit">Edytuj</string>
+    <string name="confirm_task_deletion">Czy na pewno chcesz usunąć to zadanie?</string>
 
     <!--TASK -->
     <string name="my_tasks">Moje zadania</string>

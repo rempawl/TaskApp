@@ -8,10 +8,9 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.Task
-import javax.inject.Inject
+import com.example.taskapp.database.entities.DefaultTask
 
-class TaskDetailsModel @Inject constructor() : BaseObservable() {
+abstract class TaskDetailsModel   : BaseObservable() {
 
     val taskNameError: ObservableField<Int> = ObservableField()
 
@@ -44,8 +43,8 @@ class TaskDetailsModel @Inject constructor() : BaseObservable() {
     }
 
 
-    fun createTask(): Task {
-        return Task(name = taskName, description = taskDescription)
+    fun createTask(): DefaultTask {
+        return DefaultTask(name = taskName, description = taskDescription)
     }
 
 

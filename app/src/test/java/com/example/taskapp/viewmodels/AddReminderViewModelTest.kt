@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels
 
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
@@ -31,7 +31,7 @@ class AddReminderViewModelTest {
     lateinit var defaultNotificationModelFactory: DefaultNotificationModel.Factory
 
     @MockK
-    lateinit var task: Task
+    lateinit var task: DefaultTask
 
     lateinit var viewModel: AddReminderViewModel
 

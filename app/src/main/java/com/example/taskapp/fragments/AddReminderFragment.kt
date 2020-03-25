@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showBegDatePickerDialog
@@ -22,6 +22,7 @@ import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showFreque
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showNotificationPickerDialog
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.utils.VisibilityChanger.changeViewsHelper
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
@@ -37,7 +38,7 @@ class AddReminderFragment : Fragment(), Reminder {
     }
 
 
-    private val viewModel by viewModel {
+    private val viewModel : ReminderViewModel by viewModel {
         (activity as MainActivity).appComponent.addReminderViewModelFactory
             .create(args.task)
     }
@@ -202,7 +203,7 @@ class AddReminderFragment : Fragment(), Reminder {
 
     }
 
-    private fun setAlarm(task: Task) {
+    private fun setAlarm(task: DefaultTask) {
         context?.let { ctx ->
             AlarmCreator.setTaskNotificationAlarm(task, true, ctx)
         }
@@ -210,7 +211,7 @@ class AddReminderFragment : Fragment(), Reminder {
 
 
     private fun addTaskWithReminder() {
-        viewModel.saveTaskWithReminder()
+        viewModel.saveTask()
         findNavController().navigate(
             AddReminderFragmentDirections.navigationAddReminderToNavigationMyTasks()
         )

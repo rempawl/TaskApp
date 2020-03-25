@@ -9,12 +9,12 @@ import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import org.threeten.bp.LocalDate
 
 class BeginningDatePickerFragment(
-    private val modelDefault: DurationModel
+    private val durationModel: DurationModel
 ) : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
-        val date = modelDefault.beginningDate
+        val date = durationModel.beginningDate
         val year = date.year
         val day = date.dayOfMonth
         val month = date.monthValue - 1 //java.util.time
@@ -23,7 +23,7 @@ class BeginningDatePickerFragment(
     }
 
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
-        modelDefault.beginningDate = (LocalDate.of(year, month + 1, day))
+        durationModel.beginningDate = (LocalDate.of(year, month + 1, day))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

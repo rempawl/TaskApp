@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 class AddSpontaneousTaskDialogFragment
     : DialogFragment() {
+
     @Inject
     lateinit var viewModel: AddSpontaneousTasksViewModel
 
@@ -59,7 +60,9 @@ class AddSpontaneousTaskDialogFragment
     private fun setupLayout(binding: AddSpontaneousTasksFragmentBinding) {
         binding.apply {
             confirmButton.setOnClickListener { addSpontaneousTasks() }
+
             cancelButton.setOnClickListener { dismiss() }
+            toolbar.setNavigationOnClickListener { dismiss() }
 
             taskList.apply {
                 adapter = spontaneousTaskListAdapter

@@ -3,7 +3,7 @@ package com.example.taskapp.repos.task
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.dao.TaskDao
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import dagger.Reusable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @Reusable
 class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : TaskDataSource {
 
-    override suspend fun saveTask(task: Task) = withContext(Dispatchers.IO) {
+    override suspend fun saveTask(task: DefaultTask) = withContext(Dispatchers.IO) {
         taskDao.insertTask(task)
     }
 
@@ -25,7 +25,7 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
         }
     }
 
-    override suspend fun getTasksUntilDate(date: LocalDate): Result<List<Task>> = withContext(Dispatchers.IO){
+    override suspend fun getTasksUntilDate(date: LocalDate): Result<List<DefaultTask>> = withContext(Dispatchers.IO){
         return@withContext try{
             Result.Success(taskDao.loadTaskWithRealizationDateUntilDate(date))
         }catch (e: Exception){
@@ -80,11 +80,11 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
     }
 
-    override suspend fun updateTask(task: Task) = withContext(Dispatchers.IO){
+    override suspend fun updateTask(task: DefaultTask) = withContext(Dispatchers.IO){
         taskDao.updateItem(task)
     }
 
-    override suspend fun updateTasks(tasks: List<Task>) = withContext(Dispatchers.IO){
+    override suspend fun updateTasks(tasks: List<DefaultTask>) = withContext(Dispatchers.IO){
         taskDao.updateItems(tasks)
     }
 

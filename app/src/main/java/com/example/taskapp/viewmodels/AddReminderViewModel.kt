@@ -1,10 +1,7 @@
 package com.example.taskapp.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
@@ -12,13 +9,11 @@ import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyMo
 import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.launch
-import org.threeten.bp.LocalTime
+import io.reactivex.Single
 
 
 class AddReminderViewModel @AssistedInject constructor(
-    @Assisted task: Task,
+    @Assisted task: DefaultTask,
     taskRepository: TaskRepositoryInterface,
     defaultDurationModelFactory: DefaultDurationModel.Factory,
     defaultNotificationModelFactory: DefaultNotificationModel.Factory,
@@ -32,41 +27,18 @@ class AddReminderViewModel @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(task: Task): AddReminderViewModel
-    }
-    /**
-     * when _addedTask is not null then  notification alarm should be set
-     */
-    private val _addedTask = MutableLiveData<Task>(null)
-    val addedTask: LiveData<Task>
-        get() = _addedTask
-
-    //todo save task
-    fun saveTaskWithReminder() {
-        viewModelScope.launch {
-            val reminder = createReminder()
-            val task = createTask(reminder)
-            val isRealizationToday = reminder.realizationDate.isEqual(TODAY)
-
-            compositeDisposable.add(
-                addTask(task)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ taskID ->
-//                        saveStreak(taskID)
-                    },
-                        { e -> e.printStackTrace() }
-                    )
-            )
-            if (isRealizationToday
-                && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
-            ) {
-                _addedTask.value = task
-            }
-
-
-        }
+        fun create(task: DefaultTask): AddReminderViewModel
     }
 
+
+    override suspend fun addTask(task: DefaultTask): Single<Long> {
+        return taskRepository.saveTask(task)
+    }
+
+    override  fun createTask(reminder: Reminder?): DefaultTask {
+        return task.copy(reminder = reminder)
+
+    }
 
 
 }

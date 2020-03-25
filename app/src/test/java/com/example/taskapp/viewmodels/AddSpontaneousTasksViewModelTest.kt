@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.database.entities.Task
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.getOrAwaitValue
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.DefaultTasks.tasks
@@ -43,7 +43,7 @@ class AddSpontaneousTasksViewModelTest {
     @Test
     fun `when taskRepository returns emptyList `() {
         TestCoroutineScope().launch {
-            val expectedValue = emptyList<Task>()
+            val expectedValue = emptyList<DefaultTask>()
             coEvery { taskRepository.getNotTodayTasks() } returns emptyList()
             val actualValue = viewModel.tasks.getOrAwaitValue()
             assertThat(actualValue, `is`(expectedValue))
