@@ -82,12 +82,18 @@
                     android:text="@string/add_reminder"
                     android:textColor="@color/design_default_color_background" />
 
+<!--                <include-->
+<!--                    layout="@layout/reminder_layout"-->
+<!--                    bind:viewModel="@{viewModel}"-->
+<!--                    android:visibility="@{viewModel.isReminderSwitchChecked() ? View.VISIBLE : View.GONE}" />-->
+
+
                 <LinearLayout
                     android:id="@+id/reminder_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="@{viewModel.isReminderSwitchChecked() ? View.VISIBLE : View.GONE}">
+                    tools:showIn="@layout/edit_task_fragment">
 
                     <!--                    NOTIFICATION LAYOUT -->
                     <com.google.android.material.button.MaterialButton
@@ -108,8 +114,7 @@
                         android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
                         android:layout_margin="10dp"
                         android:layout_gravity="center_horizontal"
-                        android:theme="@style/SwitchTheme"
-                        />
+                        android:theme="@style/SwitchTheme" />
 
                     <!-- FREQUENCY LAYOUT -->
                     <LinearLayout
@@ -252,6 +257,7 @@
                 </LinearLayout>
 
 
+                <!--                    -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirm_button"
                     android:layout_width="match_parent"

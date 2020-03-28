@@ -54,6 +54,13 @@ class MyApp : Application() {
         val TOMORROW: LocalDate = LocalDate.ofEpochDay(TODAY.toEpochDay() + 1)
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val ZONE_OFFSET: ZoneOffset = OffsetDateTime.now().offset
+        const val TASK_NAME_KEY = "task name"
+        const val TASK_DESC_KEY = "task desc"
+        const val TASK_ID_KEY = "task id"
+        const val TASK_KEY = "task"
+        const val TASK_CHANNEL_ID = "pending task Notifications channel"
+        const val TASK_NOTIFICATION_ID = 0x1
+        const val CREATE_NOTIFICATION_ACTION = "create notification action"
 
     }
 

@@ -20,6 +20,7 @@ sealed class ReminderFrequencyState {
 
         override fun convertToFrequency() = Frequency(DAILY_FREQUENCY_INDEX, frequency)
 
+
         /**
          * fun returns beginningDate as updateDate if [lastRealizationDate] is beginning date
          */
@@ -28,9 +29,11 @@ sealed class ReminderFrequencyState {
             isBeginning: Boolean
         ): LocalDate {
             var date = lastRealizationDate
+            val interval = if (!isBeginning) frequency else 0
+
             do {
                 date =
-                    LocalDate.ofEpochDay(date.toEpochDay() + if (!isBeginning) frequency else 0)
+                    LocalDate.ofEpochDay(date.toEpochDay() + interval)
             } while (date.isBefore(TODAY))
             return date
 
@@ -44,52 +47,54 @@ sealed class ReminderFrequencyState {
 
         override fun convertToFrequency() = Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
 
-        /**
-         * checks if [daysOfWeek] contains days after or before [lastRealizationDate] [DayOfWeek]
-         * if it doesn't returns next week date
-         */
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,
             isBeginning: Boolean
         ): LocalDate {
-            val startDate = if (TODAY.toEpochDay() > (lastRealizationDate.toEpochDay() + 7)) {
-                //if date wasn't updated for longer than a week
+            val startDate = if (checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(
+                    lastRealizationDate
+                )
+            ) {
                 TODAY
             } else {
                 lastRealizationDate
             }
+            val startDateDayOfWeekValue = startDate.dayOfWeek.value
 
-            val begIndex = startDate.dayOfWeek.value
-
-            if (isBeginning && startDate.dayOfWeek.value == begIndex &&
-                daysOfWeek.contains(begIndex)
-            ) {
+            if (isBeginning && daysOfWeek.contains(startDateDayOfWeekValue)) {
                 return startDate
             }
 
-            for (thisWeek in begIndex + 1..DayOfWeek.SUNDAY.value) {
-                if (daysOfWeek.contains(thisWeek)) {
-                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (thisWeek - begIndex))
+            //check if  dayOfWeek contains dates that are after startDateDayOfWeek and before or equal sunday
+            for (thisWeekDay in (startDateDayOfWeekValue + 1)..DayOfWeek.SUNDAY.value) {
+                if (daysOfWeek.contains(thisWeekDay)) {
+                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (thisWeekDay - startDateDayOfWeekValue))
                 }
             }
 
-            for (nextWeek in DayOfWeek.MONDAY.value until begIndex) {
-                if (daysOfWeek.contains(nextWeek)) {
-                    println(nextWeek)
-                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (7 - begIndex + nextWeek))
+            //check if daysOfWeek contains dates that are after  or equal to monday and before startDateDayOfWeek
+            for (nextWeekDay in DayOfWeek.MONDAY.value until startDateDayOfWeekValue) {
+                if (daysOfWeek.contains(nextWeekDay)) {
+                    println(nextWeekDay)
+                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (7 - startDateDayOfWeekValue + nextWeekDay))
                 }
             }
+
+            //next week date
             return LocalDate.ofEpochDay(startDate.toEpochDay() + 7)
         }
 
-        /**
-         *  *  setting the i-th bit of result to 1 if dayOfWeek HashCode is  inside [daysOfWeek] set
-         */
+
+        private fun checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(lastRealizationDate: LocalDate) =
+            TODAY.toEpochDay() > (lastRealizationDate.toEpochDay() + 7)
+
+        //  setting the i-th bit of result to 1 if dayOfWeek HashCode is  inside [daysOfWeek] set
         private fun daysOfWeekToInt(): Int {
             var result = 0
-            val days = DayOfWeek.values()
-            for (i in 0..days.lastIndex) {
-                if (this.daysOfWeek.contains(days[i].value)) {
+            val daysOfWeekValues = DayOfWeek.values()
+
+            for (i in 0..daysOfWeekValues.lastIndex) {
+                if (this.daysOfWeek.contains(daysOfWeekValues[i].value)) {
                     result += 1.shl(i)
                 }
             }

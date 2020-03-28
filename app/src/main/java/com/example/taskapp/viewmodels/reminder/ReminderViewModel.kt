@@ -114,12 +114,14 @@ abstract class ReminderViewModel(
     }
 
 
-    private fun saveStreak(taskID: Long) = viewModelScope.launch {
+/*
+    private fun saveStreak(taskID: Long) {
         //todo
 //        val streak =
 //            Streak(parentTaskID = taskID, duration = 0, begDate = LocalDate.now())
 //        streakLocalDataSource.saveStreak(streak)
     }
+*/
 
     override fun onCleared() {
         super.onCleared()

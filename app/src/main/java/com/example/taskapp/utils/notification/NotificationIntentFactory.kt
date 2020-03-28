@@ -2,8 +2,9 @@ package com.example.taskapp.utils.notification
 
 import android.content.Context
 import android.content.Intent
+import com.example.taskapp.MyApp.Companion.CREATE_NOTIFICATION_ACTION
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.workers.notification.CreateNotificationBroadcastReceiver
+import com.example.taskapp.workers.notification.CreateTaskNotificationBroadcastReceiver
 import com.example.taskapp.workers.notification.DelayNotificationReceiver
 
 
@@ -20,11 +21,11 @@ class NotificationIntentFactory {
         }
 
         fun createNotificationReceiverIntent(task: TaskMinimal, context: Context): Intent {
-            return Intent(context, CreateNotificationBroadcastReceiver::class.java).apply {
+            return Intent(context, CreateTaskNotificationBroadcastReceiver::class.java).apply {
                 putExtra(TASK_NAME_KEY, task.name)
                 putExtra(TASK_DESC_KEY, task.description)
                 putExtra(TASK_ID_KEY, task.taskID)
-                action = CreateNotificationBroadcastReceiver.CREATE_NOTIFICATION_ACTION
+                action = CREATE_NOTIFICATION_ACTION
             }
 
         }

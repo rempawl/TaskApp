@@ -13,17 +13,21 @@ class FrequencyPickerFragment(private val model: FrequencyModel) : DialogFragmen
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
 
-        val numberPicker = NumberPicker(requireContext()).apply {
-            minValue = 1
-            maxValue = 100
-            value = model.currentDailyFrequency
-        }
+        val numberPicker = crateNumberPicker()
         return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.frequency))
             .setView(numberPicker)
             .setPositiveButton(R.string.ok) { _, _ -> setDailyFrequency(numberPicker.value) }
             .setNegativeButton(R.string.cancel) { _, _ ->  }
             .create()
+    }
+
+    private fun crateNumberPicker(): NumberPicker {
+        return NumberPicker(requireContext()).apply {
+            minValue = 1
+            maxValue = 100
+            value = model.currentDailyFrequency
+        }
     }
 
     private fun setDailyFrequency(frequency: Int) {

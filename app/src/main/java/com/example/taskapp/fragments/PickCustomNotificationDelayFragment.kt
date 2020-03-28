@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
+import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBinding
 import com.example.taskapp.utils.notification.NotificationIntentFactory
-import com.example.taskapp.utils.notification.TaskNotificationManager
+import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.viewmodels.PickCustomNotificationDelayViewModel
-import com.example.taskapp.workers.notification.CreateNotificationBroadcastReceiver.Companion.TASK_KEY
 import javax.inject.Inject
 
 
@@ -37,7 +37,7 @@ class PickCustomNotificationDelayFragment : Fragment() {
         val binding = PickCustomNotificationDelayFragmentBinding
             .inflate(inflater, container, false) ?: throw IllegalStateException("binding is null")
         setUpBinding(binding)
-        TaskNotificationManager.cancelNotification(requireContext())
+        NotificationManagerHelper.cancelTaskNotification(requireContext())
 
         return binding.root
     }

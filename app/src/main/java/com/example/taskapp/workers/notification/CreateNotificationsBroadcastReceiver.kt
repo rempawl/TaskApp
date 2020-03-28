@@ -1,31 +1,43 @@
 package com.example.taskapp.workers.notification
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
-import com.example.taskapp.MainActivity
+import com.example.taskapp.MyApp.Companion.CREATE_NOTIFICATION_ACTION
+import com.example.taskapp.MyApp.Companion.TASK_CHANNEL_ID
+import com.example.taskapp.MyApp.Companion.TASK_DESC_KEY
+import com.example.taskapp.MyApp.Companion.TASK_ID_KEY
+import com.example.taskapp.MyApp.Companion.TASK_KEY
+import com.example.taskapp.MyApp.Companion.TASK_NAME_KEY
+import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
+import com.example.taskapp.utils.notification.NotificationManagerHelper
+import com.example.taskapp.utils.notification.NotificationManagerHelper.createNotificationChannel
 
 /**
  * class responsible for creating and showing task notifications
  */
-class CreateNotificationBroadcastReceiver :
+class CreateTaskNotificationBroadcastReceiver :
     BroadcastReceiver() {
 
 
+    private fun createOnFinishedCallback(context: Context) : PendingIntent.OnFinished{
+        val onFinished = PendingIntent.OnFinished { p0, p1, p2, p3, p4 ->
+            NotificationManagerHelper.cancelTaskNotification(context)
+        }
+            return onFinished
+    }
     override fun onReceive(context: Context?, intent: Intent?) {
 //        super.onReceive(context, intent)
+
         if (intent != null && context != null) {
             val action = intent.action
             if (action == CREATE_NOTIFICATION_ACTION) {
@@ -45,18 +57,17 @@ class CreateNotificationBroadcastReceiver :
 
 
     private fun showNotification(context: Context, task: TaskMinimal) {
-        Log.d(MainActivity.TAG,"building actions")
+
 
         val confirmAction = createConfirmAction(context, task)
         val delay30MinAction = createDelay30MinAction(context, task)
         val delayCustomTimeAction = createDelayCustomTimeAction(context, task)
 
-        Log.d(MainActivity.TAG,"building notif")
 
         val notification = NotificationCompat.Builder(
-                context,
-                CHANNEL_ID
-            )
+            context,
+            TASK_CHANNEL_ID
+        )
             .setAutoCancel(true)
             .setContentTitle("todo strings.xml Czas wykonac zadanie")
             .setContentText(" ${task.name}  ${task.description} ")
@@ -68,7 +79,6 @@ class CreateNotificationBroadcastReceiver :
             .setAutoCancel(true)
             .build()
 
-        Log.d(MainActivity.TAG,"Showing notifi")
 
         NotificationManagerCompat.from(context).notify(TASK_NOTIFICATION_ID, notification)
 
@@ -83,7 +93,9 @@ class CreateNotificationBroadcastReceiver :
             .setGraph(R.navigation.main_navigation)
             .setDestination(R.id.navigation_pick_custom_delay)
             .setArguments(args)
-                        .createPendingIntent()
+            .createPendingIntent()
+
+
 
         val title = context.getString(R.string.delay_later)
         return NotificationCompat.Action
@@ -100,6 +112,7 @@ class CreateNotificationBroadcastReceiver :
 
         val confirmPendingIntent =
             PendingIntent.getBroadcast(context, 0, confirmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
 
         return NotificationCompat.Action.Builder(
             R.drawable.ic_task_completed_24dp,
@@ -128,26 +141,8 @@ class CreateNotificationBroadcastReceiver :
 
     }
 
-    private fun createNotificationChannel(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(MainActivity.TAG, "creating channel")
-
-            val channel =
-                NotificationChannel(CHANNEL_ID, "task channel", NotificationManager.IMPORTANCE_HIGH)
-                    .apply { description = "todo string.xml powiadomienia nadchodzacych zadan" }
-            NotificationManagerCompat.from(context).createNotificationChannel(channel)
-        }
-    }
 
 
-    companion object {
-        const val TASK_NAME_KEY = "task name"
-        const val TASK_DESC_KEY = "task desc"
-        const val TASK_ID_KEY = "task id"
-        const val TASK_KEY = "task"
-        const val CHANNEL_ID = "pending task Notifications channel"
-        const val TASK_NOTIFICATION_ID = 0x1
-        const val CREATE_NOTIFICATION_ACTION = "create notification action"
+    companion object
 
-    }
 }

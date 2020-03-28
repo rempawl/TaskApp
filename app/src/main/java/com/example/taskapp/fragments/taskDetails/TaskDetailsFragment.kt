@@ -15,6 +15,7 @@ import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.fragments.ConfirmDialogFragment
 import com.example.taskapp.utils.reminder.DayOfWeekValue
 import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.example.taskapp.utils.reminder.ReminderFrequencyState
@@ -23,7 +24,7 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
 
-class TaskDetailsFragment : Fragment() {
+class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedListener {
 
     companion object {
         fun newInstance() =
@@ -96,13 +97,17 @@ class TaskDetailsFragment : Fragment() {
 
     private fun navigateToEditTask() {
         viewModel.task.observe(viewLifecycleOwner, Observer { task ->
-            findNavController().navigate(TaskDetailsFragmentDirections
-                .navigationTaskDetailsToNavigationEditTask(task))
+            findNavController().navigate(
+                TaskDetailsFragmentDirections
+                    .navigationTaskDetailsToNavigationEditTask(task)
+            )
         })
     }
 
     private fun showDeleteDialog() {
-        DeleteDialogFragment(viewModel).show(childFragmentManager, DeleteDialogFragment.TAG)
+        val title  = getString(R.string.confirm_task_deletion)
+        ConfirmDialogFragment(title)
+            .show(childFragmentManager, ConfirmDialogFragment.TAG)
     }
 
     private fun setupReminderLayout(reminder: Reminder) {
@@ -114,8 +119,12 @@ class TaskDetailsFragment : Fragment() {
 
         binding?.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text = getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
-            realizationDateText.text = getString(R.string.next_realization_date,reminder.realizationDate.format(DATE_FORMATTER))
+            begDate.text =
+                getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
+            realizationDateText.text = getString(
+                R.string.next_realization_date,
+                reminder.realizationDate.format(DATE_FORMATTER)
+            )
         }
     }
 
@@ -141,7 +150,7 @@ class TaskDetailsFragment : Fragment() {
                 )
             is ReminderFrequencyState.WeekDays -> getWeekDays(frequencyState.daysOfWeek)
         }
-        binding?.apply{
+        binding?.apply {
             frequencyText.text = freqText
 
         }
@@ -178,5 +187,10 @@ class TaskDetailsFragment : Fragment() {
             }
         }
         binding?.durationText?.text = durText
+    }
+
+
+    override fun onConfirmSelected() {
+        viewModel.deleteTask()
     }
 }

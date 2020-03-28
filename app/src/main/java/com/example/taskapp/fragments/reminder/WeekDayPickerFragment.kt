@@ -28,7 +28,7 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
             .setTitle(R.string.frequency)
             .create()
     }
-
+//todo refactor
     private fun setupLayout(): LinearLayout {
         val layout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL

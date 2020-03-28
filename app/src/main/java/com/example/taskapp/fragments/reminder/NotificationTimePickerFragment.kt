@@ -17,6 +17,7 @@ class NotificationTimePickerFragment(private val notificationModel: Notification
         val time = notificationModel.notificationTime
         val hour = time.hour
         val minute = time.minute
+
         return TimePickerDialog(requireContext(), this, hour, minute, true)
     }
 

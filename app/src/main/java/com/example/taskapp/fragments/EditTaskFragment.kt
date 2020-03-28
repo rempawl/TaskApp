@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
-import com.example.taskapp.R
 import com.example.taskapp.databinding.EditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showBegDatePickerDialog
@@ -20,12 +18,11 @@ import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showDurati
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showEndDatePickerDialog
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showFrequencyPickerDialog
 import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showNotificationPickerDialog
-import com.example.taskapp.fragments.reminder.Reminder
 import com.example.taskapp.utils.VisibilityChanger
 import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
 
-class EditTaskFragment : Fragment(), Reminder {
+class EditTaskFragment : Fragment() {
 
     companion object {
         fun newInstance() = EditTaskFragment()
@@ -57,11 +54,11 @@ class EditTaskFragment : Fragment(), Reminder {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpBinding()
-        val toolbar = (activity as MainActivity).findViewById<Toolbar>(R.id.toolbar)
-        toolbar.apply{
-            setNavigationIcon(R.drawable.ic_close_black_24dp)
-            setNavigationOnClickListener {  } //todo show confirm dialog
-        }
+//        val toolbar = (activity as MainActivity).findViewById<Toolbar>(R.id.toolbar)
+//        .apply{
+//            setNavigationIcon(R.drawable.ic_close_black_24dp)
+//            setNavigationOnClickListener {  } //todo show confirm dialog
+//        }
 
     }
 
@@ -74,7 +71,7 @@ class EditTaskFragment : Fragment(), Reminder {
         binding = null
     }
 
-    override fun setUpBinding() {
+     fun setUpBinding() {
         binding?.apply {
             viewModel = this@EditTaskFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
@@ -97,7 +94,7 @@ class EditTaskFragment : Fragment(), Reminder {
         )
     }
 
-    override fun setUpDurationLayout() {
+     fun setUpDurationLayout() {
         binding?.apply {
             beginningDateBtn.setOnClickListener {
                 showBegDatePickerDialog(
@@ -126,7 +123,7 @@ class EditTaskFragment : Fragment(), Reminder {
         }
     }
 
-    override fun onDurationRadioChecked(id: Int) {
+     fun onDurationRadioChecked(id: Int) {
         val binding = binding ?: return
         val durationModel = viewModel.durationModel
         when (activity?.findViewById<View>(id)!!) {
@@ -145,7 +142,7 @@ class EditTaskFragment : Fragment(), Reminder {
     }
 
 
-    override fun setupFrequencyLayout() {
+     fun setupFrequencyLayout() {
         binding?.apply {
             frequencyRadioGroup.apply {
                 setFrequencyButtonsVisibility(checkedRadioButtonId) //on rotation
@@ -169,7 +166,7 @@ class EditTaskFragment : Fragment(), Reminder {
         }
     }
 
-    override fun onFrequencyRadioCheck(id: Int) {
+     private fun onFrequencyRadioCheck(id: Int) {
         val frequencyModel = viewModel.frequencyModel
         when (activity?.findViewById<MaterialRadioButton>(id)) {
             binding?.dailyFreqRadio -> {
@@ -184,7 +181,7 @@ class EditTaskFragment : Fragment(), Reminder {
     }
 
 
-    override fun setDurationButtonsVisibility(id: Int) {
+     private fun setDurationButtonsVisibility(id: Int) {
         val allBtns = listOf(
             binding!!.setDurationDaysBtn,
             binding!!.setEndDateBtn
@@ -204,7 +201,7 @@ class EditTaskFragment : Fragment(), Reminder {
 
     }
 
-    override fun setFrequencyButtonsVisibility(id: Int) {
+     fun setFrequencyButtonsVisibility(id: Int) {
         val allBtns = listOf(
             binding!!.setDailyFrequencyBtn,
             binding!!.setDaysOfWeekBtn

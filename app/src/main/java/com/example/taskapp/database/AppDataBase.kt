@@ -19,8 +19,6 @@ import kotlinx.coroutines.launch
 @Database(
     entities = [DefaultTask::class,
     Streak::class
-
-
     ],
     version = AppDataBase.VERSION_INT
 )

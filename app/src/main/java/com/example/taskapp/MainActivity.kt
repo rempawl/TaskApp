@@ -13,17 +13,16 @@ import com.example.taskapp.di.AppComponent
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
+
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
-
     val appComponent: AppComponent by lazy { (application as MyApp).appComponent }
-
 
 
     private lateinit var appBarConfig: AppBarConfiguration
     private val noNavMenuDestinations =
         setOf(
             R.id.navigation_edit_task, R.id.navigation_task_details, R.id.navigation_add_reminder,
-            R.id.navigation_add_task,R.id.navigation_pick_custom_delay
+            R.id.navigation_add_task, R.id.navigation_pick_custom_delay
         )
 
 
@@ -36,7 +35,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setSupportActionBar(toolbar)
 
         appBarConfig = AppBarConfiguration(
-            setOf(R.id.navigation_my_tasks, R.id.navigation_today,R.id.navigation_pick_custom_delay),
+            setOf(
+                R.id.navigation_my_tasks,
+                R.id.navigation_today,
+                R.id.navigation_pick_custom_delay
+            ),
             findViewById(R.id.main_drawer_layout)
         )
         toolbar?.setupWithNavController(navController, appBarConfig)
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
 
     }
+
 
     override fun onDestinationChanged(
         controller: NavController, destination: NavDestination,
@@ -72,11 +76,22 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             ?.setupWithNavController(navController)
     }
 
+    /*  override fun onSupportNavigateUp(): Boolean {
+          val navController = findNavController(R.id.nav_host_fragment)
+          val curDest = navController.currentDestination
+          val predicate = curDest?.id == R.id.navigation_edit_task || curDest?.id == R.id.navigation_add_reminder
+          return if(predicate){
+              Toast.makeText(applicationContext,"ludada",Toast.LENGTH_SHORT)
+                  .show()
+              super.onSupportNavigateUp()
+          }else{
+              navController.navigateUp()
+          }
+      }*/
+
     companion object {
-        const val CREATE_NOTIFICATION_ACTION = "create notification action"
         const val TAG = "kruci"
-        const val TODAY_FRAGMENT_INDEX = 0
-        const val MY_TASKS_FRAGMENT_INDEX = 1
     }
+
 
 }

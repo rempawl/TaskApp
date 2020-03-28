@@ -14,10 +14,9 @@ class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragm
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
-        val durationPicker = EditText(requireContext()).apply {
-            hint = getString(R.string.days_duration_hint)
-            inputType = TYPE_CLASS_NUMBER
-        }
+
+        val durationPicker = createDurationPicker()
+
         return AlertDialog.Builder(requireContext())
             .setView(durationPicker)
             .setPositiveButton(R.string.ok) { _, _ ->
@@ -26,6 +25,13 @@ class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragm
             .setNegativeButton(R.string.cancel) { _, _ -> }
             .setTitle(R.string.duration)
             .create()
+    }
+
+    private fun createDurationPicker(): EditText {
+        return EditText(requireContext()).apply {
+            hint = getString(R.string.days_duration_hint)
+            inputType = TYPE_CLASS_NUMBER
+        }
     }
 
     private fun showToast(text: String) {
@@ -42,6 +48,7 @@ class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragm
             if (days < Int.MAX_VALUE) {
                 model.setDaysDurationState(days)
             } else {
+                //todo extract string
                 showToast("Really over ${Int.MAX_VALUE} days?")
             }
         }

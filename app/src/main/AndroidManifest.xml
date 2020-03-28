@@ -25,7 +25,7 @@
             android:enabled="true"
             android:exported="true" />
         <receiver
-            android:name=".workers.notification.CreateNotificationBroadcastReceiver"
+            android:name=".workers.notification.CreateTaskNotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="true" />
 

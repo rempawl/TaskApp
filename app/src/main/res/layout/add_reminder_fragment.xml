@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.taskapp.viewmodels.reminder.ReminderViewModel" />
@@ -29,218 +30,222 @@
 
                 <!-- DETAILS LAYOUT -->
                 <com.google.android.material.button.MaterialButton
-                    android:textColor="@color/design_default_color_background"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    android:enabled="false"
                     android:id="@+id/details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:enabled="false"
                     android:padding="10dp"
                     android:text="@string/details"
-                     />
+                    android:textColor="@color/design_default_color_background"
+                    app:backgroundTint="@color/colorPrimaryDark" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:outlineAmbientShadowColor="@color/colorAccent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:outlineAmbientShadowColor="@color/colorAccent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/task_name"
-                    android:text="@{@string/task_name(viewModel.task.name)}"
-                    android:textColor="@color/design_default_color_background"
-                    android:textAlignment="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:gravity="center_horizontal" />
-                <TextView
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:textColor="@color/design_default_color_background"
-                    android:text="@{@string/task_description(viewModel.task.description)}"
-                    android:id="@+id/task_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/task_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@{@string/task_name(viewModel.task.name)}"
+                        android:textAlignment="center"
+                        android:textColor="@color/design_default_color_background"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/task_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@{@string/task_description(viewModel.task.description)}"
+                        android:textAlignment="center"
+                        android:textColor="@color/design_default_color_background"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
+<!--                <include-->
+<!--                    layout="@layout/reminder_layout"-->
+<!--                    bind:viewModel="@{viewModel}" />-->
 
                 <!--REMINDER LAYOUT -->
-                <LinearLayout
-                    android:id="@+id/reminder_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                                <LinearLayout
+                                    android:id="@+id/reminder_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
 
-                    <!--                    NOTIFICATION LAYOUT -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/set_time_of_notification"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:padding="10dp"
-                        android:text= "@string/set_notification_time"
-                        app:backgroundTint="@color/colorPrimaryDark" />
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/enable_notification"
-                        android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
-                        android:layout_margin="10dp"
-                        android:layout_gravity="center_horizontal"
-                        android:theme="@style/SwitchTheme"
-                        />
-
-
-                    <!-- FREQUENCY LAYOUT -->
-                    <LinearLayout
-                        android:id="@+id/frequency_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:textColor="@color/design_default_color_background"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="@string/frequency"
-                            android:textAlignment="center"
-                            android:textSize="30sp"
-                            />
+                                    <!--                    NOTIFICATION LAYOUT -->
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/set_time_of_notification"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="10dp"
+                                        android:padding="10dp"
+                                        android:text= "@string/set_notification_time"
+                                        app:backgroundTint="@color/colorPrimaryDark" />
+                                    <androidx.appcompat.widget.SwitchCompat
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/enable_notification"
+                                        android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
+                                        android:layout_margin="10dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:theme="@style/SwitchTheme"
+                                        />
 
 
-                        <RadioGroup
-                            android:id="@+id/frequency_radioGroup"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:checkedButton="@id/daily_freq_radio"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="10dp">
+                                    <!-- FREQUENCY LAYOUT -->
+                                    <LinearLayout
+                                        android:id="@+id/frequency_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
 
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:layout_width="wrap_content"
-                                android:id="@+id/daily_freq_radio"
-                                android:layout_height="wrap_content"
-                                android:text=  "@string/x_days_frequency" />
-
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/days_of_week_radio"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/set_days_of_week"
-                                />
-
-                        </RadioGroup>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:id="@+id/set_daily_frequency_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:visibility="visible"
-                            android:text="@{@plurals/daily_frequency(viewModel.frequencyModel.currentDailyFrequency,viewModel.frequencyModel.currentDailyFrequency)}"
-                            />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:id="@+id/set_days_of_week_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-
-                            android:text="@string/set_days_of_week"
-                            android:visibility="gone" />
+                                        <com.google.android.material.textview.MaterialTextView
+                                            android:textColor="@color/design_default_color_background"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/frequency"
+                                            android:textAlignment="center"
+                                            android:textSize="30sp"
+                                            />
 
 
-                    </LinearLayout>
+                                        <RadioGroup
+                                            android:id="@+id/frequency_radioGroup"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="10dp"
+                                            android:checkedButton="@id/daily_freq_radio"
+                                            android:gravity="center"
+                                            android:orientation="horizontal"
+                                            android:padding="10dp">
+
+                                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                                android:layout_width="wrap_content"
+                                                android:id="@+id/daily_freq_radio"
+                                                android:layout_height="wrap_content"
+                                                android:text=  "@string/x_days_frequency" />
+
+                                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                                android:id="@+id/days_of_week_radio"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/set_days_of_week"
+                                                />
+
+                                        </RadioGroup>
+
+                                        <com.google.android.material.button.MaterialButton
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:id="@+id/set_daily_frequency_btn"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="10dp"
+                                            android:visibility="visible"
+                                            android:text="@{@plurals/daily_frequency(viewModel.frequencyModel.currentDailyFrequency,viewModel.frequencyModel.currentDailyFrequency)}"
+                                            />
+
+                                        <com.google.android.material.button.MaterialButton
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:id="@+id/set_days_of_week_btn"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="10dp"
+
+                                            android:text="@string/set_days_of_week"
+                                            android:visibility="gone" />
 
 
-                    <!-- DURATION LAYOUT -->
-
-                    <LinearLayout
-                        android:id="@+id/duration_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:textColor="@color/design_default_color_background"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="@string/duration"
-                            android:textAlignment="center"
-                            android:textSize="30sp" />
+                                    </LinearLayout>
 
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/beginning_date_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:padding="10dp"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}"/>
+                                    <!-- DURATION LAYOUT -->
 
-                        <RadioGroup
-                            android:id="@+id/duration_radioGroup"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:checkedButton="@id/no_end_date_radio"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:id="@+id/duration_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
 
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/no_end_date_radio"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/no_end_date" />
+                                        <TextView
+                                            android:textColor="@color/design_default_color_background"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center_horizontal"
+                                            android:text="@string/duration"
+                                            android:textAlignment="center"
+                                            android:textSize="30sp" />
 
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/x_days_duration_radio"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/x_days_duration" />
 
-                            <com.google.android.material.radiobutton.MaterialRadioButton
-                                android:id="@+id/end_date_radio"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/end_date"
-                                />
-                        </RadioGroup>
+                                        <com.google.android.material.button.MaterialButton
+                                            android:id="@+id/beginning_date_btn"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="10dp"
+                                            android:padding="10dp"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}"/>
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/set_duration_days_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{@plurals/days_duration(viewModel.durationModel.currentDaysDuration,viewModel.durationModel.currentDaysDuration)}"
-                            android:visibility="gone"
-                            app:backgroundTint="@color/colorPrimaryDark" />
+                                        <RadioGroup
+                                            android:id="@+id/duration_radioGroup"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:checkedButton="@id/no_end_date_radio"
+                                            android:gravity="center"
+                                            android:orientation="horizontal">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/set_end_date_btn"
-                            android:text="@{@string/end_date_format(viewModel.durationModel.currentEndDate)}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/colorPrimaryDark"
-                            android:visibility="gone" />
+                                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                                android:id="@+id/no_end_date_radio"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/no_end_date" />
 
-                    </LinearLayout>
-                </LinearLayout>
+                                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                                android:id="@+id/x_days_duration_radio"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/x_days_duration" />
+
+                                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                                android:id="@+id/end_date_radio"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/end_date"
+                                                />
+                                        </RadioGroup>
+
+                                        <com.google.android.material.button.MaterialButton
+                                            android:id="@+id/set_duration_days_btn"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="@{@plurals/days_duration(viewModel.durationModel.currentDaysDuration,viewModel.durationModel.currentDaysDuration)}"
+                                            android:visibility="gone"
+                                            app:backgroundTint="@color/colorPrimaryDark" />
+
+                                        <com.google.android.material.button.MaterialButton
+                                            android:id="@+id/set_end_date_btn"
+                                            android:text="@{@string/end_date_format(viewModel.durationModel.currentEndDate)}"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:backgroundTint="@color/colorPrimaryDark"
+                                            android:visibility="gone" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
 
 
                 <com.google.android.material.button.MaterialButton
-                    android:enabled="@{viewModel.durationModel.dateValid}"
                     android:id="@+id/confirm_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:enabled="@{viewModel.durationModel.dateValid}"
                     android:padding="10dp"
                     android:text="@string/confirm"
                     app:backgroundTint="#0B530E" />
