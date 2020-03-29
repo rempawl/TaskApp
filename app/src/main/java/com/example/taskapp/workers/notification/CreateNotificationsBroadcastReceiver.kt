@@ -19,7 +19,6 @@ import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
-import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.utils.notification.NotificationManagerHelper.createNotificationChannel
 
 /**
@@ -29,12 +28,6 @@ class CreateTaskNotificationBroadcastReceiver :
     BroadcastReceiver() {
 
 
-    private fun createOnFinishedCallback(context: Context) : PendingIntent.OnFinished{
-        val onFinished = PendingIntent.OnFinished { p0, p1, p2, p3, p4 ->
-            NotificationManagerHelper.cancelTaskNotification(context)
-        }
-            return onFinished
-    }
     override fun onReceive(context: Context?, intent: Intent?) {
 //        super.onReceive(context, intent)
 

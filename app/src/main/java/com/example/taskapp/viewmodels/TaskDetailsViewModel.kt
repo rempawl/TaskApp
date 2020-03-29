@@ -18,9 +18,10 @@ class TaskDetailsViewModel @AssistedInject constructor(
 
     fun deleteTask() {
         viewModelScope.launch {
-            taskRepository.deleteByID(taskID).toString()
+            if(taskRepository.deleteByID(taskID) != 0){
+                isTaskDeleted.value = true
+            }
         }
-        isTaskDeleted.value = true
     }
 
     @AssistedInject.Factory

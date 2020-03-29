@@ -1,3 +1,7 @@
 package com.example.taskapp.viewmodels
 
- class PickCustomNotificationDelayViewModelTest
+ internal class PickCustomNotificationDelayViewModelTest{
+
+  lateinit var viewModel : PickCustomNotificationDelayViewModel
+
+ }

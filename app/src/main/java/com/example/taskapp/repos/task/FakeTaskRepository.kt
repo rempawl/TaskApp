@@ -3,11 +3,12 @@ package com.example.taskapp.repos.task
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.repos.task.DefaultTasks.errorTask
-import com.example.taskapp.repos.task.DefaultTasks.tasks
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
 class FakeTaskRepository : TaskRepositoryInterface {
+    val tasks = DefaultTasks.tasks
+
     override suspend fun getTasks(): List<DefaultTask> = tasks.toList()
 
     override suspend fun deleteByID(id: Long): Int {
@@ -20,8 +21,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
     }
 
     override suspend fun saveTask(task: DefaultTask)
-            : Single<Long>
-    {
+            : Single<Long> {
         val predicate = { t: DefaultTask -> t.name == task.name || t.taskID == task.taskID }
         if (tasks.any(predicate)) {
             tasks.remove(tasks.first(predicate))

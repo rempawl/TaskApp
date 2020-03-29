@@ -1,7 +1,6 @@
 package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.getOrAwaitValue
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.DefaultTasks.tasks
@@ -11,6 +10,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
@@ -27,7 +27,8 @@ class AddSpontaneousTasksViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    lateinit var viewModel: AddSpontaneousTasksViewModel
+
+    private lateinit var viewModel: AddSpontaneousTasksViewModel
 
     private val defaultTasks = tasks.toList()
 
@@ -40,22 +41,13 @@ class AddSpontaneousTasksViewModelTest {
         viewModel = AddSpontaneousTasksViewModel(taskRepository)
     }
 
-    @Test
-    fun `when taskRepository returns emptyList `() {
-        TestCoroutineScope().launch {
-            val expectedValue = emptyList<DefaultTask>()
-            coEvery { taskRepository.getNotTodayTasks() } returns emptyList()
-            val actualValue = viewModel.tasks.getOrAwaitValue()
-            assertThat(actualValue, `is`(expectedValue))
-        }
-
-    }
 
     @Test
-    fun `when taskRepository returns defaultList `() {
-        TestCoroutineScope().launch {
+    fun `get tasks  returns defaultTasks `() {
+        coEvery { taskRepository.getNotTodayTasks() } returns defaultTasks
+
+        TestCoroutineScope(TestCoroutineDispatcher()).launch {
             val expectedValue = defaultTasks
-            coEvery { taskRepository.getNotTodayTasks() } returns defaultTasks
             val actualValue = viewModel.tasks.getOrAwaitValue()
             assertThat(actualValue, `is`(expectedValue))
         }
@@ -63,5 +55,4 @@ class AddSpontaneousTasksViewModelTest {
 
 
 }
-
 

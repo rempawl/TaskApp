@@ -10,7 +10,7 @@ import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.utils.notification.NotificationIntentFactory.Companion.createNotificationReceiverIntent
+import com.example.taskapp.utils.notification.NotificationIntentFactory.createNotificationReceiverIntent
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import java.util.concurrent.TimeUnit
