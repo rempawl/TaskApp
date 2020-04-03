@@ -27,9 +27,6 @@ class AddSpontaneousTaskDialogFragment
 
     private var binding: AddSpontaneousTasksFragmentBinding? = null
 
-    init {
-        Log.d(MainActivity.TAG, "new one")
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,14 +63,7 @@ class AddSpontaneousTaskDialogFragment
 
             taskList.apply {
                 adapter = spontaneousTaskListAdapter
-//                val spanCount =
-//                    if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                        PORTRAIT_COLUMN_COUNT
-//                    } else {
-//                        LANDSCAPE_COLUMN_COUNT
-//                    }
                 layoutManager = LinearLayoutManager(requireContext())
-//                    GridLayoutManager(context, spanCount)
                 setHasFixedSize(true)
             }
         }
@@ -87,11 +77,12 @@ class AddSpontaneousTaskDialogFragment
     private fun addSpontaneousTasks() {
 
         viewModel.addSpontaneousTasks(spontaneousTaskListAdapter.checkedTasksIds)
+
         spontaneousTaskListAdapter.checkedTasksIds.forEach {
             Log.d(MainActivity.TAG, it.toString())
 
         }
-        //add to db
+        //todo add to db
         dismiss()
     }
 

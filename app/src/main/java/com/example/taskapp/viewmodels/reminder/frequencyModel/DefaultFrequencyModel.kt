@@ -9,7 +9,7 @@ class DefaultFrequencyModel @AssistedInject constructor(@Assisted frequency: Fre
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(frequency: Frequency? = null): DefaultFrequencyModel
+        fun create(frequency: Frequency? = null): FrequencyModel
     }
 
 }

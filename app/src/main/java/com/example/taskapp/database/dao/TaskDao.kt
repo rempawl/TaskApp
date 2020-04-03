@@ -1,5 +1,6 @@
 package com.example.taskapp.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -23,7 +24,7 @@ interface TaskDao : BaseDao<DefaultTask> {
     fun loadTaskById(taskID: Long): DefaultTask
 
     @Query("SELECT taskID, name,description FROM tasks")
-    fun loadMinimalTasks(): List<TaskMinimal>
+    fun loadMinimalTasks(): LiveData<List<TaskMinimal>>
 
     @Query("DELETE FROM tasks WHERE taskID == :id")
     fun deleteByID(id: Long): Int

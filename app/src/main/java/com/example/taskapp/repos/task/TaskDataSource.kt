@@ -1,5 +1,6 @@
 package com.example.taskapp.repos.task
 
+import androidx.lifecycle.LiveData
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
@@ -12,7 +13,7 @@ interface TaskDataSource {
 
     suspend fun getMinTasksByUpdateDate(date: LocalDate): Result<List<TaskMinimal>>
 
-    suspend fun getTasksUntilDate(date: LocalDate) : Result<List<DefaultTask>>
+    suspend fun getTasksUntilDate(date: LocalDate): Result<List<DefaultTask>>
 
     suspend fun getTasksByUpdateDate(date: LocalDate): Result<List<DefaultTask>>
 
@@ -20,7 +21,7 @@ interface TaskDataSource {
 
     suspend fun getTasks(): Result<List<DefaultTask>>
 
-    suspend fun getMinimalTasks(): Result<List<TaskMinimal>>
+    suspend fun getMinimalTasks(): Result<LiveData<List<TaskMinimal>>>
 
     suspend fun getTaskById(id: Long): Result<DefaultTask>
 

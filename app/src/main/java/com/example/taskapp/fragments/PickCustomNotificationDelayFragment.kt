@@ -12,7 +12,7 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBinding
-import com.example.taskapp.utils.notification.NotificationIntentFactory
+import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.viewmodels.PickCustomNotificationDelayViewModel
 import javax.inject.Inject
@@ -60,7 +60,7 @@ class PickCustomNotificationDelayFragment : Fragment() {
     private fun sendDelayNotificationBroadcast() {
         val task = arguments?.get(TASK_KEY) as TaskMinimal
         context?.let { ctx ->
-            val intent = NotificationIntentFactory.createDelayNotificationIntent(
+            val intent = DefaultNotificationIntentFactory.createDelayNotificationIntent(
                 ctx,
                 viewModel.delayValue,
                 task

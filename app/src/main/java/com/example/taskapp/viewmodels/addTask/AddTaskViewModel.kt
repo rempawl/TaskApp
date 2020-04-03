@@ -3,13 +3,11 @@ package com.example.taskapp.viewmodels.addTask
 import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
@@ -41,8 +39,8 @@ class AddTaskViewModel @Inject constructor(
         return taskFields.createTaskDetails()
     }
 
-    fun saveTask() {
-        viewModelScope.launch {
+    suspend fun saveTask() {
+//        viewModelScope.launch {
             val newTask = taskFields.createTask()
 
             compositeDisposable.add(
@@ -50,7 +48,7 @@ class AddTaskViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .subscribe({}, { it.printStackTrace() })
             )
-        }
+//        }
     }
 
     private suspend fun addTask(newTask: DefaultTask): Single<Long> {

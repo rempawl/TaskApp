@@ -9,7 +9,7 @@ class MyTasksViewModel @Inject constructor(private val taskRepo: TaskRepositoryI
 
     val tasks = liveData {
         val tasks = taskRepo.getMinimalTasks()
-        emit(tasks)
+        emitSource(tasks)
     }
 
 }

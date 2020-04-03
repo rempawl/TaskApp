@@ -1,13 +1,15 @@
 package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.taskapp.CoroutineTestRule
 import com.example.taskapp.getOrAwaitValue
 import com.example.taskapp.loadTimeZone
+import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.repos.task.DefaultTasks.errorTask
-import com.example.taskapp.repos.task.FakeTaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -18,6 +20,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 @ExperimentalCoroutinesApi
 class TaskDetailsViewModelTest {
@@ -27,15 +30,19 @@ class TaskDetailsViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutineTestRule = CoroutineTestRule()
 
+    @MockK
     lateinit var taskRepository: TaskRepositoryInterface
+
     private lateinit var viewModel: TaskDetailsViewModel
 
     private val taskId: Long = 0
 
     @BeforeEach
     fun setUp() {
-        taskRepository = FakeTaskRepository()
+        MockKAnnotations.init(this)
         viewModel = TaskDetailsViewModel(taskId, taskRepository)
 
     }
@@ -43,6 +50,8 @@ class TaskDetailsViewModelTest {
 
     @Test
     fun `getTask gets default task with id equal to taskId `() {
+        coEvery { taskRepository.getTaskByID(taskId) } returns DefaultTasks.tasks[taskId.toInt()]
+
         TestCoroutineScope(TestCoroutineDispatcher()).launch {
             val actualTask = viewModel.task.getOrAwaitValue()
             val expectedTask = taskRepository.getTaskByID(taskId)
@@ -54,8 +63,8 @@ class TaskDetailsViewModelTest {
 
     @Test
     fun ` deleteTask deletes task from repository and sets isTaskDeleted to true`() {
-
-        CoroutineScope(Dispatchers.IO).launch {
+        coEvery { taskRepository.deleteByID(taskId) } returns 1
+        TestCoroutineScope(TestCoroutineDispatcher()).launch {
             viewModel.deleteTask()
 
             val actualTask = taskRepository.getTaskByID(taskId)
@@ -67,6 +76,14 @@ class TaskDetailsViewModelTest {
             assertThat(actualTask, `is`(expectedTask))
         }
     }
-}
 
+    @Test
+    fun `when deleteTask doesn't delete task from repository exception is thrown`() {
+        coEvery { taskRepository.deleteByID(taskId) } returns 0
+
+            assertThrows<IllegalStateException> {
+                viewModel.deleteTask()
+            }
+    }
+}
 

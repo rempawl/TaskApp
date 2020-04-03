@@ -21,6 +21,9 @@ import com.example.taskapp.fragments.ReminderDialogFragmentsDisplayer.showNotifi
 import com.example.taskapp.utils.VisibilityChanger
 import com.example.taskapp.viewmodels.EditTaskViewModel
 import com.google.android.material.radiobutton.MaterialRadioButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class EditTaskFragment : Fragment() {
 
@@ -42,6 +45,7 @@ class EditTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = EditTaskFragmentBinding.inflate(inflater, container, false)
+
         viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
             if (id != null) {
                 Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
@@ -88,7 +92,7 @@ class EditTaskFragment : Fragment() {
     }
 
     private fun editTask() {
-        viewModel.saveEditedTask()
+        CoroutineScope(Dispatchers.Main).launch {  viewModel.saveEditedTask() }
         findNavController().navigate(
             EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
         )

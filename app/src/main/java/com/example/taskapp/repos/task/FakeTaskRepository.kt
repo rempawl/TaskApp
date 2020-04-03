@@ -1,5 +1,7 @@
 package com.example.taskapp.repos.task
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.repos.task.DefaultTasks.errorTask
@@ -48,12 +50,15 @@ class FakeTaskRepository : TaskRepositoryInterface {
     }
 
 
-    override suspend fun getMinimalTasks(): List<TaskMinimal> {
-        return tasks.map { task ->
-            TaskMinimal(
-                taskID = task.taskID,
-                name = task.name,
-                description = task.description
+    override suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>> {
+        return liveData {
+            emit(tasks.map { task ->
+                TaskMinimal(
+                    taskID = task.taskID,
+                    name = task.name,
+                    description = task.description
+                )
+            }
             )
         }
     }

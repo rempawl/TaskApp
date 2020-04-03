@@ -5,7 +5,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.taskapp.MyApp
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
@@ -20,7 +19,6 @@ import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationMod
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
 
@@ -88,8 +86,8 @@ abstract class ReminderViewModel(
 
     }
 
-    fun saveTask(setReminder: Boolean = true) {
-        viewModelScope.launch {
+    suspend fun saveTask(setReminder: Boolean = true) {
+//        viewModelScope.launch {
             val reminder = if (setReminder) createReminder() else null
             val task = createTask(reminder)
             val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
@@ -110,7 +108,7 @@ abstract class ReminderViewModel(
             }
 
 
-        }
+//        }
     }
 
 

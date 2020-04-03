@@ -18,8 +18,10 @@ class TaskDetailsViewModel @AssistedInject constructor(
 
     fun deleteTask() {
         viewModelScope.launch {
-            if(taskRepository.deleteByID(taskID) != 0){
+            if(taskRepository.deleteByID(taskID) == 1){
                 isTaskDeleted.value = true
+            }else{
+                throw IllegalStateException(" task with id: $taskID was not deleted")
             }
         }
     }

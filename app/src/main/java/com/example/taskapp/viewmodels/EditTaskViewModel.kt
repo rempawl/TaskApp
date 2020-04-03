@@ -37,7 +37,7 @@ class EditTaskViewModel @AssistedInject constructor(
     }
 
     //todo setting alarm for edited task
-    fun saveEditedTask() {
+    suspend fun saveEditedTask() {
         saveTask(isReminderSwitchChecked.get() as Boolean)
     }
 

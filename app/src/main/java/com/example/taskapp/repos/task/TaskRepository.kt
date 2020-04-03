@@ -1,5 +1,7 @@
 package com.example.taskapp.repos.task
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
@@ -75,12 +77,12 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
-    override suspend fun getMinimalTasks(): List<TaskMinimal> {
+    override suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>> {
         val data = taskLocalDataSource.getMinimalTasks()
         return if (data is Result.Success<*>) {
-            data.items as List<TaskMinimal>
+            data.items as LiveData<List<TaskMinimal>>
         } else {
-            emptyList()
+            MutableLiveData<List<TaskMinimal>>(emptyList())
         }
     }
 

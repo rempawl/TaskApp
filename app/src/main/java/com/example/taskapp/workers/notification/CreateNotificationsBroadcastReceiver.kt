@@ -18,7 +18,7 @@ import com.example.taskapp.MyApp.Companion.TASK_NAME_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.utils.notification.NotificationIntentFactory
+import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationManagerHelper.createNotificationChannel
 
 /**
@@ -120,7 +120,7 @@ class CreateTaskNotificationBroadcastReceiver :
         context: Context,
         task: TaskMinimal
     ): NotificationCompat.Action.Builder {
-        val intent = NotificationIntentFactory.createDelayNotificationIntent(
+        val intent = DefaultNotificationIntentFactory.createDelayNotificationIntent(
             context, 30, task
         )
 

@@ -22,6 +22,9 @@ import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.example.taskapp.workers.AlarmCreator
 import com.google.android.material.radiobutton.MaterialRadioButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddReminderFragment : Fragment() {
 
@@ -122,7 +125,7 @@ class AddReminderFragment : Fragment() {
      * on current radio  checked
      */
     private fun setFrequencyButtonsVisibility(id: Int) {
-        binding?.run{
+        binding?.run {
             val allBtns = listOf(
                 setDailyFrequencyBtn,
                 setDaysOfWeekBtn
@@ -148,7 +151,7 @@ class AddReminderFragment : Fragment() {
      * on current radio  checked
      */
     private fun setDurationButtonsVisibility(id: Int) {
-        binding?.run{
+        binding?.run {
             val allBtns = listOf(
                 setDurationDaysBtn,
                 setEndDateBtn
@@ -266,7 +269,7 @@ class AddReminderFragment : Fragment() {
 
 
     private fun addTaskWithReminder() {
-        viewModel.saveTask()
+        CoroutineScope(Dispatchers.Main).launch {  viewModel.saveTask()}
         findNavController().navigate(
             AddReminderFragmentDirections.navigationAddReminderToNavigationMyTasks()
         )
@@ -276,11 +279,7 @@ class AddReminderFragment : Fragment() {
 }
 
 
-interface DialogFragmentsDisplayer
-
-
-object ReminderDialogFragmentsDisplayer :
-    DialogFragmentsDisplayer {
+object ReminderDialogFragmentsDisplayer {
 
 
     fun showNotificationPickerDialog(

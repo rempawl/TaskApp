@@ -7,11 +7,18 @@ import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.workers.notification.CreateTaskNotificationBroadcastReceiver
 import com.example.taskapp.workers.notification.DelayNotificationReceiver
 
+interface NotificationIntentFactor {
+    fun createDelayNotificationIntent(context: Context, delayValue: Int, task: TaskMinimal): Intent
+    fun createNotificationReceiverIntent(task: TaskMinimal, context: Context): Intent
+}
 
-object NotificationIntentFactory {
+object DefaultNotificationIntentFactory : NotificationIntentFactor {
 
-    fun createDelayNotificationIntent(context: Context, delayValue: Int, task: TaskMinimal)
-            : Intent {
+    override fun createDelayNotificationIntent(
+        context: Context,
+        delayValue: Int,
+        task: TaskMinimal
+    ): Intent {
         return Intent(context, DelayNotificationReceiver::class.java)
             .apply {
                 putExtra(DELAY_VALUE_KEY, delayValue)
@@ -19,7 +26,7 @@ object NotificationIntentFactory {
             }
     }
 
-    fun createNotificationReceiverIntent(task: TaskMinimal, context: Context): Intent {
+    override fun createNotificationReceiverIntent(task: TaskMinimal, context: Context): Intent {
         return Intent(context, CreateTaskNotificationBroadcastReceiver::class.java).apply {
             putExtra(TASK_NAME_KEY, task.name)
             putExtra(TASK_DESC_KEY, task.description)
@@ -34,7 +41,6 @@ object NotificationIntentFactory {
     const val TASK_NAME_KEY = "task name"
     const val TASK_DESC_KEY = "task desc"
     const val TASK_ID_KEY = "task id"
-    const val TASK_ID_LIST_KEY = "list of task ids"
 
 
 }

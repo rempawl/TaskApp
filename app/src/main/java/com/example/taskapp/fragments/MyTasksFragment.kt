@@ -33,10 +33,6 @@ class MyTasksFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: MyTasksViewModel
-//            by viewModel {
-//        (activity as MainActivity)
-//            .appComponent.myTaskViewModel
-//    }
 
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory

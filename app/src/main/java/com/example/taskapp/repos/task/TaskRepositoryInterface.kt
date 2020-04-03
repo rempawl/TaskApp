@@ -1,5 +1,6 @@
 package com.example.taskapp.repos.task
 
+import androidx.lifecycle.LiveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import io.reactivex.Single
@@ -19,7 +20,7 @@ interface TaskRepositoryInterface {
 
     suspend fun getTaskByID(id: Long): DefaultTask
 
-    suspend fun getMinimalTasks(): List<TaskMinimal>
+    suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>>
 
     suspend fun getTasksUntilDate(date: LocalDate = LocalDate.now()): List<DefaultTask>
 

@@ -13,7 +13,7 @@ abstract class FrequencyModel constructor(frequency: Frequency?) :
 
     var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
         private set
-    private val isEdited : Boolean
+    private val isEdited: Boolean
 
     @Bindable
     var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
@@ -48,6 +48,9 @@ abstract class FrequencyModel constructor(frequency: Frequency?) :
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 
-    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(begDate, !isEdited)
+    fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
+        lastRealizationDate = begDate,
+        isBeginning = !isEdited
+    )
 
 }

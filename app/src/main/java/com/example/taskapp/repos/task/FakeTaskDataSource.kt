@@ -1,5 +1,6 @@
 package com.example.taskapp.repos.task
 
+import androidx.lifecycle.LiveData
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
@@ -33,7 +34,7 @@ class FakeTaskDataSource : TaskDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getMinimalTasks(): Result<List<TaskMinimal>> {
+    override suspend fun getMinimalTasks(): Result<LiveData<List<TaskMinimal>>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

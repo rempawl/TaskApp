@@ -82,10 +82,11 @@
                     android:text="@string/add_reminder"
                     android:textColor="@color/design_default_color_background" />
 
-<!--                <include-->
-<!--                    layout="@layout/reminder_layout"-->
-<!--                    bind:viewModel="@{viewModel}"-->
-<!--                    android:visibility="@{viewModel.isReminderSwitchChecked() ? View.VISIBLE : View.GONE}" />-->
+
+                <!--                <include-->
+                <!--                    layout="@layout/reminder_layout"-->
+                <!--                    bind:viewModel="@{viewModel}"-->
+                <!--                    android:visibility="@{viewModel.isReminderSwitchChecked() ? View.VISIBLE : View.GONE}" />-->
 
 
                 <LinearLayout
@@ -93,7 +94,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:visibility="@{viewModel.isReminderSwitchChecked() ? View.VISIBLE : View.GONE}"
                     tools:showIn="@layout/edit_task_fragment">
+
 
                     <!--                    NOTIFICATION LAYOUT -->
                     <com.google.android.material.button.MaterialButton
@@ -110,10 +113,10 @@
                     <androidx.appcompat.widget.SwitchCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/enable_notification"
-                        android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
+                        android:text="@string/enable_notification"
                         android:theme="@style/SwitchTheme" />
 
                     <!-- FREQUENCY LAYOUT -->

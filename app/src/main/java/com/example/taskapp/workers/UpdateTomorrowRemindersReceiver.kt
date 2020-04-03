@@ -17,11 +17,11 @@ import javax.inject.Inject
 /**
  * class responsible for updating realization dates of tasks and setting alarms for tomorrow tasks
  */
-//todo it will crash android injector needed
 class UpdateTomorrowRemindersReceiver :
     BroadcastReceiver() {
-    @Inject
+//todo it will crash android injector needed
 
+    @Inject
     lateinit var taskRepository: TaskRepositoryInterface
 
 
