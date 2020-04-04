@@ -5,6 +5,7 @@ import androidx.lifecycle.liveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.repos.task.DefaultTasks.errorTask
+import com.example.taskapp.workers.toTaskMinimal
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
@@ -29,7 +30,8 @@ class FakeTaskRepository : TaskRepositoryInterface {
             tasks.remove(tasks.first(predicate))
             tasks.add(task)
         }
-        TODO()
+
+        return Single.just(task.taskID)
     }
 
     override suspend fun getMinTasksByUpdateDate(date: LocalDate): List<TaskMinimal> {
@@ -52,14 +54,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
 
     override suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>> {
         return liveData {
-            emit(tasks.map { task ->
-                TaskMinimal(
-                    taskID = task.taskID,
-                    name = task.name,
-                    description = task.description
-                )
-            }
-            )
+            emit(tasks.map { task -> task.toTaskMinimal() })
         }
     }
 
