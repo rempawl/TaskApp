@@ -9,9 +9,7 @@ import javax.inject.Inject
 interface WorkersInitializer {
     fun setUpWorkers(context: Context) {
         val constraints = createConstraints()
-
         val workRequest = createWorkRequest(constraints)
-
         enqueueWorkRequest(context = context, workRequest = workRequest)
     }
 
@@ -33,7 +31,6 @@ class UpdateRemindersWorkerInitializer @Inject constructor() : WorkersInitialize
     }
 
     override fun createWorkRequest(constraints: Constraints): PeriodicWorkRequest {
-
         return PeriodicWorkRequestBuilder<UpdateRemindersWorker>(1, TimeUnit.DAYS)
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
@@ -46,7 +43,6 @@ class UpdateRemindersWorkerInitializer @Inject constructor() : WorkersInitialize
 
     override fun enqueueWorkRequest(workRequest: WorkRequest, context: Context) {
         require(workRequest is PeriodicWorkRequest){ " Work request is of the wrong type "}
-
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 UpdateRemindersWorker.WORK_NAME,

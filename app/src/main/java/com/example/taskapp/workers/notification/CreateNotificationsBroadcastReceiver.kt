@@ -48,16 +48,12 @@ class CreateTaskNotificationBroadcastReceiver :
         return TaskMinimal(id, name, desc)
     }
 
-
-    private fun showNotification(context: Context, task: TaskMinimal) {
-
-
+    private fun createNotification(context: Context, task: TaskMinimal): NotificationCompat.Builder {
         val confirmAction = createConfirmAction(context, task)
         val delay30MinAction = createDelay30MinAction(context, task)
         val delayCustomTimeAction = createDelayCustomTimeAction(context, task)
 
-
-        val notification = NotificationCompat.Builder(
+        return  NotificationCompat.Builder(
             context,
             TASK_CHANNEL_ID
         )
@@ -70,8 +66,12 @@ class CreateTaskNotificationBroadcastReceiver :
             .addAction(delay30MinAction.build())
             .addAction(delayCustomTimeAction.build())
             .setAutoCancel(true)
-            .build()
 
+    }
+
+    private fun showNotification(context: Context, task: TaskMinimal) {
+        val notification = createNotification(context, task)
+            .build()
 
         NotificationManagerCompat.from(context).notify(TASK_NOTIFICATION_ID, notification)
 
@@ -87,7 +87,6 @@ class CreateTaskNotificationBroadcastReceiver :
             .setDestination(R.id.navigation_pick_custom_delay)
             .setArguments(args)
             .createPendingIntent()
-
 
 
         val title = context.getString(R.string.delay_later)
@@ -133,7 +132,6 @@ class CreateTaskNotificationBroadcastReceiver :
 
 
     }
-
 
 
     companion object
