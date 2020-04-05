@@ -21,10 +21,12 @@ import javax.inject.Inject
 //todo Realization Entity
 
 class MyApp : Application() {
+
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
             .create(applicationContext)
     }
+
     @Inject
     lateinit var workersInitializer: WorkersInitializer
 
@@ -50,10 +52,13 @@ class MyApp : Application() {
 
     companion object{
         const val PREFERENCES_NAME = "com.example.taskapp"
+
         val TODAY: LocalDate = LocalDate.now()
         val TOMORROW: LocalDate = LocalDate.ofEpochDay(TODAY.toEpochDay() + 1)
+
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val ZONE_OFFSET: ZoneOffset = OffsetDateTime.now().offset
+
         const val TASK_NAME_KEY = "task name"
         const val TASK_DESC_KEY = "task desc"
         const val TASK_ID_KEY = "task id"
