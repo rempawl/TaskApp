@@ -1,6 +1,7 @@
 package com.example.taskapp.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBinding
+import com.example.taskapp.utils.EventObserver
 import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
+import com.example.taskapp.utils.notification.NotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.viewmodels.PickCustomNotificationDelayViewModel
 import javax.inject.Inject
@@ -22,6 +25,10 @@ class PickCustomNotificationDelayFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: PickCustomNotificationDelayViewModel
+
+
+    private val notificationIntentFactory: NotificationIntentFactory =
+        DefaultNotificationIntentFactory
 
 
     override fun onAttach(context: Context) {
@@ -37,9 +44,20 @@ class PickCustomNotificationDelayFragment : Fragment() {
         val binding = PickCustomNotificationDelayFragmentBinding
             .inflate(inflater, container, false) ?: throw IllegalStateException("binding is null")
         setUpBinding(binding)
-        NotificationManagerHelper.cancelTaskNotification(requireContext())
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setUpObservers()
+        NotificationManagerHelper.cancelTaskNotification(requireContext())
+    }
+
+    private fun setUpObservers() {
+        viewModel.broadcastNotHandled.observe(viewLifecycleOwner, EventObserver {
+            sendDelayNotificationBroadcast(requireContext())
+        })
     }
 
 
@@ -53,24 +71,43 @@ class PickCustomNotificationDelayFragment : Fragment() {
                     viewModel.delayValue = newVal
                 }
             }
-            confirmButton.setOnClickListener { sendDelayNotificationBroadcast() }
+            confirmButton.setOnClickListener {
+                onConfirmClick()
+            }
         }
     }
 
-    private fun sendDelayNotificationBroadcast() {
+    private fun onConfirmClick() {
+        context?.let { context ->
+            sendDelayNotificationBroadcast(context)
+        } ?: viewModel.onBroadcastNotHandled()
+    }
+
+    private fun sendDelayNotificationBroadcast(ctx: Context) {
         val task = arguments?.get(TASK_KEY) as TaskMinimal
-        context?.let { ctx ->
-            val intent = DefaultNotificationIntentFactory.createDelayNotificationIntent(
-                ctx,
-                viewModel.delayValue,
-                task
-            )
-            LocalBroadcastManager.getInstance(ctx).sendBroadcast(intent)
-            findNavController().navigate(
-                PickCustomNotificationDelayFragmentDirections
-                    .navigationPickCustomDelayToNavigationToday()
-            )
-        }
+
+        val intent = createIntent(ctx, task)
+
+        LocalBroadcastManager.getInstance(ctx).sendBroadcast(intent)
+        navigateToTodayFragment()
+    }
+
+    private fun createIntent(
+        ctx: Context,
+        task: TaskMinimal
+    ): Intent {
+        return notificationIntentFactory.createDelayNotificationIntent(
+            ctx,
+            viewModel.delayValue,
+            task
+        )
+    }
+
+    private fun navigateToTodayFragment() {
+        findNavController().navigate(
+            PickCustomNotificationDelayFragmentDirections
+                .navigationPickCustomDelayToNavigationToday()
+        )
     }
 
     companion object {
@@ -82,6 +119,6 @@ class PickCustomNotificationDelayFragment : Fragment() {
         fun newInstance() = PickCustomNotificationDelayFragment()
     }
 
-//todo onNavigateUp -> send broadcast with current time
+//todo onNavigateUp -> send broadcast with current delay time
 
 }
