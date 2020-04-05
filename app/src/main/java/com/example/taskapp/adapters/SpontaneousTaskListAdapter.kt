@@ -23,9 +23,7 @@ class SpontaneousTaskListAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.addCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                onAddCheckboxChecked(
-                    isChecked
-                )
+                onAddCheckboxChecked(isChecked)
             }
         }
 
@@ -48,7 +46,9 @@ class SpontaneousTaskListAdapter @Inject constructor() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpontaneousTaskViewHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        val binding = SpontaneousTaskListItemBinding.inflate(inflater, parent, false)
+        val binding = SpontaneousTaskListItemBinding
+            .inflate(inflater, parent, false)
+
         return SpontaneousTaskViewHolder(binding)
     }
 
