@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navController = findNavController(R.id.nav_host_fragment)
+        val navController = findNavController(this,R.id.nav_host_fragment)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 R.id.navigation_today,
                 R.id.navigation_pick_custom_delay
             ),
-            findViewById(R.id.main_drawer_layout)
+            findViewById<DrawerLayout>(R.id.main_drawer_layout)
         )
         toolbar?.setupWithNavController(navController, appBarConfig)
 

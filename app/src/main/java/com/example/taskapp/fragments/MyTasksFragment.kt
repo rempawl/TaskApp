@@ -1,5 +1,6 @@
 package com.example.taskapp.fragments
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
+import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.MyTasksViewModel
 import kotlinx.android.synthetic.main.add_spontaneous_tasks_fragment.task_list
 import kotlinx.android.synthetic.main.my_tasks_fragment.*
@@ -31,25 +33,35 @@ class MyTasksFragment : Fragment() {
     }
 
 
-    @Inject
-    lateinit var viewModel: MyTasksViewModel
+    val viewModel: MyTasksViewModel by viewModel {
+        injectViewModel()
+    }
+
+    private fun injectViewModel() = (activity as MainActivity).appComponent.myTasksViewModel
 
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
 
-    private val taskListAdapter: TaskListAdapter by lazy(LazyThreadSafetyMode.NONE) {
+    private val taskListAdapter: TaskListAdapter by lazy {
         taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        injectMembers()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as MainActivity).appComponent.inject(this)
 
-        return inflater.inflate(R.layout.my_tasks_fragment, container, false)
+                return inflater.inflate(R.layout.my_tasks_fragment, container, false)
+    }
+
+    private fun injectMembers() {
+        (activity as MainActivity).appComponent.inject(this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

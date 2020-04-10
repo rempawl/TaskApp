@@ -13,14 +13,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.SpontaneousTaskListAdapter
 import com.example.taskapp.databinding.AddSpontaneousTasksFragmentBinding
+import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.AddSpontaneousTasksViewModel
 import javax.inject.Inject
 
 class AddSpontaneousTaskDialogFragment
     : DialogFragment() {
 
-    @Inject
-    lateinit var viewModel: AddSpontaneousTasksViewModel
+    val viewModel: AddSpontaneousTasksViewModel by viewModel {
+        injectViewModel()
+    }
+
+    private fun injectViewModel() =
+        (activity as MainActivity).appComponent.addSpontaneousTasksViewModel
 
     @Inject
     lateinit var spontaneousTaskListAdapter: SpontaneousTaskListAdapter
@@ -30,6 +35,10 @@ class AddSpontaneousTaskDialogFragment
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        injectMembers()
+    }
+
+    private fun injectMembers() {
         (activity as MainActivity).appComponent.inject(this)
     }
 

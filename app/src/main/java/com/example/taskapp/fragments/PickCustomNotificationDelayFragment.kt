@@ -13,6 +13,7 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBinding
+import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.EventObserver
 import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactory
@@ -23,8 +24,12 @@ import javax.inject.Inject
 
 class PickCustomNotificationDelayFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModel: PickCustomNotificationDelayViewModel
+    val viewModel: PickCustomNotificationDelayViewModel by viewModel{
+        injectViewModel()
+    }
+
+    private fun injectViewModel() =
+        (activity as MainActivity).appComponent.pickCustomNotificationDelayViewModel
 
 
     private val notificationIntentFactory: NotificationIntentFactory =
@@ -33,7 +38,6 @@ class PickCustomNotificationDelayFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (activity as MainActivity).appComponent.inject(this)
     }
 
     override fun onCreateView(
