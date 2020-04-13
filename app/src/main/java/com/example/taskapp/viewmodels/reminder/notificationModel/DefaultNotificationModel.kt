@@ -9,6 +9,6 @@ class DefaultNotificationModel @AssistedInject constructor(@Assisted notificatio
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(notificationTime: NotificationTime? = null): NotificationModel
+        fun create(notificationTime: NotificationTime? = null): DefaultNotificationModel
     }
 }

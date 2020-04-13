@@ -70,7 +70,7 @@ class TaskDetailsViewModelTest {
             val actualTask = taskRepository.getTaskByID(taskId)
             val expectedTask = errorTask
 
-            val actualFlag = viewModel.getTaskDeleted().getOrAwaitValue()
+            val actualFlag = viewModel.taskDeleted.getOrAwaitValue()
 
             assertTrue(actualFlag)
             assertThat(actualTask, `is`(expectedTask))

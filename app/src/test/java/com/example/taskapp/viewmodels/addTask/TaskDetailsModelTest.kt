@@ -26,18 +26,6 @@ internal class TaskDetailsModelTest {
     @DisplayName("when taskName is `TEST_NAME` and taskDesc is `TEST_DESC` ")
     @Nested
     inner class TaskNameValidNameTaskDescDefault {
-        @Test
-        fun `createTaskDetails returns TaskDetails(TEST_NAME,TEST_DESC) `() {
-            val expectedName = TEST_NAME
-            val expectedDesc = TEST_DESC
-            val expectedValue = TaskDetails(expectedName, expectedDesc)
-
-            taskDetailsModel.taskName = TEST_NAME
-            taskDetailsModel.taskDescription = TEST_DESC
-
-            val actualValue = taskDetailsModel.createTaskDetails()
-            assertThat(actualValue, `is`(expectedValue))
-        }
 
 
         @Test

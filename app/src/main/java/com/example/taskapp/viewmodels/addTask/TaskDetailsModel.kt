@@ -1,97 +1,28 @@
 package com.example.taskapp.viewmodels.addTask
 
-import android.view.View
-import android.widget.EditText
 import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
-import com.example.taskapp.BR
-import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 
-abstract class TaskDetailsModel   : BaseObservable() {
+abstract class TaskDetailsModel : BaseObservable() {
 
-    val taskNameError: ObservableField<Int> = ObservableField()
+    abstract val taskNameError: ObservableField<Int>
 
-    var taskName: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.valid)
-        }
+    abstract var taskName: String
 
+    abstract var taskDescription: String
 
-    @Bindable
-    var taskDescription: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.taskDescription)
-        }
+    abstract fun isValid(): Boolean
 
-    @Bindable
-    fun isValid(): Boolean {
-        return isTaskNameValid(false)
-    }
+    abstract fun validateTaskDescription()
 
-    fun validateTaskDescription() {
-        taskDescription = ""
-    }
+    abstract fun createTask(): DefaultTask
 
-
-    fun createTaskDetails(): TaskDetails {
-        return TaskDetails(taskName, taskDescription)
-    }
-
-
-    fun createTask(): DefaultTask {
-        return DefaultTask(name = taskName, description = taskDescription)
-    }
-
-
-    fun isTaskNameValid(setMessage: Boolean): Boolean {
-        return if (taskName.isNotBlank() && taskName.length >= MIN_LENGTH) {
-            taskNameError.set(null)
-            true
-        } else {
-            if (setMessage) {
-                taskNameError.set(R.string.task_name_error)
-            } else {
-                taskNameError.set(null)
-            }
-            false
-        }
-
-
-    }
+    abstract fun isTaskNameValid(setMessage: Boolean): Boolean
 
     companion object {
         const val MIN_LENGTH = 3
 
-        @JvmStatic
-        @BindingAdapter("setError")
-        fun setError(view: EditText, stringOrRsrcID: Any?) {
-            if (stringOrRsrcID != null) {
-                when (stringOrRsrcID) {
-                    is String -> view.error = stringOrRsrcID
-                    is Int -> view.apply {
-                        val text = context.resources.getString(stringOrRsrcID)
-                        error = text
-                    }
-                }
-            }
-
-        }
-
-        @JvmStatic
-        @BindingAdapter("onFocus")
-        fun bindFocusChange(
-            editText: EditText,
-            onFocusChangeListener: View.OnFocusChangeListener?
-        ) {
-            onFocusChangeListener ?: return
-            editText.onFocusChangeListener = onFocusChangeListener
-
-        }
 
     }
 }

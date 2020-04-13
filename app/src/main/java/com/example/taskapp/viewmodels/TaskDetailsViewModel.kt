@@ -12,16 +12,16 @@ class TaskDetailsViewModel @AssistedInject constructor(
     private val taskRepository: TaskRepositoryInterface
 ) : ViewModel() {
 
-
-    private val isTaskDeleted  = MutableLiveData<Boolean>(false)
-    fun getTaskDeleted() : LiveData<Boolean> = isTaskDeleted
+    private val _isTaskDeleted  = MutableLiveData(false)
+    val taskDeleted : LiveData<Boolean>
+            get() =  _isTaskDeleted
 
     fun deleteTask() {
         viewModelScope.launch {
             if(taskRepository.deleteByID(taskID) == 1){
-                isTaskDeleted.value = true
+                _isTaskDeleted.value = true
             }else{
-                throw IllegalStateException(" task with id: $taskID was not deleted")
+//                throw IllegalStateException(" task with id: $taskID was not deleted")
             }
         }
     }

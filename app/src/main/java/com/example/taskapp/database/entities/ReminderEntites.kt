@@ -72,10 +72,7 @@ data class  NotificationTime(val hour: Int, val minute: Int, val isSet: Boolean 
 }
 
 @Parcelize
-//@Entity(tableName = "reminders")
 data class Reminder(
-//    @PrimaryKey(autoGenerate = true) val reminderID : Long = 0,
-//    val taskID : Long,
     val begDate: LocalDate,
     @Embedded val frequency: Frequency,
     @Embedded val duration: Duration,

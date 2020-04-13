@@ -16,6 +16,7 @@ class AddTaskViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
+
     val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
         val text = (view as EditText).text.toString()
         if (!focused && text.isNotEmpty()) {
@@ -35,12 +36,8 @@ class AddTaskViewModel @Inject constructor(
         return taskFields.createTask()
     }
 
-    fun getTaskDetails(): TaskDetails {
-        return taskFields.createTaskDetails()
-    }
 
     suspend fun saveTask() {
-//        viewModelScope.launch {
             val newTask = taskFields.createTask()
 
             compositeDisposable.add(
@@ -48,7 +45,6 @@ class AddTaskViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .subscribe({}, { it.printStackTrace() })
             )
-//        }
     }
 
     private suspend fun addTask(newTask: DefaultTask): Single<Long> {

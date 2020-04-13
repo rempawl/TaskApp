@@ -30,7 +30,9 @@ class ConfirmDialogFragment(
             AlertDialog
                 .Builder(requireContext())
                 .setTitle(message)
-                .setPositiveButton(R.string.confirm) { _, _ -> listener.onConfirmSelected() }
+                .setPositiveButton(R.string.confirm) { _, _ -> listener.onConfirmSelected()
+//                    dismiss()
+                }
                 .setNegativeButton(R.string.cancel) { _, _ -> }
                 .create()
 

@@ -27,8 +27,8 @@ inline fun <reified T : ViewModel> Fragment.activityViewModel(
 } }
 
 @Module
-object ViewModelModule{
+object ModelModule{
     @Provides
     @JvmStatic
-    fun provideTaskDetailsViewModel() : TaskDetailsModel =  DefaultTaskDetailsModel()
+    fun provideTaskDetailsModel() : TaskDetailsModel =  DefaultTaskDetailsModel()
 }

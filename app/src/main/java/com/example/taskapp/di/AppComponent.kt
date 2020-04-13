@@ -21,7 +21,7 @@ import javax.inject.Singleton
         DataBaseModule::class,
         RepositoryModule::class,
         WorkerModule::class,
-    ViewModelModule::class
+    ModelModule::class
     ]
 )
 @Singleton

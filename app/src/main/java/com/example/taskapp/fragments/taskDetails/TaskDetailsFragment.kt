@@ -64,7 +64,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
 
     private fun setUpObservers() {
-        viewModel.getTaskDeleted().observe(viewLifecycleOwner, Observer { isDeleted ->
+        viewModel.taskDeleted.observe(viewLifecycleOwner, Observer { isDeleted ->
             if (isDeleted) {
                 navigateToMyTasks()
             }
