@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels.reminder
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.loadTimeZone
+import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
 import junit.framework.Assert.assertEquals

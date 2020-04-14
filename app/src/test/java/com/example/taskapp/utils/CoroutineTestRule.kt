@@ -1,4 +1,4 @@
-package com.example.taskapp
+package com.example.taskapp.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

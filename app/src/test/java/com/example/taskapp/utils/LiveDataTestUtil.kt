@@ -1,4 +1,4 @@
-package com.example.taskapp
+package com.example.taskapp.utils
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData

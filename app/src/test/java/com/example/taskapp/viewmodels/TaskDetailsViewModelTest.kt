@@ -1,12 +1,12 @@
 package com.example.taskapp.viewmodels
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.CoroutineTestRule
-import com.example.taskapp.getOrAwaitValue
-import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.repos.task.DefaultTasks.errorTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.CoroutineTestRule
+import com.example.taskapp.utils.InstantTaskExecutor
+import com.example.taskapp.utils.getOrAwaitValue
+import com.example.taskapp.utils.loadTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -17,10 +17,9 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
-import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 class TaskDetailsViewModelTest {
@@ -29,7 +28,7 @@ class TaskDetailsViewModelTest {
     }
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    val instantTaskExecutorRule = InstantTaskExecutor()
     @get:Rule
     val coroutineTestRule = CoroutineTestRule()
 
@@ -40,7 +39,7 @@ class TaskDetailsViewModelTest {
 
     private val taskId: Long = 0
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         viewModel = TaskDetailsViewModel(taskId, taskRepository)
@@ -77,13 +76,6 @@ class TaskDetailsViewModelTest {
         }
     }
 
-    @Test
-    fun `when deleteTask doesn't delete task from repository exception is thrown`() {
-        coEvery { taskRepository.deleteByID(taskId) } returns 0
 
-            assertThrows<IllegalStateException> {
-                viewModel.deleteTask()
-            }
-    }
 }
 

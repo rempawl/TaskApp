@@ -1,10 +1,10 @@
 package com.example.taskapp.viewmodels
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.getOrAwaitValue
-import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.utils.InstantTaskExecutor
+import com.example.taskapp.utils.getOrAwaitValue
+import com.example.taskapp.utils.loadTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -30,7 +30,7 @@ internal class MyTasksViewModelTest {
     private lateinit var viewModel: MyTasksViewModel
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    val instantTaskExecutorRule = InstantTaskExecutor()
 
 
     @Before

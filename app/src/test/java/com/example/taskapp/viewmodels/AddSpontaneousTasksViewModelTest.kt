@@ -1,10 +1,10 @@
 package com.example.taskapp.viewmodels
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.getOrAwaitValue
-import com.example.taskapp.loadTimeZone
 import com.example.taskapp.repos.task.DefaultTasks.tasks
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.InstantTaskExecutor
+import com.example.taskapp.utils.getOrAwaitValue
+import com.example.taskapp.utils.loadTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -14,9 +14,9 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 class AddSpontaneousTasksViewModelTest {
@@ -26,7 +26,7 @@ class AddSpontaneousTasksViewModelTest {
     }
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    val instantTaskExecutorRule = InstantTaskExecutor()
 
     private lateinit var viewModel: AddSpontaneousTasksViewModel
 
@@ -35,7 +35,7 @@ class AddSpontaneousTasksViewModelTest {
     @MockK
     lateinit var taskRepository: TaskRepositoryInterface
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         viewModel = AddSpontaneousTasksViewModel(taskRepository)

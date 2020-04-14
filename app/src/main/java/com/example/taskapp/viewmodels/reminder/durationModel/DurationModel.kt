@@ -130,7 +130,7 @@ abstract class DurationModel : BaseObservable() {
 
     abstract val currentDaysDuration: Int
 
-    abstract val beginningDate: LocalDate
+    abstract var beginningDate: LocalDate
 
     abstract val currentEndDate: LocalDate
 
