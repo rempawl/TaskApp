@@ -3,7 +3,7 @@ package com.example.taskapp.viewmodels.reminder
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.utils.reminder.ReminderDurationState
-import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
+import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Before
@@ -19,7 +19,7 @@ internal class DefaultDurationModelTest {
     @get:Rule
     val instantTaskExecutor = InstantTaskExecutorRule()
 
-    private lateinit var modelDefault: DefaultDurationModel
+    private lateinit var modelDefault: EditTaskDurationModel
 
     private val today = LocalDate.now()
 
@@ -33,7 +33,7 @@ internal class DefaultDurationModelTest {
         @Before
         fun setUp() {
             modelDefault =
-                DefaultDurationModel(
+                EditTaskDurationModel(
                     duration,
                     begDate
                 )
@@ -103,7 +103,7 @@ internal class DefaultDurationModelTest {
         @Before
         fun setUp() {
             modelDefault =
-                DefaultDurationModel(
+                EditTaskDurationModel(
                     null,
                     today
                 )

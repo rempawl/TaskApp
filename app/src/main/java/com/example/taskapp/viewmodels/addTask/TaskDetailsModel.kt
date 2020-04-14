@@ -1,6 +1,7 @@
 package com.example.taskapp.viewmodels.addTask
 
 import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import com.example.taskapp.database.entities.DefaultTask
 
@@ -12,6 +13,7 @@ abstract class TaskDetailsModel : BaseObservable() {
 
     abstract var taskDescription: String
 
+    @Bindable
     abstract fun isValid(): Boolean
 
     abstract fun validateTaskDescription()

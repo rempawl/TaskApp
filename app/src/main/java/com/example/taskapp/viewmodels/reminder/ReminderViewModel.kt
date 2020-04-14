@@ -10,11 +10,8 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
-import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
-import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -29,12 +26,13 @@ import org.threeten.bp.LocalTime
 abstract class ReminderViewModel(
     val task: DefaultTask,
     protected val taskRepository: TaskRepositoryInterface,
-    defaultDurationModelFactory: DefaultDurationModel.Factory,
-    defaultNotificationModelFactory: DefaultNotificationModel.Factory,
-    frequencyModelFactory: DefaultFrequencyModel.Factory
+    val notificationModel: NotificationModel,
+    val frequencyModel: FrequencyModel,
+    val durationModel: DurationModel
 
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
+
 
     /**
      * when _addedTask is not null then  notification alarm should be set
@@ -43,23 +41,6 @@ abstract class ReminderViewModel(
     val addedTask: LiveData<DefaultTask>
         get() = _addedTask
 
-    val notificationModel: NotificationModel
-    val frequencyModel: FrequencyModel
-    val durationModel: DurationModel
-
-    init {
-        val reminder = task.reminder
-        if (reminder != null) {
-            durationModel = defaultDurationModelFactory.create(reminder.duration, reminder.begDate)
-            frequencyModel = frequencyModelFactory.create(reminder.frequency)
-            notificationModel = defaultNotificationModelFactory.create(reminder.notificationTime)
-        } else {
-            notificationModel = defaultNotificationModelFactory.create()
-            durationModel = defaultDurationModelFactory.create()
-            frequencyModel = frequencyModelFactory.create()
-
-        }
-    }
 
     private val _toastText = MutableLiveData<Int>(null)
     val toastText: LiveData<Int>

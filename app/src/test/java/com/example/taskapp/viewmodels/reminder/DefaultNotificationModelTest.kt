@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels.reminder
 
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.utils.loadTimeZone
-import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
+import com.example.taskapp.viewmodels.reminder.notificationModel.EditTaskNotificationModel
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.jupiter.api.Assertions.*
@@ -18,7 +18,7 @@ internal class DefaultNotificationModelTest {
     }
 
 
-    lateinit var notificationModel: DefaultNotificationModel
+    lateinit var notificationModel: EditTaskNotificationModel
 
     @Nested
     inner class Init{
@@ -26,7 +26,7 @@ internal class DefaultNotificationModelTest {
         @Test
         fun `given notificationTime null,then  isNotificationTimeSet is false `(){
             notificationModel =
-                DefaultNotificationModel(
+                EditTaskNotificationModel(
                     null
                 )
             assertFalse(notificationModel.isNotificationTimeSet.get() as Boolean)
@@ -36,7 +36,7 @@ internal class DefaultNotificationModelTest {
         fun ` given NotificationTime(3,20) then isNotificationTImeSet is true and notificationTIme is Given one`(){
             val expectedTime = LocalTime.of(3,20)
             notificationModel =
-                DefaultNotificationModel(
+                EditTaskNotificationModel(
                     NotificationTime.from(expectedTime)
                 )
             val actualFlag = notificationModel.isNotificationTimeSet.get() as Boolean
@@ -56,7 +56,7 @@ internal class DefaultNotificationModelTest {
         @BeforeEach
         fun setUp(){
             notificationModel =
-                DefaultNotificationModel(
+                EditTaskNotificationModel(
                     null
                 )
 

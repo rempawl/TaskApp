@@ -9,8 +9,43 @@ import com.example.taskapp.utils.reminder.ReminderFrequencyState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
-class DefaultFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
+class AddTaskFrequencyModel @Inject constructor() : FrequencyModel(){
+
+
+    override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
+        private set
+
+    @Bindable
+    override var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currentDailyFrequency)
+        }
+    override var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
+
+    override fun setDailyFrequency(freq: Int ) {
+        frequencyState = ReminderFrequencyState.Daily(freq)
+        currentDailyFrequency = freq
+    }
+
+
+    override fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue> ) {
+        currentWeekDays = daysOfWeek
+        frequencyState = ReminderFrequencyState.WeekDays(daysOfWeek)
+    }
+
+
+    override fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
+        lastRealizationDate = begDate,
+        isBeginning = true
+    )
+
+
+}
+
+class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
     FrequencyModel() {
 
     @AssistedInject.Factory
@@ -20,6 +55,7 @@ class DefaultFrequencyModel @AssistedInject constructor(@Assisted frequency: Fre
 
     override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
         private set
+
     private val isEdited: Boolean
 
     @Bindable

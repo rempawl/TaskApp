@@ -3,7 +3,7 @@ package com.example.taskapp.viewmodels.reminder
 import com.example.taskapp.database.entities.Frequency
 import com.example.taskapp.utils.reminder.DayOfWeekValue
 import com.example.taskapp.utils.reminder.ReminderFrequencyState
-import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyModel
+import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -20,7 +20,7 @@ internal class FrequencyModelTest {
         @BeforeEach
         fun setUp() {
             model =
-                DefaultFrequencyModel(
+                EditTaskFrequencyModel(
                     null
                 )
         }
@@ -74,7 +74,7 @@ internal class FrequencyModelTest {
         @BeforeEach
         fun setUp() {
             model =
-                DefaultFrequencyModel(
+                EditTaskFrequencyModel(
                     freq
                 )
         }
@@ -129,7 +129,7 @@ internal class FrequencyModelTest {
         @BeforeEach
         fun setUp() {
             model =
-                DefaultFrequencyModel(
+                EditTaskFrequencyModel(
                     freq
                 )
         }

@@ -6,6 +6,7 @@ import com.example.taskapp.database.entities.NotificationTime
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalTime
+import javax.inject.Inject
 
 abstract class NotificationModel :BaseObservable() {
 
@@ -16,14 +17,34 @@ abstract class NotificationModel :BaseObservable() {
 
     abstract fun getNotificationTime(): NotificationTime
 
+    companion object {
+        val INITIAL_TIME: LocalTime = LocalTime.of(18, 0, 0)
+    }
+
 }
 
-class DefaultNotificationModel @AssistedInject constructor(@Assisted notificationTime: NotificationTime?) :
+class AddTaskNotificationModel @Inject constructor() : NotificationModel(){
+    override var notificationTime: LocalTime = INITIAL_TIME
+        set(value) {
+            isNotificationTimeSet.set(true)
+            field = value
+        }
+
+    override val isNotificationTimeSet = ObservableField(false)
+
+    override fun getNotificationTime(): NotificationTime = NotificationTime.from(
+        notificationTime, isNotificationTimeSet.get() as Boolean
+    )
+
+
+}
+
+class EditTaskNotificationModel @AssistedInject constructor(@Assisted notificationTime: NotificationTime?) :
     NotificationModel() {
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(notificationTime: NotificationTime? = null): DefaultNotificationModel
+        fun create(notificationTime: NotificationTime? = null): EditTaskNotificationModel
     }
 
     override var notificationTime: LocalTime = INITIAL_TIME
@@ -45,9 +66,6 @@ class DefaultNotificationModel @AssistedInject constructor(@Assisted notificatio
     }
 
 
-    companion object {
-        val INITIAL_TIME: LocalTime = LocalTime.of(18, 0, 0)
-    }
 
 
 }

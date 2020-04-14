@@ -4,9 +4,9 @@ import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
-import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
-import com.example.taskapp.viewmodels.reminder.frequencyModel.DefaultFrequencyModel
-import com.example.taskapp.viewmodels.reminder.notificationModel.DefaultNotificationModel
+import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
+import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
+import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.Single
@@ -15,15 +15,17 @@ import io.reactivex.Single
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted task: DefaultTask,
     taskRepository: TaskRepositoryInterface,
-
-    defaultDurationModelFactory: DefaultDurationModel.Factory,
-    defaultNotificationModelFactory: DefaultNotificationModel.Factory,
-    frequencyModelFactory: DefaultFrequencyModel.Factory
+    durationModel: DurationModel,
+    notificationModel: NotificationModel,
+    frequencyModel: FrequencyModel
 //    private val streakLocalDataSource: StreakDataSource,
 ) : ReminderViewModel(
-    task, taskRepository, defaultDurationModelFactory,
-    defaultNotificationModelFactory,
-    frequencyModelFactory
+    task = task,
+    taskRepository = taskRepository,
+    durationModel = durationModel,
+    notificationModel = notificationModel,
+    frequencyModel = frequencyModel
+
 ) {
 
     @AssistedInject.Factory
@@ -36,7 +38,7 @@ class AddReminderViewModel @AssistedInject constructor(
         return taskRepository.saveTask(task)
     }
 
-    override  fun createTask(reminder: Reminder?): DefaultTask {
+    override fun createTask(reminder: Reminder?): DefaultTask {
         return task.copy(reminder = reminder)
 
     }

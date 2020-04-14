@@ -10,8 +10,93 @@ import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
+import javax.inject.Inject
 
-class DefaultDurationModel @AssistedInject constructor(
+class AddTaskDurationModel @Inject constructor() : DurationModel(){
+    override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
+        private set(value) {
+            field = value
+            notifyPropertyChanged(BR.dateValid)
+        }
+
+    @Bindable
+    override var currentDaysDuration = 10
+        private set(value) {
+            field = value
+            notifyPropertyChanged(BR.currentDaysDuration)
+        }
+
+    @Bindable
+    override var beginningDate = TODAY
+        set(value) {
+            if (isBeginningDateValid(value)) {
+                field = value
+                notifyPropertyChanged(BR.beginningDate)
+                begDateError.set(false)
+            } else {
+                begDateError.set(true)
+            }
+
+        }
+
+
+
+    @Bindable
+    override var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
+        private set(value) {
+            if (isEndDateValid(value)) {
+                field = value
+                notifyPropertyChanged(BR.currentEndDate)
+               endDateError.set(false)
+            } else {
+                endDateError.set(true)
+            }
+        }
+
+    @Bindable
+    override fun isDateValid(): Boolean {
+        return if (durationState is ReminderDurationState.EndDate) {
+            isEndDateValid()
+        } else {
+            true
+        }
+    }
+
+
+    override fun isEndDateValid(date: LocalDate) =
+        !date.isBefore(beginningDate) && !date.isBefore(LocalDate.now())
+
+   override fun isBeginningDateValid(date: LocalDate): Boolean {
+       val isValid = !date.isBefore(beginningDate)
+        return if (durationState is ReminderDurationState.EndDate) {
+            isValid && date.isBefore(currentEndDate)
+        } else {
+            isValid
+        }
+    }
+
+
+    override fun setNoEndDateDurationState() {
+        durationState = ReminderDurationState.NoEndDate
+    }
+
+
+    override fun setDaysDurationState(days: Int) {
+        durationState = ReminderDurationState.DaysDuration(days)
+        currentDaysDuration = days
+    }
+
+
+
+    override fun setEndDateDurationState(endDate: LocalDate) {
+        durationState = ReminderDurationState.EndDate(endDate)
+        currentEndDate = endDate
+    }
+
+
+}
+
+class EditTaskDurationModel @AssistedInject constructor(
     @Assisted duration: Duration?,
     @Assisted begDate: LocalDate
 ) :
@@ -22,11 +107,8 @@ class DefaultDurationModel @AssistedInject constructor(
         fun create(
             duration: Duration? = null,
             begDate: LocalDate = LocalDate.now()
-        ): DefaultDurationModel
+        ): EditTaskDurationModel
     }
-
-    //Today for new tasks begDate for edited tasks
-    private val validationDate: LocalDate = begDate
 
     override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         private set(value) {
@@ -42,7 +124,7 @@ class DefaultDurationModel @AssistedInject constructor(
         }
 
     @Bindable
-    override var beginningDate = validationDate
+    override var beginningDate = begDate
         set(value) {
             if (isBeginningDateValid(value)) {
                 field = value
@@ -93,7 +175,7 @@ class DefaultDurationModel @AssistedInject constructor(
 
 
     override fun isBeginningDateValid(date: LocalDate): Boolean {
-        val isValid = !date.isBefore(validationDate)
+        val isValid = !date.isBefore(beginningDate)
         return if (durationState is ReminderDurationState.EndDate) {
             isValid && date.isBefore(currentEndDate)
         } else {
