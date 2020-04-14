@@ -23,7 +23,8 @@ import org.threeten.bp.LocalTime
 
 
 
-//todo...
+//todo... model injection fix
+
 
 abstract class ReminderViewModel(
     val task: DefaultTask,
@@ -132,7 +133,7 @@ abstract class ReminderViewModel(
 
 }
 
-class ErrorCallback(
+private class ErrorCallback(
     private val durationModel: DurationModel,
     private val toastText: MutableLiveData<Int>
 ) :

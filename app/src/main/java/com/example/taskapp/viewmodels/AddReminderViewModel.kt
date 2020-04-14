@@ -15,6 +15,7 @@ import io.reactivex.Single
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted task: DefaultTask,
     taskRepository: TaskRepositoryInterface,
+
     defaultDurationModelFactory: DefaultDurationModel.Factory,
     defaultNotificationModelFactory: DefaultNotificationModel.Factory,
     frequencyModelFactory: DefaultFrequencyModel.Factory
