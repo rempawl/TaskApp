@@ -17,13 +17,7 @@ class AddTaskFrequencyModel @Inject constructor() : FrequencyModel(){
     override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
         private set
 
-    @Bindable
-    override var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentDailyFrequency)
-        }
-    override var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
+
 
     override fun setDailyFrequency(freq: Int ) {
         frequencyState = ReminderFrequencyState.Daily(freq)
@@ -58,14 +52,7 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
 
     private val isEdited: Boolean
 
-    @Bindable
-    override var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentDailyFrequency)
-        }
 
-    override var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
 
 
     init {
@@ -104,9 +91,19 @@ abstract class FrequencyModel :
 
     abstract val frequencyState: ReminderFrequencyState
 
-    abstract var currentDailyFrequency: Int
+    @Bindable
+     var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.currentDailyFrequency)
+        }
+     var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
 
-    abstract var currentWeekDays: Set<DayOfWeekValue>
+
+//    abstract var currentDailyFrequency: Int
+
+
+//    abstract var currentWeekDays: Set<DayOfWeekValue>
 
     abstract fun setDailyFrequency(freq: Int = currentDailyFrequency)
 

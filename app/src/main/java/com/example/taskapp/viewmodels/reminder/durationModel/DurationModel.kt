@@ -12,46 +12,15 @@ import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
-class AddTaskDurationModel @Inject constructor() : DurationModel(){
+class AddTaskDurationModel @Inject constructor() : DurationModel() {
     override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         private set(value) {
             field = value
             notifyPropertyChanged(BR.dateValid)
         }
 
-    @Bindable
-    override var currentDaysDuration = 10
-        private set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentDaysDuration)
-        }
-
-    @Bindable
-    override var beginningDate = TODAY
-        set(value) {
-            if (isBeginningDateValid(value)) {
-                field = value
-                notifyPropertyChanged(BR.beginningDate)
-                begDateError.set(false)
-            } else {
-                begDateError.set(true)
-            }
-
-        }
 
 
-
-    @Bindable
-    override var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
-        private set(value) {
-            if (isEndDateValid(value)) {
-                field = value
-                notifyPropertyChanged(BR.currentEndDate)
-               endDateError.set(false)
-            } else {
-                endDateError.set(true)
-            }
-        }
 
     @Bindable
     override fun isDateValid(): Boolean {
@@ -66,8 +35,8 @@ class AddTaskDurationModel @Inject constructor() : DurationModel(){
     override fun isEndDateValid(date: LocalDate) =
         !date.isBefore(beginningDate) && !date.isBefore(LocalDate.now())
 
-   override fun isBeginningDateValid(date: LocalDate): Boolean {
-       val isValid = !date.isBefore(beginningDate)
+    override fun isBeginningDateValid(date: LocalDate): Boolean {
+        val isValid = !date.isBefore(beginningDate)
         return if (durationState is ReminderDurationState.EndDate) {
             isValid && date.isBefore(currentEndDate)
         } else {
@@ -85,7 +54,6 @@ class AddTaskDurationModel @Inject constructor() : DurationModel(){
         durationState = ReminderDurationState.DaysDuration(days)
         currentDaysDuration = days
     }
-
 
 
     override fun setEndDateDurationState(endDate: LocalDate) {
@@ -110,45 +78,19 @@ class EditTaskDurationModel @AssistedInject constructor(
         ): EditTaskDurationModel
     }
 
+
     override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         private set(value) {
             field = value
             notifyPropertyChanged(BR.dateValid)
         }
 
-    @Bindable
-    override var currentDaysDuration = 10
-        private set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentDaysDuration)
-        }
-
-    @Bindable
-    override var beginningDate = begDate
-        set(value) {
-            if (isBeginningDateValid(value)) {
-                field = value
-                notifyPropertyChanged(BR.beginningDate)
-                begDateError.set(false)
-            } else {
-                begDateError.set(true)
-            }
-        }
-
-    @Bindable
-    override var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
-        private set(value) {
-            if (isEndDateValid(value)) {
-                field = value
-                notifyPropertyChanged(BR.currentEndDate)
-                endDateError.set(false)
-            } else {
-                endDateError.set(true)
-            }
-
-        }
 
     init {
+        if(!begDate.isEqual(TODAY) ){
+            beginningDate = begDate
+        }
+
         if (duration != null) {
             when (val durState = duration.convertToDurationState()) {
                 is ReminderDurationState.NoEndDate -> {
@@ -210,11 +152,39 @@ abstract class DurationModel : BaseObservable() {
     val begDateError = ObservableField<Boolean>(false)
     val endDateError = ObservableField<Boolean>(false)
 
-    abstract val currentDaysDuration: Int
+    @Bindable
+    var currentDaysDuration = 10
+        protected set(value) {
+            field = value
+            notifyPropertyChanged(BR.currentDaysDuration)
+        }
 
-    abstract var beginningDate: LocalDate
+    @Bindable
+    var beginningDate = TODAY
+        set(value) {
+            if (isBeginningDateValid(value)) {
+                field = value
+                notifyPropertyChanged(BR.beginningDate)
+                begDateError.set(false)
+            } else {
+                begDateError.set(true)
+            }
+        }
 
-    abstract val currentEndDate: LocalDate
+
+    @Bindable
+    var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
+        protected set(value) {
+            if (isEndDateValid(value)) {
+                field = value
+                notifyPropertyChanged(BR.currentEndDate)
+                endDateError.set(false)
+            } else {
+                endDateError.set(true)
+            }
+
+        }
+
 
 
     abstract fun isDateValid(): Boolean
