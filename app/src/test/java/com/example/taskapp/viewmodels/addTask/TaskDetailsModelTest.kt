@@ -5,12 +5,10 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 internal class TaskDetailsModelTest {
 
@@ -18,13 +16,13 @@ internal class TaskDetailsModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
     lateinit var taskDetailsModel: TaskDetailsModel
 
-    @BeforeEach
+    @Before
     fun setUp() {
         taskDetailsModel = DefaultTaskDetailsModel()
     }
 
-    @DisplayName("when taskName is `TEST_NAME` and taskDesc is `TEST_DESC` ")
-    @Nested
+//    @DisplayName("when taskName is `TEST_NAME` and taskDesc is `TEST_DESC` ")
+//    @Nested
     inner class TaskNameValidNameTaskDescDefault {
 
 
@@ -67,8 +65,8 @@ internal class TaskDetailsModelTest {
 
     }
 
-    @DisplayName("When taskName equals INVALID_NAME")
-    @Nested
+//    @DisplayName("When taskName equals INVALID_NAME")
+//    @Nested
     inner class InvalidTaskName {
         @Test
         fun `Then isValid returns false, taskNameError is  null`() {

@@ -14,9 +14,9 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 internal class TodayViewModelTest{
 init {
@@ -30,7 +30,7 @@ init {
     lateinit var taskRepository: TaskRepository
     lateinit var viewModel: TodayViewModel
 
-    @BeforeEach
+    @Before
     fun setUp(){
         MockKAnnotations.init(this)
         viewModel = TodayViewModel(taskRepository)

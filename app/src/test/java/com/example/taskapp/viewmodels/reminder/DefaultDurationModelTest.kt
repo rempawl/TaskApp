@@ -4,13 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.loadTimeZone
 import com.example.taskapp.utils.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.durationModel.DefaultDurationModel
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.threeten.bp.LocalDate
 
 internal class DefaultDurationModelTest {
@@ -26,13 +24,13 @@ internal class DefaultDurationModelTest {
     private val today = LocalDate.now()
 
 
-    @Nested
-    @DisplayName("When initial Duration is DaysDuration(15) and begDate is 20,03,2000")
+//    @Nested
+//    @DisplayName("When initial Duration is DaysDuration(15) and begDate is 20,03,2000")
     inner class InitWithDailyDuration {
         private val duration = ReminderDurationState.DaysDuration(15).convertToDuration()
         private val begDate: LocalDate = LocalDate.of(2000, 3, 20)
 
-        @BeforeEach
+        @Before
         fun setUp() {
             modelDefault =
                 DefaultDurationModel(
@@ -52,7 +50,7 @@ internal class DefaultDurationModelTest {
             assertEquals(expectedState, actualState)
         }
 
-        @Nested
+//        @Nested
         inner class SetEndDateDurationState {
             @Test
             fun `Given date(25,03,2000), Then endDateError is true,   currentEndDate remains the same`() {
@@ -83,7 +81,7 @@ internal class DefaultDurationModelTest {
             }
         }
 
-        @Nested
+//        @Nested
         inner class SetNoEndDateDurationState {
             @Test
             fun `Then durState is NoEndDate`() {
@@ -97,12 +95,12 @@ internal class DefaultDurationModelTest {
 
     }
 
-    @Nested
-    @DisplayName("When initial Duration is null and begDate is today")
+//    @Nested
+//    @DisplayName("When initial Duration is null and begDate is today")
     inner class InitWithNullDuration {
 
 
-        @BeforeEach
+        @Before
         fun setUp() {
             modelDefault =
                 DefaultDurationModel(
@@ -120,7 +118,7 @@ internal class DefaultDurationModelTest {
             assertEquals(expectedState, actualState)
         }
 
-        @Nested
+//        @Nested
         inner class SetBeginningDate {
 
             //when beginning date is valid
@@ -174,7 +172,7 @@ internal class DefaultDurationModelTest {
         }
 
 
-        @Nested
+//        @Nested
         inner class SetEndDateDurationState {
             @Test
             fun `Given date 10 days before Today, Then endDateError is true and currentEndDate remains the same`() {
@@ -206,7 +204,7 @@ internal class DefaultDurationModelTest {
             }
         }
 
-        @Nested
+//        @Nested
         inner class SetDaysDurationState{
             @Test
             fun `Given days eq 10, Then durState is DaysDuration and currentDays eq 10`(){

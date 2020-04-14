@@ -11,9 +11,9 @@ import io.reactivex.Single
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineScope
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class AddTaskViewModelTest {
@@ -32,7 +32,7 @@ class AddTaskViewModelTest {
     @MockK
     lateinit var taskDetailsModel: TaskDetailsModel
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
         viewModel = AddTaskViewModel(taskDetailsModel, taskRepository)

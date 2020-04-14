@@ -16,10 +16,10 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 
 @ExperimentalCoroutinesApi
@@ -40,7 +40,7 @@ class TaskDetailsViewModelTest {
 
     private val taskId: Long = 0
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
         viewModel = TaskDetailsViewModel(taskId, taskRepository)
