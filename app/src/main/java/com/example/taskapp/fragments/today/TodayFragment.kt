@@ -15,6 +15,7 @@ import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
+import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.TodayViewModel
 import kotlinx.android.synthetic.main.today_fragment.*
 import javax.inject.Inject
@@ -29,11 +30,13 @@ class TodayFragment : Fragment() {
         (activity as MainActivity).appComponent
     }
 
-    @Inject
-    lateinit var viewModel: TodayViewModel
+    val viewModel: TodayViewModel by viewModel {
+        appComponent.todayViewModel
+    }
 
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
+
     private val taskAdapter: TaskListAdapter by lazy {
         taskListAdapterFactory.create(ParentFragmentType.TodayFragment)
     }

@@ -8,7 +8,7 @@ import com.example.taskapp.fragments.PickCustomNotificationDelayFragment
 import com.example.taskapp.fragments.today.AddSpontaneousTaskDialogFragment
 import com.example.taskapp.fragments.today.TodayFragment
 import com.example.taskapp.viewmodels.*
-import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
+import com.example.taskapp.viewmodels.addTask.DefaultAddTaskViewModel
 import com.example.taskapp.workers.UpdateRemindersWorker
 import dagger.BindsInstance
 import dagger.Component
@@ -47,7 +47,7 @@ interface AppComponent {
     val myTasksViewModel : MyTasksViewModel
     val todayViewModel : TodayViewModel
     val addReminderViewModelFactory: AddReminderViewModel.Factory
-    val addTaskViewModel: AddTaskViewModel
+    val addTaskViewModel: DefaultAddTaskViewModel
     val editTaskViewModelFactory: EditTaskViewModel.Factory
     val taskDetailsViewModelFactory: TaskDetailsViewModel.Factory
 }

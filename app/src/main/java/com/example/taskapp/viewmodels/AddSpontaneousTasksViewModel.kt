@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class AddSpontaneousTasksViewModel @Inject constructor(private val taskRepository: TaskRepositoryInterface) :
     ViewModel(){
+
     fun addSpontaneousTasks(checkedTasksIds: List<taskID>) {
 //        task
     }

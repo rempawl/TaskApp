@@ -25,6 +25,10 @@ class UpdateRemindersWorker constructor(
 ) : CoroutineWorker(appContext, workerParameters) {
 
 
+    private val datePredicate: DatePredicate = { date, task ->
+        task.reminder!!.realizationDate == date
+                && task.reminder.notificationTime.isSet
+    }
 
     //todo constructor inject WorkerFactory
     @Inject
@@ -68,17 +72,15 @@ class UpdateRemindersWorker constructor(
     private fun setTodayNotifications(tasks: List<DefaultTask>) {
         tasks
             .filter { task ->
-                DATE_PREDICATE(TODAY, task)
+                datePredicate(TODAY, task)
                         && task.reminder!!.notificationTime.convertToLocalTime()
                     .isAfter(LocalTime.now())
             }.forEach { task -> AlarmCreator.setTaskNotificationAlarm(task,context = applicationContext) }
     }
 
+
     companion object {
-    private val DATE_PREDICATE: DatePredicate = { date, task ->
-            task.reminder!!.realizationDate == date
-                    && task.reminder.notificationTime.isSet
-        }
+
 
         private const val TASK_KEY = "task"
         const val WORK_NAME = "UpdateNotificationDatesWorker"

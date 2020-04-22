@@ -28,7 +28,7 @@ import com.example.taskapp.utils.notification.NotificationManagerHelper.createNo
 class CreateTaskNotificationBroadcastReceiver :
     BroadcastReceiver() {
 
-    private val notificationIntentFactory : NotificationIntentFactory =
+    private val notificationIntentFactory: NotificationIntentFactory =
         DefaultNotificationIntentFactory
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -51,24 +51,33 @@ class CreateTaskNotificationBroadcastReceiver :
         return TaskMinimal(id, name, desc)
     }
 
-    private fun createNotification(context: Context, task: TaskMinimal): NotificationCompat.Builder {
+    private fun createNotification(
+        context: Context,
+        task: TaskMinimal
+    ): NotificationCompat.Builder {
         val confirmAction = createConfirmAction(context, task)
         val delay30MinAction = createDelay30MinAction(context, task)
         val delayCustomTimeAction = createDelayCustomTimeAction(context, task)
 
-        return  NotificationCompat.Builder(
+        val bigTextStyle =                 NotificationCompat
+            .BigTextStyle()
+            .bigText("${task.description} ")
+
+        return NotificationCompat.Builder(
             context,
             TASK_CHANNEL_ID
         )
             .setAutoCancel(true)
-            .setContentTitle("todo strings.xml Czas wykonac zadanie")
-            .setContentText(" ${task.name}  ${task.description} ")
+            .setContentTitle(context.getString(R.string.task_notification_title))
+            .setContentText(" ${task.name} ")
             .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .addAction(confirmAction.build())
             .addAction(delay30MinAction.build())
             .addAction(delayCustomTimeAction.build())
             .setAutoCancel(true)
+            .setStyle(bigTextStyle)
+
 
     }
 

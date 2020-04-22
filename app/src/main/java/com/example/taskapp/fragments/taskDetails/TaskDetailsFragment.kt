@@ -16,10 +16,13 @@ import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ConfirmDialogFragment
-import com.example.taskapp.utils.reminder.DayOfWeekValue
-import com.example.taskapp.utils.reminder.ReminderDurationState
-import com.example.taskapp.utils.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
+import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
+import com.example.taskapp.viewmodels.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -64,11 +67,6 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
 
     private fun setUpObservers() {
-        viewModel.taskDeleted.observe(viewLifecycleOwner, Observer { isDeleted ->
-            if (isDeleted) {
-                navigateToMyTasks()
-            }
-        })
         viewModel.task.observe(viewLifecycleOwner, Observer { task ->
             if (task.reminder != null) {
                 setupReminderLayout(task.reminder)
@@ -191,6 +189,8 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
 
     override fun onConfirmSelected() {
-        viewModel.deleteTask()
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.deleteTask()
+        }
     }
 }

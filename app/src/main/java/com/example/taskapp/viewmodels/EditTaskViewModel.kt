@@ -17,12 +17,12 @@ import io.reactivex.Single
 class EditTaskViewModel @AssistedInject constructor(
     val taskDetailsModel: TaskDetailsModel,
     @Assisted task: DefaultTask,
-    taskRepository: TaskRepositoryInterface,
+    private val taskRepository: TaskRepositoryInterface,
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
     defaultNotificationModelFactory: EditTaskNotificationModel.Factory
 ) : ReminderViewModel(
-    task, taskRepository,
+    task,
     durationModel = durationModelFactory.create(
         task.reminder?.duration,
         task.reminder?.begDate ?: TODAY

@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
-import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.utils.DefaultTasks
 import com.example.taskapp.utils.InstantTaskExecutor
 import com.example.taskapp.utils.getOrAwaitValue
 import com.example.taskapp.utils.loadTimeZone
@@ -14,9 +14,9 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 internal class MyTasksViewModelTest {
@@ -33,7 +33,7 @@ internal class MyTasksViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutor()
 
 
-    @Before
+    @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
         viewModel = MyTasksViewModel(taskRepository)

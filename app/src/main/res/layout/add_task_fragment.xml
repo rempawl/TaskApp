@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.taskapp.viewmodels.addTask.AddTaskViewModel" />
+            type="com.example.taskapp.viewmodels.addTask.DefaultAddTaskViewModel" />
 
     </data>
 

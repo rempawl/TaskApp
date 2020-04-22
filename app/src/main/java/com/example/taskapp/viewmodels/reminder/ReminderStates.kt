@@ -1,4 +1,4 @@
-package com.example.taskapp.utils.reminder
+package com.example.taskapp.viewmodels.reminder
 
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.database.entities.Frequency
@@ -65,14 +65,12 @@ sealed class ReminderFrequencyState {
                 return startDate
             }
 
-            //check if  dayOfWeek contains dates that are after startDateDayOfWeek and before or equal sunday
             for (thisWeekDay in (startDateDayOfWeekValue + 1)..DayOfWeek.SUNDAY.value) {
                 if (daysOfWeek.contains(thisWeekDay)) {
                     return LocalDate.ofEpochDay(startDate.toEpochDay() + (thisWeekDay - startDateDayOfWeekValue))
                 }
             }
 
-            //check if daysOfWeek contains dates that are after  or equal to monday and before startDateDayOfWeek
             for (nextWeekDay in DayOfWeek.MONDAY.value until startDateDayOfWeekValue) {
                 if (daysOfWeek.contains(nextWeekDay)) {
                     println(nextWeekDay)
@@ -88,7 +86,7 @@ sealed class ReminderFrequencyState {
         private fun checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(lastRealizationDate: LocalDate) =
             TODAY.toEpochDay() > (lastRealizationDate.toEpochDay() + 7)
 
-        //  setting the i-th bit of result to 1 if dayOfWeek HashCode is  inside [daysOfWeek] set
+        //  setting the i-th bit of result to 1 if dayOfWeek value is  inside daysOfWeek set
         private fun daysOfWeekToInt(): Int {
             var result = 0
             val daysOfWeekValues = DayOfWeek.values()
@@ -130,7 +128,8 @@ sealed class ReminderDurationState {
     }
 
     data class DaysDuration(val days: Int = 0) : ReminderDurationState() {
-        override fun convertToDuration(): Duration = Duration(
+        override fun
+                convertToDuration(): Duration = Duration(
             DAYS_DURATION_INDEX, duration = days.toLong()
         )
 

@@ -4,8 +4,8 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.example.taskapp.BR
 import com.example.taskapp.database.entities.Frequency
-import com.example.taskapp.utils.reminder.DayOfWeekValue
-import com.example.taskapp.utils.reminder.ReminderFrequencyState
+import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
+import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate

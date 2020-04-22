@@ -17,14 +17,14 @@ interface TaskDao : BaseDao<DefaultTask> {
 
 
     @Query("SELECT * FROM tasks")
-    fun loadAllTasks(): List<DefaultTask>
+    fun getAllTasks(): List<DefaultTask>
 
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
-    fun loadTaskById(taskID: Long): DefaultTask
+    fun getTaskById(taskID: Long): DefaultTask
 
     @Query("SELECT taskID, name,description FROM tasks")
-    fun loadMinimalTasks(): LiveData<List<TaskMinimal>>
+    fun getMinimalTasks(): LiveData<List<TaskMinimal>>
 
     @Query("DELETE FROM tasks WHERE taskID == :id")
     fun deleteByID(id: Long): Int
@@ -33,17 +33,17 @@ interface TaskDao : BaseDao<DefaultTask> {
     fun insertTask(item: DefaultTask): Single<Long>
 
     @Query("SELECT * FROM tasks WHERE realizationDate != :date")
-    fun loadTasksWithRealizationDateDifferentThanDate(date: LocalDate) : List<DefaultTask>
+    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : List<DefaultTask>
 
 
     @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")
-    fun loadMinTasksByRealizationDate(date: LocalDate): List<TaskMinimal>
+    fun getMinTasksByRealizationDate(date: LocalDate): List<TaskMinimal>
 
 
     @Query("SELECT * FROM tasks WHERE realizationDate = :date")
-    fun loadTasksByRealizationDate(date: LocalDate): List<DefaultTask>
+    fun getTasksByRealizationDate(date: LocalDate): List<DefaultTask>
 
     @Query("SELECT * FROm tasks WHERE realizationDate <= :date")
-    fun loadTaskWithRealizationDateUntilDate(date: LocalDate): List<DefaultTask>
+    fun getTaskWithRealizationDateUntilDate(date: LocalDate): List<DefaultTask>
 
 }

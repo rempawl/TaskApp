@@ -1,8 +1,6 @@
 package com.example.taskapp.viewmodels.reminder
 
 import com.example.taskapp.database.entities.Frequency
-import com.example.taskapp.utils.reminder.DayOfWeekValue
-import com.example.taskapp.utils.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import org.junit.jupiter.api.Assertions.assertEquals

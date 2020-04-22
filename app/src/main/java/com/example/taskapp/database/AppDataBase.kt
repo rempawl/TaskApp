@@ -10,8 +10,8 @@ import com.example.taskapp.database.dao.StreakDao
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Streak
-import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.utils.Converters
+import com.example.taskapp.utils.DefaultTasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

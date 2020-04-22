@@ -1,6 +1,6 @@
 package com.example.taskapp.database.entities
 
-import com.example.taskapp.utils.reminder.ReminderFrequencyState
+import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.jupiter.api.DisplayName
@@ -13,7 +13,7 @@ internal class FrequencyTest {
     @DisplayName("When Frequency is")
     inner class ConvertToFrequencyState {
         @Test
-        fun `Frequency(DAILY_FREQUENCY_INDEX,2), Then returns  ReminderFrequencyState Daily(2)`() {
+        fun `Frequency(DAILY_FREQUENCY_INDEX,value = 2), Then returns  ReminderFrequencyState Daily(2)`() {
             val expected = ReminderFrequencyState.Daily(2) as ReminderFrequencyState
             val actual = Frequency(ReminderFrequencyState.DAILY_FREQUENCY_INDEX, 2)
                 .convertToFrequencyState()
@@ -21,7 +21,7 @@ internal class FrequencyTest {
         }
 
         @Nested
-        @DisplayName("Frequency(WEEKDAYS_FREQUENCY_INDEX)")
+        @DisplayName("Frequency(WEEKDAYS_FREQUENCY_INDEX, value =  ")
         inner class FrequencyWeekDays {
             @Test
             fun ` 1) Then returns  ReminderFrequencyState Weekdays(Monday)`() {

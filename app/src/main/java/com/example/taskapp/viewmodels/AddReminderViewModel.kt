@@ -14,14 +14,13 @@ import io.reactivex.Single
 
 class AddReminderViewModel @AssistedInject constructor(
     @Assisted task: DefaultTask,
-    taskRepository: TaskRepositoryInterface,
+    private val taskRepository: TaskRepositoryInterface,
     durationModel: DurationModel,
     notificationModel: NotificationModel,
     frequencyModel: FrequencyModel
 //    private val streakLocalDataSource: StreakDataSource,
 ) : ReminderViewModel(
     task = task,
-    taskRepository = taskRepository,
     durationModel = durationModel,
     notificationModel = notificationModel,
     frequencyModel = frequencyModel

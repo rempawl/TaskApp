@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
-import com.example.taskapp.repos.task.DefaultTasks
 import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.utils.DefaultTasks
 import com.example.taskapp.utils.InstantTaskExecutor
 import com.example.taskapp.utils.getOrAwaitValue
 import com.example.taskapp.utils.loadTimeZone

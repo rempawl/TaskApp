@@ -1,12 +1,7 @@
 package com.example.taskapp.viewmodels
 
-import com.example.taskapp.repos.task.DefaultTasks
-import com.example.taskapp.repos.task.DefaultTasks.errorTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.CoroutineTestRule
-import com.example.taskapp.utils.InstantTaskExecutor
-import com.example.taskapp.utils.getOrAwaitValue
-import com.example.taskapp.utils.loadTimeZone
+import com.example.taskapp.utils.*
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -16,7 +11,6 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
-import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -61,18 +55,14 @@ class TaskDetailsViewModelTest {
     }
 
     @Test
-    fun ` deleteTask deletes task from repository and sets isTaskDeleted to true`() {
+    fun ` deleteTask deletes task from repository`() {
         coEvery { taskRepository.deleteByID(taskId) } returns 1
+
         TestCoroutineScope(TestCoroutineDispatcher()).launch {
-            viewModel.deleteTask()
 
-            val actualTask = taskRepository.getTaskByID(taskId)
-            val expectedTask = errorTask
+            val value = viewModel.deleteTask()
 
-            val actualFlag = viewModel.taskDeleted.getOrAwaitValue()
-
-            assertTrue(actualFlag)
-            assertThat(actualTask, `is`(expectedTask))
+            assertThat(value, `is`(1))
         }
     }
 

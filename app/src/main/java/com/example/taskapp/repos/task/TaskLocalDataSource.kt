@@ -19,34 +19,34 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
     override suspend fun getMinTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadMinTasksByRealizationDate(date))
+            Result.Success(taskDao.getMinTasksByRealizationDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
-    override suspend fun getTasksUntilDate(date: LocalDate): Result<List<DefaultTask>> = withContext(Dispatchers.IO){
-        return@withContext try{
-            Result.Success(taskDao.loadTaskWithRealizationDateUntilDate(date))
-        }catch (e: Exception){
-            Result.Error(e)
+    override suspend fun getTasksUntilDate(date: LocalDate): Result<List<DefaultTask>> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Result.Success(taskDao.getTaskWithRealizationDateUntilDate(date))
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
         }
-    }
 
     override suspend fun getTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadTasksByRealizationDate(date))
+            Result.Success(taskDao.getTasksByRealizationDate(date))
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
 
-
-    override suspend fun getNotTodayTasks() = withContext(Dispatchers.IO){
-        return@withContext try{
-            Result.Success(taskDao.loadTasksWithRealizationDateDifferentThanDate(TODAY))
-        }catch (e:Exception){
+    override suspend fun getNotTodayTasks() = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Result.Success(taskDao.getTasksWithRealizationDateDifferentThanDate(TODAY))
+        } catch (e: Exception) {
             Result.Error(e)
         }
     }
@@ -55,17 +55,18 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
         taskDao.deleteByID(id)
     }
 
-    override suspend fun getTasks() = withContext(Dispatchers.IO) {
-        return@withContext try {
-            Result.Success(taskDao.loadAllTasks())
-        } catch (e: Exception) {
-            Result.Error(e)
+    override suspend fun getTasks() = withContext(Dispatchers.IO){
+        try{
+            Result.Success(taskDao.getAllTasks())
+        }catch (exception: Exception){
+            Result.Error(exception)
         }
+
     }
 
     override suspend fun getMinimalTasks() = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadMinimalTasks())
+            Result.Success(taskDao.getMinimalTasks())
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -73,18 +74,18 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
 
     override suspend fun getTaskById(id: Long) = withContext(Dispatchers.IO) {
         return@withContext try {
-            Result.Success(taskDao.loadTaskById(id))
+            Result.Success(taskDao.getTaskById(id))
         } catch (e: Exception) {
             Result.Error(e)
         }
 
     }
 
-    override suspend fun updateTask(task: DefaultTask) = withContext(Dispatchers.IO){
+    override suspend fun updateTask(task: DefaultTask) = withContext(Dispatchers.IO) {
         taskDao.updateItem(task)
     }
 
-    override suspend fun updateTasks(tasks: List<DefaultTask>) = withContext(Dispatchers.IO){
+    override suspend fun updateTasks(tasks: List<DefaultTask>) = withContext(Dispatchers.IO) {
         taskDao.updateItems(tasks)
     }
 

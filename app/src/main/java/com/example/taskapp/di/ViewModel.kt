@@ -7,6 +7,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.taskapp.utils.DefaultSchedulerProvider
+import com.example.taskapp.utils.SchedulerProvider
 import com.example.taskapp.viewmodels.addTask.DefaultTaskDetailsModel
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
@@ -17,6 +19,7 @@ import com.example.taskapp.viewmodels.reminder.notificationModel.AddTaskNotifica
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 
 inline fun <reified T: ViewModel> Fragment.viewModel(
     crossinline provider : () -> T
@@ -34,6 +37,12 @@ inline fun <reified T : ViewModel> Fragment.activityViewModel(
 
 @Module
 object ModelModule{
+
+    @Reusable
+    @Provides
+    @JvmStatic
+    fun provideSchedulersProvider() : SchedulerProvider = DefaultSchedulerProvider()
+
     @Provides
     @JvmStatic
     fun provideTaskDetailsModel() : TaskDetailsModel =  DefaultTaskDetailsModel()

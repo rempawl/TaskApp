@@ -9,7 +9,6 @@ import com.example.taskapp.MyApp
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
-import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
@@ -19,17 +18,11 @@ import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalTime
 
 
-
-//todo... model injection fix
-
-
 abstract class ReminderViewModel(
     val task: DefaultTask,
-    protected val taskRepository: TaskRepositoryInterface,
     val notificationModel: NotificationModel,
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
-
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
@@ -72,7 +65,7 @@ abstract class ReminderViewModel(
     }
 
     suspend fun saveTask(setReminder: Boolean = true) {
-//        viewModelScope.launch {
+
             val reminder = if (setReminder) createReminder() else null
             val task = createTask(reminder)
             val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
@@ -92,8 +85,6 @@ abstract class ReminderViewModel(
                 _addedTask.value = task
             }
 
-
-//        }
     }
 
 

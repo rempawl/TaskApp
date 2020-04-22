@@ -3,6 +3,7 @@ package com.example.taskapp.viewmodels.addTask
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.InstantTaskExecutor
+import com.example.taskapp.utils.TestSchedulerProvider
 import com.example.taskapp.utils.loadTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -24,7 +25,7 @@ class AddTaskViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutor()
 
-    lateinit var viewModel: AddTaskViewModel
+    lateinit var viewModel: DefaultAddTaskViewModel
 
     @MockK
     lateinit var taskRepository: TaskRepositoryInterface
@@ -32,10 +33,12 @@ class AddTaskViewModelTest {
     @MockK
     lateinit var taskDetailsModel: TaskDetailsModel
 
+    private val schedulerProvider = TestSchedulerProvider()
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = AddTaskViewModel(taskDetailsModel, taskRepository)
+
+        viewModel = DefaultAddTaskViewModel(schedulerProvider,taskDetailsModel, taskRepository)
     }
 
     @Test

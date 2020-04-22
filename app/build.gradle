@@ -78,9 +78,10 @@ dependencies {
     def espresso_version = '3.2.0'
 
     //rxjava
-//    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation "io.reactivex.rxjava3:rxjava:3.0.0"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+//    implementation "io.reactivex.rxjava3:rxjava:3.0.0"
 //    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
 //    implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
 //    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.1.0'

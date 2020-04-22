@@ -6,7 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.Duration
-import com.example.taskapp.utils.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
@@ -18,8 +18,6 @@ class AddTaskDurationModel @Inject constructor() : DurationModel() {
             field = value
             notifyPropertyChanged(BR.dateValid)
         }
-
-
 
 
     @Bindable

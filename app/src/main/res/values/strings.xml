@@ -86,5 +86,6 @@
     <string name="delay_30_min">odłóż na 30min</string>
     <string name="delay_later">odłóż na później</string>
     <string name="enable_notification">Włącz powiadomienia</string>
+    <string name="task_notification_title">Czas wykonać zadanie</string>
 
 </resources>

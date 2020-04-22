@@ -2,9 +2,9 @@ package com.example.taskapp.database.entities
 
 import android.os.Parcelable
 import androidx.room.Embedded
-import com.example.taskapp.utils.reminder.DayOfWeekValue
-import com.example.taskapp.utils.reminder.ReminderDurationState
-import com.example.taskapp.utils.reminder.ReminderFrequencyState
+import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
+import com.example.taskapp.viewmodels.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate

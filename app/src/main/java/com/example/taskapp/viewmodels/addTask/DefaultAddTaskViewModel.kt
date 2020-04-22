@@ -5,19 +5,31 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModel
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AddTaskViewModel @Inject constructor(
+
+abstract class AddTaskViewModel : ViewModel(){
+    abstract val onFocusTaskName: View.OnFocusChangeListener
+    abstract val onFocusTaskDescription : View.OnFocusChangeListener
+
+    abstract fun getTask(): DefaultTask
+    abstract suspend fun saveTask()
+
+
+}
+
+class DefaultAddTaskViewModel @Inject constructor(
+    private val schedulerProvider: SchedulerProvider,
     val taskFields: TaskDetailsModel,
     private val taskRepository: TaskRepositoryInterface
-) : ViewModel() {
+) : AddTaskViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
+    override val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
         val text = (view as EditText).text.toString()
         if (!focused && text.isNotEmpty()) {
             taskFields.isTaskNameValid(true)
@@ -25,24 +37,25 @@ class AddTaskViewModel @Inject constructor(
     }
 
 
-    val onFocusTaskDescription = View.OnFocusChangeListener { view, focused ->
+    override val onFocusTaskDescription = View.OnFocusChangeListener { view, focused ->
         val text = (view as EditText).text.toString()
         if (!focused && text.isBlank()) {
             taskFields.validateTaskDescription()
         }
     }
 
-    fun getTask(): DefaultTask {
+    override fun getTask(): DefaultTask {
         return taskFields.createTask()
     }
 
 
-    suspend fun saveTask() {
+    override suspend fun saveTask() {
             val newTask = taskFields.createTask()
 
             compositeDisposable.add(
                 addTask(newTask)
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(schedulerProvider.getIoScheduler())
+                    .observeOn(schedulerProvider.getUiScheduler())
                     .subscribe({}, { it.printStackTrace() })
             )
     }

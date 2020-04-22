@@ -1,29 +1,21 @@
 package com.example.taskapp.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import kotlinx.coroutines.launch
 
 class TaskDetailsViewModel @AssistedInject constructor(
     @Assisted private val taskID: Long,
     private val taskRepository: TaskRepositoryInterface
 ) : ViewModel() {
 
-    private val _isTaskDeleted  = MutableLiveData(false)
-    val taskDeleted : LiveData<Boolean>
-            get() =  _isTaskDeleted
 
-    fun deleteTask() {
-        viewModelScope.launch {
-            if(taskRepository.deleteByID(taskID) == 1){
-                _isTaskDeleted.value = true
-            }else{
-//                throw IllegalStateException(" task with id: $taskID was not deleted")
-            }
-        }
+    suspend fun deleteTask() : Int{
+        return taskRepository.deleteByID(taskID)
     }
 
     @AssistedInject.Factory
@@ -35,7 +27,6 @@ class TaskDetailsViewModel @AssistedInject constructor(
         val data = taskRepository.getTaskByID(taskID)
         emit(data)
     }
-
 
 
 }

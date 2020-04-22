@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddTaskFragmentBinding
 import com.example.taskapp.di.viewModel
-import com.example.taskapp.viewmodels.addTask.AddTaskViewModel
+import com.example.taskapp.viewmodels.addTask.DefaultAddTaskViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class AddTaskFragment : Fragment() {
         fun newInstance() = AddTaskFragment()
     }
 
-    private val viewModel: AddTaskViewModel by viewModel {
+    private val viewModel: DefaultAddTaskViewModel by viewModel {
         (activity as MainActivity).appComponent.addTaskViewModel
     }
 

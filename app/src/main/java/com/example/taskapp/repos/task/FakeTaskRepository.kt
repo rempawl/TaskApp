@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.repos.task.DefaultTasks.errorTask
+import com.example.taskapp.utils.DefaultTasks
+import com.example.taskapp.utils.DefaultTasks.errorTask
 import com.example.taskapp.workers.toTaskMinimal
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
