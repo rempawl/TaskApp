@@ -44,8 +44,8 @@ abstract class ReminderViewModel(
 
     init {
         errorCallback = ErrorCallback(durationModel, _toastText)
-        durationModel.endDateError.addOnPropertyChangedCallback(errorCallback)
-        durationModel.begDateError.addOnPropertyChangedCallback(errorCallback)
+        durationModel.isEndDateError.addOnPropertyChangedCallback(errorCallback)
+        durationModel.isBegDateError.addOnPropertyChangedCallback(errorCallback)
     }
 
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
@@ -100,8 +100,8 @@ abstract class ReminderViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        durationModel.begDateError.removeOnPropertyChangedCallback(errorCallback)
-        durationModel.endDateError.removeOnPropertyChangedCallback(errorCallback)
+        durationModel.isBegDateError.removeOnPropertyChangedCallback(errorCallback)
+        durationModel.isEndDateError.removeOnPropertyChangedCallback(errorCallback)
     }
 
 }
@@ -117,10 +117,10 @@ private class ErrorCallback(
             if (value == true) {
                 sender.set(false)
                 when (sender) {
-                    durationModel.begDateError -> {
+                    durationModel.isBegDateError -> {
                         toastText.value = R.string.beginning_date_error
                     }
-                    durationModel.endDateError -> {
+                    durationModel.isEndDateError -> {
                         toastText.value = R.string.end_date_error
                     }
                 }

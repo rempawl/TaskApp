@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
     ],
     version = AppDataBase.VERSION_INT
 )
+
 @TypeConverters(Converters::class)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
@@ -33,6 +34,7 @@ abstract class AppDataBase : RoomDatabase() {
         const val DB_NAME = "TaskApp DB"
         val INITIAL_TASKS = listOf<DefaultTask>()
 
+        @Volatile
         private var INSTANCE: AppDataBase? = null
 
         fun getInstance(context: Context): AppDataBase {

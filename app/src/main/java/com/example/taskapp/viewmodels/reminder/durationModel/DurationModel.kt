@@ -15,9 +15,8 @@ abstract class DurationModel : BaseObservable() {
 
     abstract val durationState: ReminderDurationState
 
-    //true when error message should be displayed
-    val begDateError = ObservableField<Boolean>(false)
-    val endDateError = ObservableField<Boolean>(false)
+    val isBegDateError = ObservableField<Boolean>(false)
+    val isEndDateError = ObservableField<Boolean>(false)
 
     @Bindable
     var currentDaysDuration = 10
@@ -30,35 +29,53 @@ abstract class DurationModel : BaseObservable() {
     var beginningDate = TODAY
         set(value) {
             if (isBeginningDateValid(value)) {
-                field = value
-                notifyPropertyChanged(BR.beginningDate)
-                begDateError.set(false)
+                isBegDateError.set(false)
             } else {
-                begDateError.set(true)
+                isBegDateError.set(true)
             }
+            notifyPropertyChanged(BR.datesValid)
+            field = value
+            notifyPropertyChanged(BR.beginningDate)
         }
 
 
     @Bindable
     var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
         protected set(value) {
-            if (isEndDateValid(value)) {
-                field = value
-                notifyPropertyChanged(BR.currentEndDate)
-                endDateError.set(false)
-            } else {
-                endDateError.set(true)
-            }
+            field = value
+            notifyPropertyChanged(BR.currentEndDate)
+            notifyPropertyChanged(BR.datesValid)
 
+            if (isEndDateValid(value)) {
+                isEndDateError.set(false)
+            } else {
+                isEndDateError.set(true)
+            }
         }
 
+    @Bindable
+    fun isDatesValid(): Boolean {
+        return if (durationState is ReminderDurationState.EndDate) {
+            isEndDateValid() && isBeginningDateValid()
+        } else {
+            isBeginningDateValid()
+        }
 
+    }
 
-    abstract fun isDateValid(): Boolean
+    private fun isEndDateValid(date: LocalDate = currentEndDate) =
+        !date.isBefore(beginningDate) && !date.isBefore(TODAY)
 
-    protected abstract fun isEndDateValid(date: LocalDate = currentEndDate): Boolean
+    private fun isBeginningDateValid(date: LocalDate= beginningDate): Boolean {
+        val isNotBeforeToday = !date.isBefore(TODAY)
 
-    protected abstract fun isBeginningDateValid(date: LocalDate): Boolean
+        return if (durationState is ReminderDurationState.EndDate) {
+            isNotBeforeToday && date.isBefore(currentEndDate)
+        } else {
+            isNotBeforeToday
+        }
+    }
+
 
     abstract fun setNoEndDateDurationState()
 

@@ -59,7 +59,7 @@ internal class DefaultDurationModelTest {
 
                 modelDefault.setEndDateDurationState(date)
 
-                val isErrorSet = modelDefault.endDateError.get()
+                val isErrorSet = modelDefault.isEndDateError.get()
                 val actualDate = modelDefault.currentEndDate
                 assertTrue(isErrorSet!!)
                 assertEquals(expectedDate, actualDate)
@@ -141,7 +141,7 @@ internal class DefaultDurationModelTest {
 
                     modelDefault.beginningDate = date
 
-                    val isErrorSet = modelDefault.begDateError.get()!!
+                    val isErrorSet = modelDefault.isBegDateError.get()!!
                     val actualDate = modelDefault.beginningDate
 
                     assertTrue(isErrorSet)
@@ -159,7 +159,7 @@ internal class DefaultDurationModelTest {
 
                     modelDefault.beginningDate = date
 
-                    val isErrorSet = modelDefault.begDateError.get()
+                    val isErrorSet = modelDefault.isBegDateError.get()
                     val actualDate = modelDefault.beginningDate
 
                     assertEquals(expectedDate, actualDate)
@@ -180,7 +180,7 @@ internal class DefaultDurationModelTest {
 
                     modelDefault.setEndDateDurationState(date)
 
-                    val isErrorSet = modelDefault.endDateError.get()!!
+                    val isErrorSet = modelDefault.isEndDateError.get()!!
                     val actualDate = modelDefault.currentEndDate
 
                     assertTrue(isErrorSet)

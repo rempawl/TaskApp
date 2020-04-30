@@ -9,20 +9,13 @@ import com.example.taskapp.R
 
 class ConfirmDialogFragment(
     private val message: String,
-    private val positiveText: String
+    private val positiveText: String,
+    val listener: OnConfirmSelectedListener
+
 ) : DialogFragment() {
 
 
-    lateinit var listener: OnConfirmSelectedListener
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val frag = parentFragment ?: throw IllegalStateException("no parent fragment")
-        when (frag) {
-            is OnConfirmSelectedListener -> listener = frag
-            else -> throw NotImplementedError("Parent fragment should implement OnConfirmSelectedListener interface")
-        }
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true

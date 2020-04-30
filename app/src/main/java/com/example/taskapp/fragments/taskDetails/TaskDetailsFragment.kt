@@ -35,11 +35,13 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private val args: TaskDetailsFragmentArgs by navArgs()
+
     private val viewModel: TaskDetailsViewModel by viewModel {
         (activity as MainActivity)
             .appComponent.taskDetailsViewModelFactory
             .create(args.taskID)
     }
+
     private var binding: TaskDetailsFragmentBinding? = null
 
 
@@ -104,7 +106,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private fun showDeleteDialog() {
         val title  = getString(R.string.confirm_task_deletion)
-        ConfirmDialogFragment(title, getString(R.string.confirm))
+        ConfirmDialogFragment(title, getString(R.string.confirm), this)
             .show(childFragmentManager, ConfirmDialogFragment.TAG)
     }
 

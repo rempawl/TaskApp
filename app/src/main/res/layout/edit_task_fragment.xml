@@ -266,7 +266,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:enabled="@{viewModel.durationModel.dateValid}"
+                    android:enabled="@{viewModel.durationModel.datesValid}"
                     android:padding="10dp"
                     android:text="@string/confirm"
                     app:backgroundTint="#0B530E" />
