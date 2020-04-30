@@ -53,10 +53,6 @@ class AddTaskFragment : Fragment() {
     private fun setupBinding() {
 
         binding?.apply {
-    //            disposables.add( taskName
-    //                .textChanges().skipInitialValue().subscribeOn(Schedulers.computation())
-    //                .subscribe { text -> Log.d(MainActivity.TAG,text.toString())}
-    //            )
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@AddTaskFragment.viewModel
             addReminderBtn.setOnClickListener { navigateToAddReminder() }

@@ -35,6 +35,7 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
         }
         var i = 0
         val days = DayOfWeek.values()
+
         /**
          *iterating over names of days, setting id to matching [DayOfWeek] hashcode,
          */

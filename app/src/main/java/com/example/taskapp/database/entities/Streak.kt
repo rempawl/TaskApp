@@ -15,8 +15,8 @@ data class Streak(
         childColumns = ["parentTaskID"],
         parentColumns = ["taskID"]
     ) val parentTaskID: Long,
-    var isCurrent: Boolean = true,
+    val isCurrent: Boolean = true,
     val duration: Int,
     val begDate: LocalDate,
-    var endDate: LocalDate
+    val endDate: LocalDate
 )

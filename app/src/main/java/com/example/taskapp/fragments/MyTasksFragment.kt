@@ -11,15 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskapp.MainActivity
-import com.example.taskapp.R
 import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
+import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.MyTasksViewModel
-import kotlinx.android.synthetic.main.add_spontaneous_tasks_fragment.task_list
-import kotlinx.android.synthetic.main.my_tasks_fragment.*
 import javax.inject.Inject
 
 
@@ -37,11 +35,11 @@ class MyTasksFragment : Fragment() {
         injectViewModel()
     }
 
-    private fun injectViewModel() = (activity as MainActivity).appComponent.myTasksViewModel
 
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
+    private lateinit var binding: MyTasksFragmentBinding
 
     private val taskListAdapter: TaskListAdapter by lazy {
         taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
@@ -56,31 +54,32 @@ class MyTasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = MyTasksFragmentBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
-                return inflater.inflate(R.layout.my_tasks_fragment, container, false)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setUpLayout()
+        updateTaskList()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.taskList.adapter = null
+
     }
 
     private fun injectMembers() {
         (activity as MainActivity).appComponent.inject(this)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setUpLayout()
-        updateTaskList()
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        task_list.adapter = null
-
-    }
-
+    private fun injectViewModel() = (activity as MainActivity).appComponent.myTasksViewModel
 
     private fun setUpLayout() {
-        task_list.apply {
+        binding.taskList.apply {
             adapter = taskListAdapter
             val columnCount = if (resources.configuration.orientation ==
                 Configuration.ORIENTATION_PORTRAIT
@@ -92,7 +91,7 @@ class MyTasksFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), columnCount)
             setHasFixedSize(false)
         }
-        add_task_btn.setOnClickListener { navigateToAddTask() }
+        binding.addTaskBtn.setOnClickListener { navigateToAddTask() }
     }
 
 

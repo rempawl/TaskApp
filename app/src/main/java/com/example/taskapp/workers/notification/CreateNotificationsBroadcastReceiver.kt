@@ -63,10 +63,7 @@ class CreateTaskNotificationBroadcastReceiver :
             .BigTextStyle()
             .bigText("${task.description} ")
 
-        return NotificationCompat.Builder(
-            context,
-            TASK_CHANNEL_ID
-        )
+        return NotificationCompat.Builder(context,TASK_CHANNEL_ID)
             .setAutoCancel(true)
             .setContentTitle(context.getString(R.string.task_notification_title))
             .setContentText(" ${task.name} ")

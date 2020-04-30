@@ -51,14 +51,13 @@ class AddReminderFragment : Fragment() {
     ): View? {
         binding = AddReminderFragmentBinding
             .inflate(inflater, container, false)
-
+        setUpBinding()
         return binding!!.root
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setUpBinding()
         setUpObservers()
 //        val toolbar = (activity as MainActivity).findViewById<Toolbar>(R.id.toolbar)
 //        toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp)
@@ -131,12 +130,12 @@ class AddReminderFragment : Fragment() {
                 setDaysOfWeekBtn
             )
 
-            when (activity?.findViewById<MaterialRadioButton>(id)) {
-                dailyFreqRadio -> VisibilityChanger.changeViewsHelper(
+            when (id) {
+                dailyFreqRadio.id -> VisibilityChanger.changeViewsHelper(
                     listOf(setDailyFrequencyBtn),
                     allBtns
                 )
-                daysOfWeekRadio -> VisibilityChanger.changeViewsHelper(
+                daysOfWeekRadio.id -> VisibilityChanger.changeViewsHelper(
                     listOf(setDaysOfWeekBtn),
                     allBtns
                 )
@@ -156,16 +155,16 @@ class AddReminderFragment : Fragment() {
                 setDurationDaysBtn,
                 setEndDateBtn
             )
-            when (activity?.findViewById<View>(id)!!) {
-                xDaysDurationRadio -> VisibilityChanger.changeViewsHelper(
+            when (id) {
+                xDaysDurationRadio.id -> VisibilityChanger.changeViewsHelper(
                     listOf(setDurationDaysBtn),
                     allBtns
                 )
-                endDateRadio -> VisibilityChanger.changeViewsHelper(
+                endDateRadio.id -> VisibilityChanger.changeViewsHelper(
                     listOf(setEndDateBtn),
                     allBtns
                 )
-                noEndDateRadio -> VisibilityChanger.changeViewsHelper(
+                noEndDateRadio.id -> VisibilityChanger.changeViewsHelper(
                     null,
                     allBtns
                 )
@@ -177,14 +176,14 @@ class AddReminderFragment : Fragment() {
     private fun onDurationRadioChecked(id: Int) {
         val durationModel = viewModel.durationModel
         binding?.run {
-            when (activity?.findViewById<View>(id)!!) {
-                xDaysDurationRadio -> {
+            when (id) {
+                xDaysDurationRadio.id -> {
                     durationModel.setDaysDurationState()
                 }
-                endDateRadio -> {
+                endDateRadio.id -> {
                     durationModel.setEndDateDurationState()
                 }
-                noEndDateRadio -> {
+                noEndDateRadio.id -> {
                     durationModel.setNoEndDateDurationState()
                 }
                 else -> throw NoSuchElementException("There is no matching button")
@@ -251,10 +250,8 @@ class AddReminderFragment : Fragment() {
                 }
             })
 
-            /**
-             * when _addedTask is not null then  notification alarm should be set
-             */
-            addedTask.observe(viewLifecycleOwner, Observer { task ->
+             // when _addedTask is not null then  notification alarm should be set
+             addedTask.observe(viewLifecycleOwner, Observer { task ->
                 if (task != null) setAlarm(task)
             })
         }
@@ -264,7 +261,7 @@ class AddReminderFragment : Fragment() {
     private fun setAlarm(task: DefaultTask) {
         context?.let { ctx ->
             AlarmCreator.setTaskNotificationAlarm(task, true, ctx)
-        }
+        }  //todo ?:
     }
 
 

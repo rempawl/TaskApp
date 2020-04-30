@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskapp.MainActivity
-import com.example.taskapp.R
 import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
+import com.example.taskapp.databinding.TodayFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.TodayViewModel
 import kotlinx.android.synthetic.main.today_fragment.*
@@ -40,6 +40,7 @@ class TodayFragment : Fragment() {
     private val taskAdapter: TaskListAdapter by lazy {
         taskListAdapterFactory.create(ParentFragmentType.TodayFragment)
     }
+    private lateinit var binding : TodayFragmentBinding
 
 
     override fun onAttach(context: Context) {
@@ -52,7 +53,10 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.today_fragment, container, false)
+        binding = TodayFragmentBinding.inflate(inflater,container,false)
+
+        return binding.root
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -63,13 +67,13 @@ class TodayFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        today_tasks_list.adapter = null
+        binding.todayTasksList.adapter = null
     }
 
     private fun setUpLayout() {
         add_spontaneous_tasks_btn.setOnClickListener { AddSpontaneousTaskDialogFragment().show(childFragmentManager, "") }
 
-        today_tasks_list.apply {
+        binding.todayTasksList.apply {
             adapter = taskAdapter
             val columnCount = if (resources.configuration.orientation ==
                 Configuration.ORIENTATION_PORTRAIT

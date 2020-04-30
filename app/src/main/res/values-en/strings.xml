@@ -85,5 +85,6 @@
         <string name="delay_30_min">Delay for 30min</string>
         <string name="delay_later">Delay for later</string>
         <string name="enable_notification">Enable notifications</string>
+        <string name="task_notification_title">Time to do your task</string>
 
 </resources>

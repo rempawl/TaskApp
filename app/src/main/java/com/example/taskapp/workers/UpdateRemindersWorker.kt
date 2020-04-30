@@ -3,15 +3,15 @@ package com.example.taskapp.workers
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.taskapp.MyApp
 import com.example.taskapp.MyApp.Companion.TODAY
+import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.SharedPreferencesHelper
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
-import javax.inject.Inject
 
 typealias DatePredicate = (LocalDate, DefaultTask) -> (Boolean)
 
@@ -30,20 +30,25 @@ class UpdateRemindersWorker constructor(
                 && task.reminder.notificationTime.isSet
     }
 
-    //todo constructor inject WorkerFactory
-    @Inject
-    lateinit var taskRepo: TaskRepositoryInterface
+    //todo constructor inject
+//    @Inject
+    private val taskRepo: TaskRepositoryInterface = TaskRepository(
+        TaskLocalDataSource(
+            AppDataBase.getInstance(applicationContext).taskDao()
+        )
+    )
 
 
     override suspend fun doWork(): Result {
-        (applicationContext as MyApp).appComponent.inject(this)
 
         val allTasks = taskRepo.getTasks()
+
         if (allTasks.isEmpty()) return Result.success()
 
         if (allTasks.first() == TaskRepository.ERROR_TASK) {
             return Result.retry()
         }
+
         val tasks = allTasks.filter { task -> task.reminder != null }
 
         val currentDate = SharedPreferencesHelper.getCurrentDate(applicationContext)
@@ -56,14 +61,15 @@ class UpdateRemindersWorker constructor(
             AlarmCreator.setUpdateTaskListAlarm(applicationContext)
         }
 
-
         return Result.success()
     }
+
 
 
     private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
         val partitionedTasks = tasks
             .partition { task -> task.updateRealizationDate() != null }
+
         taskRepo.updateTasks(partitionedTasks.first)
 
         return partitionedTasks.toList()[0]
@@ -75,7 +81,12 @@ class UpdateRemindersWorker constructor(
                 datePredicate(TODAY, task)
                         && task.reminder!!.notificationTime.convertToLocalTime()
                     .isAfter(LocalTime.now())
-            }.forEach { task -> AlarmCreator.setTaskNotificationAlarm(task,context = applicationContext) }
+            }.forEach { task ->
+                AlarmCreator.setTaskNotificationAlarm(
+                    task,
+                    context = applicationContext
+                )
+            }
     }
 
 

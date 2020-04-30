@@ -32,8 +32,7 @@ class EditTaskFragment : Fragment() {
     }
 
     private val viewModel: EditTaskViewModel by viewModel {
-        (activity as MainActivity)
-            .appComponent.editTaskViewModelFactory.create(args.task)
+        (activity as MainActivity).appComponent.editTaskViewModelFactory.create(args.task)
     }
 
     private val args: EditTaskFragmentArgs by navArgs()
@@ -75,7 +74,7 @@ class EditTaskFragment : Fragment() {
         binding = null
     }
 
-     fun setUpBinding() {
+    private fun setUpBinding() {
         binding?.apply {
             viewModel = this@EditTaskFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
@@ -92,13 +91,13 @@ class EditTaskFragment : Fragment() {
     }
 
     private fun editTask() {
-        CoroutineScope(Dispatchers.Main).launch {  viewModel.saveEditedTask() }
+        CoroutineScope(Dispatchers.Main).launch { viewModel.saveEditedTask() }
         findNavController().navigate(
             EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
         )
     }
 
-     fun setUpDurationLayout() {
+    fun setUpDurationLayout() {
         binding?.apply {
             beginningDateBtn.setOnClickListener {
                 showBegDatePickerDialog(
@@ -127,26 +126,27 @@ class EditTaskFragment : Fragment() {
         }
     }
 
-     fun onDurationRadioChecked(id: Int) {
-        val binding = binding ?: return
+    private fun onDurationRadioChecked(id: Int) {
         val durationModel = viewModel.durationModel
-        when (activity?.findViewById<View>(id)!!) {
-            binding.xDaysDurationRadio -> {
-                durationModel.setDaysDurationState()
+        binding?.run {
+            when (id) {
+                xDaysDurationRadio.id -> {
+                    durationModel.setDaysDurationState()
+                }
+                endDateRadio.id -> {
+                    durationModel.setEndDateDurationState()
+                }
+                noEndDateRadio.id -> {
+                    durationModel.setNoEndDateDurationState()
+                }
+                else -> throw NoSuchElementException("There is no matching button")
             }
-            binding.endDateRadio -> {
-                durationModel.setEndDateDurationState()
-            }
-            binding.noEndDateRadio -> {
-                durationModel.setNoEndDateDurationState()
-            }
-            else -> throw NoSuchElementException("There is no matching button")
+            setDurationButtonsVisibility(id)
         }
-        setDurationButtonsVisibility(id)
     }
 
 
-     fun setupFrequencyLayout() {
+    private fun setupFrequencyLayout() {
         binding?.apply {
             frequencyRadioGroup.apply {
                 setFrequencyButtonsVisibility(checkedRadioButtonId) //on rotation
@@ -170,58 +170,68 @@ class EditTaskFragment : Fragment() {
         }
     }
 
-     private fun onFrequencyRadioCheck(id: Int) {
+    private fun onFrequencyRadioCheck(id: Int) {
         val frequencyModel = viewModel.frequencyModel
-        when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding?.dailyFreqRadio -> {
-                frequencyModel.setDailyFrequency()
-            }
-            binding?.daysOfWeekRadio -> {
-                frequencyModel.setDaysOfWeekFrequency()
-            }
+        binding?.run {
+            when (activity?.findViewById<MaterialRadioButton>(id)) {
+                dailyFreqRadio -> {
+                    frequencyModel.setDailyFrequency()
+                }
+                daysOfWeekRadio -> {
+                    frequencyModel.setDaysOfWeekFrequency()
+                }
 
-            else -> throw NoSuchElementException("There is no matching button")
+                else -> throw NoSuchElementException("There is no matching button")
+            }
         }
+        setFrequencyButtonsVisibility(id)
+
     }
 
 
-     private fun setDurationButtonsVisibility(id: Int) {
-        val allBtns = listOf(
-            binding!!.setDurationDaysBtn,
-            binding!!.setEndDateBtn
-        )
-        when (activity?.findViewById<View>(id)!!) {
-            binding?.xDaysDurationRadio -> VisibilityChanger.changeViewsHelper(
-                listOf(binding!!.setDurationDaysBtn),
-                allBtns
+    private fun setDurationButtonsVisibility(id: Int) {
+        binding?.run {
+            val allBtns = listOf(
+                setDurationDaysBtn,
+                setEndDateBtn
             )
-            binding?.endDateRadio -> VisibilityChanger.changeViewsHelper(
-                listOf(binding!!.setEndDateBtn),
-                allBtns
-            )
-            binding?.noEndDateRadio -> VisibilityChanger.changeViewsHelper(null, allBtns)
-            else -> throw NoSuchElementException("There is no matching button")
+            when (id) {
+                xDaysDurationRadio.id -> VisibilityChanger.changeViewsHelper(
+                    listOf(setDurationDaysBtn),
+                    allBtns
+                )
+                endDateRadio.id -> VisibilityChanger.changeViewsHelper(
+                    listOf(setEndDateBtn),
+                    allBtns
+                )
+                noEndDateRadio.id -> VisibilityChanger.changeViewsHelper(
+                    null,
+                    allBtns
+                )
+                else -> throw NoSuchElementException("There is no matching button")
+            }
         }
-
     }
 
-     fun setFrequencyButtonsVisibility(id: Int) {
-        val allBtns = listOf(
-            binding!!.setDailyFrequencyBtn,
-            binding!!.setDaysOfWeekBtn
-        )
-        when (activity?.findViewById<MaterialRadioButton>(id)) {
-            binding!!.dailyFreqRadio -> VisibilityChanger.changeViewsHelper(
-                listOf(binding!!.setDailyFrequencyBtn),
-                allBtns
+    private fun setFrequencyButtonsVisibility(id: Int) {
+        binding?.run {
+            val allBtns = listOf(
+                setDailyFrequencyBtn,
+                setDaysOfWeekBtn
             )
-            binding?.daysOfWeekRadio -> VisibilityChanger.changeViewsHelper(
-                listOf(binding!!.setDaysOfWeekBtn),
-                allBtns
-            )
-            else -> throw NoSuchElementException("There is no matching button")
-        }
 
+            when (id) {
+                dailyFreqRadio.id -> VisibilityChanger.changeViewsHelper(
+                    listOf(setDailyFrequencyBtn),
+                    allBtns
+                )
+                daysOfWeekRadio.id -> VisibilityChanger.changeViewsHelper(
+                    listOf(setDaysOfWeekBtn),
+                    allBtns
+                )
+                else -> throw NoSuchElementException("There is no matching button")
+            }
+        }
     }
 
 }

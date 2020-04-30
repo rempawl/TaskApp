@@ -3,17 +3,13 @@ package com.example.taskapp
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.example.taskapp.databinding.ActivityMainBinding
 import com.example.taskapp.di.AppComponent
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
@@ -27,13 +23,17 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             R.id.navigation_add_task, R.id.navigation_pick_custom_delay
         )
 
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val navController = findNavController(this,R.id.nav_host_fragment)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = binding.toolbar
+
         setSupportActionBar(toolbar)
 
         appBarConfig = AppBarConfiguration(
@@ -42,14 +42,13 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 R.id.navigation_today,
                 R.id.navigation_pick_custom_delay
             ),
-            findViewById<DrawerLayout>(R.id.main_drawer_layout)
+            binding.mainDrawerLayout
         )
-        toolbar?.setupWithNavController(navController, appBarConfig)
+        toolbar.setupWithNavController(navController, appBarConfig)
 
         setupBottomNavMenu(navController)
         setupSideNav(navController)
         navController.addOnDestinationChangedListener(this)
-
 
     }
 
@@ -59,9 +58,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         arguments: Bundle?
     ) {
         if (noNavMenuDestinations.contains(destination.id)) {
-            findViewById<BottomNavigationView>(R.id.bottom_nav_view)?.visibility = View.GONE
+            binding.bottomNavView?.visibility = View.GONE
         } else {
-            findViewById<BottomNavigationView>(R.id.bottom_nav_view)?.visibility = View.VISIBLE
+            binding.bottomNavView?.visibility = View.VISIBLE
         }
 
 
@@ -69,27 +68,16 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
 
     private fun setupSideNav(navController: NavController) {
-        findViewById<NavigationView>(R.id.side_nav_view)
+        binding.sideNavView
             ?.setupWithNavController(navController)
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        binding.bottomNavView
             ?.setupWithNavController(navController)
     }
 
-    /*  override fun onSupportNavigateUp(): Boolean {
-          val navController = findNavController(R.id.nav_host_fragment)
-          val curDest = navController.currentDestination
-          val predicate = curDest?.id == R.id.navigation_edit_task || curDest?.id == R.id.navigation_add_reminder
-          return if(predicate){
-              Toast.makeText(applicationContext,"ludada",Toast.LENGTH_SHORT)
-                  .show()
-              super.onSupportNavigateUp()
-          }else{
-              navController.navigateUp()
-          }
-      }*/
+
 
     companion object {
         const val TAG = "kruci"

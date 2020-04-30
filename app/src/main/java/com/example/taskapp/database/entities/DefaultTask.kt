@@ -16,7 +16,6 @@ data class SpontaneousTask(
     ) val parentTaskID: Long
 )
 
-abstract class Task
 
 @Parcelize
 @Entity(
@@ -28,7 +27,7 @@ data class DefaultTask constructor(
     val name: String,
     val description: String = "",
     @Embedded val reminder: Reminder? = null
-) : Parcelable, Task() {
+) : Parcelable {
 
     /**
      * returns null if realization date didn't change
@@ -48,5 +47,5 @@ data class DefaultTask constructor(
 
 
 @Parcelize
-data class TaskMinimal(val taskID: Long, val name: String, val description: String) : Parcelable, Task()
+data class TaskMinimal(val taskID: Long, val name: String, val description: String) : Parcelable
 
