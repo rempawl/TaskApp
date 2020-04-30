@@ -33,12 +33,13 @@ class AddTaskViewModelTest {
     @MockK
     lateinit var taskDetailsModel: TaskDetailsModel
 
-    private val schedulerProvider = TestSchedulerProvider()
+    private val schedulerProvider =        TestSchedulerProvider()
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
-        viewModel = DefaultAddTaskViewModel(schedulerProvider,taskDetailsModel, taskRepository)
+        viewModel = DefaultAddTaskViewModel(schedulerProvider, taskDetailsModel, taskRepository)
     }
 
     @Test

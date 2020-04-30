@@ -19,7 +19,6 @@ import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.viewmodels.PickCustomNotificationDelayViewModel
-import javax.inject.Inject
 
 
 class PickCustomNotificationDelayFragment : Fragment() {
@@ -36,9 +35,6 @@ class PickCustomNotificationDelayFragment : Fragment() {
         DefaultNotificationIntentFactory
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

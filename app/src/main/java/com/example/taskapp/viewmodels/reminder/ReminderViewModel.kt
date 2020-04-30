@@ -9,17 +9,18 @@ import com.example.taskapp.MyApp
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalTime
 
 
 abstract class ReminderViewModel(
     val task: DefaultTask,
+    private val schedulerProvider: SchedulerProvider,
     val notificationModel: NotificationModel,
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
@@ -72,9 +73,9 @@ abstract class ReminderViewModel(
 
             compositeDisposable.add(
                 addTask(task)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ taskID ->
-//                        saveStreak(taskID)
+                    .subscribeOn(schedulerProvider.getIoScheduler())
+                    .observeOn(schedulerProvider.getUiScheduler())
+                    .subscribe({ taskID ->// saveStreak(taskID)
                     },
                         { e -> e.printStackTrace() }
                     )

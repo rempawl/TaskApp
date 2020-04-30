@@ -17,7 +17,7 @@ typealias DatePredicate = (LocalDate, DefaultTask) -> (Boolean)
 
 /**
  * class that checks if today tasks are up to date
- * *sets reminder update alarm
+ * sets reminder update alarm
  */
 class UpdateRemindersWorker constructor(
     appContext: Context,

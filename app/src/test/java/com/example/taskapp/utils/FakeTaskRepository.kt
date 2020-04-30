@@ -1,12 +1,11 @@
-package com.example.taskapp.repos.task
+package com.example.taskapp.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.utils.DefaultTasks
-import com.example.taskapp.utils.DefaultTasks.errorTask
-import com.example.taskapp.workers.toTaskMinimal
+import com.example.taskapp.database.entities.toTaskMinimal
+import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
@@ -48,7 +47,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
         return if (tasks.any(predicate)) {
             tasks.first(predicate)
         } else {
-            errorTask
+            DefaultTasks.errorTask
         }
     }
 

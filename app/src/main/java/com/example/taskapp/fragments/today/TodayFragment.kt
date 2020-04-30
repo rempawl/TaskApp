@@ -40,7 +40,7 @@ class TodayFragment : Fragment() {
     private val taskAdapter: TaskListAdapter by lazy {
         taskListAdapterFactory.create(ParentFragmentType.TodayFragment)
     }
-    private lateinit var binding : TodayFragmentBinding
+    private  var binding : TodayFragmentBinding? = null
 
 
     override fun onAttach(context: Context) {
@@ -55,7 +55,7 @@ class TodayFragment : Fragment() {
 
         binding = TodayFragmentBinding.inflate(inflater,container,false)
 
-        return binding.root
+        return binding!!.root
 
     }
 
@@ -67,13 +67,14 @@ class TodayFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.todayTasksList.adapter = null
+        binding!!.todayTasksList.adapter = null
+        binding = null
     }
 
     private fun setUpLayout() {
         add_spontaneous_tasks_btn.setOnClickListener { AddSpontaneousTaskDialogFragment().show(childFragmentManager, "") }
 
-        binding.todayTasksList.apply {
+        binding!!.todayTasksList.apply {
             adapter = taskAdapter
             val columnCount = if (resources.configuration.orientation ==
                 Configuration.ORIENTATION_PORTRAIT

@@ -5,6 +5,7 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
@@ -20,7 +21,8 @@ class EditTaskViewModel @AssistedInject constructor(
     private val taskRepository: TaskRepositoryInterface,
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
-    defaultNotificationModelFactory: EditTaskNotificationModel.Factory
+    defaultNotificationModelFactory: EditTaskNotificationModel.Factory,
+    schedulerProvider: SchedulerProvider
 ) : ReminderViewModel(
     task,
     durationModel = durationModelFactory.create(
@@ -28,7 +30,8 @@ class EditTaskViewModel @AssistedInject constructor(
         task.reminder?.begDate ?: TODAY
     ),
     frequencyModel = frequencyModelFactory.create(task.reminder?.frequency),
-    notificationModel = defaultNotificationModelFactory.create(notificationTime = task.reminder?.notificationTime)
+    notificationModel = defaultNotificationModelFactory.create(notificationTime = task.reminder?.notificationTime),
+    schedulerProvider = schedulerProvider
 
 ) {
 

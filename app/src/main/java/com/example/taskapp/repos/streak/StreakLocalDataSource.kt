@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 @Reusable
 class StreakLocalDataSource @Inject constructor(private val streakDao: StreakDao) : StreakDataSource{
-
     override suspend fun saveStreak(item: Streak) = withContext(Dispatchers.IO){ streakDao.insertItem(item)}
 
 }

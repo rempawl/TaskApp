@@ -4,9 +4,9 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.database.entities.toTaskMinimal
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
-import com.example.taskapp.workers.toTaskMinimal
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 

@@ -2,24 +2,14 @@ package com.example.taskapp.viewmodels.addTask
 
 import android.view.View
 import android.widget.EditText
-import androidx.lifecycle.ViewModel
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.SchedulerProvider
+import com.example.taskapp.utils.scheduler.SchedulerProvider
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-abstract class AddTaskViewModel : ViewModel(){
-    abstract val onFocusTaskName: View.OnFocusChangeListener
-    abstract val onFocusTaskDescription : View.OnFocusChangeListener
-
-    abstract fun getTask(): DefaultTask
-    abstract suspend fun saveTask()
-
-
-}
 
 class DefaultAddTaskViewModel @Inject constructor(
     private val schedulerProvider: SchedulerProvider,

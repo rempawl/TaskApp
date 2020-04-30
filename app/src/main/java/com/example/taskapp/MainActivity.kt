@@ -68,13 +68,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
 
     private fun setupSideNav(navController: NavController) {
-        binding.sideNavView
-            ?.setupWithNavController(navController)
+        binding.sideNavView?.setupWithNavController(navController)
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        binding.bottomNavView
-            ?.setupWithNavController(navController)
+        binding.bottomNavView?.setupWithNavController(navController)
     }
 
 

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,12 +13,9 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.databinding.AddReminderFragmentBinding
 import com.example.taskapp.di.viewModel
-import com.example.taskapp.fragments.reminder.*
+import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer
 import com.example.taskapp.utils.VisibilityChanger
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
-import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
-import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
-import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.example.taskapp.workers.AlarmCreator
 import com.google.android.material.radiobutton.MaterialRadioButton
 import kotlinx.coroutines.CoroutineScope
@@ -81,7 +77,6 @@ class AddReminderFragment : Fragment() {
                 setFrequencyButtonsVisibility(checkedRadioButtonId) //on rotation
                 setOnCheckedChangeListener { _, id ->
                     onFrequencyRadioCheck(id)
-                    setFrequencyButtonsVisibility(id)
                 }
             }
 
@@ -261,12 +256,13 @@ class AddReminderFragment : Fragment() {
     private fun setAlarm(task: DefaultTask) {
         context?.let { ctx ->
             AlarmCreator.setTaskNotificationAlarm(task, true, ctx)
-        }  //todo ?:
+        }
     }
 
 
     private fun addTaskWithReminder() {
-        CoroutineScope(Dispatchers.Main).launch {  viewModel.saveTask()}
+        CoroutineScope(Dispatchers.Main).launch {  viewModel.saveTask() }
+
         findNavController().navigate(
             AddReminderFragmentDirections.navigationAddReminderToNavigationMyTasks()
         )
@@ -276,76 +272,3 @@ class AddReminderFragment : Fragment() {
 }
 
 
-object ReminderDialogFragmentsDisplayer {
-
-
-    fun showNotificationPickerDialog(
-        defaultNotificationModel: NotificationModel
-        , childFragmentManager: FragmentManager
-    ) {
-        NotificationTimePickerFragment(
-            defaultNotificationModel
-        ).show(
-            childFragmentManager,
-            "Notification dialog tag"
-        )
-
-    }
-
-
-    fun showDurationDaysPickerDialog(
-        defaultDurationModel: DurationModel
-        , childFragmentManager: FragmentManager
-
-    ) {
-        DaysDurationPickerFragment(
-            defaultDurationModel
-        ).show(childFragmentManager, "days duration dialog")
-    }
-
-
-    fun showDaysOfWeekPickerDialog(
-        frequencyModel: FrequencyModel,
-        childFragmentManager: FragmentManager
-
-    ) {
-        WeekDayPickerFragment(frequencyModel)
-            .show(childFragmentManager, "weekday picker dialog")
-    }
-
-
-    fun showFrequencyPickerDialog(
-        frequencyModel: FrequencyModel
-        , childFragmentManager: FragmentManager
-
-    ) {
-        FrequencyPickerFragment(frequencyModel)
-            .show(childFragmentManager, "FREQUENCY PICKER DIALOG")
-    }
-
-
-    fun showEndDatePickerDialog(
-        defaultDurationModel: DurationModel
-        , childFragmentManager: FragmentManager
-
-    ) {
-        EndDatePickerFragment(defaultDurationModel)
-            .show(
-                childFragmentManager,
-                AddReminderFragment.END_DATE_DIALOG_TAG
-            )
-    }
-
-    fun showBegDatePickerDialog(
-        defaultDurationModel: DurationModel
-        , childFragmentManager: FragmentManager
-
-    ) {
-        BeginningDatePickerFragment(
-            defaultDurationModel
-        ).show(
-            childFragmentManager,
-            AddReminderFragment.BEGINNING_DATE_DIALOG_TAG
-        )
-    }
-}

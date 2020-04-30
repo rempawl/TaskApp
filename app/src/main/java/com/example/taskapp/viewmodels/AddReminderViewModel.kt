@@ -3,6 +3,7 @@ package com.example.taskapp.viewmodels
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
@@ -17,14 +18,15 @@ class AddReminderViewModel @AssistedInject constructor(
     private val taskRepository: TaskRepositoryInterface,
     durationModel: DurationModel,
     notificationModel: NotificationModel,
-    frequencyModel: FrequencyModel
+    frequencyModel: FrequencyModel,
+    schedulerProvider: SchedulerProvider
 //    private val streakLocalDataSource: StreakDataSource,
 ) : ReminderViewModel(
     task = task,
     durationModel = durationModel,
     notificationModel = notificationModel,
-    frequencyModel = frequencyModel
-
+    frequencyModel = frequencyModel,
+    schedulerProvider = schedulerProvider
 ) {
 
     @AssistedInject.Factory

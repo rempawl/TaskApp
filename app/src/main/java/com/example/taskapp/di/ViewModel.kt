@@ -7,8 +7,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.taskapp.utils.DefaultSchedulerProvider
-import com.example.taskapp.utils.SchedulerProvider
+import com.example.taskapp.utils.scheduler.DefaultSchedulerProvider
+import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.addTask.DefaultTaskDetailsModel
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
@@ -41,7 +41,8 @@ object ModelModule{
     @Reusable
     @Provides
     @JvmStatic
-    fun provideSchedulersProvider() : SchedulerProvider = DefaultSchedulerProvider()
+    fun provideSchedulersProvider() : SchedulerProvider =
+        DefaultSchedulerProvider()
 
     @Provides
     @JvmStatic

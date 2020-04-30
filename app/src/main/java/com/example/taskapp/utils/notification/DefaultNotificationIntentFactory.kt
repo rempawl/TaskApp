@@ -7,11 +7,6 @@ import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.workers.notification.CreateTaskNotificationBroadcastReceiver
 import com.example.taskapp.workers.notification.DelayNotificationReceiver
 
-interface NotificationIntentFactory {
-
-    fun createDelayNotificationIntent(context: Context, delayValue: Int, task: TaskMinimal): Intent
-    fun createNotificationReceiverIntent(task: TaskMinimal, context: Context): Intent
-}
 
 object DefaultNotificationIntentFactory : NotificationIntentFactory {
 

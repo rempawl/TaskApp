@@ -10,6 +10,7 @@ import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.database.entities.toTaskMinimal
 import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory.createNotificationReceiverIntent
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -65,10 +66,3 @@ object AlarmCreator {
 
 }
 
-fun DefaultTask.toTaskMinimal(): TaskMinimal {
-    return TaskMinimal(
-        taskID = this.taskID,
-        name = this.name,
-        description = this.description
-    )
-}

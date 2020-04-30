@@ -13,12 +13,10 @@ interface WorkersInitializer {
         enqueueWorkRequest(context = context, workRequest = workRequest)
     }
 
-     fun createConstraints(): Constraints
+    fun createConstraints(): Constraints
     fun createWorkRequest(constraints: Constraints): WorkRequest
     fun enqueueWorkRequest(workRequest: WorkRequest, context: Context)
-
 }
-
 
 class UpdateRemindersWorkerInitializer @Inject constructor() : WorkersInitializer {
 
@@ -42,7 +40,7 @@ class UpdateRemindersWorkerInitializer @Inject constructor() : WorkersInitialize
     }
 
     override fun enqueueWorkRequest(workRequest: WorkRequest, context: Context) {
-        require(workRequest is PeriodicWorkRequest){ " Work request is of the wrong type "}
+        require(workRequest is PeriodicWorkRequest) { " Work request is of the wrong type " }
 
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(

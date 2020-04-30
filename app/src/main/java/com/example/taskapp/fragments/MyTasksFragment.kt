@@ -39,7 +39,7 @@ class MyTasksFragment : Fragment() {
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
-    private lateinit var binding: MyTasksFragmentBinding
+    private  var binding: MyTasksFragmentBinding? = null
 
     private val taskListAdapter: TaskListAdapter by lazy {
         taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
@@ -55,7 +55,7 @@ class MyTasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MyTasksFragmentBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return binding!!.root
     }
 
 
@@ -67,7 +67,8 @@ class MyTasksFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.taskList.adapter = null
+        binding!!.taskList.adapter = null
+        binding = null
 
     }
 
@@ -79,7 +80,7 @@ class MyTasksFragment : Fragment() {
     private fun injectViewModel() = (activity as MainActivity).appComponent.myTasksViewModel
 
     private fun setUpLayout() {
-        binding.taskList.apply {
+        binding!!.taskList.apply {
             adapter = taskListAdapter
             val columnCount = if (resources.configuration.orientation ==
                 Configuration.ORIENTATION_PORTRAIT
@@ -91,7 +92,7 @@ class MyTasksFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), columnCount)
             setHasFixedSize(false)
         }
-        binding.addTaskBtn.setOnClickListener { navigateToAddTask() }
+        binding!!.addTaskBtn.setOnClickListener { navigateToAddTask() }
     }
 
 

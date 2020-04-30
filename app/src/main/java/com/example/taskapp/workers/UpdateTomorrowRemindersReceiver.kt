@@ -5,28 +5,35 @@ import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp
 import com.example.taskapp.MyApp.Companion.TOMORROW
+import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.SharedPreferencesHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * class responsible for updating realization dates of tasks and setting alarms for tomorrow tasks
  */
 class UpdateTomorrowRemindersReceiver :
     BroadcastReceiver() {
-//todo it will crash android injector needed
 
-    @Inject
-    lateinit var taskRepository: TaskRepositoryInterface
+    //todo constructor inject
+//    @Inject
+    private lateinit var taskRepository: TaskRepositoryInterface
 
 
     override fun onReceive(context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.Default).launch {
+            taskRepository == TaskRepository(
+                TaskLocalDataSource(
+                    AppDataBase
+                        .getInstance(context).taskDao()
+                )
+            )
             val tasks: List<DefaultTask> = taskRepository.getTasks()
 
             if (tasks.first() == TaskRepository.ERROR_TASK) {
@@ -39,9 +46,9 @@ class UpdateTomorrowRemindersReceiver :
             if (tasksToUpdate.isEmpty()) return@launch
 
             val updatedTasks = updateTaskList(tasksToUpdate)
-            setTomorrowNotifications(updatedTasks,context   )
+            setTomorrowNotifications(updatedTasks, context)
 
-            SharedPreferencesHelper.updateCurrentDate(TOMORROW,context)
+            SharedPreferencesHelper.updateCurrentDate(TOMORROW, context)
         }
     }
 
@@ -58,7 +65,7 @@ class UpdateTomorrowRemindersReceiver :
         val tomorrowTasks = tasks
             .filter { task -> DATE_PREDICATE(MyApp.TOMORROW, task) }
         tomorrowTasks
-            .forEach { task -> AlarmCreator.setTaskNotificationAlarm(task,context = context) }
+            .forEach { task -> AlarmCreator.setTaskNotificationAlarm(task, context = context) }
     }
 
     companion object {

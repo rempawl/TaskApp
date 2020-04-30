@@ -14,6 +14,8 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
+
+//todo replace addTaskFragment with addReminder with switch
 //todo editTask init reminder state radio check
 //todo settings menu
 //todo tests
@@ -50,7 +52,7 @@ class MyApp : Application() {
         }
     }
 
-    companion object{
+    companion object {
         const val PREFERENCES_NAME = "com.example.taskapp"
 
         val TODAY: LocalDate = LocalDate.now()

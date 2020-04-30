@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.workers.toTaskMinimal
+import com.example.taskapp.database.entities.toTaskMinimal
 import dagger.Reusable
 import org.threeten.bp.LocalDate
 import javax.inject.Inject

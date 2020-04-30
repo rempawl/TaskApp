@@ -25,8 +25,7 @@ import com.example.taskapp.utils.notification.NotificationManagerHelper.createNo
 /**
  * class responsible for creating and showing task notifications
  */
-class CreateTaskNotificationBroadcastReceiver :
-    BroadcastReceiver() {
+class CreateTaskNotificationBroadcastReceiver :    BroadcastReceiver() {
 
     private val notificationIntentFactory: NotificationIntentFactory =
         DefaultNotificationIntentFactory

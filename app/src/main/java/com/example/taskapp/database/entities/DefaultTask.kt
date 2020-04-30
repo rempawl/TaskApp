@@ -6,6 +6,14 @@ import androidx.room.ForeignKey.CASCADE
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 
+fun DefaultTask.toTaskMinimal(): TaskMinimal {
+    return TaskMinimal(
+        taskID = this.taskID,
+        name = this.name,
+        description = this.description
+    )
+}
+
 @Entity(tableName = "spontaneous tasks")
 data class SpontaneousTask(
     @PrimaryKey(autoGenerate = true) val id : Long = 0,
