@@ -22,7 +22,7 @@ import javax.inject.Inject
 //todo myTasks switchMap
 //todo Realization Entity
 
-class MyApp : Application() {
+open class MyApp : Application() {
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
@@ -36,8 +36,12 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent.inject(this)
+        injectMembers()
         delayedInit()
+    }
+
+    protected open fun injectMembers() {
+        appComponent.inject(this)
     }
 
 //    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

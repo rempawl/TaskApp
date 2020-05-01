@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             R.id.navigation_add_task, R.id.navigation_pick_custom_delay
         )
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +31,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = findNavController(this,R.id.nav_host_fragment)
-        val toolbar = binding.toolbar
-
-        setSupportActionBar(toolbar)
+        val navController = findNavController(this, R.id.nav_host_fragment)
 
         appBarConfig = AppBarConfiguration(
             setOf(
@@ -44,26 +41,25 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             ),
             binding.mainDrawerLayout
         )
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
         toolbar.setupWithNavController(navController, appBarConfig)
 
         setupBottomNavMenu(navController)
         setupSideNav(navController)
         navController.addOnDestinationChangedListener(this)
-
     }
 
 
     override fun onDestinationChanged(
-        controller: NavController, destination: NavDestination,
-        arguments: Bundle?
+        controller: NavController, destination: NavDestination, arguments: Bundle?
     ) {
         if (noNavMenuDestinations.contains(destination.id)) {
             binding.bottomNavView?.visibility = View.GONE
         } else {
             binding.bottomNavView?.visibility = View.VISIBLE
         }
-
-
     }
 
 
@@ -74,7 +70,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun setupBottomNavMenu(navController: NavController) {
         binding.bottomNavView?.setupWithNavController(navController)
     }
-
 
 
     companion object {

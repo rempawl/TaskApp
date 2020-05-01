@@ -11,78 +11,51 @@ object ReminderDialogFragmentsDisplayer {
 
 
     fun showNotificationPickerDialog(
-        defaultNotificationModel: NotificationModel
-        , childFragmentManager: FragmentManager
+        defaultNotificationModel: NotificationModel, childFragmentManager: FragmentManager
     ) {
-        NotificationTimePickerFragment(
-            defaultNotificationModel
-        ).show(
-            childFragmentManager,
-            "Notification dialog tag"
-        )
+        NotificationTimePickerFragment(defaultNotificationModel)
+            .show(childFragmentManager, "Notification dialog tag")
 
     }
 
 
     fun showDurationDaysPickerDialog(
-        defaultDurationModel: DurationModel
-        , childFragmentManager: FragmentManager
+        defaultDurationModel: DurationModel, childFragmentManager: FragmentManager
 
     ) {
-        DaysDurationPickerFragment(
-            defaultDurationModel
-        ).show(childFragmentManager, "days duration dialog")
+        DaysDurationPickerFragment(defaultDurationModel)
+            .show(childFragmentManager, "days duration dialog")
     }
 
 
     fun showDaysOfWeekPickerDialog(
-        frequencyModel: FrequencyModel,
-        childFragmentManager: FragmentManager
+        frequencyModel: FrequencyModel, childFragmentManager: FragmentManager
 
     ) {
-        WeekDayPickerFragment(
-            frequencyModel
-        )
+        WeekDayPickerFragment(frequencyModel)
             .show(childFragmentManager, "weekday picker dialog")
     }
 
 
     fun showFrequencyPickerDialog(
-        frequencyModel: FrequencyModel
-        , childFragmentManager: FragmentManager
-
+        frequencyModel: FrequencyModel, childFragmentManager: FragmentManager
     ) {
-        FrequencyPickerFragment(
-            frequencyModel
-        )
+        FrequencyPickerFragment(frequencyModel)
             .show(childFragmentManager, "FREQUENCY PICKER DIALOG")
     }
 
 
     fun showEndDatePickerDialog(
-        defaultDurationModel: DurationModel
-        , childFragmentManager: FragmentManager
-
+        defaultDurationModel: DurationModel, childFragmentManager: FragmentManager
     ) {
-        EndDatePickerFragment(
-            defaultDurationModel
-        )
-            .show(
-                childFragmentManager,
-                AddReminderFragment.END_DATE_DIALOG_TAG
-            )
+        EndDatePickerFragment(defaultDurationModel)
+            .show(childFragmentManager, AddReminderFragment.END_DATE_DIALOG_TAG)
     }
 
     fun showBegDatePickerDialog(
-        defaultDurationModel: DurationModel
-        , childFragmentManager: FragmentManager
-
+        defaultDurationModel: DurationModel,childFragmentManager: FragmentManager
     ) {
-        BeginningDatePickerFragment(
-            defaultDurationModel
-        ).show(
-            childFragmentManager,
-            AddReminderFragment.BEGINNING_DATE_DIALOG_TAG
-        )
+        BeginningDatePickerFragment(defaultDurationModel)
+            .show(childFragmentManager, AddReminderFragment.BEGINNING_DATE_DIALOG_TAG)
     }
 }

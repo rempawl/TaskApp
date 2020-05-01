@@ -24,8 +24,7 @@ import javax.inject.Inject
 class MyTasksFragment : Fragment() {
 
     companion object {
-        fun newInstance() =
-            MyTasksFragment()
+        fun newInstance() =            MyTasksFragment()
 
 
     }

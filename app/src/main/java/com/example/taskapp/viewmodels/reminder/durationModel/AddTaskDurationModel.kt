@@ -6,13 +6,12 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 class AddTaskDurationModel @Inject constructor() : DurationModel() {
+
     override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         private set(value) {
             field = value
             notifyPropertyChanged(BR.datesValid)
-
         }
-
 
 
     override fun setNoEndDateDurationState() {

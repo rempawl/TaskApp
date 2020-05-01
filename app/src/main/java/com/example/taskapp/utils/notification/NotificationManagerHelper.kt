@@ -13,20 +13,18 @@ object NotificationManagerHelper {
     private fun getNotificationManager(context: Context) = NotificationManagerCompat.from(context)
 
     fun cancelTaskNotification(context: Context) {
-        getNotificationManager(context)
-            .cancel(TASK_NOTIFICATION_ID)
+        getNotificationManager(context).cancel(TASK_NOTIFICATION_ID)
     }
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
             val channel =
                 NotificationChannel(
                     MyApp.TASK_CHANNEL_ID,
                     "task channel",
                     NotificationManager.IMPORTANCE_HIGH
                 )
-                    .apply { description = "todo string.xml powiadomienia nadchodzacych zadan" }
+                    .apply { description = "" }
 
             getNotificationManager(context).createNotificationChannel(channel)
         }

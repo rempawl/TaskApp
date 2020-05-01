@@ -2,6 +2,7 @@ package com.example.taskapp.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.example.taskapp.MyApp
 import org.threeten.bp.LocalDate
 
@@ -13,12 +14,11 @@ object SharedPreferencesHelper {
     }
 
     fun updateCurrentDate(date: LocalDate, context: Context) {
-        getSharedPreferences(context).edit().putLong(CURRENT_DATE_KEY, date.toEpochDay()).apply()
+        getSharedPreferences(context).edit { putLong(CURRENT_DATE_KEY, date.toEpochDay()) }
     }
 
     fun setErrorCurrentDate(context: Context) {
-        getSharedPreferences(context)
-            .edit().putLong(CURRENT_DATE_KEY, -1).apply()
+        getSharedPreferences(context).edit { putLong(CURRENT_DATE_KEY, -1) }
     }
 
     fun getCurrentDate(context: Context): Long = getSharedPreferences(context)
