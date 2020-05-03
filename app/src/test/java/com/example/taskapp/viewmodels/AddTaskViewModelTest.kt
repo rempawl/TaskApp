@@ -9,7 +9,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class AddReminderViewModelTest {
+class AddTaskViewModelTest {
     init {
         loadTimeZone()
 
@@ -22,7 +22,7 @@ class AddReminderViewModelTest {
     lateinit var taskRepositoryInterface: TaskRepositoryInterface
 
 
-    lateinit var viewModel: AddReminderViewModel
+    lateinit var viewModel: AddTaskViewModel
 
     @BeforeEach
     fun setUp() {

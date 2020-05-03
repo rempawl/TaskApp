@@ -18,6 +18,14 @@ fun setError(view: EditText, stringOrRsrcID: Any?) {
 
 }
 
+
+@BindingAdapter("showWhen")
+fun showViewWhen(view : View, shouldShow : Boolean?){
+    if(shouldShow != null) {
+        view.visibility = if (shouldShow) View.VISIBLE else View.GONE
+    }
+}
+
 @BindingAdapter("onFocus")
 fun bindFocusChange(
     editText: EditText,

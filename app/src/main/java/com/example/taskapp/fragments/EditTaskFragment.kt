@@ -67,10 +67,6 @@ class EditTaskFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding?.apply {
-            viewModel = null
-            lifecycleOwner = null
-        }
         binding = null
     }
 
@@ -91,7 +87,7 @@ class EditTaskFragment : Fragment() {
     }
 
     private fun editTask() {
-        CoroutineScope(Dispatchers.Main).launch { viewModel.saveEditedTask() }
+        CoroutineScope(Dispatchers.Main).launch { viewModel.saveTask() }
         findNavController().navigate(
             EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
         )

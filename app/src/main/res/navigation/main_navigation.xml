@@ -59,17 +59,6 @@
     </fragment>
 
 
-    <fragment
-        android:id="@+id/navigation_add_task"
-        android:name="com.example.taskapp.fragments.AddTaskFragment"
-        android:label="@string/add_task">
-        <action
-            android:id="@+id/navigation_add_task_to_navigation_add_reminder"
-            app:destination="@id/navigation_add_reminder" />
-        <action
-            android:id="@+id/action_navigation_add_task_to_navigation_my_tasks"
-            app:destination="@id/navigation_my_tasks" />
-    </fragment>
 
     <fragment
         android:id="@+id/navigation_task_details"
@@ -88,17 +77,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_add_reminder"
-        android:name="com.example.taskapp.fragments.AddReminderFragment"
+        android:id="@+id/navigation_add_task"
+        android:name="com.example.taskapp.fragments.AddTaskFragment"
         android:label="@string/add_reminder">
-        <argument
-            android:name="task"
-            app:argType="com.example.taskapp.database.entities.DefaultTask"
-            app:nullable="false" />
         <action
             android:id="@+id/navigation_add_reminder_to_navigation_my_tasks"
             app:destination="@id/navigation_my_tasks"
-
             />
 
     </fragment>

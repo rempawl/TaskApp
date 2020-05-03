@@ -16,7 +16,6 @@ abstract class TaskDetailsModel : BaseObservable() {
     @Bindable
     abstract fun isValid(): Boolean
 
-    abstract fun validateTaskDescription()
 
     abstract fun createTask(): DefaultTask
 

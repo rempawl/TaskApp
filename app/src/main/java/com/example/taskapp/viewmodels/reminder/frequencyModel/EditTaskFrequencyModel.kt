@@ -47,7 +47,7 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
         frequencyState = ReminderFrequencyState.WeekDays(daysOfWeek)
     }
 
-    override fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
+    override fun getRealizationDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
         lastRealizationDate = begDate,
         isBeginning = !isEdited
     )

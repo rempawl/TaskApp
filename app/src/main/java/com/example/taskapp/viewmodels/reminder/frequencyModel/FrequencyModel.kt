@@ -9,24 +9,18 @@ import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.threeten.bp.LocalDate
 
 
-abstract class FrequencyModel :
-    BaseObservable() {
+abstract class FrequencyModel : BaseObservable() {
 
     abstract val frequencyState: ReminderFrequencyState
 
     @Bindable
-     var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
+    var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY
         set(value) {
             field = value
             notifyPropertyChanged(BR.currentDailyFrequency)
         }
-     var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
 
-
-//    abstract var currentDailyFrequency: Int
-
-
-//    abstract var currentWeekDays: Set<DayOfWeekValue>
+    var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
 
     abstract fun setDailyFrequency(freq: Int = currentDailyFrequency)
 
@@ -34,6 +28,6 @@ abstract class FrequencyModel :
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 
-    abstract fun getUpdateDate(begDate: LocalDate): LocalDate
+    abstract fun getRealizationDate(begDate: LocalDate): LocalDate
 
 }

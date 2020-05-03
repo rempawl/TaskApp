@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels.reminder
 
+import android.view.View
+import android.widget.EditText
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -10,6 +12,7 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.utils.scheduler.SchedulerProvider
+import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
@@ -19,6 +22,7 @@ import org.threeten.bp.LocalTime
 
 
 abstract class ReminderViewModel(
+    val taskDetailsModel: TaskDetailsModel,
     val task: DefaultTask,
     private val schedulerProvider: SchedulerProvider,
     val notificationModel: NotificationModel,
@@ -26,6 +30,8 @@ abstract class ReminderViewModel(
     val durationModel: DurationModel
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
+
+    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
 
 
     /**
@@ -48,9 +54,17 @@ abstract class ReminderViewModel(
         durationModel.isBegDateError.addOnPropertyChangedCallback(errorCallback)
     }
 
+    val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
+        val text = (view as EditText).text.toString()
+
+        if (!focused && text.isNotEmpty()) {
+            taskDetailsModel.isTaskNameValid(true)
+        }
+    }
+
+
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
 
-    protected abstract fun createTask(reminder: Reminder?): DefaultTask
 
     private fun createReminder(): Reminder {
         return Reminder(
@@ -58,16 +72,24 @@ abstract class ReminderViewModel(
             duration = durationModel.getDuration(),
             frequency = frequencyModel.getFrequency(),
             notificationTime = notificationModel.getNotificationTime(),
-            realizationDate = frequencyModel.getUpdateDate(durationModel.beginningDate),
+            realizationDate = frequencyModel.getRealizationDate(begDate = durationModel.beginningDate),
             expirationDate = durationModel.getExpirationDate()
         )
 
-
     }
 
-    suspend fun saveTask(setReminder: Boolean = true) {
+    private fun createTask(reminder: Reminder?): DefaultTask {
+        return DefaultTask(
+            name = taskDetailsModel.taskName,
+            description = taskDetailsModel.taskDescription,
+            reminder = reminder
+        )
+    }
 
-        val reminder = if (setReminder) createReminder() else null
+
+    suspend fun saveTask() {
+
+        val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
         val task = createTask(reminder)
         val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
 
@@ -76,9 +98,8 @@ abstract class ReminderViewModel(
             addTask(task)
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .observeOn(schedulerProvider.getUiScheduler())
-                .subscribe({ taskID ->// saveStreak(taskID)
-                },
-                    { e -> e.printStackTrace() }
+                .subscribe({ // saveStreak(taskID)
+                }, { e -> e.printStackTrace() }
                 )
         )
         if (isRealizationToday && reminder != null

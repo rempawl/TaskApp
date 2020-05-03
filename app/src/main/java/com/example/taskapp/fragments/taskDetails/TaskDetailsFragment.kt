@@ -58,13 +58,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding?.apply {
-            viewModel = null
-            lifecycleOwner = null
-
-        }
         binding = null
-
     }
 
 
@@ -78,8 +72,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun navigateToMyTasks() {
-        findNavController()
-            .navigate(
+        findNavController().navigate(
                 TaskDetailsFragmentDirections.navigationTaskDetailsToNavigationMyTasks()
             )
 
@@ -194,5 +187,6 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.deleteTask()
         }
+        navigateToMyTasks()
     }
 }

@@ -29,7 +29,6 @@ class MyTasksFragment : Fragment() {
 
     }
 
-
     val viewModel: MyTasksViewModel by viewModel {
         injectViewModel()
     }

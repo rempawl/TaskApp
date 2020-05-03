@@ -25,7 +25,7 @@ class AddTaskFrequencyModel @Inject constructor() : FrequencyModel(){
     }
 
 
-    override fun getUpdateDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
+    override fun getRealizationDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
         lastRealizationDate = begDate,
         isBeginning = true
     )

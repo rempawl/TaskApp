@@ -1,7 +1,7 @@
 package com.example.taskapp.utils
 
 import androidx.fragment.app.FragmentManager
-import com.example.taskapp.fragments.AddReminderFragment
+import com.example.taskapp.fragments.AddTaskFragment
 import com.example.taskapp.fragments.reminder.*
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
@@ -49,13 +49,13 @@ object ReminderDialogFragmentsDisplayer {
         defaultDurationModel: DurationModel, childFragmentManager: FragmentManager
     ) {
         EndDatePickerFragment(defaultDurationModel)
-            .show(childFragmentManager, AddReminderFragment.END_DATE_DIALOG_TAG)
+            .show(childFragmentManager, AddTaskFragment.END_DATE_DIALOG_TAG)
     }
 
     fun showBegDatePickerDialog(
         defaultDurationModel: DurationModel,childFragmentManager: FragmentManager
     ) {
         BeginningDatePickerFragment(defaultDurationModel)
-            .show(childFragmentManager, AddReminderFragment.BEGINNING_DATE_DIALOG_TAG)
+            .show(childFragmentManager, AddTaskFragment.BEGINNING_DATE_DIALOG_TAG)
     }
 }

@@ -17,12 +17,7 @@ class DefaultTaskDetailsModel @Inject constructor() : TaskDetailsModel() {
         return isTaskNameValid(false)
     }
 
-    @Bindable
     override var taskDescription: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.taskDescription)
-        }
 
     override var taskName: String = ""
         set(value) {
@@ -30,9 +25,6 @@ class DefaultTaskDetailsModel @Inject constructor() : TaskDetailsModel() {
             notifyPropertyChanged(BR.valid)
         }
 
-    override fun validateTaskDescription() {
-        taskDescription = ""
-    }
 
     override fun createTask(): DefaultTask {
         return DefaultTask(name = taskName, description = taskDescription)
