@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
 import com.example.taskapp.fragments.MyTasksFragmentDirections
@@ -19,12 +20,14 @@ sealed class ParentFragmentType {
     object MyTasksFragment : ParentFragmentType()
 }
 
-class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFragment: ParentFragmentType) :
+class TaskListAdapter @AssistedInject constructor(@Assisted private val clickListener: (TaskMinimal) -> Unit ) :
     ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
+
+
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(parentFragment: ParentFragmentType): TaskListAdapter
+        fun create(clickListener: (TaskMinimal) -> Unit): TaskListAdapter
     }
 
 
@@ -34,29 +37,12 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
         fun bind(task: TaskMinimal) {
             binding.apply {
                 this.task = task
-                taskCard.setOnClickListener { navigateToTaskDetails(it,task) }
+                taskCard.setOnClickListener { clickListener(task) }
                 executePendingBindings()
             }
         }
 
-        private fun navigateToTaskDetails(view: View, task: TaskMinimal) {
-            when (parentFragment) {
-                is ParentFragmentType.MyTasksFragment -> createNavigateFromMyTasksListener(task)
-                is ParentFragmentType.TodayFragment -> createNavigateFromTodayTasksListener(task)
-            }.apply { onClick(view) }
-        }
 
-        private fun createNavigateFromTodayTasksListener(task: TaskMinimal): View.OnClickListener {
-            return Navigation.createNavigateOnClickListener(
-                TodayFragmentDirections.navigationTodayToNavigationTaskDetails(task.taskID)
-            )
-        }
-
-        private fun createNavigateFromMyTasksListener(task: TaskMinimal): View.OnClickListener {
-            return Navigation.createNavigateOnClickListener(
-                MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
-            )
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {

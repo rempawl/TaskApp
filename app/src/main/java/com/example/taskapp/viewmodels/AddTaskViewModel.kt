@@ -19,7 +19,6 @@ class AddTaskViewModel @Inject constructor(
     notificationModel: NotificationModel,
     frequencyModel: FrequencyModel,
     schedulerProvider: SchedulerProvider
-//    private val streakLocalDataSource: StreakDataSource,
 ) : ReminderViewModel(
     taskDetailsModel = taskDetailsModel,
     task = DefaultTask(name = ""),

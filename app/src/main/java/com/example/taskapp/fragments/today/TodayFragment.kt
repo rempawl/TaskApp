@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskapp.MainActivity
-import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
@@ -38,9 +38,16 @@ class TodayFragment : Fragment() {
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
     private val taskAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create(ParentFragmentType.TodayFragment)
+        taskListAdapterFactory.create { task ->
+            findNavController().navigate(
+                TodayFragmentDirections
+                    .navigationTodayToNavigationTaskDetails(task.taskID)
+            )
+        }
     }
-    private  var binding : TodayFragmentBinding? = null
+
+
+    private var binding: TodayFragmentBinding? = null
 
 
     override fun onAttach(context: Context) {
@@ -53,7 +60,7 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = TodayFragmentBinding.inflate(inflater,container,false)
+        binding = TodayFragmentBinding.inflate(inflater, container, false)
 
         return binding!!.root
 
@@ -72,7 +79,12 @@ class TodayFragment : Fragment() {
     }
 
     private fun setUpLayout() {
-        add_spontaneous_tasks_btn.setOnClickListener { AddSpontaneousTaskDialogFragment().show(childFragmentManager, "") }
+        add_spontaneous_tasks_btn.setOnClickListener {
+            AddSpontaneousTaskDialogFragment().show(
+                childFragmentManager,
+                ""
+            )
+        }
 
         binding!!.todayTasksList.apply {
             adapter = taskAdapter
@@ -87,7 +99,6 @@ class TodayFragment : Fragment() {
             setHasFixedSize(true)
         }
     }
-
 
 
     private fun updateTaskList() {

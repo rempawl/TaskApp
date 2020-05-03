@@ -40,7 +40,9 @@ class MyTasksFragment : Fragment() {
     private  var binding: MyTasksFragmentBinding? = null
 
     private val taskListAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create(ParentFragmentType.MyTasksFragment)
+        taskListAdapterFactory.create { task -> findNavController().navigate(
+            MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
+        )}
     }
 
     override fun onAttach(context: Context) {

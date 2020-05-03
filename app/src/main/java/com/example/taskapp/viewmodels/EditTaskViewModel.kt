@@ -46,8 +46,7 @@ class EditTaskViewModel @AssistedInject constructor(
 
 
     override suspend fun addTask(task: DefaultTask): Single<Long> {
-        taskRepository.updateTask(task)
-        return Single.just(-1)
+         return Single.just(taskRepository.updateTask(task).toLong())
     }
 
 

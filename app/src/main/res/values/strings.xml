@@ -71,7 +71,7 @@
     <string name="task_description">Opis zadania:  %1$s</string>
     <string name="task_description_hint">Opis zadania (opcjonalnie)</string>
     <string name="task_details">Informacje o zadaniu</string>
-    <string name="task_delete_title">Czy na pewno chcesz usunąć zadanie?</string>
+    <string name="task_delete_title">Czy na pewno chcesz usunąć to zadanie?</string>
     <string name="edit_task">Edytuj zadanie</string>
     <string name="task_name_error">Nazwa musi składać się z conajmniej 3 znaków</string>
     <string name="completed">Wykonane</string>
