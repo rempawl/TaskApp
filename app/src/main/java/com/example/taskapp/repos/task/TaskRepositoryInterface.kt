@@ -11,14 +11,13 @@ interface TaskRepositoryInterface {
 
     suspend fun deleteByID(id: Long): Int
 
-    suspend fun saveTask(task: DefaultTask)
-            : Single<Long>
+    suspend fun saveTask(task: DefaultTask): Single<Long>
 
     suspend fun getMinTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<TaskMinimal>
 
     suspend fun getTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<DefaultTask>
 
-    suspend fun getTaskByID(id: Long): DefaultTask
+    suspend fun getTaskByID(id: Long): LiveData<DefaultTask>
 
     suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>>
 
@@ -26,6 +25,6 @@ interface TaskRepositoryInterface {
 
     suspend fun updateTask(task: DefaultTask): Int
     suspend fun updateTasks(tasks: List<DefaultTask>): Int
-    suspend fun getTodayMinTasks(): List<TaskMinimal>
+    suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>>
     suspend fun getNotTodayTasks(): List<DefaultTask>
 }

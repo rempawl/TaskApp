@@ -1,9 +1,11 @@
 package com.example.taskapp.repos.task
 
+import androidx.lifecycle.LiveData
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.TaskMinimal
 import dagger.Reusable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +19,7 @@ class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : Ta
         taskDao.insertTask(task)
     }
 
-    override suspend fun getMinTasksByUpdateDate(date: LocalDate) = withContext(Dispatchers.IO) {
+    override suspend fun getMinTasksByUpdateDate(date: LocalDate) : Result<LiveData<List<TaskMinimal>>> = withContext(Dispatchers.IO) {
         return@withContext try {
             Result.Success(taskDao.getMinTasksByRealizationDate(date))
         } catch (e: Exception) {

@@ -25,7 +25,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
 
     val task: LiveData<DefaultTask> = liveData {
         val data = taskRepository.getTaskByID(taskID)
-        emit(data)
+        emitSource(data)
     }
 
 

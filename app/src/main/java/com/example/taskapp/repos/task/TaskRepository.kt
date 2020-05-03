@@ -2,6 +2,7 @@ package com.example.taskapp.repos.task
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.taskapp.MyApp
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
@@ -17,11 +18,9 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
     TaskRepositoryInterface {
 
     override suspend fun getTasks(): List<DefaultTask> {
-        val data = taskLocalDataSource.getTasks()
-        return if (data is Result.Success<*>) {
-            data.items as List<DefaultTask>
-        } else {
-            listOf(ERROR_TASK)
+        return when (val data = taskLocalDataSource.getTasks()) {
+            is Result.Success<*> -> data.items as List<DefaultTask>
+            is Result.Error -> listOf(ERROR_TASK)
         }
     }
 
@@ -43,17 +42,17 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         return if (result is Result.Success<*>) {
             result.items as List<TaskMinimal>
         } else {
-            listOf(ERROR_TASK.toTaskMinimal())
+            listOf(MIN_ERROR_TASK)
         }
 
     }
 
-    override suspend fun getTodayMinTasks(): List<TaskMinimal> {
-        val result = taskLocalDataSource.getMinTasksByUpdateDate(LocalDate.now())
-        return if (result is Result.Success<*>) {
-            result.items as List<TaskMinimal>
-        } else {
-            listOf(ERROR_TASK.toTaskMinimal())
+    @Suppress("MoveVariableDeclarationIntoWhen")
+    override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> {
+        val result = taskLocalDataSource.getMinTasksByUpdateDate(MyApp.TODAY)
+        return when (result) {
+            is Result.Success<*> -> result.items as LiveData<List<TaskMinimal>>
+            is Result.Error -> MutableLiveData(listOf(MIN_ERROR_TASK))
         }
 
     }
@@ -68,12 +67,10 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     }
 
-    override suspend fun getTaskByID(id: Long): DefaultTask {
-        val result = taskLocalDataSource.getTaskById(id)
-        return if (result is Result.Success<*>) {
-            result.items as DefaultTask
-        } else {
-            (ERROR_TASK)
+    override suspend fun getTaskByID(id: Long): LiveData<DefaultTask> {
+        return when (val result = taskLocalDataSource.getTaskById(id)) {
+            is Result.Success<*> -> result.items as LiveData<DefaultTask>
+            is Result.Error -> MutableLiveData(ERROR_TASK)
         }
     }
 
@@ -82,7 +79,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         return if (data is Result.Success<*>) {
             data.items as LiveData<List<TaskMinimal>>
         } else {
-            MutableLiveData<List<TaskMinimal>>(emptyList())
+            MutableLiveData(listOf(MIN_ERROR_TASK))
         }
     }
 
@@ -98,9 +95,12 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     override suspend fun updateTask(task: DefaultTask) = taskLocalDataSource.updateTask(task)
 
-    override suspend fun updateTasks(tasks: List<DefaultTask>) = taskLocalDataSource.updateTasks(tasks)
+    override suspend fun updateTasks(tasks: List<DefaultTask>) =
+        taskLocalDataSource.updateTasks(tasks)
 
     companion object {
-        val ERROR_TASK = DefaultTask(taskID = -1, name = "ERROR")
+        val ERROR_TASK = DefaultTask(taskID = -1, name = "An error occurred")
+        val MIN_ERROR_TASK = ERROR_TASK.toTaskMinimal()
+
     }
 }

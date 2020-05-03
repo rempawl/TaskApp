@@ -27,8 +27,10 @@ object AlarmCreator {
         val manager = createManager(context)
         val intent = createNotificationReceiverIntent(task.toTaskMinimal(), context)
         val date = if (isToday) TODAY else TOMORROW
-        val pending =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val pending = PendingIntent
+            .getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val time = task.reminder!!.notificationTime.convertToLocalTime()
 
         val notifyTime = LocalDateTime.of(date, time).toInstant(ZONE_OFFSET).toEpochMilli()

@@ -41,8 +41,7 @@ object ModelModule{
     @Reusable
     @Provides
     @JvmStatic
-    fun provideSchedulersProvider() : SchedulerProvider =
-        DefaultSchedulerProvider()
+    fun provideSchedulersProvider() : SchedulerProvider = DefaultSchedulerProvider()
 
     @Provides
     @JvmStatic

@@ -21,7 +21,7 @@ interface TaskDao : BaseDao<DefaultTask> {
 
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
-    fun getTaskById(taskID: Long): DefaultTask
+    fun getTaskById(taskID: Long): LiveData<DefaultTask>
 
     @Query("SELECT taskID, name,description FROM tasks")
     fun getMinimalTasks(): LiveData<List<TaskMinimal>>
@@ -37,11 +37,11 @@ interface TaskDao : BaseDao<DefaultTask> {
 
 
     @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")
-    fun getMinTasksByRealizationDate(date: LocalDate): List<TaskMinimal>
+    fun getMinTasksByRealizationDate(date: LocalDate): LiveData<List<TaskMinimal>>
 
 
     @Query("SELECT * FROM tasks WHERE realizationDate = :date")
-    fun getTasksByRealizationDate(date: LocalDate): List<DefaultTask>
+    fun getTasksByRealizationDate(date: LocalDate): LiveData<List<DefaultTask>>
 
     @Query("SELECT * FROm tasks WHERE realizationDate <= :date")
     fun getTaskWithRealizationDateUntilDate(date: LocalDate): List<DefaultTask>

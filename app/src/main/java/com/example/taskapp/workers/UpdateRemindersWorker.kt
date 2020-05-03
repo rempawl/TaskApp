@@ -1,8 +1,10 @@
 package com.example.taskapp.workers
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.database.entities.DefaultTask
@@ -40,6 +42,7 @@ class UpdateRemindersWorker constructor(
 
 
     override suspend fun doWork(): Result {
+        Log.d(MainActivity.TAG,"doin work")
 
         val allTasks = taskRepo.getTasks()
 
@@ -91,7 +94,6 @@ class UpdateRemindersWorker constructor(
 
 
     companion object {
-
 
         private const val TASK_KEY = "task"
         const val WORK_NAME = "UpdateNotificationDatesWorker"

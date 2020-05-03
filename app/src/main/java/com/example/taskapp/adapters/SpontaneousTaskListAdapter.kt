@@ -28,7 +28,12 @@ class SpontaneousTaskListAdapter @Inject constructor() :
         }
 
         fun bind(task: DefaultTask) {
-            binding.task = task
+            binding.apply{
+                this.task = task
+                executePendingBindings()
+            }
+
+
         }
 
         private fun onAddCheckboxChecked(isChecked: Boolean) {
@@ -54,6 +59,7 @@ class SpontaneousTaskListAdapter @Inject constructor() :
 
     override fun onBindViewHolder(holder: SpontaneousTaskViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 }
 

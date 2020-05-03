@@ -105,7 +105,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun showDeleteDialog() {
-        val title  = getString(R.string.confirm_task_deletion)
+        val title  = getString(R.string.task_delete_title)
         ConfirmDialogFragment(title, getString(R.string.confirm), this)
             .show(childFragmentManager, ConfirmDialogFragment.TAG)
     }

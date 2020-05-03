@@ -2,7 +2,6 @@
 
 
     <!-- REMINDER -->
-
     <string name="add_reminder"> Dodaj przypomnienie</string>
     <string name="next_realization_date">Najbliższy termin wykonania: %1$s</string>
 
@@ -62,7 +61,6 @@
     <string name="delete">Usuń</string>
     <string name="ok">OK</string>
     <string name="edit">Edytuj</string>
-    <string name="confirm_task_deletion">Czy na pewno chcesz usunąć to zadanie?</string>
 
     <!--TASK -->
     <string name="my_tasks">Moje zadania</string>

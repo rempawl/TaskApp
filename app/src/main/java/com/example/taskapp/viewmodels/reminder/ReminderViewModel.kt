@@ -67,24 +67,25 @@ abstract class ReminderViewModel(
 
     suspend fun saveTask(setReminder: Boolean = true) {
 
-            val reminder = if (setReminder) createReminder() else null
-            val task = createTask(reminder)
-            val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
+        val reminder = if (setReminder) createReminder() else null
+        val task = createTask(reminder)
+        val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
 
-            compositeDisposable.add(
-                addTask(task)
-                    .subscribeOn(schedulerProvider.getIoScheduler())
-                    .observeOn(schedulerProvider.getUiScheduler())
-                    .subscribe({ taskID ->// saveStreak(taskID)
-                    },
-                        { e -> e.printStackTrace() }
-                    )
-            )
-            if (isRealizationToday && reminder != null
-                && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
-            ) {
-                _addedTask.value = task
-            }
+
+        compositeDisposable.add(
+            addTask(task)
+                .subscribeOn(schedulerProvider.getIoScheduler())
+                .observeOn(schedulerProvider.getUiScheduler())
+                .subscribe({ taskID ->// saveStreak(taskID)
+                },
+                    { e -> e.printStackTrace() }
+                )
+        )
+        if (isRealizationToday && reminder != null
+            && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
+        ) {
+            _addedTask.value = task
+        }
 
     }
 

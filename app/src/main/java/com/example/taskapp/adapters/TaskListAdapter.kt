@@ -35,20 +35,27 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val parentFr
             binding.apply {
                 this.task = task
                 taskCard.setOnClickListener { navigateToTaskDetails(it,task) }
+                executePendingBindings()
             }
         }
 
         private fun navigateToTaskDetails(view: View, task: TaskMinimal) {
             when (parentFragment) {
-                is ParentFragmentType.MyTasksFragment -> {
-                    Navigation.createNavigateOnClickListener(
-                        MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
-                    )
-                }
-                is ParentFragmentType.TodayFragment -> Navigation.createNavigateOnClickListener(
-                    TodayFragmentDirections.navigationTodayToNavigationTaskDetails(task.taskID)
-                )
+                is ParentFragmentType.MyTasksFragment -> createNavigateFromMyTasksListener(task)
+                is ParentFragmentType.TodayFragment -> createNavigateFromTodayTasksListener(task)
             }.apply { onClick(view) }
+        }
+
+        private fun createNavigateFromTodayTasksListener(task: TaskMinimal): View.OnClickListener {
+            return Navigation.createNavigateOnClickListener(
+                TodayFragmentDirections.navigationTodayToNavigationTaskDetails(task.taskID)
+            )
+        }
+
+        private fun createNavigateFromMyTasksListener(task: TaskMinimal): View.OnClickListener {
+            return Navigation.createNavigateOnClickListener(
+                MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
+            )
         }
     }
 
