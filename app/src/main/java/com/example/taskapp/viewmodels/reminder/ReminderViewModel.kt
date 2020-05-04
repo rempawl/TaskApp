@@ -1,7 +1,5 @@
 package com.example.taskapp.viewmodels.reminder
 
-import android.view.View
-import android.widget.EditText
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -54,13 +52,7 @@ abstract class ReminderViewModel(
         durationModel.isBegDateError.addOnPropertyChangedCallback(errorCallback)
     }
 
-    val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
-        val text = (view as EditText).text.toString()
 
-        if (!focused && text.isNotEmpty()) {
-            taskDetailsModel.isTaskNameValid(true)
-        }
-    }
 
 
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>

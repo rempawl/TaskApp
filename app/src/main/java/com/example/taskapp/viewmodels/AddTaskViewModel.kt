@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels
 
+import android.view.View
+import android.widget.EditText
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.scheduler.SchedulerProvider
@@ -13,7 +15,7 @@ import javax.inject.Inject
 
 
 class AddTaskViewModel @Inject constructor(
-    taskDetailsModel: TaskDetailsModel,    
+    taskDetailsModel: TaskDetailsModel,
     private val taskRepository: TaskRepositoryInterface,
     durationModel: DurationModel,
     notificationModel: NotificationModel,
@@ -27,7 +29,13 @@ class AddTaskViewModel @Inject constructor(
     frequencyModel = frequencyModel,
     schedulerProvider = schedulerProvider
 ) {
+    val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
+        val text = (view as EditText).text.toString()
 
+        if (!focused && text.isNotEmpty()) {
+            taskDetailsModel.isTaskNameValid(true)
+        }
+    }
 
 
     override suspend fun addTask(task: DefaultTask): Single<Long> {

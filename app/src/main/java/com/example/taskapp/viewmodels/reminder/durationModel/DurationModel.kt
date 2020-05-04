@@ -66,15 +66,7 @@ abstract class DurationModel : BaseObservable() {
     private fun isEndDateValid(date: LocalDate = currentEndDate) =
         !date.isBefore(beginningDate) && !date.isBefore(TODAY)
 
-    private fun isBeginningDateValid(date: LocalDate= beginningDate): Boolean {
-        val isNotBeforeToday = !date.isBefore(TODAY)
-
-        return if (durationState is ReminderDurationState.EndDate) {
-            isNotBeforeToday && date.isBefore(currentEndDate)
-        } else {
-            isNotBeforeToday
-        }
-    }
+    protected abstract fun isBeginningDateValid(date: LocalDate= beginningDate): Boolean
 
 
     abstract fun setNoEndDateDurationState()

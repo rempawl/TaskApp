@@ -1,6 +1,7 @@
 package com.example.taskapp.viewmodels.reminder.durationModel
 
 import androidx.databinding.library.baseAdapters.BR
+import com.example.taskapp.MyApp
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -30,5 +31,14 @@ class AddTaskDurationModel @Inject constructor() : DurationModel() {
         currentEndDate = endDate
     }
 
+    override fun isBeginningDateValid(date: LocalDate): Boolean {
+        val isNotBeforeToday = !date.isBefore(MyApp.TODAY)
+
+        return if (durationState is ReminderDurationState.EndDate) {
+            isNotBeforeToday && date.isBefore(currentEndDate)
+        } else {
+            isNotBeforeToday
+        }
+    }
 
 }

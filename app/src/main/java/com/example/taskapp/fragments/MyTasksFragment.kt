@@ -11,10 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskapp.MainActivity
-import com.example.taskapp.adapters.ParentFragmentType
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
+import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.MyTasksViewModel
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class MyTasksFragment : Fragment() {
 
     companion object {
-        fun newInstance() =            MyTasksFragment()
+        fun newInstance() = MyTasksFragment()
 
 
     }
@@ -37,13 +37,12 @@ class MyTasksFragment : Fragment() {
     @Inject
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
-    private  var binding: MyTasksFragmentBinding? = null
+    private var binding: MyTasksFragmentBinding? = null
 
     private val taskListAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create { task -> findNavController().navigate(
-            MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
-        )}
+        taskListAdapterFactory.create { task -> navigateToTaskDetails(task) }
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -106,6 +105,12 @@ class MyTasksFragment : Fragment() {
         viewModel.tasks.observe(viewLifecycleOwner, Observer { tasks ->
             taskListAdapter.submitList(tasks)
         })
+    }
+
+    private fun navigateToTaskDetails(task: TaskMinimal) {
+        findNavController().navigate(
+            MyTasksFragmentDirections.navigationMyTasksToNavigationTaskDetails(task.taskID)
+        )
     }
 
 

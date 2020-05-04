@@ -8,7 +8,7 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
-class EditTaskDurationModel @AssistedInject constructor(
+class  EditTaskDurationModel @AssistedInject constructor(
     @Assisted duration: Duration?,
     @Assisted begDate: LocalDate
 ) :
@@ -62,6 +62,15 @@ class EditTaskDurationModel @AssistedInject constructor(
     override fun setEndDateDurationState(endDate: LocalDate) {
         durationState = ReminderDurationState.EndDate(endDate)
         currentEndDate = endDate
+    }
+
+    override fun isBeginningDateValid(date: LocalDate): Boolean {
+
+        return if (durationState is ReminderDurationState.EndDate) {
+             date.isBefore(currentEndDate)
+        } else {
+            true
+        }
     }
 
 
