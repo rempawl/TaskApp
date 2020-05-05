@@ -4,11 +4,9 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.DefaultTask
 import javax.inject.Inject
 
 class DefaultTaskDetailsModel @Inject constructor() : TaskDetailsModel() {
-
 
     override val taskNameError: ObservableField<Int> = ObservableField()
 
@@ -26,9 +24,6 @@ class DefaultTaskDetailsModel @Inject constructor() : TaskDetailsModel() {
         }
 
 
-    override fun createTask(): DefaultTask {
-        return DefaultTask(name = taskName, description = taskDescription)
-    }
 
     override fun isTaskNameValid(setMessage: Boolean): Boolean {
         return if (taskName.isNotBlank() && taskName.length >= MIN_LENGTH) {

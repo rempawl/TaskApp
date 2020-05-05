@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.DATE_FORMATTER
 import com.example.taskapp.R
+import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.NotificationTime
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
@@ -63,7 +64,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
 
     private fun setUpObservers() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { task ->
+        viewModel.task.observe(viewLifecycleOwner, Observer { task : DefaultTask->
             if (task.reminder != null) {
                 setupReminderLayout(task.reminder)
             }
@@ -89,7 +90,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun navigateToEditTask() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { task ->
+        viewModel.task.observe(viewLifecycleOwner, Observer { task  : DefaultTask->
             findNavController().navigate(
                 TaskDetailsFragmentDirections
                     .navigationTaskDetailsToNavigationEditTask(task)

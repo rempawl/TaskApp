@@ -3,9 +3,9 @@ package com.example.taskapp.utils.bindingArranger
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
-import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer
 import com.example.taskapp.utils.VisibilityChanger
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
+import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer as DialogDisplayer
 
 abstract class AddEditTaskBindingArranger constructor(
     protected val binding: AddEditTaskFragmentBinding,
@@ -25,7 +25,7 @@ abstract class AddEditTaskBindingArranger constructor(
             confirmButton.setOnClickListener(confirmButtonListener)
 
             setTimeOfNotification.setOnClickListener {
-                ReminderDialogFragmentsDisplayer.showNotificationPickerDialog(
+                DialogDisplayer.showNotificationPickerDialog(
                     this@AddEditTaskBindingArranger.viewModel.notificationModel,
                     fragment.childFragmentManager
                 )
@@ -60,19 +60,19 @@ abstract class AddEditTaskBindingArranger constructor(
     private fun setUpDurationLayout() {
         binding.apply {
             beginningDateBtn.setOnClickListener {
-                ReminderDialogFragmentsDisplayer.showBegDatePickerDialog(
+                DialogDisplayer.showBegDatePickerDialog(
                     this@AddEditTaskBindingArranger.viewModel.durationModel,
                     fragment.childFragmentManager
                 )
             }
             setDurationDaysBtn.setOnClickListener {
-                ReminderDialogFragmentsDisplayer.showDurationDaysPickerDialog(
+                DialogDisplayer.showDurationDaysPickerDialog(
                     this@AddEditTaskBindingArranger.viewModel.durationModel,
                     fragment.childFragmentManager
                 )
             }
             setEndDateBtn.setOnClickListener {
-                ReminderDialogFragmentsDisplayer.showEndDatePickerDialog(
+                DialogDisplayer.showEndDatePickerDialog(
                     this@AddEditTaskBindingArranger.viewModel.durationModel,
                     fragment.childFragmentManager
                 )
@@ -139,13 +139,13 @@ abstract class AddEditTaskBindingArranger constructor(
                 }
             }
             setDailyFrequencyBtn.setOnClickListener {
-                ReminderDialogFragmentsDisplayer.showFrequencyPickerDialog(
+                DialogDisplayer.showFrequencyPickerDialog(
                     this@AddEditTaskBindingArranger.viewModel.frequencyModel,
                     fragment.childFragmentManager
                 )
             }
             setDaysOfWeekBtn.setOnClickListener {
-                ReminderDialogFragmentsDisplayer.showDaysOfWeekPickerDialog(
+                DialogDisplayer.showDaysOfWeekPickerDialog(
                     childFragmentManager = fragment.childFragmentManager,
                     frequencyModel = this@AddEditTaskBindingArranger.viewModel.frequencyModel
                 )

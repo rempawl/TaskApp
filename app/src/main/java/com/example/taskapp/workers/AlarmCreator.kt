@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.SystemClock
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.MyApp.Companion.TOMORROW
@@ -35,7 +36,9 @@ object AlarmCreator {
 
         val notifyTime = LocalDateTime.of(date, time).toInstant(ZONE_OFFSET).toEpochMilli()
 
-        manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notifyTime, pending)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notifyTime, pending)
+        }
     }
 
     fun setUpdateTaskListAlarm(context: Context) {
@@ -60,7 +63,10 @@ object AlarmCreator {
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val triggerTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(interval)
 
-        manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pending)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pending)
+            //todo
+        }
     }
 
     const val DATE_KEY = "date"

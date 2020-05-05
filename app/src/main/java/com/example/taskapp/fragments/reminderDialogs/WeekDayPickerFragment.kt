@@ -41,9 +41,9 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
         val days = DayOfWeek.values()
 
         //iterating over names of days, setting id to matching [DayOfWeek] hashcode
-        resources.getStringArray(R.array.week_days_list).forEach { day ->
+        resources.getStringArray(R.array.week_days_list).forEach { dayText ->
             val box = MaterialCheckBox(requireContext()).apply {
-                setUpCheckBox(day, days, i)
+                setUpCheckBox(dayText = dayText, dayValue = days[i].value, i = i)
             }
             layout.addView(box)
             i++
@@ -51,11 +51,10 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
         return layout
     }
 
-    private fun MaterialCheckBox.setUpCheckBox(day: String?, days: Array<DayOfWeek>, i: Int) {
+    private fun MaterialCheckBox.setUpCheckBox(dayText: String?, dayValue: Int, i: Int) {
 
         gravity = Gravity.CENTER_HORIZONTAL
-        text = day
-        val dayValue = days[i].value
+        text = dayText
         id = dayValue
         isChecked = if (checkedDays.isEmpty() && i == 1) {
             true
@@ -71,7 +70,7 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
         } else {
             if (checkedDays.size == 1) {
                 Toast.makeText(context,
-                    "You have to pick at least one day of week",
+                    getString(R.string.days_of_week_error),
                     Toast.LENGTH_SHORT
                 ).show()
                 box.isChecked = true

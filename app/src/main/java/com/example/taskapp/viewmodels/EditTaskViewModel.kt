@@ -1,7 +1,5 @@
 package com.example.taskapp.viewmodels
 
-import android.util.Log
-import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -16,7 +14,7 @@ import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.Single
 
 class EditTaskViewModel @AssistedInject constructor(
-     taskDetailsModel: TaskDetailsModel,
+    taskDetailsModel: TaskDetailsModel,
     @Assisted task: DefaultTask,
     private val taskRepository: TaskRepositoryInterface,
     durationModelFactory: EditTaskDurationModel.Factory,
@@ -51,8 +49,6 @@ class EditTaskViewModel @AssistedInject constructor(
 
 
     override suspend fun addTask(task: DefaultTask): Single<Long> {
-        Log.d(MainActivity.TAG,"addin task $task")
-
         taskRepository.updateTask(task)
 
         return Single.just(1)

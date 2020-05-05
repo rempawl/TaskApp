@@ -18,6 +18,7 @@
         <item>Sobota</item>
         <item>Niedziela</item>
     </string-array>
+    <string name="days_of_week_error">Musisz wybrać przynajmniej jeden dzień tygodnia</string>
 
     <string name="x_days_frequency">Co X dni</string>
     <plurals name="daily_frequency">

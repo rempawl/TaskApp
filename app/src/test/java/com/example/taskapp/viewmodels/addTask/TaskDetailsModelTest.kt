@@ -28,18 +28,6 @@ internal class TaskDetailsModelTest {
     inner class TaskNameValidNameTaskDescDefault {
 
 
-        @Test
-        fun `createTask returns Task(name=TEST_NAME,desc=TEST_DESC) `() {
-            val expectedName = TEST_NAME
-            val expectedDesc = TEST_DESC
-            val expectedValue = DefaultTask(name = expectedName, description = expectedDesc)
-
-            taskDetailsModel.taskName = TEST_NAME
-            taskDetailsModel.taskDescription = TEST_DESC
-
-            val actualValue = taskDetailsModel.createTask()
-            assertThat(actualValue, `is`(expectedValue))
-        }
 
 
         @Test

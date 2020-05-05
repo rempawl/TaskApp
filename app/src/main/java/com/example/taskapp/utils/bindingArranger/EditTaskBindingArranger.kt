@@ -19,7 +19,10 @@ class EditTaskBindingArranger(
         setUpBinding()
         binding.apply {
             taskName.isEnabled = false
+            beginningDateBtn.isEnabled = false
 
+            //todo isNotification Enabled
+            //todo radioButton check on init
         }
 
     }

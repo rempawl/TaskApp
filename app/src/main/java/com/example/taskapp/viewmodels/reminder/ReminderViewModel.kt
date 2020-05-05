@@ -1,16 +1,16 @@
 package com.example.taskapp.viewmodels.reminder
 
 import android.util.Log
-import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
-import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.utils.errorCallback.DurationErrorCallback
+import com.example.taskapp.utils.errorCallback.ErrorCallback
 import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
@@ -57,8 +57,6 @@ abstract class ReminderViewModel(
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
 
     private fun createReminder(): Reminder {
-        Log.d(MainActivity.TAG,"creatin reminder")
-
         return Reminder(
             begDate = durationModel.beginningDate,
             duration = durationModel.getDuration(),
@@ -71,7 +69,6 @@ abstract class ReminderViewModel(
     }
 
     private fun createTask(reminder: Reminder?): DefaultTask {
-        Log.d(MainActivity.TAG,"creatin task")
 
         return task.copy(
             name = taskDetailsModel.taskName,
@@ -82,7 +79,6 @@ abstract class ReminderViewModel(
 
 
     suspend fun saveTask() {
-        Log.d(MainActivity.TAG,"savin")
         val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
         val task = createTask(reminder)
         val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
@@ -125,46 +121,5 @@ abstract class ReminderViewModel(
 
 }
 
-private abstract class ErrorCallback(
-    protected val toastText: MutableLiveData<Int>
-) :    Observable.OnPropertyChangedCallback()
 
-private class DurationErrorCallback(private val durationModel: DurationModel,toastText: MutableLiveData<Int>)
-    :ErrorCallback(toastText){
-    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-        if (sender != null) {
-            @Suppress("UNCHECKED_CAST") val value = (sender as ObservableField<Boolean>).get()
 
-            if (value == true) {
-                sender.set(false)
-                when (sender) {
-                    durationModel.isBegDateError -> {
-                        toastText.value = R.string.beginning_date_error
-                    }
-                    durationModel.isEndDateError -> {
-                        toastText.value = R.string.end_date_error
-                    }
-                }
-            } else {
-                toastText.value = null
-            }
-        }
-    }
-}
-
-private class  FrequencyErrorCallback (private val frequencyModel: FrequencyModel,toastText: MutableLiveData<Int>)
-    :ErrorCallback(toastText) {
-    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-        if(sender != null){
-            @Suppress("UNCHECKED_CAST") val value = (sender as ObservableField<Boolean>).get()
-            if(value == true){
-                sender.set(false)
-                when(sender){
-                     frequencyModel.isDaysOfWeekError -> { toastText.value = 1}
-                }
-            }
-
-        }
-
-    }
-}

@@ -1,17 +1,12 @@
 package com.example.taskapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
-import com.example.taskapp.fragments.MyTasksFragmentDirections
-import com.example.taskapp.fragments.today.TodayFragmentDirections
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 

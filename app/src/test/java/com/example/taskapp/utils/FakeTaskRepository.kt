@@ -15,7 +15,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
     override suspend fun getTasks(): List<DefaultTask> = tasks.toList()
 
     override suspend fun deleteByID(id: Long): Int {
-        val wasDeleted = tasks.removeIf { task -> task.taskID == id }
+        val wasDeleted = tasks.removeIf { task : DefaultTask -> task.taskID == id }
         return if (wasDeleted) {
             1
         } else {
@@ -70,7 +70,7 @@ class FakeTaskRepository : TaskRepositoryInterface {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTodayMinTasks(): List<TaskMinimal> {
+    override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> {
         TODO("Not yet implemented")
     }
 

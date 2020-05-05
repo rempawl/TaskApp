@@ -16,14 +16,16 @@ fun DefaultTask.toTaskMinimal(): TaskMinimal {
 
 @Entity(tableName = "spontaneous tasks")
 data class SpontaneousTask(
-    @PrimaryKey(autoGenerate = true) val id : Long = 0,
-    val date : LocalDate = LocalDate.now(),
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val date: LocalDate = LocalDate.now(),
     @ForeignKey(
         parentColumns = ["taskID"], childColumns = ["parentTaskID"], entity = DefaultTask::class,
         onDelete = CASCADE
     ) val parentTaskID: Long
 )
 
+@Parcelize
+data class TaskMinimal(val taskID: Long, val name: String, val description: String) : Parcelable
 
 @Parcelize
 @Entity(
@@ -52,8 +54,3 @@ data class DefaultTask constructor(
     }
 
 }
-
-
-@Parcelize
-data class TaskMinimal(val taskID: Long, val name: String, val description: String) : Parcelable
-
