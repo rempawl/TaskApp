@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels
 
+import android.util.Log
+import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -41,12 +43,19 @@ class EditTaskViewModel @AssistedInject constructor(
 
 
     init {
-        taskDetailsModel.taskDescription = task.description
+        taskDetailsModel.apply{
+            taskDescription = task.description
+            taskName = task.name
+        }
     }
 
 
     override suspend fun addTask(task: DefaultTask): Single<Long> {
-         return Single.just(taskRepository.updateTask(task).toLong())
+        Log.d(MainActivity.TAG,"addin task $task")
+
+        taskRepository.updateTask(task)
+
+        return Single.just(1)
     }
 
 

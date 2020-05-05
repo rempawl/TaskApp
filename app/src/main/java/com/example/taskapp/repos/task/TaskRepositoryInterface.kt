@@ -17,7 +17,7 @@ interface TaskRepositoryInterface {
 
     suspend fun getTasksByUpdateDate(date: LocalDate = LocalDate.now()): List<DefaultTask>
 
-    suspend fun getTaskByID(id: Long): LiveData<DefaultTask>
+    suspend fun getTaskByID(id: Long): DefaultTask
 
     suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>>
 

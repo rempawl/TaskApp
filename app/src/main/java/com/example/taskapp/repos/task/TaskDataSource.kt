@@ -23,7 +23,7 @@ interface TaskDataSource {
 
     suspend fun getMinimalTasks(): Result<LiveData<List<TaskMinimal>>>
 
-    suspend fun getTaskById(id: Long): Result<LiveData<DefaultTask>>
+    suspend fun getTaskById(id: Long): Result<DefaultTask>
 
     suspend fun updateTask(task: DefaultTask): Int
     suspend fun updateTasks(tasks: List<DefaultTask>): Int

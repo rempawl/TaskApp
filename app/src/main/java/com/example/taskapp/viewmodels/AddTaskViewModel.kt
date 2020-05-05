@@ -35,7 +35,9 @@ class AddTaskViewModel @Inject constructor(
         if (!focused && text.isNotEmpty()) {
             taskDetailsModel.isTaskNameValid(true)
         }
+        //todo runtime
     }
+
 
 
     override suspend fun addTask(task: DefaultTask): Single<Long> {

@@ -5,18 +5,16 @@
 
     <data>
 
-
         <variable
             name="viewModel"
-            type="com.example.taskapp.viewmodels.EditTaskViewModel" />
-
-
+            type="com.example.taskapp.viewmodels.reminder.ReminderViewModel" />
     </data>
 
     <FrameLayout
+        android:id="@+id/reminder_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.EditTaskFragment">
+        tools:context=".fragments.AddTaskFragment">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -31,7 +29,6 @@
 
 
                 <!-- DETAILS LAYOUT -->
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/details"
                     android:layout_width="match_parent"
@@ -48,16 +45,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <EditText
                         android:id="@+id/task_name"
-                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="@{@string/task_name(viewModel.task.name)}"
+                        android:hint="@string/task_name_hint"
+                        android:importantForAutofill="no"
+                        android:inputType="textShortMessage"
+                        android:text="@={viewModel.taskDetailsModel.taskName}"
                         android:textAlignment="center"
                         android:textColor="@color/design_default_color_background"
-                        android:textSize="20sp" />
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:setError="@{viewModel.taskDetailsModel.taskNameError}" />
 
                     <EditText
                         android:id="@+id/task_description"
@@ -66,43 +67,40 @@
                         android:gravity="center_horizontal"
                         android:hint="@string/task_description_hint"
                         android:importantForAutofill="no"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:text="@={viewModel.taskDetailsModel.taskDescription}"
                         android:textAlignment="center"
                         android:textColor="@color/design_default_color_background"
-                        android:textSize="20sp" />
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/task_name" />
+
                 </LinearLayout>
 
 
                 <!--REMINDER LAYOUT -->
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="@={viewModel.isReminderSwitchChecked}"
+                    android:checked="@={viewModel.isReminderSwitchChecked()}"
                     android:text="@string/add_reminder"
-                    android:textColor="@color/design_default_color_background" />
-
-
+                    android:textAlignment="center" />
 
                 <LinearLayout
                     android:id="@+id/reminder_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:showWhen="@{viewModel.isReminderSwitchChecked()}"
-                    tools:showIn="@layout/edit_task_fragment">
-
+                    app:showWhen="@{viewModel.isReminderSwitchChecked()}">
 
                     <!--                    NOTIFICATION LAYOUT -->
-                    <com.google.android.material.button.MaterialButton
 
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/set_time_of_notification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:padding="10dp"
                         android:text="@string/set_notification_time"
-                        android:textColor="@color/design_default_color_background"
                         app:backgroundTint="@color/colorPrimaryDark" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -113,6 +111,7 @@
                         android:checked="@={viewModel.notificationModel.isNotificationTimeSet}"
                         android:text="@string/enable_notification"
                         android:theme="@style/SwitchTheme" />
+
 
                     <!-- FREQUENCY LAYOUT -->
                     <LinearLayout
@@ -129,6 +128,7 @@
                             android:textAlignment="center"
                             android:textColor="@color/design_default_color_background"
                             android:textSize="30sp" />
+
 
                         <RadioGroup
                             android:id="@+id/frequency_radioGroup"
@@ -159,19 +159,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
+                            android:backgroundTint="@color/colorPrimaryDark"
                             android:text="@{@plurals/daily_frequency(viewModel.frequencyModel.currentDailyFrequency,viewModel.frequencyModel.currentDailyFrequency)}"
-                            android:textColor="@color/design_default_color_background"
-                            android:visibility="visible"
-                            app:backgroundTint="@color/colorPrimaryDark" />
+                            android:visibility="visible" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/set_days_of_week_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:backgroundTint="@color/colorPrimaryDark"
+
                             android:text="@string/set_days_of_week"
-                            android:textColor="@color/design_default_color_background"
-                            android:visibility="gone"
-                            app:backgroundTint="@color/colorPrimaryDark" />
+                            android:visibility="gone" />
 
 
                     </LinearLayout>
@@ -188,7 +188,6 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:gravity="center_horizontal"
                             android:text="@string/duration"
                             android:textAlignment="center"
@@ -201,12 +200,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:enabled="false"
+                            android:backgroundTint="@color/colorPrimaryDark"
                             android:padding="10dp"
-                            android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}"
-
-                            android:textColor="@color/design_default_color_background"
-                            app:backgroundTint="@color/colorPrimaryDark" />
+                            android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}" />
 
                         <RadioGroup
                             android:id="@+id/duration_radioGroup"
@@ -247,21 +243,20 @@
                             android:id="@+id/set_end_date_btn"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:backgroundTint="@color/colorPrimaryDark"
                             android:text="@{@string/end_date_format(viewModel.durationModel.currentEndDate)}"
-                            android:visibility="gone"
-                            app:backgroundTint="@color/colorPrimaryDark" />
+                            android:visibility="gone" />
 
                     </LinearLayout>
                 </LinearLayout>
 
 
-                <!--                    -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirm_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:enabled="@{viewModel.durationModel.datesValid}"
+                    android:enabled="@{viewModel.durationModel.datesValid &amp;&amp; viewModel.taskDetailsModel.valid}"
                     android:padding="10dp"
                     android:text="@string/confirm"
                     app:backgroundTint="#0B530E" />
@@ -269,6 +264,5 @@
 
             </LinearLayout>
         </ScrollView>
-
     </FrameLayout>
 </layout>

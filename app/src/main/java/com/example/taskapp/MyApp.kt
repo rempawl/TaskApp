@@ -15,11 +15,10 @@ import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
 
-//todo replace addTaskFragment with addReminder with switch
 //todo editTask init reminder state radio check
+//todo empty days of week frequency
 //todo settings menu
 //todo tests
-//todo myTasks switchMap
 //todo Realization Entity
 
 open class MyApp : Application() {

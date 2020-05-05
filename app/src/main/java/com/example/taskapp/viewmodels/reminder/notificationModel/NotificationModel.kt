@@ -11,7 +11,6 @@ abstract class NotificationModel :BaseObservable() {
 
     abstract val isNotificationTimeSet : ObservableField<Boolean>
 
-
     abstract fun getNotificationTime(): NotificationTime
 
     companion object {

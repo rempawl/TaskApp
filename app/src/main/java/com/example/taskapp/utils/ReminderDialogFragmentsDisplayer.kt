@@ -2,7 +2,7 @@ package com.example.taskapp.utils
 
 import androidx.fragment.app.FragmentManager
 import com.example.taskapp.fragments.AddTaskFragment
-import com.example.taskapp.fragments.reminder.*
+import com.example.taskapp.fragments.reminderDialogs.*
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel

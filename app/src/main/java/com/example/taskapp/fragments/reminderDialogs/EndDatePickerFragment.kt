@@ -1,4 +1,4 @@
-package com.example.taskapp.fragments.reminder
+package com.example.taskapp.fragments.reminderDialogs
 
 import android.app.DatePickerDialog
 import android.app.Dialog

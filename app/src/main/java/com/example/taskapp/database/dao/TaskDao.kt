@@ -21,7 +21,7 @@ interface TaskDao : BaseDao<DefaultTask> {
 
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
-    fun getTaskById(taskID: Long): LiveData<DefaultTask>
+    fun getTaskById(taskID: Long): DefaultTask
 
     @Query("SELECT taskID, name,description FROM tasks")
     fun getMinimalTasks(): LiveData<List<TaskMinimal>>

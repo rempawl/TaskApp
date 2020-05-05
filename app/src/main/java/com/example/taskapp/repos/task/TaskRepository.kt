@@ -67,10 +67,10 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     }
 
-    override suspend fun getTaskByID(id: Long): LiveData<DefaultTask> {
+    override suspend fun getTaskByID(id: Long): DefaultTask {
         return when (val result = taskLocalDataSource.getTaskById(id)) {
-            is Result.Success<*> -> result.items as LiveData<DefaultTask>
-            is Result.Error -> MutableLiveData(ERROR_TASK)
+            is Result.Success<*> -> result.items as DefaultTask
+            is Result.Error -> (ERROR_TASK)
         }
     }
 

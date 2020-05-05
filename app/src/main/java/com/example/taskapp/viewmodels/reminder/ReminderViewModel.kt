@@ -1,10 +1,12 @@
 package com.example.taskapp.viewmodels.reminder
 
+import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.DefaultTask
@@ -27,10 +29,10 @@ abstract class ReminderViewModel(
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
 ) : ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
 
-    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
+    private val disposables = CompositeDisposable()
 
+    val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
     /**
      * when _addedTask is not null then  notification alarm should be set
@@ -53,12 +55,12 @@ abstract class ReminderViewModel(
     }
 
 
-
-
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
 
 
     private fun createReminder(): Reminder {
+        Log.d(MainActivity.TAG,"creatin reminder")
+
         return Reminder(
             begDate = durationModel.beginningDate,
             duration = durationModel.getDuration(),
@@ -71,7 +73,9 @@ abstract class ReminderViewModel(
     }
 
     private fun createTask(reminder: Reminder?): DefaultTask {
-        return DefaultTask(
+        Log.d(MainActivity.TAG,"creatin task")
+
+        return task.copy(
             name = taskDetailsModel.taskName,
             description = taskDetailsModel.taskDescription,
             reminder = reminder
@@ -80,17 +84,17 @@ abstract class ReminderViewModel(
 
 
     suspend fun saveTask() {
-
+        Log.d(MainActivity.TAG,"savin")
         val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
         val task = createTask(reminder)
         val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
 
 
-        compositeDisposable.add(
+        disposables.add(
             addTask(task)
                 .subscribeOn(schedulerProvider.getIoScheduler())
-                .observeOn(schedulerProvider.getUiScheduler())
-                .subscribe({ // saveStreak(taskID)
+                .subscribe({         Log.d(MainActivity.TAG,"$task")
+
                 }, { e -> e.printStackTrace() }
                 )
         )
@@ -114,6 +118,7 @@ abstract class ReminderViewModel(
 
     override fun onCleared() {
         super.onCleared()
+        disposables.clear()
         durationModel.isBegDateError.removeOnPropertyChangedCallback(errorCallback)
         durationModel.isEndDateError.removeOnPropertyChangedCallback(errorCallback)
     }
