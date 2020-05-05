@@ -4,7 +4,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
+import android.widget.CompoundButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.taskapp.R
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
@@ -21,6 +23,7 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
         val layout = setupLayout()
+
         return AlertDialog.Builder(requireContext())
             .setView(layout)
             .setNegativeButton(R.string.cancel) { _, _ -> }
@@ -28,7 +31,8 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
             .setTitle(R.string.frequency)
             .create()
     }
-//todo refactor
+
+
     private fun setupLayout(): LinearLayout {
         val layout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
@@ -36,28 +40,45 @@ class WeekDayPickerFragment(private val model: FrequencyModel) : DialogFragment(
         var i = 0
         val days = DayOfWeek.values()
 
-        /**
-         *iterating over names of days, setting id to matching [DayOfWeek] hashcode,
-         */
+        //iterating over names of days, setting id to matching [DayOfWeek] hashcode
         resources.getStringArray(R.array.week_days_list).forEach { day ->
             val box = MaterialCheckBox(requireContext()).apply {
-                gravity = Gravity.CENTER_HORIZONTAL
-                text = day
-                val dayValue = days[i].value
-                id = dayValue
-                isChecked = checkedDays.contains(dayValue)
-                setOnCheckedChangeListener { box, isChecked ->
-                    if (isChecked) {
-                        checkedDays.add(box.id)
-                    } else {
-                        checkedDays.remove(box.id)
-                    }
-                }
+                setUpCheckBox(day, days, i)
             }
             layout.addView(box)
             i++
         }
         return layout
+    }
+
+    private fun MaterialCheckBox.setUpCheckBox(day: String?, days: Array<DayOfWeek>, i: Int) {
+
+        gravity = Gravity.CENTER_HORIZONTAL
+        text = day
+        val dayValue = days[i].value
+        id = dayValue
+        isChecked = if (checkedDays.isEmpty() && i == 1) {
+            true
+        } else {
+            checkedDays.contains(dayValue)
+        }
+        setOnCheckedChangeListener { box, isChecked -> onCheckedChange(isChecked, box) }
+    }
+
+    private fun onCheckedChange(isChecked: Boolean, box: CompoundButton) {
+        if (isChecked) {
+            checkedDays.add(box.id)
+        } else {
+            if (checkedDays.size == 1) {
+                Toast.makeText(context,
+                    "You have to pick at least one day of week",
+                    Toast.LENGTH_SHORT
+                ).show()
+                box.isChecked = true
+            } else {
+                checkedDays.remove(box.id)
+            }
+        }
     }
 
     private fun setWeekDaysFrequency() {

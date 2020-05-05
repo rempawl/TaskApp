@@ -49,14 +49,12 @@ abstract class ReminderViewModel(
     private val errorCallback: ErrorCallback
 
     init {
-        errorCallback = ErrorCallback(durationModel, _toastText)
+        errorCallback = DurationErrorCallback(durationModel, _toastText)
         durationModel.isEndDateError.addOnPropertyChangedCallback(errorCallback)
         durationModel.isBegDateError.addOnPropertyChangedCallback(errorCallback)
     }
 
-
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
-
 
     private fun createReminder(): Reminder {
         Log.d(MainActivity.TAG,"creatin reminder")
@@ -119,20 +117,24 @@ abstract class ReminderViewModel(
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
-        durationModel.isBegDateError.removeOnPropertyChangedCallback(errorCallback)
-        durationModel.isEndDateError.removeOnPropertyChangedCallback(errorCallback)
+        durationModel.apply {
+            isBegDateError.removeOnPropertyChangedCallback(errorCallback)
+            isEndDateError.removeOnPropertyChangedCallback(errorCallback)
+        }
     }
 
 }
 
-private class ErrorCallback(
-    private val durationModel: DurationModel,
-    private val toastText: MutableLiveData<Int>
-) :
-    Observable.OnPropertyChangedCallback() {
+private abstract class ErrorCallback(
+    protected val toastText: MutableLiveData<Int>
+) :    Observable.OnPropertyChangedCallback()
+
+private class DurationErrorCallback(private val durationModel: DurationModel,toastText: MutableLiveData<Int>)
+    :ErrorCallback(toastText){
     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
         if (sender != null) {
-            val value = (sender as ObservableField<Boolean>).get()
+            @Suppress("UNCHECKED_CAST") val value = (sender as ObservableField<Boolean>).get()
+
             if (value == true) {
                 sender.set(false)
                 when (sender) {
@@ -147,5 +149,22 @@ private class ErrorCallback(
                 toastText.value = null
             }
         }
+    }
+}
+
+private class  FrequencyErrorCallback (private val frequencyModel: FrequencyModel,toastText: MutableLiveData<Int>)
+    :ErrorCallback(toastText) {
+    override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+        if(sender != null){
+            @Suppress("UNCHECKED_CAST") val value = (sender as ObservableField<Boolean>).get()
+            if(value == true){
+                sender.set(false)
+                when(sender){
+                     frequencyModel.isDaysOfWeekError -> { toastText.value = 1}
+                }
+            }
+
+        }
+
     }
 }
