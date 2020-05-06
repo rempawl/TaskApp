@@ -3,6 +3,8 @@ package com.example.taskapp.utils.bindingArranger
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
+import com.example.taskapp.viewmodels.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 
 class EditTaskBindingArranger(
@@ -21,8 +23,19 @@ class EditTaskBindingArranger(
             taskName.isEnabled = false
             beginningDateBtn.isEnabled = false
 
-            //todo isNotification Enabled
-            //todo radioButton check on init
+            durationRadioGroup.run {
+                when (this@EditTaskBindingArranger.viewModel.durationModel.durationState) {
+                    is ReminderDurationState.NoEndDate -> check(noEndDateRadio.id)
+                    is ReminderDurationState.DaysDuration -> check(xDaysDurationRadio.id)
+                    is ReminderDurationState.EndDate -> check(endDateRadio.id)
+                }
+            }
+            frequencyRadioGroup.run {
+                when (this@EditTaskBindingArranger.viewModel.frequencyModel.frequencyState) {
+                    is ReminderFrequencyState.Daily -> check(dailyFreqRadio.id)
+                    is ReminderFrequencyState.WeekDays -> check(daysOfWeekRadio.id)
+                }
+            }
         }
 
     }

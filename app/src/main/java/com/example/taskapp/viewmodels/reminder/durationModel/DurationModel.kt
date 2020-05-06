@@ -15,6 +15,7 @@ abstract class DurationModel : BaseObservable() {
 
     abstract val durationState: ReminderDurationState
 
+
     val isBegDateError = ObservableField<Boolean>(false)
     val isEndDateError = ObservableField<Boolean>(false)
 

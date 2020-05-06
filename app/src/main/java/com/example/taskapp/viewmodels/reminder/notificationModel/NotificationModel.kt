@@ -9,7 +9,7 @@ abstract class NotificationModel :BaseObservable() {
 
     abstract var notificationTime: LocalTime
 
-    abstract val isNotificationTimeSet : ObservableField<Boolean>
+     val isNotificationTimeSet : ObservableField<Boolean> = ObservableField(false)
 
     abstract fun getNotificationTime(): NotificationTime
 

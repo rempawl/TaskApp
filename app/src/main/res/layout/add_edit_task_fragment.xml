@@ -104,6 +104,7 @@
                         app:backgroundTint="@color/colorPrimaryDark" />
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/is_notification_set"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

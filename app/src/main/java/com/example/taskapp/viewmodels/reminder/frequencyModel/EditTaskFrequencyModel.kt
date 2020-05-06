@@ -20,9 +20,6 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
 
     private val isEdited: Boolean
 
-
-
-
     init {
         if (frequency != null) {
             isEdited = true

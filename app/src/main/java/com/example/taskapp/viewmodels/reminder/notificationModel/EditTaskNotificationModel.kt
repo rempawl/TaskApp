@@ -1,6 +1,5 @@
 package com.example.taskapp.viewmodels.reminder.notificationModel
 
-import androidx.databinding.ObservableField
 import com.example.taskapp.database.entities.NotificationTime
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -20,7 +19,6 @@ class EditTaskNotificationModel @AssistedInject constructor(@Assisted notificati
             field = value
         }
 
-    override val isNotificationTimeSet = ObservableField(false)
 
     override fun getNotificationTime(): NotificationTime = NotificationTime.from(
         notificationTime, isNotificationTimeSet.get() as Boolean
@@ -31,8 +29,6 @@ class EditTaskNotificationModel @AssistedInject constructor(@Assisted notificati
             this.notificationTime = (notificationTime.convertToLocalTime())
         }
     }
-
-
 
 
 }

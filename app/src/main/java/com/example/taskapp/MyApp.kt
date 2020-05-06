@@ -15,8 +15,6 @@ import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
 
-//todo editTask init reminder state radio check
-//todo empty days of week frequency
 //todo settings menu
 //todo tests
 //todo Realization Entity
