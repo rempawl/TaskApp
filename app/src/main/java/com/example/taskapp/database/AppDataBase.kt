@@ -32,7 +32,7 @@ abstract class AppDataBase : RoomDatabase() {
     companion object {
         const val VERSION_INT = 20
         const val DB_NAME = "TaskApp DB"
-        val INITIAL_TASKS = listOf<DefaultTask>()
+
 
 
         private lateinit var INSTANCE: AppDataBase

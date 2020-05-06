@@ -7,41 +7,37 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.databinding.SpontaneousTaskListItemBinding
-import javax.inject.Inject
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 
-typealias taskID = Long
+typealias TaskID = Long
 
-class SpontaneousTaskListAdapter @Inject constructor() :
-    ListAdapter<DefaultTask, SpontaneousTaskListAdapter.SpontaneousTaskViewHolder>(TaskDiffUtilCallback()) {
+class SpontaneousTaskListAdapter @AssistedInject constructor(
+    @Assisted private val onCheckedChangeListener: (Boolean, TaskID) -> Unit
+) :
+    ListAdapter<DefaultTask, SpontaneousTaskListAdapter.SpontaneousTaskViewHolder>(
+        TaskDiffUtilCallback()
+    ) {
+    @AssistedInject.Factory
+    interface Factory{
+        fun create(onCheckedChangeListener: (Boolean, Long) -> Unit) : SpontaneousTaskListAdapter
+    }
 
-
-    private val _checkedTasksIds = mutableSetOf<taskID>()
-    val checkedTasksIds : List<taskID>
-    get() = _checkedTasksIds.toList()
 
     inner class SpontaneousTaskViewHolder(private val binding: SpontaneousTaskListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         init {
-            binding.addCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                onAddCheckboxChecked(isChecked)
-            }
-        }
+       }
 
         fun bind(task: DefaultTask) {
-            binding.apply{
+            binding.apply {
                 this.task = task
                 executePendingBindings()
-            }
+                addCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                    onCheckedChangeListener(isChecked, binding.task!!.taskID)
+                }
 
-
-        }
-
-        private fun onAddCheckboxChecked(isChecked: Boolean) {
-            val id = binding.task?.taskID ?: return
-            if (isChecked) {
-                _checkedTasksIds.add(id)
-            } else {
-                _checkedTasksIds.remove(id)
             }
         }
 

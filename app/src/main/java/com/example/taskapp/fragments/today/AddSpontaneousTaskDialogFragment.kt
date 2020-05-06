@@ -3,7 +3,6 @@ package com.example.taskapp.fragments.today
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,11 @@ class AddSpontaneousTaskDialogFragment
         (activity as MainActivity).appComponent.addSpontaneousTasksViewModel
 
     @Inject
-    lateinit var spontaneousTaskListAdapter: SpontaneousTaskListAdapter
+    lateinit var spontaneousTaskListAdapterFactory: SpontaneousTaskListAdapter.Factory
+
+    private val spontaneousTaskListAdapter : SpontaneousTaskListAdapter by lazy{
+        spontaneousTaskListAdapterFactory.create(viewModel.onCheckedListener)
+    }
 
     private var binding: AddSpontaneousTasksFragmentBinding? = null
 
@@ -38,9 +41,6 @@ class AddSpontaneousTaskDialogFragment
         injectMembers()
     }
 
-    private fun injectMembers() {
-        (activity as MainActivity).appComponent.inject(this)
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
@@ -84,15 +84,13 @@ class AddSpontaneousTaskDialogFragment
     }
 
     private fun addSpontaneousTasks() {
-
-        viewModel.addSpontaneousTasks(spontaneousTaskListAdapter.checkedTasksIds)
-
-        spontaneousTaskListAdapter.checkedTasksIds.forEach {
-            Log.d(MainActivity.TAG, it.toString())
-
-        }
+        viewModel.addSpontaneousTasks()
         //todo add to db
         dismiss()
+    }
+
+    private fun injectMembers() {
+        (activity as MainActivity).appComponent.inject(this)
     }
 
     companion object {
