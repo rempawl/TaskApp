@@ -34,11 +34,25 @@ abstract class AppDataBase : RoomDatabase() {
         const val DB_NAME = "TaskApp DB"
         val INITIAL_TASKS = listOf<DefaultTask>()
 
-        @Volatile
-        private var INSTANCE: AppDataBase? = null
+
+        private lateinit var INSTANCE: AppDataBase
 
         fun getInstance(context: Context): AppDataBase {
-            val callback = object : Callback() {
+            val callback = createCallback(context)
+
+            return  synchronized(this) {
+                if(!::INSTANCE.isInitialized) {
+                    INSTANCE = Room
+                        .databaseBuilder(context, AppDataBase::class.java, DB_NAME)
+                        .addCallback(callback)
+                        .build()
+                }
+                INSTANCE
+            }
+        }
+
+        private fun createCallback(context: Context): Callback {
+            return object : Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     CoroutineScope(Dispatchers.IO).launch {
@@ -47,14 +61,6 @@ abstract class AppDataBase : RoomDatabase() {
                             .insertItems(DefaultTasks.tasks)
                     }
                 }
-            }
-
-            return INSTANCE ?: synchronized(this) {
-                INSTANCE = Room
-                    .databaseBuilder(context, AppDataBase::class.java, DB_NAME)
-                    .addCallback(callback)
-                    .build()
-                INSTANCE as AppDataBase
             }
         }
     }
