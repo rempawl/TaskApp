@@ -47,7 +47,9 @@ open class MyApp : Application() {
 
 
     private fun delayedInit() {
-        applicationScope.launch {
+
+
+                    applicationScope.launch {
             AndroidThreeTen.init(this@MyApp)
             workersInitializer.setUpWorkers(context = applicationContext)
         }

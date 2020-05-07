@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
@@ -8,7 +8,71 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SwitchTheme"  >
+    <style name="DefaultBodyTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+
+    <style name="DefaultEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:importantForAutofill" tools:targetApi="o">no</item>
+    </style>
+    <style name="MultiLineEditTextStyle" parent="DefaultEditTextStyle">
+        <item name="android:inputType">textMultiLine</item>
+    </style>
+
+    <style name="ShortMessageEditTextStyle" parent="DefaultEditTextStyle">
+        <item name="android:inputType">textShortMessage</item>
+    </style>
+
+    <style name="DefaultLinearLayoutStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="WideButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/design_default_color_background</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="backgroundTint">@color/colorPrimaryDark</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DefaultHeadlineTextAppearance" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/design_default_color_background</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="DefaultRadioGroupStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+
+    <style name="DefaultTextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+
+    </style>
+
+    <style name="DefaultSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textAlignment">center</item>
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_margin">10dp</item>
+
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorSwitchThumbNormal">@color/material_on_primary_disabled</item>
         <item name="android:colorForeground">#C50808</item>

@@ -1,8 +1,8 @@
 package com.example.taskapp.viewmodels.reminder.frequencyModel
 
+import android.widget.CompoundButton
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
 import com.example.taskapp.BR
 import com.example.taskapp.database.entities.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
@@ -12,7 +12,8 @@ import org.threeten.bp.LocalDate
 
 abstract class FrequencyModel : BaseObservable() {
 
-    val isDaysOfWeekError = ObservableField(false)
+
+    abstract val onCheckedListener : CompoundButton.OnCheckedChangeListener
 
     abstract val frequencyState: ReminderFrequencyState
 
@@ -23,15 +24,13 @@ abstract class FrequencyModel : BaseObservable() {
             notifyPropertyChanged(BR.currentDailyFrequency)
         }
 
-    var currentWeekDays: Set<DayOfWeekValue> = ReminderFrequencyState.WeekDays().daysOfWeek
+
+    abstract val currentWeekDays: Set<DayOfWeekValue>
+
 
     abstract fun setDailyFrequency(freq: Int = currentDailyFrequency)
 
-     open fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue> = currentWeekDays){
-         if(daysOfWeek.isEmpty()){
-             isDaysOfWeekError.set(true)
-         }
-     }
+    abstract fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue> = emptySet())
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 

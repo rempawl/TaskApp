@@ -6,10 +6,10 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-abstract class WorkerModule {
+interface WorkerModule {
 
     @Binds
-    abstract fun provideWorkersInitializer(
+    fun provideWorkersInitializer(
         workersInitializer: UpdateRemindersWorkerInitializer
     ): WorkersInitializer
 }

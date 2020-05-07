@@ -21,7 +21,6 @@ object ReminderDialogFragmentsDisplayer {
 
     fun showDurationDaysPickerDialog(
         defaultDurationModel: DurationModel, childFragmentManager: FragmentManager
-
     ) {
         DaysDurationPickerFragment(defaultDurationModel)
             .show(childFragmentManager, "days duration dialog")
@@ -30,9 +29,8 @@ object ReminderDialogFragmentsDisplayer {
 
     fun showDaysOfWeekPickerDialog(
         frequencyModel: FrequencyModel, childFragmentManager: FragmentManager
-
     ) {
-        WeekDayPickerFragment(frequencyModel)
+        WeekDayPickerFragment(frequencyModel, frequencyModel.onCheckedListener)
             .show(childFragmentManager, "weekday picker dialog")
     }
 
@@ -53,7 +51,7 @@ object ReminderDialogFragmentsDisplayer {
     }
 
     fun showBegDatePickerDialog(
-        defaultDurationModel: DurationModel,childFragmentManager: FragmentManager
+        defaultDurationModel: DurationModel, childFragmentManager: FragmentManager
     ) {
         BeginningDatePickerFragment(defaultDurationModel)
             .show(childFragmentManager, AddTaskFragment.BEGINNING_DATE_DIALOG_TAG)

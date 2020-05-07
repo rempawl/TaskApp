@@ -16,9 +16,9 @@ import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.AddSpontaneousTasksViewModel
 import javax.inject.Inject
 
-class AddSpontaneousTaskDialogFragment
-    : DialogFragment() {
+class AddSpontaneousTaskDialogFragment : DialogFragment() {
 
+    //todo onRotation check
     val viewModel: AddSpontaneousTasksViewModel by viewModel {
         injectViewModel()
     }
@@ -29,7 +29,7 @@ class AddSpontaneousTaskDialogFragment
     @Inject
     lateinit var spontaneousTaskListAdapterFactory: SpontaneousTaskListAdapter.Factory
 
-    private val spontaneousTaskListAdapter : SpontaneousTaskListAdapter by lazy{
+    private val spontaneousTaskListAdapter: SpontaneousTaskListAdapter by lazy {
         spontaneousTaskListAdapterFactory.create(viewModel.onCheckedListener)
     }
 
@@ -44,7 +44,6 @@ class AddSpontaneousTaskDialogFragment
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
-
         return super.onCreateDialog(savedInstanceState)
     }
 
@@ -60,6 +59,7 @@ class AddSpontaneousTaskDialogFragment
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding!!.taskList.adapter = null
         binding = null
     }
 
@@ -85,7 +85,7 @@ class AddSpontaneousTaskDialogFragment
 
     private fun addSpontaneousTasks() {
         viewModel.addSpontaneousTasks()
-        //todo add to db
+
         dismiss()
     }
 
