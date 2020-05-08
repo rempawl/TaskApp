@@ -37,11 +37,9 @@ class EditTaskFragment : Fragment() {
 
     private val editTask: View.OnClickListener = View.OnClickListener {
         CoroutineScope(Dispatchers.Main).launch { viewModel.saveTask() }
-
-        findNavController().navigate(
-            EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
-        )
+        navigateToMyTasks()
     }
+
 
 
     override fun onCreateView(
@@ -68,9 +66,23 @@ class EditTaskFragment : Fragment() {
     private fun setUpObservers() {
         viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
             if (id != null) {
-                Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
+                showToast(getString(id))
             }
         })
+
+
+
     }
+
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToMyTasks() {
+        findNavController().navigate(
+            EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
+        )
+    }
+
 
 }

@@ -34,9 +34,9 @@ class AddTaskFragment : Fragment() {
 
     private var binding: AddEditTaskFragmentBinding? = null
 
-    private var bindingOrganiser : AddTaskBindingArranger? = null
+    private var bindingOrganiser: AddTaskBindingArranger? = null
 
-    private val  addTask = View.OnClickListener {
+    private val addTask = View.OnClickListener {
         CoroutineScope(Dispatchers.Main).launch { viewModel.saveTask() }
 
         findNavController().navigate(
@@ -53,13 +53,12 @@ class AddTaskFragment : Fragment() {
         binding = AddEditTaskFragmentBinding
             .inflate(inflater, container, false)
 
-        bindingOrganiser = AddTaskBindingArranger(binding!!,this,viewModel,addTask)
+        bindingOrganiser = AddTaskBindingArranger(binding!!, this, viewModel, addTask)
 
         setUpObservers()
 
         return binding!!.root
     }
-
 
 
     override fun onDestroyView() {
@@ -74,9 +73,11 @@ class AddTaskFragment : Fragment() {
 
             toastText.observe(viewLifecycleOwner, Observer { id ->
                 if (id != null) {
-                    Toast.makeText(context, getString(id), Toast.LENGTH_SHORT).show()
+                    showToast(getString(id))
                 }
             })
+
+
 
             // when _addedTask is not null then  notification alarm should be set
             addedTask.observe(viewLifecycleOwner, Observer { task ->
@@ -86,13 +87,16 @@ class AddTaskFragment : Fragment() {
 
     }
 
+    private fun showToast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
+
     private fun setAlarm(task: DefaultTask) {
         context?.let { ctx ->
             AlarmCreator.setTaskNotificationAlarm(task, true, ctx)
         }
     }
-
-
 
 
 }

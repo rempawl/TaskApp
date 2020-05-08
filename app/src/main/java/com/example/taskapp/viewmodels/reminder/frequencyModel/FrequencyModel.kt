@@ -12,8 +12,12 @@ import org.threeten.bp.LocalDate
 
 abstract class FrequencyModel : BaseObservable() {
 
+    protected val checkedDays = mutableSetOf<DayOfWeekValue>()
 
-    abstract val onCheckedListener : CompoundButton.OnCheckedChangeListener
+    val onCheckedListener: CompoundButton.OnCheckedChangeListener =
+        CompoundButton.OnCheckedChangeListener { btn, checked ->
+            onCheckedChange(checked, btn)
+        }
 
     abstract val frequencyState: ReminderFrequencyState
 
@@ -27,13 +31,28 @@ abstract class FrequencyModel : BaseObservable() {
 
     abstract val currentWeekDays: Set<DayOfWeekValue>
 
-
     abstract fun setDailyFrequency(freq: Int = currentDailyFrequency)
 
-    abstract fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue> = emptySet())
+    abstract fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue>?)
 
     fun getFrequency(): Frequency = frequencyState.convertToFrequency()
 
-    abstract fun getRealizationDate(begDate: LocalDate): LocalDate
+    fun getRealizationDate(begDate: LocalDate) = frequencyState.calculateRealizationDate(
+        lastRealizationDate = begDate,
+        isBeginning = true
+    )
+
+    private fun onCheckedChange(isChecked: Boolean, box: CompoundButton) {
+        if (isChecked) {
+            checkedDays.add(box.id)
+        } else {
+            if (checkedDays.size == 1) {
+                box.isChecked = true
+            } else {
+                checkedDays.remove(box.id)
+            }
+        }
+    }
+
 
 }
