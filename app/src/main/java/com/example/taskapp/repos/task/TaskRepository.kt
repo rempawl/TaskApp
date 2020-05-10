@@ -2,6 +2,7 @@ package com.example.taskapp.repos.task
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.DefaultTask
@@ -48,13 +49,13 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
     }
 
     @Suppress("MoveVariableDeclarationIntoWhen")
-    override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> {
+    override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> = liveData {
         val result = taskLocalDataSource.getMinTasksByUpdateDate(MyApp.TODAY)
-        return when (result) {
+        val data = when (result) {
             is Result.Success<*> -> result.items as LiveData<List<TaskMinimal>>
             is Result.Error -> MutableLiveData(listOf(MIN_ERROR_TASK))
         }
-
+        emitSource(data)
     }
 
     override suspend fun getTasksByUpdateDate(date: LocalDate): List<DefaultTask> {
@@ -74,13 +75,15 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         }
     }
 
-    override suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>> {
-        val data = taskLocalDataSource.getMinimalTasks()
-        return if (data is Result.Success<*>) {
-            data.items as LiveData<List<TaskMinimal>>
+    override suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>> = liveData {
+        val result = taskLocalDataSource.getMinimalTasks()
+        val data = if (result is Result.Success<*>) {
+            result.items as LiveData<List<TaskMinimal>>
         } else {
             MutableLiveData(listOf(MIN_ERROR_TASK))
         }
+        emitSource(data)
+
     }
 
     override suspend fun getTasksUntilDate(date: LocalDate): List<DefaultTask> {

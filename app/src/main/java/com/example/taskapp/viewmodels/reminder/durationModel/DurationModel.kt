@@ -2,9 +2,11 @@ package com.example.taskapp.viewmodels.reminder.durationModel
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.MyApp.Companion.TODAY
+import com.example.taskapp.R
 import com.example.taskapp.database.entities.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import org.threeten.bp.LocalDate
@@ -12,12 +14,13 @@ import org.threeten.bp.LocalDate
 
 abstract class DurationModel : BaseObservable() {
 
-
     abstract val durationState: ReminderDurationState
 
 
-    val isBegDateError = ObservableField<Boolean>(false)
-    val isEndDateError = ObservableField<Boolean>(false)
+
+    private val _isError = MutableLiveData<Int>()
+    val isError: LiveData<Int>
+        get() = _isError
 
     @Bindable
     var currentDaysDuration = 10
@@ -30,9 +33,9 @@ abstract class DurationModel : BaseObservable() {
     var beginningDate = TODAY
         set(value) {
             if (isBeginningDateValid(value)) {
-                isBegDateError.set(false)
+                _isError.value = null
             } else {
-                isBegDateError.set(true)
+                _isError.value = (R.string.beginning_date_error)
             }
             notifyPropertyChanged(BR.datesValid)
             field = value
@@ -48,9 +51,9 @@ abstract class DurationModel : BaseObservable() {
             notifyPropertyChanged(BR.datesValid)
 
             if (isEndDateValid(value)) {
-                isEndDateError.set(false)
+                _isError.value = null
             } else {
-                isEndDateError.set(true)
+                _isError.value = R.string.end_date_error
             }
         }
 
@@ -67,7 +70,7 @@ abstract class DurationModel : BaseObservable() {
     private fun isEndDateValid(date: LocalDate = currentEndDate) =
         !date.isBefore(beginningDate) && !date.isBefore(TODAY)
 
-    protected abstract fun isBeginningDateValid(date: LocalDate= beginningDate): Boolean
+    protected abstract fun isBeginningDateValid(date: LocalDate = beginningDate): Boolean
 
 
     abstract fun setNoEndDateDurationState()

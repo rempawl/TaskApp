@@ -1,4 +1,4 @@
-package com.example.taskapp.workers.notification
+package com.example.taskapp.receivers.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -18,8 +18,8 @@ import com.example.taskapp.MyApp.Companion.TASK_NAME_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactory
+import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper.createNotificationChannel
 
 /**
@@ -28,7 +28,7 @@ import com.example.taskapp.utils.notification.NotificationManagerHelper.createNo
 class CreateTaskNotificationBroadcastReceiver :    BroadcastReceiver() {
 
     private val notificationIntentFactory: NotificationIntentFactory =
-        DefaultNotificationIntentFactory
+        NotificationIntentFactoryImpl
 
     override fun onReceive(context: Context?, intent: Intent?) {
 //        super.onReceive(context, intent)

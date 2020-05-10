@@ -24,17 +24,8 @@
             <!--            MAIN LAYOUT-->
             <LinearLayout style="@style/DefaultLinearLayoutStyle">
 
-
                 <!-- DETAILS LAYOUT -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/details"
-                    style="@style/WideButtonStyle"
-                    android:enabled="false"
-                    android:text="@string/details"
-                    />
-
-                <LinearLayout style="@style/DefaultLinearLayoutStyle">
-
+<!--                <LinearLayout style="@style/DefaultLinearLayoutStyle">-->
                     <EditText
                         style="@style/ShortMessageEditTextStyle"
                         android:id="@+id/task_name"
@@ -48,7 +39,7 @@
                         android:hint="@string/task_description_hint"
                         android:text="@={viewModel.taskDetailsModel.taskDescription}" />
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
 
                 <!--REMINDER LAYOUT -->
@@ -136,6 +127,7 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/beginning_date_btn"
+                            android:textColor="@color/design_default_color_background"
                             style="@style/WideButtonStyle"
                             android:text="@{@string/beginning_date(viewModel.durationModel.beginningDate)}"
                             />

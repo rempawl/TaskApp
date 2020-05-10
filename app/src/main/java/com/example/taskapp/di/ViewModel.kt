@@ -21,8 +21,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 
-inline fun <reified T: ViewModel> Fragment.viewModel(
-    crossinline provider : () -> T
+inline fun <reified T : ViewModel> Fragment.viewModel(
+    crossinline provider: () -> T
 ) = viewModels<T> {
     object : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T = provider() as T
@@ -31,31 +31,34 @@ inline fun <reified T: ViewModel> Fragment.viewModel(
 
 inline fun <reified T : ViewModel> Fragment.activityViewModel(
     crossinline provider: () -> T
-) = activityViewModels<T> { object : ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T = provider() as T
-} }
+) = activityViewModels<T> {
+    object : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T = provider() as T
+    }
+}
 
 @Module
-object ModelModule{
+object ModelModule {
+
 
     @Reusable
     @Provides
     @JvmStatic
-    fun provideSchedulersProvider() : SchedulerProvider = DefaultSchedulerProvider()
+    fun provideSchedulersProvider(): SchedulerProvider = DefaultSchedulerProvider()
 
     @Provides
     @JvmStatic
-    fun provideTaskDetailsModel() : TaskDetailsModel =  DefaultTaskDetailsModel()
+    fun provideTaskDetailsModel(): TaskDetailsModel = DefaultTaskDetailsModel()
 
     @Provides
     @JvmStatic
-    fun provideNotificationModel() : NotificationModel = AddTaskNotificationModel()
+    fun provideNotificationModel(): NotificationModel = AddTaskNotificationModel()
 
     @Provides
     @JvmStatic
-    fun provideDurationModel() : DurationModel = AddTaskDurationModel()
+    fun provideDurationModel(): DurationModel = AddTaskDurationModel()
 
     @Provides
     @JvmStatic
-    fun provideFrequencyModel() : FrequencyModel = AddTaskFrequencyModel()
+    fun provideFrequencyModel(): FrequencyModel = AddTaskFrequencyModel()
 }

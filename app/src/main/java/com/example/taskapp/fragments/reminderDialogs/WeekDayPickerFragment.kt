@@ -3,12 +3,10 @@ package com.example.taskapp.fragments.reminderDialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.widget.CompoundButton
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
-import com.example.taskapp.MainActivity
 import com.example.taskapp.R
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.google.android.material.checkbox.MaterialCheckBox
@@ -23,7 +21,6 @@ class WeekDayPickerFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true
         val layout = setupLayout()
-        Log.d(MainActivity.TAG,"new one")
         return AlertDialog.Builder(requireContext())
             .setView(layout)
             .setNegativeButton(R.string.cancel) { _, _ -> }
@@ -60,7 +57,6 @@ class WeekDayPickerFragment(
         id = dayValue
         val checkedDays = model.currentWeekDays
 
-        Log.d(MainActivity.TAG,"$checkedDays")
 
         isChecked = if (checkedDays.isEmpty() && i == 1) {
             onCheckedChangeListener.onCheckedChanged(this, true)

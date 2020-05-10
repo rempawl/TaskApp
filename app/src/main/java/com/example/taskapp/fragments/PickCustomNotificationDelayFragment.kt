@@ -15,8 +15,8 @@ import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.EventObserver
-import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactory
+import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.viewmodels.PickCustomNotificationDelayViewModel
 
@@ -32,7 +32,7 @@ class PickCustomNotificationDelayFragment : Fragment() {
 
 
     private val notificationIntentFactory: NotificationIntentFactory =
-        DefaultNotificationIntentFactory
+        NotificationIntentFactoryImpl
 
 
 

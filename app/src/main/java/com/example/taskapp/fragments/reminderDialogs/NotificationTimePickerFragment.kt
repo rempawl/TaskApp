@@ -9,8 +9,7 @@ import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationMod
 import org.threeten.bp.LocalTime
 
 class NotificationTimePickerFragment(private val notificationModel: NotificationModel) :
-    DialogFragment(),
-    TimePickerDialog.OnTimeSetListener {
+    DialogFragment(),TimePickerDialog.OnTimeSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         retainInstance = true

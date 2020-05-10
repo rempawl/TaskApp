@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
-import com.example.taskapp.utils.errorCallback.DurationErrorCallback
-import com.example.taskapp.utils.errorCallback.ErrorCallback
 import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
@@ -34,25 +33,40 @@ abstract class ReminderViewModel(
 
     val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
-    /**
-     * when _addedTask is not null then  notification alarm should be set
-     */
-    private val _addedTask = MutableLiveData<DefaultTask>(null)
-    val addedTask: LiveData<DefaultTask>
-        get() = _addedTask
+    // when _addedTask is not null then  notification alarm should be set
+    private val _shouldSetAlarm = MutableLiveData<DefaultTask>(null)
+    val shouldSetAlarm: LiveData<DefaultTask>
+        get() = _shouldSetAlarm
 
 
-    private val _toastText = MutableLiveData<Int>(null)
+    //    private val _toastText = MutableLiveData<Int>(null)
     val toastText: LiveData<Int>
-        get() = _toastText
+        get() = transformError(isError = durationModel.isError)
 
-    private val errorCallback: ErrorCallback
 
-    init {
-        errorCallback = DurationErrorCallback(durationModel, _toastText)
-        durationModel.isEndDateError.addOnPropertyChangedCallback(errorCallback)
-        durationModel.isBegDateError.addOnPropertyChangedCallback(errorCallback)
+    suspend fun saveTask() {
+        val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
+        val task = createTask(reminder)
+        val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
+
+
+        disposables.add(
+            addTask(task)
+                .subscribeOn(schedulerProvider.getIoScheduler())
+                .subscribe({
+                    Log.d(MainActivity.TAG, "$task")
+
+                }, { e -> e.printStackTrace() }
+                )
+        )
+        if (isRealizationToday && reminder != null
+            && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
+        ) {
+            _shouldSetAlarm.value = task
+        }
+
     }
+
 
     protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
 
@@ -69,7 +83,6 @@ abstract class ReminderViewModel(
     }
 
     private fun createTask(reminder: Reminder?): DefaultTask {
-
         return task.copy(
             name = taskDetailsModel.taskName,
             description = taskDetailsModel.taskDescription,
@@ -78,27 +91,8 @@ abstract class ReminderViewModel(
     }
 
 
-    suspend fun saveTask() {
-        val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
-        val task = createTask(reminder)
-        val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
-
-
-        disposables.add(
-            addTask(task)
-                .subscribeOn(schedulerProvider.getIoScheduler())
-                .subscribe({         Log.d(MainActivity.TAG,"$task")
-
-                }, { e -> e.printStackTrace() }
-                )
-        )
-        if (isRealizationToday && reminder != null
-            && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
-        ) {
-            _addedTask.value = task
-        }
-
-    }
+    private fun transformError(isError: LiveData<Int>) =
+        Transformations.map(isError) { stringId -> stringId }
 
 
 /*
@@ -113,10 +107,6 @@ abstract class ReminderViewModel(
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
-        durationModel.apply {
-            isBegDateError.removeOnPropertyChangedCallback(errorCallback)
-            isEndDateError.removeOnPropertyChangedCallback(errorCallback)
-        }
     }
 
 }

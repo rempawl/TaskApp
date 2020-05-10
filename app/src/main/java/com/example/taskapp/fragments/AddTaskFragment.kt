@@ -12,9 +12,9 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.utils.AlarmCreator
 import com.example.taskapp.utils.bindingArranger.AddTaskBindingArranger
 import com.example.taskapp.viewmodels.AddTaskViewModel
-import com.example.taskapp.workers.AlarmCreator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,7 +80,7 @@ class AddTaskFragment : Fragment() {
 
 
             // when _addedTask is not null then  notification alarm should be set
-            addedTask.observe(viewLifecycleOwner, Observer { task ->
+            shouldSetAlarm.observe(viewLifecycleOwner, Observer { task ->
                 if (task != null) setAlarm(task)
             })
         }

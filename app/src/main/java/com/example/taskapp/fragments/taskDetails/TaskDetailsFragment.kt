@@ -54,7 +54,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
         setUpObservers()
         setUpBinding()
-        return binding?.root
+        return binding!!.root
     }
 
     override fun onDestroyView() {
@@ -64,7 +64,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
 
     private fun setUpObservers() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { task : DefaultTask->
+        viewModel.task.observe(viewLifecycleOwner, Observer { task: DefaultTask ->
             if (task.reminder != null) {
                 setupReminderLayout(task.reminder)
             }
@@ -74,13 +74,13 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private fun navigateToMyTasks() {
         findNavController().navigate(
-                TaskDetailsFragmentDirections.navigationTaskDetailsToNavigationMyTasks()
-            )
+            TaskDetailsFragmentDirections.navigationTaskDetailsToNavigationMyTasks()
+        )
 
     }
 
     private fun setUpBinding() {
-        binding?.apply {
+        binding!!.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
 
@@ -90,17 +90,19 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun navigateToEditTask() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { task  : DefaultTask->
-            findNavController().navigate(
-                TaskDetailsFragmentDirections
+        viewModel.task.observe(viewLifecycleOwner, Observer { task ->
+            findNavController().navigate(TaskDetailsFragmentDirections
                     .navigationTaskDetailsToNavigationEditTask(task)
             )
         })
     }
 
     private fun showDeleteDialog() {
-        val title  = getString(R.string.task_delete_title)
-        ConfirmDialogFragment(title, getString(R.string.confirm), this)
+        ConfirmDialogFragment(
+            title = getString(R.string.task_delete_title),
+            positiveText = getString(R.string.confirm),
+            listener = this
+        )
             .show(childFragmentManager, ConfirmDialogFragment.TAG)
     }
 
@@ -111,10 +113,9 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         setFrequencyText(frequencyState)
         setNotificationText(reminder.notificationTime)
 
-        binding?.apply {
+        binding!!.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text =
-                getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
+            begDate.text = getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
             realizationDateText.text = getString(
                 R.string.next_realization_date,
                 reminder.realizationDate.format(DATE_FORMATTER)
@@ -123,7 +124,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun setNotificationText(notificationTime: NotificationTime) {
-        binding?.notificationText?.text = if (notificationTime.isSet) {
+        binding!!.notificationText.text = if (notificationTime.isSet) {
             val txt = "${getString(R.string.notification_time)}: " +
                     LocalTime.of(notificationTime.hour, notificationTime.minute).format(
                         DateTimeFormatter.ISO_LOCAL_TIME

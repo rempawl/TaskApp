@@ -1,4 +1,4 @@
-package com.example.taskapp.workers.notification
+package com.example.taskapp.receivers.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context

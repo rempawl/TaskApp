@@ -13,10 +13,10 @@
         <item name="android:textAlignment">center</item>
     </style>
 
-
     <style name="DefaultEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/design_default_color_background</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:importantForAutofill" tools:targetApi="o">no</item>
     </style>
@@ -26,6 +26,7 @@
 
     <style name="ShortMessageEditTextStyle" parent="DefaultEditTextStyle">
         <item name="android:inputType">textShortMessage</item>
+        <item name="android:textColor">@color/design_default_color_background</item>
     </style>
 
     <style name="DefaultLinearLayoutStyle" parent="AppTheme">
@@ -34,8 +35,8 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    
     <style name="WideButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">@color/design_default_color_background</item>
         <item name="android:padding">10dp</item>
         <item name="android:layout_margin">10dp</item>
         <item name="backgroundTint">@color/colorPrimaryDark</item>
@@ -62,7 +63,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
-
+        <item name="android:textColor">@color/design_default_color_background</item>
     </style>
 
     <style name="DefaultSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">

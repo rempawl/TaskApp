@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels.reminder.frequencyModel
 
+import android.util.Log
+import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
@@ -28,12 +30,18 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
             isEdited = true
             when (val freqState = frequency.convertToFrequencyState()) {
                 is ReminderFrequencyState.Daily -> setDailyFrequency(freq = freqState.frequency)
-                is ReminderFrequencyState.WeekDays -> {
-                    setDaysOfWeekFrequency(daysOfWeek = freqState.daysOfWeek)
-                }
+                is ReminderFrequencyState.WeekDays -> initDaysOfWeekState(freqState)
             }
         } else {
             isEdited = false
+        }
+    }
+
+    private fun initDaysOfWeekState(freqState: ReminderFrequencyState.WeekDays) {
+        setDaysOfWeekFrequency(daysOfWeek = freqState.daysOfWeek)
+        checkedDays.apply {
+            clear()
+            addAll(freqState.daysOfWeek)
         }
     }
 
@@ -43,15 +51,16 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
     }
 
 
-    override  fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue>?) {
+    override fun setDaysOfWeekFrequency(daysOfWeek: Set<DayOfWeekValue>?) {
         var days = daysOfWeek
-        if(days == null){
+        if (days == null) {
             days = checkedDays
         }
-            currentWeekDays = (days)
-            frequencyState = ReminderFrequencyState.WeekDays(days)
-    }
 
+        currentWeekDays = (days)
+        Log.d(MainActivity.TAG,currentWeekDays.toString())
+        frequencyState = ReminderFrequencyState.WeekDays(days)
+    }
 
 
 }

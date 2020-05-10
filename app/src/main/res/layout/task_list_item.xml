@@ -31,7 +31,7 @@
                 android:gravity="center_horizontal"
                 android:text="@{@string/task_name(task.name)}"
                 android:textAlignment="center"
-                android:textColor="@color/cardview_light_background"
+                android:textColor="@color/design_default_color_background"
                 android:textSize="20sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -42,7 +42,7 @@
                 android:gravity="center_horizontal"
                 android:text="@{@string/task_description(task.description)}"
                 android:textAlignment="center"
-                android:textColor="@color/cardview_light_background"
+                android:textColor="@color/design_default_color_background"
                 android:textSize="20sp"
                 android:visibility='@{task.description.equalsIgnoreCase("")  ? View.GONE : View.VISIBLE}'
                 tools:text="text" />

@@ -12,12 +12,12 @@ import org.threeten.bp.LocalDate
 
 abstract class FrequencyModel : BaseObservable() {
 
-    protected val checkedDays = mutableSetOf<DayOfWeekValue>()
+    //init with tuesday
+    protected val checkedDays = mutableSetOf<DayOfWeekValue>(2)
 
-    val onCheckedListener: CompoundButton.OnCheckedChangeListener =
-        CompoundButton.OnCheckedChangeListener { btn, checked ->
-            onCheckedChange(checked, btn)
-        }
+    val onCheckedListener = CompoundButton.OnCheckedChangeListener { btn, checked ->
+        onCheckedChange(checked, btn)
+    }
 
     abstract val frequencyState: ReminderFrequencyState
 

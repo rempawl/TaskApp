@@ -1,4 +1,4 @@
-package com.example.taskapp.workers.notification
+package com.example.taskapp.receivers.notification
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,8 +10,8 @@ import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.database.entities.toTaskMinimal
 import com.example.taskapp.fragments.PickCustomNotificationDelayFragment.Companion.DELAY_VALUE_KEY
 import com.example.taskapp.repos.task.TaskRepository.Companion.ERROR_TASK
+import com.example.taskapp.utils.AlarmCreator
 import com.example.taskapp.utils.notification.NotificationManagerHelper
-import com.example.taskapp.workers.AlarmCreator
 
 class DelayNotificationReceiver :
     BroadcastReceiver() {

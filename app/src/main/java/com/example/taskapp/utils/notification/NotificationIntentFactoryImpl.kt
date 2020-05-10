@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp.Companion.CREATE_NOTIFICATION_ACTION
 import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.workers.notification.CreateTaskNotificationBroadcastReceiver
-import com.example.taskapp.workers.notification.DelayNotificationReceiver
+import com.example.taskapp.receivers.notification.CreateTaskNotificationBroadcastReceiver
+import com.example.taskapp.receivers.notification.DelayNotificationReceiver
 
 
-object DefaultNotificationIntentFactory : NotificationIntentFactory {
+object NotificationIntentFactoryImpl : NotificationIntentFactory {
 
     override fun createDelayNotificationIntent(
         context: Context,

@@ -8,7 +8,7 @@ import com.example.taskapp.R
 
 
 class ConfirmDialogFragment(
-    private val message: String,
+    private val title: String,
     private val positiveText: String,
     val listener: OnConfirmSelectedListener
 
@@ -23,7 +23,7 @@ class ConfirmDialogFragment(
         return activity?.let {
             AlertDialog
                 .Builder(requireContext())
-                .setTitle(message)
+                .setTitle(title)
                 .setPositiveButton(positiveText) { _, _ -> listener.onConfirmSelected() }
                 .setNegativeButton(R.string.cancel) { _, _ -> }
                 .create()

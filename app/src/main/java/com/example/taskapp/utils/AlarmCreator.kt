@@ -1,4 +1,4 @@
-package com.example.taskapp.workers
+package com.example.taskapp.utils
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -12,7 +12,8 @@ import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.database.entities.toTaskMinimal
-import com.example.taskapp.utils.notification.DefaultNotificationIntentFactory.createNotificationReceiverIntent
+import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl.createNotificationReceiverIntent
+import com.example.taskapp.workers.UpdateTomorrowRemindersReceiver
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import java.util.concurrent.TimeUnit
@@ -25,7 +26,9 @@ object AlarmCreator {
 
 
     fun setTaskNotificationAlarm(task: DefaultTask, isToday: Boolean = false, context: Context) {
-        val manager = createManager(context)
+        val manager =
+            createManager(context)
+
         val intent = createNotificationReceiverIntent(task.toTaskMinimal(), context)
         val date = if (isToday) TODAY else TOMORROW
 
@@ -42,7 +45,8 @@ object AlarmCreator {
     }
 
     fun setUpdateTaskListAlarm(context: Context) {
-        val manager = createManager(context)
+        val manager =
+            createManager(context)
 
         val updateTime = LocalDateTime.of(TODAY, LocalTime.of(23, 55))
             .toInstant(ZONE_OFFSET).toEpochMilli()
@@ -65,7 +69,8 @@ object AlarmCreator {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pending)
-            //todo
+        }else{
+            TODO()
         }
     }
 
