@@ -25,21 +25,18 @@
             <LinearLayout style="@style/DefaultLinearLayoutStyle">
 
                 <!-- DETAILS LAYOUT -->
-<!--                <LinearLayout style="@style/DefaultLinearLayoutStyle">-->
                     <EditText
-                        style="@style/ShortMessageEditTextStyle"
+                        style="@style/ShortMessageAddEditTaskEditTextStyle"
                         android:id="@+id/task_name"
                         android:hint="@string/task_name_hint"
                         android:text="@={viewModel.taskDetailsModel.taskName}"
                         app:setError="@{viewModel.taskDetailsModel.taskNameError}" />
 
                     <EditText
-                        style="@style/ShortMessageEditTextStyle"
+                        style="@style/ShortMessageAddEditTaskEditTextStyle"
                         android:id="@+id/task_description"
                         android:hint="@string/task_description_hint"
                         android:text="@={viewModel.taskDetailsModel.taskDescription}" />
-
-<!--                </LinearLayout>-->
 
 
                 <!--REMINDER LAYOUT -->

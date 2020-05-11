@@ -5,20 +5,8 @@ import androidx.work.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
-interface WorkersInitializer {
-    fun setUpWorkers(context: Context) {
-        val constraints = createConstraints()
-        val workRequest = createWorkRequest(constraints)
-        enqueueWorkRequest(context = context, workRequest = workRequest)
-    }
-
-    fun createConstraints(): Constraints
-    fun createWorkRequest(constraints: Constraints): WorkRequest
-    fun enqueueWorkRequest(workRequest: WorkRequest, context: Context)
-}
-
-class UpdateRemindersWorkerInitializer @Inject constructor() : WorkersInitializer {
+class UpdateRemindersWorkerInitializer @Inject constructor() :
+    WorkersInitializer {
 
 
     override fun createConstraints(): Constraints {
@@ -29,7 +17,10 @@ class UpdateRemindersWorkerInitializer @Inject constructor() : WorkersInitialize
     }
 
     override fun createWorkRequest(constraints: Constraints): PeriodicWorkRequest {
-        return PeriodicWorkRequestBuilder<UpdateRemindersWorker>(1, TimeUnit.DAYS)
+        return PeriodicWorkRequestBuilder<UpdateRemindersWorker>(
+            1,
+            TimeUnit.DAYS
+        )
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 PeriodicWorkRequest.MIN_BACKOFF_MILLIS,

@@ -8,6 +8,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.taskapp.MyApp
 import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 
+
+//todo
 object NotificationManagerHelper {
 
     private fun getNotificationManager(context: Context) = NotificationManagerCompat.from(context)

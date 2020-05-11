@@ -1,4 +1,4 @@
-package com.example.taskapp.utils
+package com.example.taskapp.utils.alarmCreator
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -12,24 +12,30 @@ import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.database.entities.toTaskMinimal
-import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl.createNotificationReceiverIntent
-import com.example.taskapp.workers.UpdateTomorrowRemindersReceiver
+import com.example.taskapp.receivers.UpdateTomorrowRemindersReceiver
+import com.example.taskapp.utils.notification.NotificationIntentFactory
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-
-object AlarmCreator {
+class AlarmCreatorImpl @Inject constructor(
+    private val context: Context,
+    private val notificationIntentFactory: NotificationIntentFactory
+) : AlarmCreator {
 
     private fun createManager(context: Context) =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+    //todo inject
+//    private val notificationIntentFactory : NotificationIntentFactory =
+//        NotificationIntentFactoryImpl(context)
 
-    fun setTaskNotificationAlarm(task: DefaultTask, isToday: Boolean = false, context: Context) {
-        val manager =
-            createManager(context)
+    override fun setTaskNotificationAlarm(task: DefaultTask, isToday: Boolean) {
+        val manager = createManager(context)
 
-        val intent = createNotificationReceiverIntent(task.toTaskMinimal(), context)
+        val intent =
+            notificationIntentFactory.createNotificationReceiverIntent(task.toTaskMinimal())
         val date = if (isToday) TODAY else TOMORROW
 
         val pending = PendingIntent
@@ -44,7 +50,7 @@ object AlarmCreator {
         }
     }
 
-    fun setUpdateTaskListAlarm(context: Context) {
+    override fun setUpdateTaskListAlarm() {
         val manager =
             createManager(context)
 
@@ -59,23 +65,25 @@ object AlarmCreator {
     }
 
 
-    fun setDelayAlarm(task: TaskMinimal, interval: Long = 30, context: Context) {
+    override fun setDelayAlarm(task: TaskMinimal, interval: Long) {
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val intent = createNotificationReceiverIntent(task, context)
+        val intent =notificationIntentFactory.createNotificationReceiverIntent(task)
         val pending =
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val triggerTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(interval)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             manager.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pending)
-        }else{
+        } else {
             TODO()
         }
     }
 
-    const val DATE_KEY = "date"
+    companion object {
+        const val DATE_KEY = "date"
 
+    }
 
 }
 

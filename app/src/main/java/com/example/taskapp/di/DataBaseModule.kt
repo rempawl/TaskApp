@@ -10,7 +10,7 @@ import dagger.Reusable
 import javax.inject.Singleton
 
 @Module
- object DataBaseModule {
+object DataBaseModule {
 
     @Singleton
     @JvmStatic
@@ -20,7 +20,7 @@ import javax.inject.Singleton
     }
 
     @Reusable
-   @JvmStatic
+    @JvmStatic
     @Provides
     fun provideTaskDao(appDataBase: AppDataBase): TaskDao = appDataBase.taskDao()
 

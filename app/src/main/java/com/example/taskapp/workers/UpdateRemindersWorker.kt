@@ -9,8 +9,11 @@ import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.AlarmCreator
-import com.example.taskapp.utils.SharedPreferencesHelper
+import com.example.taskapp.utils.alarmCreator.AlarmCreator
+import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
+import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
+import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelper
+import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelperImpl
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 
@@ -31,8 +34,17 @@ class UpdateRemindersWorker constructor(
                 && task.reminder.notificationTime.isSet
     }
 
+
     //todo constructor inject
-//    @Inject
+    private val sharedPreferencesHelper: SharedPreferencesHelper =
+        SharedPreferencesHelperImpl(applicationContext)
+
+    private val alarmCreator: AlarmCreator = AlarmCreatorImpl(
+        applicationContext,
+        NotificationIntentFactoryImpl(context = appContext)
+    )
+
+    //    @Inject
     private val taskRepo: TaskRepositoryInterface = TaskRepository(
         TaskLocalDataSource(
             AppDataBase.getInstance(applicationContext).taskDao()
@@ -52,19 +64,18 @@ class UpdateRemindersWorker constructor(
 
         val tasks = allTasks.filter { task -> task.reminder != null }
 
-        val currentDate = SharedPreferencesHelper.getCurrentDate(applicationContext)
+        val currentDate = sharedPreferencesHelper.getCurrentDate()
 
         if (currentDate == -1L || LocalDate.ofEpochDay(currentDate).isBefore(TODAY)) {
             val updatedTasks = updateTaskList(tasks)
             setTodayNotifications(updatedTasks)
         }
         if (LocalDate.ofEpochDay(currentDate).isEqual(TODAY)) {
-            AlarmCreator.setUpdateTaskListAlarm(applicationContext)
+            alarmCreator.setUpdateTaskListAlarm()
         }
 
         return Result.success()
     }
-
 
 
     private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
@@ -83,10 +94,7 @@ class UpdateRemindersWorker constructor(
                         && task.reminder!!.notificationTime.convertToLocalTime()
                     .isAfter(LocalTime.now())
             }.forEach { task ->
-                AlarmCreator.setTaskNotificationAlarm(
-                    task,
-                    context = applicationContext
-                )
+                alarmCreator.setTaskNotificationAlarm(task)
             }
     }
 

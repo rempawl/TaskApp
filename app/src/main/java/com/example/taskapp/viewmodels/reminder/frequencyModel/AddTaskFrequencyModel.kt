@@ -1,7 +1,5 @@
 package com.example.taskapp.viewmodels.reminder.frequencyModel
 
-import android.util.Log
-import com.example.taskapp.MainActivity
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import javax.inject.Inject
@@ -28,7 +26,6 @@ class AddTaskFrequencyModel @Inject constructor() : FrequencyModel() {
             days = checkedDays
         }
         currentWeekDays = (days)
-        Log.d(MainActivity.TAG,currentWeekDays.toString())
 
         frequencyState = ReminderFrequencyState.WeekDays(days)
     }

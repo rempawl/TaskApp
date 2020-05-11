@@ -3,6 +3,8 @@ package com.example.taskapp.di
 import android.content.Context
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
+import com.example.taskapp.fragments.AddTaskFragment
+import com.example.taskapp.fragments.EditTaskFragment
 import com.example.taskapp.fragments.MyTasksFragment
 import com.example.taskapp.fragments.PickCustomNotificationDelayFragment
 import com.example.taskapp.fragments.today.AddSpontaneousTaskDialogFragment
@@ -20,9 +22,12 @@ import javax.inject.Singleton
         DataBaseModule::class,
         RepositoryModule::class,
         WorkerModule::class,
-    ModelModule::class
+        ModelModule::class,
+        UtilsModuleInterface::class,
+        UtilsModule::class
     ]
 )
+
 @Singleton
 interface AppComponent {
     @Component.Factory
@@ -32,7 +37,7 @@ interface AppComponent {
         ): AppComponent
     }
 
-
+    fun inject(addTaskFragment: AddTaskFragment)
     fun inject(todayFragment: TodayFragment)
     fun inject(updateNotificationsAndTaskListWorker: UpdateRemindersWorker)
     fun inject(myTasksFragment: MyTasksFragment)
@@ -40,11 +45,12 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(addSpontaneousTaskDialogFragment: AddSpontaneousTaskDialogFragment)
     fun inject(pickCustomNotificationDelayFragment: PickCustomNotificationDelayFragment)
+    fun inject(editTaskFragment: EditTaskFragment)
 
-    val pickCustomNotificationDelayViewModel : PickCustomNotificationDelayViewModel
-    val addSpontaneousTasksViewModel : AddSpontaneousTasksViewModel
-    val myTasksViewModel : MyTasksViewModel
-    val todayViewModel : TodayViewModel
+    val pickCustomNotificationDelayViewModel: PickCustomNotificationDelayViewModel
+    val addSpontaneousTasksViewModel: AddSpontaneousTasksViewModel
+    val myTasksViewModel: MyTasksViewModel
+    val todayViewModel: TodayViewModel
     val addTaskViewModel: AddTaskViewModel
     val editTaskViewModelFactory: EditTaskViewModel.Factory
     val taskDetailsViewModelFactory: TaskDetailsViewModel.Factory

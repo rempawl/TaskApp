@@ -16,24 +16,27 @@ import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBindin
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.EventObserver
 import com.example.taskapp.utils.notification.NotificationIntentFactory
-import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.viewmodels.PickCustomNotificationDelayViewModel
+import javax.inject.Inject
 
 
 class PickCustomNotificationDelayFragment : Fragment() {
 
-    val viewModel: PickCustomNotificationDelayViewModel by viewModel{
+    private val appComponent by lazy {
+        (activity as MainActivity).appComponent
+    }
+    private val viewModel: PickCustomNotificationDelayViewModel by viewModel {
         injectViewModel()
     }
 
-    private fun injectViewModel() =
-        (activity as MainActivity).appComponent.pickCustomNotificationDelayViewModel
+    @Inject
+    lateinit var notificationIntentFactory: NotificationIntentFactory
 
-
-    private val notificationIntentFactory: NotificationIntentFactory =
-        NotificationIntentFactoryImpl
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        injectMembers()
+    }
 
 
     override fun onCreateView(
@@ -86,21 +89,14 @@ class PickCustomNotificationDelayFragment : Fragment() {
     private fun sendDelayNotificationBroadcast(ctx: Context) {
         val task = arguments?.get(TASK_KEY) as TaskMinimal
 
-        val intent = createIntent(ctx, task)
+        val intent = createIntent(task)
 
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(intent)
         navigateToTodayFragment()
     }
 
-    private fun createIntent(
-        ctx: Context,
-        task: TaskMinimal
-    ): Intent {
-        return notificationIntentFactory.createDelayNotificationIntent(
-            ctx,
-            viewModel.delayValue,
-            task
-        )
+    private fun createIntent(task: TaskMinimal): Intent {
+        return notificationIntentFactory.createDelayNotificationIntent(viewModel.delayValue, task)
     }
 
     private fun navigateToTodayFragment() {
@@ -108,6 +104,14 @@ class PickCustomNotificationDelayFragment : Fragment() {
             PickCustomNotificationDelayFragmentDirections
                 .navigationPickCustomDelayToNavigationToday()
         )
+    }
+
+    private fun injectMembers() {
+        appComponent.inject(this)
+    }
+
+    private fun injectViewModel(): PickCustomNotificationDelayViewModel {
+        return appComponent.pickCustomNotificationDelayViewModel
     }
 
     companion object {

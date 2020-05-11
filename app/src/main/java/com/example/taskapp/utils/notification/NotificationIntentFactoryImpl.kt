@@ -6,12 +6,13 @@ import com.example.taskapp.MyApp.Companion.CREATE_NOTIFICATION_ACTION
 import com.example.taskapp.database.entities.TaskMinimal
 import com.example.taskapp.receivers.notification.CreateTaskNotificationBroadcastReceiver
 import com.example.taskapp.receivers.notification.DelayNotificationReceiver
+import javax.inject.Inject
 
 
-object NotificationIntentFactoryImpl : NotificationIntentFactory {
+class NotificationIntentFactoryImpl @Inject constructor(private val context: Context) :
+    NotificationIntentFactory {
 
     override fun createDelayNotificationIntent(
-        context: Context,
         delayValue: Int,
         task: TaskMinimal
     ): Intent {
@@ -22,7 +23,7 @@ object NotificationIntentFactoryImpl : NotificationIntentFactory {
             }
     }
 
-    override fun createNotificationReceiverIntent(task: TaskMinimal, context: Context): Intent {
+    override fun createNotificationReceiverIntent(task: TaskMinimal): Intent {
         return Intent(context, CreateTaskNotificationBroadcastReceiver::class.java).apply {
             putExtra(TASK_NAME_KEY, task.name)
             putExtra(TASK_DESC_KEY, task.description)
@@ -32,11 +33,14 @@ object NotificationIntentFactoryImpl : NotificationIntentFactory {
 
     }
 
-    const val TASK_KEY = "task"
-    const val DELAY_VALUE_KEY = "delay value"
-    const val TASK_NAME_KEY = "task name"
-    const val TASK_DESC_KEY = "task desc"
-    const val TASK_ID_KEY = "task id"
+    companion object {
 
+
+        const val TASK_KEY = "task"
+        const val DELAY_VALUE_KEY = "delay value"
+        const val TASK_NAME_KEY = "task name"
+        const val TASK_DESC_KEY = "task desc"
+        const val TASK_ID_KEY = "task id"
+    }
 
 }

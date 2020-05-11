@@ -34,12 +34,10 @@ abstract class ReminderViewModel(
     val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
     // when _addedTask is not null then  notification alarm should be set
-    private val _shouldSetAlarm = MutableLiveData<DefaultTask>(null)
-    val shouldSetAlarm: LiveData<DefaultTask>
-        get() = _shouldSetAlarm
+    private val _addedTask = MutableLiveData<DefaultTask>(null)
+    val addedTask: LiveData<DefaultTask>
+        get() = _addedTask
 
-
-    //    private val _toastText = MutableLiveData<Int>(null)
     val toastText: LiveData<Int>
         get() = transformError(isError = durationModel.isError)
 
@@ -62,7 +60,7 @@ abstract class ReminderViewModel(
         if (isRealizationToday && reminder != null
             && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
         ) {
-            _shouldSetAlarm.value = task
+            _addedTask.value = task
         }
 
     }

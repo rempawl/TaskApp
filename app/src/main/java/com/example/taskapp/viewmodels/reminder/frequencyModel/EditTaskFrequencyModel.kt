@@ -1,7 +1,5 @@
 package com.example.taskapp.viewmodels.reminder.frequencyModel
 
-import android.util.Log
-import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
@@ -19,7 +17,7 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
     override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
         private set
 
-    override  var currentWeekDays: Set<DayOfWeekValue> = setOf()
+    override var currentWeekDays: Set<DayOfWeekValue> = setOf()
         private set
 
 
@@ -58,7 +56,6 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
         }
 
         currentWeekDays = (days)
-        Log.d(MainActivity.TAG,currentWeekDays.toString())
         frequencyState = ReminderFrequencyState.WeekDays(days)
     }
 

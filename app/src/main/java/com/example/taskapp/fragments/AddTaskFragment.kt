@@ -1,5 +1,6 @@
 package com.example.taskapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,43 +8,46 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
-import com.example.taskapp.utils.AlarmCreator
+import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.bindingArranger.AddTaskBindingArranger
 import com.example.taskapp.viewmodels.AddTaskViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
 
 class AddTaskFragment : Fragment() {
-
     companion object {
         fun newInstance() = AddTaskFragment()
         const val END_DATE_DIALOG_TAG: String = "END DATE DIALOG"
         const val BEGINNING_DATE_DIALOG_TAG = "Beginning date Dialog"
     }
 
-
-    private val viewModel: AddTaskViewModel by viewModel {
-        (activity as MainActivity).appComponent.addTaskViewModel
+    private val appComponent by lazy {
+        (activity as MainActivity).appComponent
     }
+    private val viewModel: AddTaskViewModel by viewModel {
+        appComponent.addTaskViewModel
+    }
+
+    @Inject
+    lateinit var alarmCreator: AlarmCreator
 
     private var binding: AddEditTaskFragmentBinding? = null
 
     private var bindingOrganiser: AddTaskBindingArranger? = null
 
-    private val addTask = View.OnClickListener {
-        CoroutineScope(Dispatchers.Main).launch { viewModel.saveTask() }
+    private val addTask = View.OnClickListener { addTask() }
 
-        findNavController().navigate(
-            AddTaskFragmentDirections.navigationAddReminderToNavigationMyTasks()
-        )
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appComponent.inject(this)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,9 +82,8 @@ class AddTaskFragment : Fragment() {
             })
 
 
-
             // when _addedTask is not null then  notification alarm should be set
-            shouldSetAlarm.observe(viewLifecycleOwner, Observer { task ->
+            addedTask.observe(viewLifecycleOwner, Observer { task ->
                 if (task != null) setAlarm(task)
             })
         }
@@ -93,8 +96,15 @@ class AddTaskFragment : Fragment() {
 
 
     private fun setAlarm(task: DefaultTask) {
-        context?.let { ctx ->
-            AlarmCreator.setTaskNotificationAlarm(task, true, ctx)
+        alarmCreator.setTaskNotificationAlarm(task, true)
+    }
+
+    private fun addTask() {
+        lifecycleScope.launch {
+            viewModel.saveTask()
+            findNavController().navigate(
+                AddTaskFragmentDirections.navigationAddReminderToNavigationMyTasks()
+            )
         }
     }
 

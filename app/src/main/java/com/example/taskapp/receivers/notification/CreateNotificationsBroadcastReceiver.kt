@@ -25,22 +25,23 @@ import com.example.taskapp.utils.notification.NotificationManagerHelper.createNo
 /**
  * class responsible for creating and showing task notifications
  */
-class CreateTaskNotificationBroadcastReceiver :    BroadcastReceiver() {
+class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
 
-    private val notificationIntentFactory: NotificationIntentFactory =
-        NotificationIntentFactoryImpl
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    //todo inject
+    private lateinit var notificationIntentFactory: NotificationIntentFactory
+
+    override fun onReceive(context: Context, intent: Intent) {
 //        super.onReceive(context, intent)
 
-        if (intent != null && context != null) {
-            val action = intent.action
-            if (action == CREATE_NOTIFICATION_ACTION) {
-                createNotificationChannel(context)
-                showNotification(context, createTaskMinimal(intent))
-            }
+        notificationIntentFactory = NotificationIntentFactoryImpl(context)
+        val action = intent.action
+        if (action == CREATE_NOTIFICATION_ACTION) {
+            createNotificationChannel(context)
+            showNotification(context, createTaskMinimal(intent))
         }
     }
+
 
     private fun createTaskMinimal(intent: Intent): TaskMinimal {
         val name = intent.getStringExtra(TASK_NAME_KEY) ?: "error"
@@ -58,11 +59,11 @@ class CreateTaskNotificationBroadcastReceiver :    BroadcastReceiver() {
         val delay30MinAction = createDelay30MinAction(context, task)
         val delayCustomTimeAction = createDelayCustomTimeAction(context, task)
 
-        val bigTextStyle =                 NotificationCompat
+        val bigTextStyle = NotificationCompat
             .BigTextStyle()
             .bigText("${task.description} ")
 
-        return NotificationCompat.Builder(context,TASK_CHANNEL_ID)
+        return NotificationCompat.Builder(context, TASK_CHANNEL_ID)
             .setAutoCancel(true)
             .setContentTitle(context.getString(R.string.task_notification_title))
             .setContentText(" ${task.name} ")
@@ -128,7 +129,7 @@ class CreateTaskNotificationBroadcastReceiver :    BroadcastReceiver() {
         task: TaskMinimal
     ): NotificationCompat.Action.Builder {
         val intent = notificationIntentFactory.createDelayNotificationIntent(
-            context, 30, task
+            30, task
         )
 
         val delay30Pending =

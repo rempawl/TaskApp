@@ -9,7 +9,6 @@ import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationMod
 
 object ReminderDialogFragmentsDisplayer {
 
-
     fun showNotificationPickerDialog(
         defaultNotificationModel: NotificationModel, childFragmentManager: FragmentManager
     ) {

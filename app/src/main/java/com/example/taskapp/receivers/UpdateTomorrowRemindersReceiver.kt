@@ -1,17 +1,20 @@
-package com.example.taskapp.workers
+package com.example.taskapp.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.taskapp.MyApp
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.AlarmCreator
-import com.example.taskapp.utils.SharedPreferencesHelper
+import com.example.taskapp.utils.alarmCreator.AlarmCreator
+import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
+import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
+import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelper
+import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelperImpl
+import com.example.taskapp.workers.DatePredicate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,8 +29,15 @@ class UpdateTomorrowRemindersReceiver :
 //    @Inject
     private lateinit var taskRepository: TaskRepositoryInterface
 
+    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private lateinit var alarmCreator: AlarmCreator
 
     override fun onReceive(context: Context, intent: Intent) {
+        //todo inject
+        sharedPreferencesHelper = SharedPreferencesHelperImpl(context)
+        alarmCreator = AlarmCreatorImpl(context, NotificationIntentFactoryImpl(context))
+
+
         CoroutineScope(Dispatchers.Default).launch {
             taskRepository == TaskRepository(
                 TaskLocalDataSource(
@@ -39,7 +49,7 @@ class UpdateTomorrowRemindersReceiver :
 
             if (tasks.first() == TaskRepository.ERROR_TASK) {
                 //if repo returns error UpdateNotificationsWorker will have to update the reminders
-                SharedPreferencesHelper.setErrorCurrentDate(context)
+                sharedPreferencesHelper.setErrorCurrentDate()
                 return@launch
             }
 
@@ -49,7 +59,7 @@ class UpdateTomorrowRemindersReceiver :
             val updatedTasks = updateTaskList(tasksToUpdate)
             setTomorrowNotifications(updatedTasks, context)
 
-            SharedPreferencesHelper.updateCurrentDate(TOMORROW, context)
+            sharedPreferencesHelper.updateCurrentDate(TOMORROW)
         }
     }
 
@@ -64,9 +74,14 @@ class UpdateTomorrowRemindersReceiver :
 
     private fun setTomorrowNotifications(tasks: List<DefaultTask>, context: Context) {
         val tomorrowTasks = tasks
-            .filter { task -> DATE_PREDICATE(MyApp.TOMORROW, task) }
+            .filter { task ->
+                DATE_PREDICATE(
+                    TOMORROW,
+                    task
+                )
+            }
         tomorrowTasks
-            .forEach { task -> AlarmCreator.setTaskNotificationAlarm(task, context = context) }
+            .forEach { task -> alarmCreator.setTaskNotificationAlarm(task ) }
     }
 
     companion object {

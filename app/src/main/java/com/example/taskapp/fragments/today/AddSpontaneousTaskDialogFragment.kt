@@ -19,12 +19,15 @@ import javax.inject.Inject
 class AddSpontaneousTaskDialogFragment : DialogFragment() {
 
     //todo onRotation check
-    val viewModel: AddSpontaneousTasksViewModel by viewModel {
+    private val viewModel: AddSpontaneousTasksViewModel by viewModel {
         injectViewModel()
     }
 
-    private fun injectViewModel() =
-        (activity as MainActivity).appComponent.addSpontaneousTasksViewModel
+    private val appComponent by lazy {
+
+        (activity as MainActivity).appComponent
+    }
+
 
     @Inject
     lateinit var spontaneousTaskListAdapterFactory: SpontaneousTaskListAdapter.Factory
@@ -90,8 +93,11 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
     }
 
     private fun injectMembers() {
-        (activity as MainActivity).appComponent.inject(this)
+        appComponent.inject(this)
     }
+
+    private fun injectViewModel() =
+        appComponent.addSpontaneousTasksViewModel
 
     companion object {
         const val PORTRAIT_COLUMN_COUNT = 2
