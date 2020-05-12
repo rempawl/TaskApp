@@ -1,6 +1,8 @@
 package com.example.taskapp.viewmodels.reminder
 
+import com.example.taskapp.R
 import com.example.taskapp.utils.InstantTaskExecutor
+import com.example.taskapp.utils.getOrAwaitValue
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
 import junit.framework.Assert.assertEquals
@@ -12,7 +14,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDate
 
-internal class DefaultDurationModelTest {
+internal class EditTaskDurationModelTest {
     init {
         loadTimeZone()
     }
@@ -20,10 +22,13 @@ internal class DefaultDurationModelTest {
     @get:Rule
     val instantTaskExecutor = InstantTaskExecutor()
 
-    private lateinit var modelDefault: EditTaskDurationModel
+    private lateinit var editTaskDurationModel: EditTaskDurationModel
 
     private val today = LocalDate.now()
 
+
+    //todo init with weekdays
+    //todo init with null
     @Nested
     @DisplayName("When initial Duration is DaysDuration(15) and begDate is 20,03,2000")
     inner class InitWithDailyDuration {
@@ -32,17 +37,14 @@ internal class DefaultDurationModelTest {
 
         @BeforeEach
         fun setUp() {
-            modelDefault =
-                EditTaskDurationModel(
-                    duration,
-                    begDate
-                )
+            editTaskDurationModel =
+                EditTaskDurationModel(duration,begDate)
         }
 
-        @org.junit.jupiter.api.Test
+        @Test
         fun `then durationState is DaysDuration, currentDaysDuration is 15`() {
-            val actualDays = modelDefault.currentDaysDuration
-            val actualState = modelDefault.durationState
+            val actualDays = editTaskDurationModel.currentDaysDuration
+            val actualState = editTaskDurationModel.durationState
             val expectedDays = 15
             val expectedState = ReminderDurationState.DaysDuration(expectedDays)
 
@@ -54,15 +56,15 @@ internal class DefaultDurationModelTest {
         inner class SetEndDateDurationState {
             @Test
             fun `Given date(25,03,2000), Then endDateError is true,   currentEndDate remains the same`() {
-                val expectedDate = modelDefault.currentEndDate
+
                 val date = LocalDate.of(2000, 3, 25)
 
-                modelDefault.setEndDateDurationState(date)
+                editTaskDurationModel.setEndDateDurationState(date)
 
-                val isErrorSet = modelDefault.isEndDateError.get()
-                val actualDate = modelDefault.currentEndDate
-                assertTrue(isErrorSet!!)
-                assertEquals(expectedDate, actualDate)
+                val isErrorSet = editTaskDurationModel.isError.getOrAwaitValue() == R.string.end_date_error
+                val actualDate = editTaskDurationModel.currentEndDate
+                assertTrue(isErrorSet)
+                assertEquals(date, actualDate)
             }
 
             @Test
@@ -70,10 +72,10 @@ internal class DefaultDurationModelTest {
                 val expectedDate = LocalDate.of(2034, 3, 25)
                 val expectedState = ReminderDurationState.EndDate(expectedDate)
 
-                modelDefault.setEndDateDurationState(expectedDate)
+                editTaskDurationModel.setEndDateDurationState(expectedDate)
 
-                val actualDate = modelDefault.currentEndDate
-                val actualState = modelDefault.durationState
+                val actualDate = editTaskDurationModel.currentEndDate
+                val actualState = editTaskDurationModel.durationState
 
                 assertEquals(expectedDate, actualDate)
                 assertEquals(expectedState, actualState)
@@ -86,8 +88,8 @@ internal class DefaultDurationModelTest {
             @Test
             fun `Then durState is NoEndDate`() {
                 val expectedState = ReminderDurationState.NoEndDate
-                modelDefault.setNoEndDateDurationState()
-                val actualState = modelDefault.durationState
+                editTaskDurationModel.setNoEndDateDurationState()
+                val actualState = editTaskDurationModel.durationState
 
                 assertEquals(expectedState, actualState)
             }
@@ -101,7 +103,7 @@ internal class DefaultDurationModelTest {
 
             @BeforeEach
             fun setUp() {
-                modelDefault =
+                editTaskDurationModel =
                     EditTaskDurationModel(
                         null,
                         today
@@ -112,7 +114,7 @@ internal class DefaultDurationModelTest {
             fun `then durState is NoEndDate `() {
                 val expectedState = ReminderDurationState.NoEndDate
 
-                val actualState = modelDefault.durationState
+                val actualState = editTaskDurationModel.durationState
 
                 assertEquals(expectedState, actualState)
             }
@@ -125,9 +127,9 @@ internal class DefaultDurationModelTest {
                 fun `When date is tomorrow, Then beginning date is set to given date`() {
                     val expectedDate = LocalDate.ofEpochDay(today.toEpochDay() + 1)
 
-                    modelDefault.beginningDate = expectedDate
+                    editTaskDurationModel.beginningDate = expectedDate
 
-                    val actualDate = modelDefault.beginningDate
+                    val actualDate = editTaskDurationModel.beginningDate
 
                     assertEquals(expectedDate, actualDate)
                 }
@@ -136,34 +138,34 @@ internal class DefaultDurationModelTest {
                 @Test
                 fun `When date is yesterday,Then begDateError is true and begDate remains the same`() {
 
-                    val expectedDate = modelDefault.beginningDate
                     val date = LocalDate.ofEpochDay(today.toEpochDay() - 1)
 
-                    modelDefault.beginningDate = date
+                    editTaskDurationModel.beginningDate = date
 
-                    val isErrorSet = modelDefault.isBegDateError.get()!!
-                    val actualDate = modelDefault.beginningDate
+                    val isErrorSet =
+                        editTaskDurationModel.isError.getOrAwaitValue() == R.string.beginning_date_error
+                    val actualDate = editTaskDurationModel.beginningDate
 
                     assertTrue(isErrorSet)
-                    assertEquals(expectedDate, actualDate)
+                    assertEquals(date, actualDate)
                 }
 
                 //when beginningDate is after endDate
                 @Test
-                fun `When durState is EndDate(25,03,2030) and date is (4,4,2030),THen begDateError is true and begDate remains the same`() {
+                fun `When durState is EndDate(25,03,2030) and date is (4,4,2030),THen begDateError is true and begDate is set to date`() {
                     val endDate = LocalDate.of(2030, 3, 25)
-                    modelDefault.setEndDateDurationState(endDate)
+                    editTaskDurationModel.setEndDateDurationState(endDate)
                     val date = LocalDate.of(2030, 4, 4)
 
-                    val expectedDate = modelDefault.beginningDate
 
-                    modelDefault.beginningDate = date
+                    editTaskDurationModel.beginningDate = date
 
-                    val isErrorSet = modelDefault.isBegDateError.get()
-                    val actualDate = modelDefault.beginningDate
+                    val isErrorSet =
+                        editTaskDurationModel.isError.getOrAwaitValue() == R.string.beginning_date_error
+                    val actualDate = editTaskDurationModel.beginningDate
 
-                    assertEquals(expectedDate, actualDate)
-                    assertTrue(isErrorSet!!)
+                    assertEquals(date, actualDate)
+                    assertTrue(isErrorSet)
 
                 }
 
@@ -174,17 +176,17 @@ internal class DefaultDurationModelTest {
             @Nested
             inner class SetEndDateDurationState {
                 @Test
-                fun `Given date 10 days before Today, Then endDateError is true and currentEndDate remains the same`() {
+                fun `Given date 10 days before Today, Then endDateError is true and currentEndDate is set to date`() {
                     val date = LocalDate.ofEpochDay(today.toEpochDay() - 10)
-                    val expectedDate = modelDefault.currentEndDate
 
-                    modelDefault.setEndDateDurationState(date)
+                    editTaskDurationModel.setEndDateDurationState(date)
 
-                    val isErrorSet = modelDefault.isEndDateError.get()!!
-                    val actualDate = modelDefault.currentEndDate
+                    val isErrorSet =
+                        editTaskDurationModel.isError.getOrAwaitValue() == R.string.end_date_error
+                    val actualDate = editTaskDurationModel.currentEndDate
 
                     assertTrue(isErrorSet)
-                    assertEquals(expectedDate, actualDate)
+                    assertEquals(date, actualDate)
 
                 }
 
@@ -193,10 +195,10 @@ internal class DefaultDurationModelTest {
                     val expectedDate = LocalDate.ofEpochDay(today.toEpochDay() + 10)
                     val expectedState = ReminderDurationState.EndDate(expectedDate)
 
-                    modelDefault.setEndDateDurationState(expectedDate)
+                    editTaskDurationModel.setEndDateDurationState(expectedDate)
 
-                    val actualDate = modelDefault.currentEndDate
-                    val actualState = modelDefault.durationState
+                    val actualDate = editTaskDurationModel.currentEndDate
+                    val actualState = editTaskDurationModel.durationState
 
                     assertEquals(expectedDate, actualDate)
                     assertEquals(expectedState, actualState)
@@ -210,10 +212,10 @@ internal class DefaultDurationModelTest {
                     val expectedDays = 10
                     val expectedState = ReminderDurationState.DaysDuration(expectedDays)
 
-                    modelDefault.setDaysDurationState(expectedDays)
+                    editTaskDurationModel.setDaysDurationState(expectedDays)
 
-                    val actualDays = modelDefault.currentDaysDuration
-                    val actualState = modelDefault.durationState
+                    val actualDays = editTaskDurationModel.currentDaysDuration
+                    val actualState = editTaskDurationModel.durationState
 
                     assertEquals(expectedDays, actualDays)
                     assertEquals(expectedState, actualState)

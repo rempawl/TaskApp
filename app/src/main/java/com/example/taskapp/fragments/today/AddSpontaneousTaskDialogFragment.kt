@@ -24,10 +24,8 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
     }
 
     private val appComponent by lazy {
-
         (activity as MainActivity).appComponent
     }
-
 
     @Inject
     lateinit var spontaneousTaskListAdapterFactory: SpontaneousTaskListAdapter.Factory
@@ -37,7 +35,6 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
     }
 
     private var binding: AddSpontaneousTasksFragmentBinding? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

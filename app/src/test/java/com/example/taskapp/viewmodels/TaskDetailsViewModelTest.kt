@@ -6,9 +6,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.junit.Rule
@@ -45,7 +43,7 @@ class TaskDetailsViewModelTest {
     fun `getTask gets default task with id equal to taskId `() {
         coEvery { taskRepository.getTaskByID(taskId) } returns DefaultTasks.tasks[taskId.toInt()]
 
-        TestCoroutineScope(TestCoroutineDispatcher()).launch {
+        coroutineTestRule.runBlockingTest {
             val actualTask = viewModel.task.getOrAwaitValue()
             val expectedTask = taskRepository.getTaskByID(taskId)
 
@@ -58,10 +56,8 @@ class TaskDetailsViewModelTest {
     fun ` deleteTask deletes task from repository`() {
         coEvery { taskRepository.deleteByID(taskId) } returns 1
 
-        TestCoroutineScope(TestCoroutineDispatcher()).launch {
-
+        coroutineTestRule.runBlockingTest {
             val value = viewModel.deleteTask()
-
             assertThat(value, `is`(1))
         }
     }
