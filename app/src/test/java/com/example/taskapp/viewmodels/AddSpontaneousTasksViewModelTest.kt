@@ -1,11 +1,8 @@
 package com.example.taskapp.viewmodels
 
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.CoroutineTestRule
+import com.example.taskapp.utils.*
 import com.example.taskapp.utils.DefaultTasks.tasks
-import com.example.taskapp.utils.InstantTaskExecutor
-import com.example.taskapp.utils.getOrAwaitValue
-import com.example.taskapp.utils.loadTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -16,23 +13,24 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantTaskExecutor::class)
 class AddSpontaneousTasksViewModelTest {
 
     init {
         loadTimeZone()
     }
+    private val dispatcherProvider = TestDispatcherProvider()
 
     @get:Rule
-    val coroutineScope = CoroutineTestRule()
+    val coroutineScope = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutor()
 
     private lateinit var viewModel: AddSpontaneousTasksViewModel
-
-    private val defaultTasks = tasks.toList()
 
     @MockK
     lateinit var taskRepository: TaskRepositoryInterface
@@ -40,16 +38,16 @@ class AddSpontaneousTasksViewModelTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = AddSpontaneousTasksViewModel(taskRepository)
+        viewModel = AddSpontaneousTasksViewModel(taskRepository,dispatcherProvider)
     }
 
 
     @Test
     fun `get tasks  returns defaultTasks `() {
-        coEvery { taskRepository.getNotTodayTasks() } returns defaultTasks
+        coEvery { taskRepository.getNotTodayTasks() } returns tasks
 
         coroutineScope.runBlockingTest {
-            val expectedValue = defaultTasks
+            val expectedValue = tasks.toList()
             val actualValue = viewModel.tasks.getOrAwaitValue()
             assertThat(actualValue, `is`(expectedValue))
         }

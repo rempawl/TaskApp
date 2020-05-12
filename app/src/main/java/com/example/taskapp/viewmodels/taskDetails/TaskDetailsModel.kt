@@ -1,4 +1,4 @@
-package com.example.taskapp.viewmodels.addTask
+package com.example.taskapp.viewmodels.taskDetails
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable

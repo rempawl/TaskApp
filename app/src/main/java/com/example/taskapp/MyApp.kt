@@ -5,9 +5,7 @@ import com.example.taskapp.di.AppComponent
 import com.example.taskapp.di.DaggerAppComponent
 import com.example.taskapp.workers.WorkersInitializer
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneOffset
@@ -29,12 +27,17 @@ open class MyApp : Application() {
     @Inject
     lateinit var workersInitializer: WorkersInitializer
 
-    private val applicationScope = CoroutineScope(Dispatchers.Default)
+    private val applicationScope = CoroutineScope(Dispatchers.Default + Job())
 
     override fun onCreate() {
         super.onCreate()
         injectMembers()
         delayedInit()
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        applicationScope.cancel()
     }
 
     protected open fun injectMembers() {
@@ -47,13 +50,12 @@ open class MyApp : Application() {
 
 
     private fun delayedInit() {
-
-
-                    applicationScope.launch {
+        applicationScope.launch {
             AndroidThreeTen.init(this@MyApp)
             workersInitializer.setUpWorkers(context = applicationContext)
         }
     }
+
 
     companion object {
         const val PREFERENCES_NAME = "com.example.taskapp"

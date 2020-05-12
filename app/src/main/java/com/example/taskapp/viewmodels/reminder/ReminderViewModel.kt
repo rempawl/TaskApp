@@ -11,10 +11,10 @@ import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Reminder
 import com.example.taskapp.utils.scheduler.SchedulerProvider
-import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
+import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import org.threeten.bp.LocalTime

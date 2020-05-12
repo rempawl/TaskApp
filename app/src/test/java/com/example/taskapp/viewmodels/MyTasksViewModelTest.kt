@@ -12,12 +12,17 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
+@ExtendWith(InstantTaskExecutor::class)
+
 internal class MyTasksViewModelTest {
     init {
         loadTimeZone()
     }
+
+    private val dispatcherProvider = TestDispatcherProvider()
 
     @MockK
     private lateinit var taskRepository: TaskRepository
@@ -28,12 +33,12 @@ internal class MyTasksViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutor()
 
     @get:Rule
-    val coroutineScope = CoroutineTestRule()
+    val coroutineScope = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = MyTasksViewModel(taskRepository)
+        viewModel = MyTasksViewModel(taskRepository,dispatcherProvider)
     }
 
     @Test

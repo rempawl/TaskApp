@@ -1,7 +1,6 @@
-package com.example.taskapp.viewmodels.addTask
+package com.example.taskapp.viewmodels.taskDetails
 
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.utils.InstantTaskExecutor
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`

@@ -8,7 +8,9 @@ import io.mockk.impl.annotations.MockK
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(InstantTaskExecutor::class)
 class AddTaskViewModelTest {
     init {
         loadTimeZone()

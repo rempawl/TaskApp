@@ -4,11 +4,11 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.scheduler.SchedulerProvider
-import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.EditTaskNotificationModel
+import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.Single

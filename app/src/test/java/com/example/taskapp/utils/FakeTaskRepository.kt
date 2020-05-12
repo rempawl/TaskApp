@@ -1,6 +1,7 @@
 package com.example.taskapp.utils
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.TaskMinimal
@@ -71,7 +72,8 @@ class FakeTaskRepository : TaskRepositoryInterface {
     }
 
     override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> {
-        TODO("Not yet implemented")
+        return MutableLiveData(DefaultTasks.minimalTasks)
+
     }
 
     override suspend fun getNotTodayTasks(): List<DefaultTask> {

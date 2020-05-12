@@ -1,11 +1,6 @@
 package com.example.taskapp.viewmodels
 
-import androidx.lifecycle.MutableLiveData
-import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.*
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -13,36 +8,44 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Rule
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExperimentalCoroutinesApi
-internal class TodayViewModelTest{
-init {
-    loadTimeZone()
-}
+@ExtendWith(InstantTaskExecutor::class)
+internal class TodayViewModelTest {
+
+    init {
+        loadTimeZone()
+    }
+
+    private val dispatcherProvider = TestDispatcherProvider()
+    @get:Rule
+    val testCoroutineRule = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
 
     @get:Rule
-    val testCoroutineRule = CoroutineTestRule()
-
-    @Rule
-    @JvmField
     val instantTaskExecutorRule = InstantTaskExecutor()
 
-    @MockK
-    lateinit var taskRepository: TaskRepository
+
+//    @MockK
+//    lateinit var taskRepository: TaskRepositoryInterface
+
     lateinit var viewModel: TodayViewModel
 
     @BeforeEach
     fun setUp(){
-        MockKAnnotations.init(this)
-        viewModel = TodayViewModel(taskRepository)
+//        MockKAnnotations.init(this)
+        viewModel = TodayViewModel(FakeTaskRepository(),dispatcherProvider)
+
     }
 
     @Test
     fun `get tasks returns default minimal tasks`(){
-        coEvery { taskRepository.getTodayMinTasks() } returns MutableLiveData(DefaultTasks.minimalTasks)
         testCoroutineRule.runBlockingTest {
+//            coEvery { taskRepository.getTodayMinTasks() } returns MutableLiveData(DefaultTasks.minimalTasks)
+
             val actual = viewModel.tasks.getOrAwaitValue()
             val expected = DefaultTasks.minimalTasks
+
             assertThat(actual, `is`(expected))
         }
     }

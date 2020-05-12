@@ -5,11 +5,11 @@ import android.widget.EditText
 import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.scheduler.SchedulerProvider
-import com.example.taskapp.viewmodels.addTask.TaskDetailsModel
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
+import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
 import io.reactivex.Single
 import javax.inject.Inject
 

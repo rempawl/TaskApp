@@ -1,4 +1,4 @@
-package com.example.taskapp.viewmodels.addTask
+package com.example.taskapp.viewmodels.taskDetails
 
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.InstantTaskExecutor

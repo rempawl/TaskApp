@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.taskapp.adapters.TaskID
 import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
 import javax.inject.Inject
 
-class AddSpontaneousTasksViewModel @Inject constructor(private val taskRepository: TaskRepositoryInterface) :
+class AddSpontaneousTasksViewModel @Inject constructor(private val taskRepository: TaskRepositoryInterface,
+private val dispatcherProvider: DispatcherProvider
+) :
     ViewModel(){
 
     val onCheckedListener = ::onAddCheckboxChecked
@@ -27,7 +30,7 @@ class AddSpontaneousTasksViewModel @Inject constructor(private val taskRepositor
         }
     }
 
-    val tasks = liveData {
+    val tasks = liveData(dispatcherProvider.provideIoDispatcher()) {
         val data = taskRepository.getNotTodayTasks()
         emit(data)
     }
