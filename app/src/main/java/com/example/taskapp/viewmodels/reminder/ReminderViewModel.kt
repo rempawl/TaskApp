@@ -1,12 +1,10 @@
 package com.example.taskapp.viewmodels.reminder
 
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
@@ -41,6 +39,11 @@ abstract class ReminderViewModel(
     val toastText: LiveData<Int>
         get() = transformError(isError = durationModel.isError)
 
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
+    }
+
 
     suspend fun saveTask() {
         val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
@@ -51,11 +54,7 @@ abstract class ReminderViewModel(
         disposables.add(
             addTask(task)
                 .subscribeOn(schedulerProvider.getIoScheduler())
-                .subscribe({
-                    Log.d(MainActivity.TAG, "$task")
-
-                }, { e -> e.printStackTrace() }
-                )
+                .subscribe({}, { e -> e.printStackTrace() })
         )
         if (isRealizationToday && reminder != null
             && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
@@ -102,10 +101,6 @@ abstract class ReminderViewModel(
     }
 */
 
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
-    }
 
 }
 

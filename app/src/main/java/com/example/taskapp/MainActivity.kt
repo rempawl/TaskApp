@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-        toolbar.setupWithNavController(navController, appBarConfig)
+        toolbar.setupWithNavController( navController, appBarConfig)
 
         setupBottomNavMenu(navController)
         setupSideNav(navController)

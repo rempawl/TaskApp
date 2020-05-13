@@ -27,7 +27,7 @@ class AddSpontaneousTasksViewModelTest {
     private val dispatcherProvider = TestDispatcherProvider()
 
     @get:Rule
-    val coroutineScope = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
+    val coroutineScope = CoroutineTestRule(dispatcherProvider.dispatcher)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()

@@ -25,7 +25,7 @@ class TaskDetailsViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val coroutineTestRule = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
+    val coroutineTestRule = CoroutineTestRule(dispatcherProvider.dispatcher)
 
     @MockK
     lateinit var taskRepository: TaskRepositoryInterface

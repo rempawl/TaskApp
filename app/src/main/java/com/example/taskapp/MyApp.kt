@@ -3,9 +3,13 @@ package com.example.taskapp
 import android.app.Application
 import com.example.taskapp.di.AppComponent
 import com.example.taskapp.di.DaggerAppComponent
+import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
 import com.example.taskapp.workers.WorkersInitializer
 import com.jakewharton.threetenabp.AndroidThreeTen
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneOffset
@@ -27,7 +31,11 @@ open class MyApp : Application() {
     @Inject
     lateinit var workersInitializer: WorkersInitializer
 
-    private val applicationScope = CoroutineScope(Dispatchers.Default + Job())
+    @Inject
+    lateinit var dispatcherProvider: DispatcherProvider
+
+    private val applicationScope =
+        CoroutineScope(dispatcherProvider.provideDefaultDispatcher() + Job())
 
     override fun onCreate() {
         super.onCreate()

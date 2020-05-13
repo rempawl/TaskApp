@@ -21,7 +21,7 @@ internal class TodayViewModelTest {
     private val dispatcherProvider = TestDispatcherProvider()
 
     @get:Rule
-    val testCoroutineRule = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
+    val testCoroutineRule = CoroutineTestRule(dispatcherProvider.dispatcher)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()

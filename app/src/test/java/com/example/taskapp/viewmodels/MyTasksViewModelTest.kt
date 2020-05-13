@@ -33,7 +33,7 @@ internal class MyTasksViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val coroutineScope = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
+    val coroutineScope = CoroutineTestRule(dispatcherProvider.dispatcher)
 
     @Before
     fun setUp() {
