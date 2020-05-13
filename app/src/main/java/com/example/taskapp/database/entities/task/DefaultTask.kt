@@ -5,7 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.taskapp.database.entities.reminderEntities.Reminder
+import com.example.taskapp.database.entities.reminder.Reminder
 import kotlinx.android.parcel.Parcelize
 
 fun DefaultTask.toTaskMinimal(): TaskMinimal {

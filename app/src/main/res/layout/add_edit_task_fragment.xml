@@ -22,7 +22,7 @@
             >
 
             <!--            MAIN LAYOUT-->
-            <LinearLayout style="@style/DefaultLinearLayoutStyle">
+            <LinearLayout style="@style/VerticalWrapLinearLayoutStyle">
 
                 <!-- DETAILS LAYOUT -->
                     <EditText
@@ -48,7 +48,7 @@
 
                 <LinearLayout
                     android:id="@+id/reminder_layout"
-                    style="@style/DefaultLinearLayoutStyle"
+                    style="@style/VerticalWrapLinearLayoutStyle"
                     app:showWhen="@{viewModel.isReminderSwitchChecked()}">
 
                     <!--                    NOTIFICATION LAYOUT -->
@@ -68,10 +68,10 @@
                     <!-- FREQUENCY LAYOUT -->
                     <LinearLayout
                         android:id="@+id/frequency_layout"
-                        style="@style/DefaultLinearLayoutStyle">
+                        style="@style/VerticalWrapLinearLayoutStyle">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/DefaultTextViewStyle"
+                            style="@style/WhiteTextViewStyle"
                             android:text="@string/frequency"
                             android:textAppearance="@style/DefaultHeadlineTextAppearance" />
 
@@ -108,7 +108,7 @@
                             android:visibility="gone" />
 
                         <TextView
-                            style="@style/DefaultTextViewStyle"
+                            style="@style/WhiteTextViewStyle"
                             android:text="@string/duration"
                             android:textAppearance="@style/DefaultHeadlineTextAppearance" />
 
@@ -120,7 +120,7 @@
 
                     <LinearLayout
                         android:id="@+id/duration_layout"
-                        style="@style/DefaultLinearLayoutStyle">
+                        style="@style/VerticalWrapLinearLayoutStyle">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/beginning_date_btn"

@@ -1,4 +1,4 @@
-package com.example.taskapp.database.entities.reminderEntities
+package com.example.taskapp.database.entities.reminder
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -26,6 +26,7 @@ class PickCustomNotificationDelayFragment : Fragment() {
     private val appComponent by lazy {
         (activity as MainActivity).appComponent
     }
+
     private val viewModel: PickCustomNotificationDelayViewModel by viewModel {
         injectViewModel()
     }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        style="@style/VerticalMatchLinearLayoutStyle"
+        android:background="@color/colorPrimaryDark"
+        >
+        <TextView
+            style="@style/ErrorTextViewStyle"
+            android:text="@string/an_error_ocurred"
+            />
+
+
+    </LinearLayout>
+</layout>

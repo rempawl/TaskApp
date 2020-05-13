@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels.reminder
 
-import com.example.taskapp.database.entities.reminderEntities.Duration
+import com.example.taskapp.database.entities.reminder.Duration
 import org.threeten.bp.LocalDate
 
 typealias DayOfWeekValue = Int

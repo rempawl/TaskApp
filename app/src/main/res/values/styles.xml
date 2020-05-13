@@ -28,11 +28,17 @@
         <item name="android:inputType">textShortMessage</item>
     </style>
 
-    <style name="DefaultLinearLayoutStyle" parent="AppTheme">
+    <style name="VerticalWrapLinearLayoutStyle" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="VerticalMatchLinearLayoutStyle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
 
 
     <style name="WideButtonStyle" parent="Widget.MaterialComponents.Button">
@@ -62,7 +68,16 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
+
+    </style>
+    <style name="WhiteTextViewStyle" parent="DefaultTextViewStyle">
         <item name="android:textColor">@color/design_default_color_background</item>
+    </style>
+
+    <style name="ErrorTextViewStyle" parent="DefaultTextViewStyle">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#AF0B0B</item>
+
     </style>
 
     <style name="DefaultSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">

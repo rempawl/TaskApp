@@ -1,8 +1,8 @@
 package com.example.taskapp.utils
 
 import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.entities.reminderEntities.NotificationTime
-import com.example.taskapp.database.entities.reminderEntities.Reminder
+import com.example.taskapp.database.entities.reminder.NotificationTime
+import com.example.taskapp.database.entities.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.toTaskMinimal
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState

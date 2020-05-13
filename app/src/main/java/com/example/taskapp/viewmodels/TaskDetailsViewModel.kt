@@ -16,7 +16,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
 
-    suspend fun deleteTask() : Int{
+    suspend fun deleteTask(): Int {
         return taskRepository.deleteByID(taskID)
     }
 

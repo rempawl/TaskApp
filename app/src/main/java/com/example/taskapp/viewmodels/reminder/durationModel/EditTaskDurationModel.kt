@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels.reminder.durationModel
 
 import androidx.databinding.library.baseAdapters.BR
 import com.example.taskapp.MyApp
-import com.example.taskapp.database.entities.reminderEntities.Duration
+import com.example.taskapp.database.entities.reminder.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject

@@ -18,11 +18,8 @@ import javax.inject.Inject
 class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLocalDataSource) :
     TaskRepositoryInterface {
 
-    override suspend fun getTasks(): List<DefaultTask> {
-        return when (val data = taskLocalDataSource.getTasks()) {
-            is Result.Success<*> -> data.items as List<DefaultTask>
-            is Result.Error -> listOf(ERROR_TASK)
-        }
+    override suspend fun getTasks(): Result<List<DefaultTask>> {
+        return taskLocalDataSource.getTasks()
     }
 
     override suspend fun deleteByID(id: Long) = taskLocalDataSource.deleteTask(id)
@@ -50,6 +47,7 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
 
     @Suppress("MoveVariableDeclarationIntoWhen")
     override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> = liveData {
+
         val result = taskLocalDataSource.getMinTasksByUpdateDate(MyApp.TODAY)
         val data = when (result) {
             is Result.Success<*> -> result.items as LiveData<List<TaskMinimal>>
@@ -69,9 +67,9 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
     }
 
     override suspend fun getTaskByID(id: Long): DefaultTask {
-        return when (val result = taskLocalDataSource.getTaskById(id)) {
-            is Result.Success<*> -> result.items as DefaultTask
-            is Result.Error -> (ERROR_TASK)
+        return when(val data = taskLocalDataSource.getTaskById(id)){
+            is Result.Success<*> -> data.items as DefaultTask
+            is Result.Error -> ERROR_TASK
         }
     }
 

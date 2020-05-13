@@ -54,13 +54,19 @@ class UpdateRemindersWorker constructor(
 
     override suspend fun doWork(): Result {
 
-        val allTasks = taskRepo.getTasks()
+        val result = taskRepo.getTasks()
+
+        @Suppress("UNCHECKED_CAST")
+        return when (result) {
+            is com.example.taskapp.database.Result.Error -> Result.retry()
+            is com.example.taskapp.database.Result.Success<*> -> updateTasks(result.items as List<DefaultTask>)
+        }
+
+    }
+
+    private suspend fun updateTasks(allTasks: List<DefaultTask>): Result {
 
         if (allTasks.isEmpty()) return Result.success()
-
-        if (allTasks.first() == TaskRepository.ERROR_TASK) {
-            return Result.retry()
-        }
 
         val tasks = allTasks.filter { task -> task.reminder != null }
 
@@ -75,8 +81,8 @@ class UpdateRemindersWorker constructor(
         }
 
         return Result.success()
-    }
 
+    }
 
     private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
         val partitionedTasks = tasks

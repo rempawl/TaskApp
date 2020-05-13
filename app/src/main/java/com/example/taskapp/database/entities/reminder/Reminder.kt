@@ -1,4 +1,4 @@
-package com.example.taskapp.database.entities.reminderEntities
+package com.example.taskapp.database.entities.reminder
 
 import android.os.Parcelable
 import androidx.room.Embedded
@@ -16,11 +16,8 @@ data class Reminder(
     val realizationDate: LocalDate
 ) : Parcelable{
 
-    /**
-     * returns this if realization date has not been updated
-     * else new instance with updated realization date
-     */
-    fun updateRealizationDate() : Reminder {
+     //returns this if realization date has not been updated else new instance with updated realization date
+     fun updateRealizationDate() : Reminder {
         val date = frequency.getUpdateDate(lastRealizationDate = realizationDate)
         return if(date != realizationDate){
             this.copy(realizationDate = date)

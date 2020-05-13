@@ -16,7 +16,7 @@ import javax.inject.Inject
 //todo settings menu
 //todo tests
 //todo Realization Entity
-//todo liveData repo
+
 open class MyApp : Application() {
 
     val appComponent: AppComponent by lazy {

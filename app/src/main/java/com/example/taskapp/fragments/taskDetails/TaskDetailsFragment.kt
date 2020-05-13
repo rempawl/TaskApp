@@ -11,8 +11,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.DATE_FORMATTER
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.reminderEntities.NotificationTime
-import com.example.taskapp.database.entities.reminderEntities.Reminder
+import com.example.taskapp.database.entities.reminder.NotificationTime
+import com.example.taskapp.database.entities.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel

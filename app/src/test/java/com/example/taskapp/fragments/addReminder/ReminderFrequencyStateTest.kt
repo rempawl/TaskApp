@@ -1,6 +1,6 @@
 package com.example.taskapp.fragments.addReminder
 
-import com.example.taskapp.database.entities.reminderEntities.Frequency
+import com.example.taskapp.database.entities.reminder.Frequency
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.hamcrest.CoreMatchers.`is`
