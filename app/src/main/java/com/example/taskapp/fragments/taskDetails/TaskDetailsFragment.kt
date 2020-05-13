@@ -37,10 +37,10 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private val args: TaskDetailsFragmentArgs by navArgs()
 
+    private val appComponent = (activity as MainActivity).appComponent
+
     private val viewModel: TaskDetailsViewModel by viewModel {
-        (activity as MainActivity)
-            .appComponent.taskDetailsViewModelFactory
-            .create(args.taskID)
+        appComponent.taskDetailsViewModelFactory.create(args.taskID)
     }
 
     private var binding: TaskDetailsFragmentBinding? = null

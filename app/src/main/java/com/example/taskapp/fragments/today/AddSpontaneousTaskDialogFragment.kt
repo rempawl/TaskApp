@@ -85,7 +85,6 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
 
     private fun addSpontaneousTasks() {
         viewModel.addSpontaneousTasks()
-
         dismiss()
     }
 

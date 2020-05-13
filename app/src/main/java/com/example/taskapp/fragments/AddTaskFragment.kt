@@ -16,6 +16,7 @@ import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.bindingArranger.AddTaskBindingArranger
+import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
 import com.example.taskapp.viewmodels.AddTaskViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +39,9 @@ class AddTaskFragment : Fragment() {
     @Inject
     lateinit var alarmCreator: AlarmCreator
 
+    @Inject
+    lateinit var dispatcherProvider: DispatcherProvider
+
     private var binding: AddEditTaskFragmentBinding? = null
 
     private var bindingOrganiser: AddTaskBindingArranger? = null
@@ -57,7 +61,10 @@ class AddTaskFragment : Fragment() {
         binding = AddEditTaskFragmentBinding
             .inflate(inflater, container, false)
 
-        bindingOrganiser = AddTaskBindingArranger(binding!!, this, viewModel, addTask)
+        bindingOrganiser = AddTaskBindingArranger(
+            binding = binding!!, fragment = this, viewModel = viewModel,
+            onConfirmClickListener = addTask
+        )
 
         setUpObservers()
 
@@ -100,8 +107,9 @@ class AddTaskFragment : Fragment() {
     }
 
     private fun addTask() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(dispatcherProvider.provideMainDispatcher()) {
             viewModel.saveTask()
+
             findNavController().navigate(
                 AddTaskFragmentDirections.navigationAddReminderToNavigationMyTasks()
             )

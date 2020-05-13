@@ -40,7 +40,7 @@ class MyTasksFragment : Fragment() {
     private var binding: MyTasksFragmentBinding? = null
 
     private val taskListAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create { task -> navigateToTaskDetails(task) }
+        taskListAdapterFactory.create(onItemClickListener =  { task -> navigateToTaskDetails(task) })
     }
 
 

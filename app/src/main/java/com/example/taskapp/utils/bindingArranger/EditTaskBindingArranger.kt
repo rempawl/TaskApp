@@ -9,16 +9,18 @@ import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 
 class EditTaskBindingArranger(
     binding: AddEditTaskFragmentBinding, fragment: Fragment, viewModel: ReminderViewModel,
-    onClickListener: View.OnClickListener
+    onConfirmClickListener: View.OnClickListener
 ) : AddEditTaskBindingArranger(binding, fragment, viewModel) {
-    override val confirmButtonListener: View.OnClickListener = onClickListener
+
+    override val confirmButtonListener: View.OnClickListener = onConfirmClickListener
 
     init {
         setUp()
     }
 
     override fun setUp() {
-        setUpBinding()
+        super.setUpBinding()
+
         binding.apply {
             taskName.isEnabled = false
             beginningDateBtn.isEnabled = false

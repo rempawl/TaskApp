@@ -8,10 +8,10 @@ import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 
 class AddTaskBindingArranger(
     binding: AddEditTaskFragmentBinding, fragment: Fragment, viewModel: ReminderViewModel,
-    clickListener: View.OnClickListener
+    onConfirmClickListener: View.OnClickListener
 ) : AddEditTaskBindingArranger(binding, fragment, viewModel) {
 
-    override val confirmButtonListener: View.OnClickListener = clickListener
+    override val confirmButtonListener: View.OnClickListener = onConfirmClickListener
 
     init {
         setUp()

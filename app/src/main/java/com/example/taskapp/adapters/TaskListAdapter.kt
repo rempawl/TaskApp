@@ -11,14 +11,14 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
 
-class TaskListAdapter @AssistedInject constructor(@Assisted private val clickListener: (TaskMinimal) -> Unit ) :
+class TaskListAdapter @AssistedInject constructor(@Assisted private val onItemClickListener: (TaskMinimal) -> Unit ) :
     ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
 
 
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(clickListener: (TaskMinimal) -> Unit): TaskListAdapter
+        fun create(onItemClickListener: (TaskMinimal) -> Unit): TaskListAdapter
     }
 
 
@@ -28,7 +28,7 @@ class TaskListAdapter @AssistedInject constructor(@Assisted private val clickLis
         fun bind(task: TaskMinimal) {
             binding.apply {
                 this.task = task
-                taskCard.setOnClickListener { clickListener(task) }
+                taskCard.setOnClickListener { onItemClickListener(task) }
                 executePendingBindings()
             }
         }

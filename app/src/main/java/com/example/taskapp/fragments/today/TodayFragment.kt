@@ -31,7 +31,7 @@ class TodayFragment : Fragment() {
         (activity as MainActivity).appComponent
     }
 
-    val viewModel: TodayViewModel by viewModel {
+    private val viewModel: TodayViewModel by viewModel {
         appComponent.todayViewModel
     }
 
@@ -39,7 +39,7 @@ class TodayFragment : Fragment() {
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
     private val taskAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create { task ->navigateToTaskDetails(task)}
+        taskListAdapterFactory.create(onItemClickListener =   { task ->navigateToTaskDetails(task)})
     }
 
 
