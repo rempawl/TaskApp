@@ -1,19 +1,17 @@
 package com.example.taskapp.viewmodels
 
-import androidx.lifecycle.LiveData
-import com.example.taskapp.database.entities.task.TaskMinimal
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
-@ExtendWith(InstantTaskExecutor::class)
+//@ExtendWith(InstantTaskExecutor::class)
 internal class TodayViewModelTest {
 
     init {
@@ -26,7 +24,7 @@ internal class TodayViewModelTest {
     val testCoroutineRule = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutor()
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
 
 //    @MockK
@@ -34,7 +32,7 @@ internal class TodayViewModelTest {
 
     lateinit var viewModel: TodayViewModel
 
-    @BeforeEach
+    @Before
     fun setUp(){
 //        MockKAnnotations.init(this)
         testCoroutineRule.runBlockingTest {
@@ -44,16 +42,14 @@ internal class TodayViewModelTest {
 
     @Test
     fun `get tasks returns default minimal tasks`(){
-         var ts : LiveData<List<TaskMinimal>>? = null
         testCoroutineRule.runBlockingTest {
 //            coEvery { taskRepository.getTodayMinTasks() } returns MutableLiveData(DefaultTasks.minimalTasks)
-
-            ts = viewModel.tasks
+            val expected = DefaultTasks.minimalTasks
+            val actual = viewModel.tasks.getOrAwaitValue()
+            assertThat(actual, `is`(expected))
 
         }
-        val expected = DefaultTasks.minimalTasks
-        val actual = ts!!.getOrAwaitValue()
-        assertThat(actual, `is`(expected))
+
     }
 
 }

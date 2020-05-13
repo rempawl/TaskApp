@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.*
 import io.mockk.MockKAnnotations
@@ -9,13 +11,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
-@ExtendWith(InstantTaskExecutor::class)
 
 internal class MyTasksViewModelTest {
     init {
@@ -30,28 +30,26 @@ internal class MyTasksViewModelTest {
     private lateinit var viewModel: MyTasksViewModel
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutor()
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val coroutineScope = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = MyTasksViewModel(taskRepository,dispatcherProvider)
+        viewModel = MyTasksViewModel(taskRepository, dispatcherProvider)
     }
 
     @Test
     fun `get tasks returns default tasks`() {
-
-/*todo
-        coEvery { taskRepository.getTasks() } returns
+        coEvery { taskRepository.getMinimalTasks() } returns  MutableLiveData(DefaultTasks.minimalTasks)
         coroutineScope.runBlockingTest {
+
             val actualTasks = viewModel.tasks.getOrAwaitValue()
             val expected = DefaultTasks.minimalTasks
 
             assertThat(actualTasks,`is`(expected))
         }
-*/
     }
 }

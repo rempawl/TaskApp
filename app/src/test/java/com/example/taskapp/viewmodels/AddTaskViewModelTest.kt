@@ -1,16 +1,13 @@
 package com.example.taskapp.viewmodels
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.InstantTaskExecutor
 import com.example.taskapp.utils.loadTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(InstantTaskExecutor::class)
 class AddTaskViewModelTest {
     init {
         loadTimeZone()
@@ -18,7 +15,7 @@ class AddTaskViewModelTest {
     }
 
     @get:Rule
-    val instantTaskExecutor = InstantTaskExecutor()
+    val instantTaskExecutor = InstantTaskExecutorRule()
 
     @MockK
     lateinit var taskRepositoryInterface: TaskRepositoryInterface
@@ -26,15 +23,11 @@ class AddTaskViewModelTest {
 
     lateinit var viewModel: AddTaskViewModel
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
     }
-
-    @Test
-    fun `createTask returns `() {
-
-    }
+//todo
 
 }

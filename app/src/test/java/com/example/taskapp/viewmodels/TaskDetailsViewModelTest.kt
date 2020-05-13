@@ -1,5 +1,6 @@
 package com.example.taskapp.viewmodels
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.*
 import io.mockk.MockKAnnotations
@@ -9,14 +10,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
-@ExtendWith(InstantTaskExecutor::class)
-
 class TaskDetailsViewModelTest {
     init {
         loadTimeZone()
@@ -24,7 +22,7 @@ class TaskDetailsViewModelTest {
     private val dispatcherProvider = TestDispatcherProvider()
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutor()
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val coroutineTestRule = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
@@ -36,7 +34,7 @@ class TaskDetailsViewModelTest {
 
     private val taskId: Long = 0
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
         viewModel = TaskDetailsViewModel(taskId, taskRepository,dispatcherProvider)

@@ -3,6 +3,7 @@ package com.example.taskapp.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.database.entities.task.toTaskMinimal
@@ -13,7 +14,8 @@ import org.threeten.bp.LocalDate
 class FakeTaskRepository : TaskRepositoryInterface {
     val tasks = DefaultTasks.tasks
 
-    override suspend fun getTasks(): List<DefaultTask> = tasks.toList()
+    override suspend fun getTasks(): Result<List<DefaultTask>> = TODO()
+//    tasks.toList()
 
     override suspend fun deleteByID(id: Long): Int {
         val wasDeleted = tasks.removeIf { task : DefaultTask -> task.taskID == id }

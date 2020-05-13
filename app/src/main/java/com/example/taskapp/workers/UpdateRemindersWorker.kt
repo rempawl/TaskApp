@@ -65,7 +65,6 @@ class UpdateRemindersWorker constructor(
     }
 
     private suspend fun updateTasks(allTasks: List<DefaultTask>): Result {
-
         if (allTasks.isEmpty()) return Result.success()
 
         val tasks = allTasks.filter { task -> task.reminder != null }
@@ -106,7 +105,6 @@ class UpdateRemindersWorker constructor(
 
 
     companion object {
-
         private const val TASK_KEY = "task"
         const val WORK_NAME = "UpdateNotificationDatesWorker"
     }
