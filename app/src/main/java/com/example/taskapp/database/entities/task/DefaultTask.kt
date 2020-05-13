@@ -1,10 +1,12 @@
-package com.example.taskapp.database.entities
+package com.example.taskapp.database.entities.task
 
 import android.os.Parcelable
-import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.example.taskapp.database.entities.reminderEntities.Reminder
 import kotlinx.android.parcel.Parcelize
-import org.threeten.bp.LocalDate
 
 fun DefaultTask.toTaskMinimal(): TaskMinimal {
     return TaskMinimal(
@@ -13,19 +15,6 @@ fun DefaultTask.toTaskMinimal(): TaskMinimal {
         description = this.description
     )
 }
-
-@Entity(tableName = "spontaneous tasks")
-data class SpontaneousTask(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val date: LocalDate = LocalDate.now(),
-    @ForeignKey(
-        parentColumns = ["taskID"], childColumns = ["parentTaskID"], entity = DefaultTask::class,
-        onDelete = CASCADE
-    ) val parentTaskID: Long
-)
-
-@Parcelize
-data class TaskMinimal(val taskID: Long, val name: String, val description: String) : Parcelable
 
 @Parcelize
 @Entity(

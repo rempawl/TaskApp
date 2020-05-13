@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels.reminder.notificationModel
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableField
-import com.example.taskapp.database.entities.NotificationTime
+import com.example.taskapp.database.entities.reminderEntities.NotificationTime
 import org.threeten.bp.LocalTime
 
 abstract class NotificationModel :BaseObservable() {

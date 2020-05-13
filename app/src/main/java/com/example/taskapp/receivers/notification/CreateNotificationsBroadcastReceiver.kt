@@ -17,7 +17,7 @@ import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NAME_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper.createNotificationChannel
@@ -48,7 +48,11 @@ class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
         val desc = intent.getStringExtra(TASK_DESC_KEY) ?: "error"
         val id = intent.getLongExtra(TASK_ID_KEY, -1)
 
-        return TaskMinimal(id, name, desc)
+        return TaskMinimal(
+            id,
+            name,
+            desc
+        )
     }
 
     private fun createNotification(

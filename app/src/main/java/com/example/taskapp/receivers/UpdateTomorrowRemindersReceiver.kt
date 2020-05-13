@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.database.AppDataBase
-import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -57,7 +57,7 @@ class UpdateTomorrowRemindersReceiver :
             if (tasksToUpdate.isEmpty()) return@launch
 
             val updatedTasks = updateTaskList(tasksToUpdate)
-            setTomorrowNotifications(updatedTasks, context)
+            setTomorrowNotifications(updatedTasks )
 
             sharedPreferencesHelper.updateCurrentDate(TOMORROW)
         }
@@ -72,7 +72,7 @@ class UpdateTomorrowRemindersReceiver :
     }
 
 
-    private fun setTomorrowNotifications(tasks: List<DefaultTask>, context: Context) {
+    private fun setTomorrowNotifications(tasks: List<DefaultTask>) {
         val tomorrowTasks = tasks
             .filter { task ->
                 DATE_PREDICATE(

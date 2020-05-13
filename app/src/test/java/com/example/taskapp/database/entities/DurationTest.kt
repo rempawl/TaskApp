@@ -1,5 +1,6 @@
 package com.example.taskapp.database.entities
 
+import com.example.taskapp.database.entities.reminderEntities.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
@@ -15,7 +16,8 @@ internal class DurationTest{
         @Test
         fun `Duration(NoEndDateIndex,0), Then returns ReminderFrequencyState NoEndDate`(){
             val actual : ReminderDurationState = Duration(
-                ReminderDurationState.NO_END_DATE_DURATION_INDEX,0)
+                ReminderDurationState.NO_END_DATE_DURATION_INDEX, 0
+            )
                 .convertToDurationState()
             val expected : ReminderDurationState = ReminderDurationState.NoEndDate
             assertThat(actual,`is`(expected))
@@ -24,7 +26,8 @@ internal class DurationTest{
         fun `Duration(EndDateIndex,20-07-2014 toEpoch) ,Then returns ReminderFrequencyState EndDate`(){
             val date = LocalDate.of(2014,7,20)
             val actual : ReminderDurationState = Duration(
-                ReminderDurationState.END_DATE_DURATION_INDEX,date.toEpochDay())
+                ReminderDurationState.END_DATE_DURATION_INDEX, date.toEpochDay()
+            )
                 .convertToDurationState()
             val expected : ReminderDurationState = ReminderDurationState.EndDate(date)
             assertThat(actual,`is`(expected))
@@ -32,7 +35,8 @@ internal class DurationTest{
         @Test
         fun `Duration(DaysDurationIndex,2), Then returns ReminderFrequencyState Daily92)`(){
             val actual : ReminderDurationState = Duration(
-                ReminderDurationState.DAYS_DURATION_INDEX,2)
+                ReminderDurationState.DAYS_DURATION_INDEX, 2
+            )
                 .convertToDurationState()
             val expected : ReminderDurationState = ReminderDurationState.DaysDuration(2)
             assertThat(actual,`is`(expected))

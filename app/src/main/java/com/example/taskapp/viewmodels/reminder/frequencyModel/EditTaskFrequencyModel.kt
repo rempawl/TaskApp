@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels.reminder.frequencyModel
 
-import com.example.taskapp.database.entities.Frequency
+import com.example.taskapp.database.entities.reminderEntities.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.squareup.inject.assisted.Assisted

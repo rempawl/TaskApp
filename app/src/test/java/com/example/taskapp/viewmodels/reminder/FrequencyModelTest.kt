@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels.reminder
 
-import com.example.taskapp.database.entities.Frequency
+import com.example.taskapp.database.entities.reminderEntities.Frequency
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -69,7 +69,11 @@ internal class FrequencyModelTest {
     @Nested
     @DisplayName("Init With Frequency(DailyIndex,2)")
     inner class InitWithFrequencyDaily {
-        private val freq = Frequency(ReminderFrequencyState.DAILY_FREQUENCY_INDEX, 2)
+        private val freq =
+            Frequency(
+                ReminderFrequencyState.DAILY_FREQUENCY_INDEX,
+                2
+            )
 
         @BeforeEach
         fun setUp() {

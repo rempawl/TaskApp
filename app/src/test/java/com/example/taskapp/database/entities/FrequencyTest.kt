@@ -1,5 +1,6 @@
 package com.example.taskapp.database.entities
 
+import com.example.taskapp.database.entities.reminderEntities.Frequency
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
@@ -15,7 +16,10 @@ internal class FrequencyTest {
         @Test
         fun `Frequency(DAILY_FREQUENCY_INDEX,value = 2), Then returns  ReminderFrequencyState Daily(2)`() {
             val expected = ReminderFrequencyState.Daily(2) as ReminderFrequencyState
-            val actual = Frequency(ReminderFrequencyState.DAILY_FREQUENCY_INDEX, 2)
+            val actual = Frequency(
+                ReminderFrequencyState.DAILY_FREQUENCY_INDEX,
+                2
+            )
                 .convertToFrequencyState()
             assertThat(actual, `is`(expected))
         }
@@ -28,7 +32,7 @@ internal class FrequencyTest {
                 val expected =
                     ReminderFrequencyState.WeekDays(setOf(Day.MONDAY.value)) as ReminderFrequencyState
                 val actual = Frequency(
-                     ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX,
+                    ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX,
                     1
                 ).convertToFrequencyState()
                 assertThat(actual, `is`(expected))

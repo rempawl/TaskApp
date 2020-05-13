@@ -1,7 +1,7 @@
 package com.example.taskapp.utils.notification
 
 import android.content.Intent
-import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.database.entities.task.TaskMinimal
 
 interface NotificationIntentFactory {
 

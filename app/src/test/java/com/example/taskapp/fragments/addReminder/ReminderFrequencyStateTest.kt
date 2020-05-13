@@ -1,6 +1,6 @@
 package com.example.taskapp.fragments.addReminder
 
-import com.example.taskapp.database.entities.Frequency
+import com.example.taskapp.database.entities.reminderEntities.Frequency
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.hamcrest.CoreMatchers.`is`
@@ -34,7 +34,11 @@ internal class ReminderFrequencyStateTest {
             @DisplayName("Daily(2)")
             @Test
             fun `Then returns Frequency(DAILY_FREQUENCY_INDEX,2) `() {
-                val expected = Frequency(ReminderFrequencyState.DAILY_FREQUENCY_INDEX, 2)
+                val expected =
+                    Frequency(
+                        ReminderFrequencyState.DAILY_FREQUENCY_INDEX,
+                        2
+                    )
                 val actual = ReminderFrequencyState.Daily(2).convertToFrequency()
                 assertThat(actual, `is`(expected))
             }
@@ -42,7 +46,11 @@ internal class ReminderFrequencyStateTest {
             @DisplayName("Weekdays(Monday)")
             @Test
             fun `Then returns Frequency(WEEKDAYS_FREQUENCY_INDEX,1)`() {
-                val expected = Frequency(ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX, 1)
+                val expected =
+                    Frequency(
+                        ReminderFrequencyState.WEEKDAYS_FREQUENCY_INDEX,
+                        1
+                    )
                 val actual = ReminderFrequencyState.WeekDays(setOf(monday)).convertToFrequency()
                 assertThat(actual, `is`(expected))
 

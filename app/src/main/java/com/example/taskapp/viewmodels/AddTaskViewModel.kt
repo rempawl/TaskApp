@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels
 
 import android.view.View
 import android.widget.EditText
-import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel

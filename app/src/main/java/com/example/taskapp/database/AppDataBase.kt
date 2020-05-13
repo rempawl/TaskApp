@@ -8,8 +8,8 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.taskapp.database.dao.StreakDao
 import com.example.taskapp.database.dao.TaskDao
-import com.example.taskapp.database.entities.DefaultTask
 import com.example.taskapp.database.entities.Streak
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.utils.Converters
 import com.example.taskapp.utils.DefaultTasks
 import kotlinx.coroutines.CoroutineScope

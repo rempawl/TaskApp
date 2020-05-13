@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import com.example.taskapp.database.entities.task.DefaultTask
 import org.threeten.bp.LocalDate
 
 @Entity(tableName = "streaks")

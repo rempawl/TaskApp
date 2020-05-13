@@ -48,7 +48,7 @@
         android:label="@string/edit_task">
         <argument
             android:name="task"
-            app:argType="com.example.taskapp.database.entities.DefaultTask"
+            app:argType="com.example.taskapp.database.entities.task.DefaultTask"
             app:nullable="false" />
         <action
             android:id="@+id/navigation_edit_task_to_navigation_my_tasks"

@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels
 
+import androidx.lifecycle.LiveData
+import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -19,6 +21,7 @@ internal class TodayViewModelTest {
     }
 
     private val dispatcherProvider = TestDispatcherProvider()
+
     @get:Rule
     val testCoroutineRule = CoroutineTestRule(dispatcherProvider.provideDefaultDispatcher())
 
@@ -34,20 +37,23 @@ internal class TodayViewModelTest {
     @BeforeEach
     fun setUp(){
 //        MockKAnnotations.init(this)
-        viewModel = TodayViewModel(FakeTaskRepository(),dispatcherProvider)
-
+        testCoroutineRule.runBlockingTest {
+            viewModel = TodayViewModel(FakeTaskRepository(), dispatcherProvider)
+        }
     }
 
     @Test
     fun `get tasks returns default minimal tasks`(){
+         var ts : LiveData<List<TaskMinimal>>? = null
         testCoroutineRule.runBlockingTest {
 //            coEvery { taskRepository.getTodayMinTasks() } returns MutableLiveData(DefaultTasks.minimalTasks)
 
-            val actual = viewModel.tasks.getOrAwaitValue()
-            val expected = DefaultTasks.minimalTasks
+            ts = viewModel.tasks
 
-            assertThat(actual, `is`(expected))
         }
+        val expected = DefaultTasks.minimalTasks
+        val actual = ts!!.getOrAwaitValue()
+        assertThat(actual, `is`(expected))
     }
 
 }

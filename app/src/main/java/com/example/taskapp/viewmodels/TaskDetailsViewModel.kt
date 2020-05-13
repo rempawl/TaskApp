@@ -3,7 +3,7 @@ package com.example.taskapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
 import com.squareup.inject.assisted.Assisted

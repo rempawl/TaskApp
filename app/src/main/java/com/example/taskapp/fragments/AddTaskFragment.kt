@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
-import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.alarmCreator.AlarmCreator

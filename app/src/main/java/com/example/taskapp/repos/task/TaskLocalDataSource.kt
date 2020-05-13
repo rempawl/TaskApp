@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.dao.TaskDao
-import com.example.taskapp.database.entities.DefaultTask
-import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.database.entities.task.TaskMinimal
 import dagger.Reusable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

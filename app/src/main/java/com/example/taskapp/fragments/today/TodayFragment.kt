@@ -14,7 +14,7 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
-import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.databinding.TodayFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.TodayViewModel

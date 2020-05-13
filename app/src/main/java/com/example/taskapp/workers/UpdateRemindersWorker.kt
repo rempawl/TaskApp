@@ -5,7 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.AppDataBase
-import com.example.taskapp.database.entities.DefaultTask
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface

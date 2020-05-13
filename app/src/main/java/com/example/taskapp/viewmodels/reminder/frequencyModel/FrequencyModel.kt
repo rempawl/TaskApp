@@ -4,7 +4,7 @@ import android.widget.CompoundButton
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.example.taskapp.BR
-import com.example.taskapp.database.entities.Frequency
+import com.example.taskapp.database.entities.reminderEntities.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.threeten.bp.LocalDate

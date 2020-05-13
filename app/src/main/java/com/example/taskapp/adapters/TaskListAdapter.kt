@@ -5,15 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskapp.database.entities.TaskMinimal
+import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
-sealed class ParentFragmentType {
-    object TodayFragment : ParentFragmentType()
-    object MyTasksFragment : ParentFragmentType()
-}
 
 class TaskListAdapter @AssistedInject constructor(@Assisted private val clickListener: (TaskMinimal) -> Unit ) :
     ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {

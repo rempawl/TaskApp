@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.Duration
+import com.example.taskapp.database.entities.reminderEntities.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import org.threeten.bp.LocalDate
 

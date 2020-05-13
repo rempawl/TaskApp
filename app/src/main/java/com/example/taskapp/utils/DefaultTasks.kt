@@ -1,10 +1,10 @@
 package com.example.taskapp.utils
 
 import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.entities.DefaultTask
-import com.example.taskapp.database.entities.NotificationTime
-import com.example.taskapp.database.entities.Reminder
-import com.example.taskapp.database.entities.toTaskMinimal
+import com.example.taskapp.database.entities.reminderEntities.NotificationTime
+import com.example.taskapp.database.entities.reminderEntities.Reminder
+import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.database.entities.task.toTaskMinimal
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.threeten.bp.DayOfWeek
@@ -20,28 +20,39 @@ object DefaultTasks {
         LocalDate.ofEpochDay(TODAY.toEpochDay() + 20)
     )
 
-    private val notificationTimeTwelve = NotificationTime(12, 0, true)
+    private val notificationTimeTwelve =
+        NotificationTime(
+            12,
+            0,
+            true
+        )
 
-    private val firstReminder = Reminder(
-        begDate = TODAY,
-        frequency = frequencyMondayTuesday.convertToFrequency(),
-        duration = duration10Days.convertToDuration(),
-        expirationDate = duration10Days.calculateEndDate(begDate = TODAY),
-        realizationDate = frequencyMondayTuesday.calculateRealizationDate(TODAY, true),
-        notificationTime = notificationTimeTwelve
-    )
+    private val firstReminder =
+        Reminder(
+            begDate = TODAY,
+            frequency = frequencyMondayTuesday.convertToFrequency(),
+            duration = duration10Days.convertToDuration(),
+            expirationDate = duration10Days.calculateEndDate(begDate = TODAY),
+            realizationDate = frequencyMondayTuesday.calculateRealizationDate(TODAY, true),
+            notificationTime = notificationTimeTwelve
+        )
 
-    private val secondReminder = Reminder(
-        begDate = TODAY,
-        frequency = frequency2days.convertToFrequency(),
-        duration = durationEndDate.convertToDuration(),
-        expirationDate = durationEndDate.calculateEndDate(TODAY),
-        realizationDate = frequency2days.calculateRealizationDate(TODAY, true),
-        notificationTime = notificationTimeTwelve
-    )
+    private val secondReminder =
+        Reminder(
+            begDate = TODAY,
+            frequency = frequency2days.convertToFrequency(),
+            duration = durationEndDate.convertToDuration(),
+            expirationDate = durationEndDate.calculateEndDate(TODAY),
+            realizationDate = frequency2days.calculateRealizationDate(TODAY, true),
+            notificationTime = notificationTimeTwelve
+        )
 
     val tasks = mutableListOf<DefaultTask>(
-        DefaultTask(taskID = 0, name = "first", description = "no reminder"),
+        DefaultTask(
+            taskID = 0,
+            name = "first",
+            description = "no reminder"
+        ),
         DefaultTask(
             taskID = 1,
             name = "second",
@@ -70,6 +81,9 @@ object DefaultTasks {
 
     val minimalTasks = tasks.map { task ->task.toTaskMinimal() }
 
-    val errorTask = DefaultTask(taskID = -1,name = "error")
+    val errorTask = DefaultTask(
+        taskID = -1,
+        name = "error"
+    )
 
 }

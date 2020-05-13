@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.Result
-import com.example.taskapp.database.entities.DefaultTask
-import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.database.entities.toTaskMinimal
+import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.database.entities.task.toTaskMinimal
 import dagger.Reusable
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -102,7 +102,10 @@ class TaskRepository @Inject constructor(private val taskLocalDataSource: TaskLo
         taskLocalDataSource.updateTasks(tasks)
 
     companion object {
-        val ERROR_TASK = DefaultTask(taskID = -1, name = "An error occurred")
+        val ERROR_TASK = DefaultTask(
+            taskID = -1,
+            name = "An error occurred"
+        )
         val MIN_ERROR_TASK = ERROR_TASK.toTaskMinimal()
 
     }

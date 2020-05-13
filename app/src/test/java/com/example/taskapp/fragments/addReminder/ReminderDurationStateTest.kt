@@ -1,6 +1,6 @@
 package com.example.taskapp.fragments.addReminder
 
-import com.example.taskapp.database.entities.Duration
+import com.example.taskapp.database.entities.reminderEntities.Duration
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import org.hamcrest.CoreMatchers.`is`
@@ -30,7 +30,10 @@ internal class ReminderDurationStateTest {
             fun `EndDate(date = 21-02-2022),then Duration equals  Duration(END_DATE_DURATION_INDEX,endDate toEpoch)  `() {
                 val durState = ReminderDurationState.EndDate(endDate)
                 val expected =
-                    Duration(ReminderDurationState.END_DATE_DURATION_INDEX, endDate.toEpochDay())
+                    Duration(
+                        ReminderDurationState.END_DATE_DURATION_INDEX,
+                        endDate.toEpochDay()
+                    )
                 val actual = durState.convertToDuration()
                 assertThat(actual, `is`(expected))
             }
@@ -38,7 +41,11 @@ internal class ReminderDurationStateTest {
             @Test
             fun `DaysDuration(10 days), then Duration equals Duration(DAYS_DURATION_INDEX,10)`() {
                 val durationState = ReminderDurationState.DaysDuration(10)
-                val expected = Duration(ReminderDurationState.DAYS_DURATION_INDEX, 10)
+                val expected =
+                    Duration(
+                        ReminderDurationState.DAYS_DURATION_INDEX,
+                        10
+                    )
                 val actual = durationState.convertToDuration()
                 assertThat(actual, `is`(expected))
             }

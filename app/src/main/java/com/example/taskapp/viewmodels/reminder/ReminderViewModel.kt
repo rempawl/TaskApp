@@ -8,8 +8,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp
-import com.example.taskapp.database.entities.DefaultTask
-import com.example.taskapp.database.entities.Reminder
+import com.example.taskapp.database.entities.reminderEntities.Reminder
+import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.utils.scheduler.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel

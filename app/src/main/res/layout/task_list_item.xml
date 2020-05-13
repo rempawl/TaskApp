@@ -7,7 +7,7 @@
     <import type="android.view.View"/>
         <variable
             name="task"
-            type="com.example.taskapp.database.entities.TaskMinimal" />
+            type="com.example.taskapp.database.entities.task.TaskMinimal" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -44,7 +44,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/design_default_color_background"
                 android:textSize="20sp"
-                android:visibility='@{task.description.equalsIgnoreCase("")  ? View.GONE : View.VISIBLE}'
+                app:showWhen='@{!task.description.equalsIgnoreCase("")}'
                 tools:text="text" />
 
 

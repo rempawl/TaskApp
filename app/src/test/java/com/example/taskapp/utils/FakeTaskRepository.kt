@@ -3,9 +3,9 @@ package com.example.taskapp.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.example.taskapp.database.entities.DefaultTask
-import com.example.taskapp.database.entities.TaskMinimal
-import com.example.taskapp.database.entities.toTaskMinimal
+import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.database.entities.task.toTaskMinimal
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import io.reactivex.Single
 import org.threeten.bp.LocalDate

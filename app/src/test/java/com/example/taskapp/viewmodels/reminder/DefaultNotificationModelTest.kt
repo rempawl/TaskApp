@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels.reminder
 
-import com.example.taskapp.database.entities.NotificationTime
+import com.example.taskapp.database.entities.reminderEntities.NotificationTime
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.viewmodels.reminder.notificationModel.EditTaskNotificationModel
 import org.hamcrest.MatcherAssert.assertThat
