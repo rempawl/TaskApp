@@ -111,7 +111,7 @@ class AddTaskFragment : Fragment() {
             viewModel.saveTask()
 
             findNavController().navigate(
-                AddTaskFragmentDirections.navigationAddReminderToNavigationMyTasks()
+                AddTaskFragmentDirections.navigationAddTaskToNavigationMyTasks()
             )
         }
     }

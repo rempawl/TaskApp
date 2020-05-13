@@ -11,6 +11,8 @@
 
         >
         <action
+            app:popUpTo="@id/navigation_today"
+            app:popUpToInclusive="true"
             android:id="@+id/navigation_pick_custom_delay_to_navigation_today"
             app:destination="@id/navigation_today" />
 
@@ -51,6 +53,8 @@
             app:argType="com.example.taskapp.database.entities.task.DefaultTask"
             app:nullable="false" />
         <action
+            app:popUpTo="@id/navigation_my_tasks"
+            app:popUpToInclusive="true"
             android:id="@+id/navigation_edit_task_to_navigation_my_tasks"
             app:destination="@id/navigation_my_tasks"
 
@@ -65,6 +69,8 @@
         android:name="com.example.taskapp.fragments.taskDetails.TaskDetailsFragment"
         android:label="@string/task_details">
         <action
+            app:popUpTo="@id/navigation_my_tasks"
+            app:popUpToInclusive="true"
             android:id="@+id/navigation_task_details_to_navigation_my_tasks"
             app:destination="@id/navigation_my_tasks" />
         <action
@@ -80,8 +86,11 @@
         android:id="@+id/navigation_add_task"
         android:name="com.example.taskapp.fragments.AddTaskFragment"
         android:label="@string/add_reminder">
+
         <action
-            android:id="@+id/navigation_add_reminder_to_navigation_my_tasks"
+            app:popUpTo="@id/navigation_my_tasks"
+            app:popUpToInclusive="true"
+            android:id="@+id/navigation_add_task_to_navigation_my_tasks"
             app:destination="@id/navigation_my_tasks"
             />
 

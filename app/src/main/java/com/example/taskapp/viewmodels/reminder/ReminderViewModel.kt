@@ -56,9 +56,9 @@ abstract class ReminderViewModel(
                 .subscribeOn(schedulerProvider.getIoScheduler())
                 .subscribe({}, { e -> e.printStackTrace() })
         )
-        if (isRealizationToday && reminder != null
-            && reminder.notificationTime.convertToLocalTime().isAfter(LocalTime.now())
-        ) {
+
+        val isAfterNow = reminder?.notificationTime?.convertToLocalTime()?.isAfter(LocalTime.now()) ?: false
+        if (isRealizationToday && isAfterNow) {
             _addedTask.value = task
         }
 
@@ -90,7 +90,6 @@ abstract class ReminderViewModel(
 
     private fun transformError(isError: LiveData<Int>) =
         Transformations.map(isError) { stringId -> stringId }
-
 
 /*
     private fun saveStreak(taskID: Long) {
