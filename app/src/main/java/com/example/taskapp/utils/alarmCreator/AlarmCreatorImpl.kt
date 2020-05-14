@@ -9,10 +9,10 @@ import android.os.SystemClock
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
+import com.example.taskapp.broadcastReceivers.UpdateTomorrowRemindersReceiver
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.database.entities.task.toTaskMinimal
-import com.example.taskapp.receivers.UpdateTomorrowRemindersReceiver
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime

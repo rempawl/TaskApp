@@ -13,19 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name="com.example.taskapp.receivers.notification.DelayNotificationReceiver"
+            android:name="com.example.taskapp.broadcastReceivers.notification.DelayNotificationReceiver"
             android:enabled="true"
             android:exported="true"/>
         <receiver
-            android:name="com.example.taskapp.receivers.notification.ConfirmTaskCompletedReceiver"
+            android:name="com.example.taskapp.broadcastReceivers.notification.ConfirmTaskCompletedReceiver"
             android:enabled="true"
             android:exported="true" />
         <receiver
-            android:name=".receivers.UpdateTomorrowRemindersReceiver"
+            android:name=".broadcastReceivers.UpdateTomorrowRemindersReceiver"
             android:enabled="true"
             android:exported="true" />
         <receiver
-            android:name="com.example.taskapp.receivers.notification.CreateTaskNotificationBroadcastReceiver"
+            android:name="com.example.taskapp.broadcastReceivers.notification.CreateTaskNotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="true" />
 
@@ -34,7 +34,7 @@
             android:required="false" />
 
         <receiver
-            android:name=".receivers.BootReceiver"
+            android:name=".broadcastReceivers.BootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

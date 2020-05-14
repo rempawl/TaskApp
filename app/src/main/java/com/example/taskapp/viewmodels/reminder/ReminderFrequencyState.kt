@@ -22,9 +22,7 @@ sealed class ReminderFrequencyState {
             )
 
 
-        /**
-         * fun returns beginningDate as updateDate if [lastRealizationDate] is beginning date
-         */
+        // returns beginningDate as updateDate if [lastRealizationDate] is beginning date
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,
             isBeginning: Boolean
@@ -47,10 +45,7 @@ sealed class ReminderFrequencyState {
         ReminderFrequencyState() {
 
         override fun convertToFrequency() =
-            Frequency(
-                WEEKDAYS_FREQUENCY_INDEX,
-                daysOfWeekToInt()
-            )
+            Frequency(WEEKDAYS_FREQUENCY_INDEX,daysOfWeekToInt())
 
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,
@@ -78,7 +73,6 @@ sealed class ReminderFrequencyState {
 
             for (nextWeekDay in DayOfWeek.MONDAY.value until startDateDayOfWeekValue) {
                 if (daysOfWeek.contains(nextWeekDay)) {
-                    println(nextWeekDay)
                     return LocalDate.ofEpochDay(startDate.toEpochDay() + (7 - startDateDayOfWeekValue + nextWeekDay))
                 }
             }
@@ -91,11 +85,11 @@ sealed class ReminderFrequencyState {
         private fun checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(lastRealizationDate: LocalDate) =
             TODAY.toEpochDay() > (lastRealizationDate.toEpochDay() + 7)
 
-        //  setting the i-th bit of result to 1 if dayOfWeek value is  inside daysOfWeek set
         private fun daysOfWeekToInt(): Int {
             var result = 0
             val daysOfWeekValues = DayOfWeek.values()
 
+            //  setting the i-th bit of result to 1 if dayOfWeek value is  inside daysOfWeek set
             for (i in 0..daysOfWeekValues.lastIndex) {
                 if (this.daysOfWeek.contains(daysOfWeekValues[i].value)) {
                     result += 1.shl(i)

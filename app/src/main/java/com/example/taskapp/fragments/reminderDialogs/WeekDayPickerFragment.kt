@@ -35,30 +35,37 @@ class WeekDayPickerFragment(
         val layout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
         }
-        var i = 0
         val days = DayOfWeek.values()
 
-        //iterating over names of days, setting id to matching [DayOfWeek] hashcode
-        resources.getStringArray(R.array.week_days_list).forEach { dayText ->
-            val box = MaterialCheckBox(requireContext()).apply {
-                setUpCheckBox(dayText = dayText, dayValue = days[i].value, i = i)
+        //iterating over names of days, setting id to matching DayOfWeek value
+        resources.getStringArray(R.array.week_days_list)
+            .zip(days)
+            .forEach { (dayText, dayOfWeek) ->
+                addCheckBoxToLayout(dayText, dayOfWeek, layout)
             }
-            layout.addView(box)
-            i++
-        }
         return layout
     }
 
-    private fun MaterialCheckBox.setUpCheckBox(dayText: String?, dayValue: Int, i: Int) {
+    private fun addCheckBoxToLayout(
+        dayText: String?,
+        dayOfWeek: DayOfWeek,
+        layout: LinearLayout
+    ) {
+        val box = MaterialCheckBox(requireContext()).apply {
+            setUpCheckBox(dayText = dayText, dayValue = dayOfWeek.value)
+        }
+        layout.addView(box)
+    }
 
+    private fun MaterialCheckBox.setUpCheckBox(dayText: String?, dayValue: Int ) {
         setOnCheckedChangeListener(onCheckedChangeListener)
+
         gravity = Gravity.CENTER_HORIZONTAL
         text = dayText
         id = dayValue
         val checkedDays = model.currentWeekDays
 
-
-        isChecked = if (checkedDays.isEmpty() && i == 1) {
+        isChecked = if (checkedDays.isEmpty() && dayValue == 1) {
             onCheckedChangeListener.onCheckedChanged(this, true)
             true
         } else {

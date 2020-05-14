@@ -1,4 +1,4 @@
-package com.example.taskapp.receivers
+package com.example.taskapp.broadcastReceivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

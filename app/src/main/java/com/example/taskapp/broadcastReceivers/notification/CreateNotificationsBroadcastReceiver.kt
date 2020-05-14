@@ -1,4 +1,4 @@
-package com.example.taskapp.receivers.notification
+package com.example.taskapp.broadcastReceivers.notification
 
 import android.app.NotificationManager
 import android.app.PendingIntent
