@@ -1,5 +1,6 @@
 package com.example.taskapp.fragments.taskDetails
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ConfirmDialogFragment
+import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
@@ -24,8 +26,8 @@ import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
+import javax.inject.Inject
 
 
 class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedListener {
@@ -35,7 +37,11 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
             TaskDetailsFragment()
     }
 
+    @Inject
+    lateinit var dispatcherProvider : DispatcherProvider
+
     private val args: TaskDetailsFragmentArgs by navArgs()
+
 
     private val appComponent by lazy {
         (activity as MainActivity).appComponent
@@ -47,6 +53,10 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private var binding: TaskDetailsFragmentBinding? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +77,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private fun setUpObservers() {
         viewModel.task.observe(viewLifecycleOwner, Observer { task: DefaultTask ->
-            if (task.reminder != null) {
-                setupReminderLayout(task.reminder)
-            }
+            if (task.reminder != null) setupReminderLayout(task.reminder)
         })
 
     }
@@ -118,8 +126,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
         binding!!.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text =
-                getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
+            begDate.text = getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
             realizationDateText.text = getString(
                 R.string.next_realization_date,
                 reminder.realizationDate.format(DATE_FORMATTER)
@@ -129,18 +136,15 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private fun setNotificationText(notificationTime: NotificationTime) {
         binding!!.notificationText.text = if (notificationTime.isSet) {
-            val txt = "${getString(R.string.notification_time)}: " +
-                    LocalTime.of(notificationTime.hour, notificationTime.minute).format(
-                        DateTimeFormatter.ISO_LOCAL_TIME
-                    )
-            txt
+            "${getString(R.string.notification_time)}: ${notificationTime.convertToLocalTime()
+                .format(DateTimeFormatter.ISO_LOCAL_TIME)}"
         } else {
             getString(R.string.no_notificaton)
         }
     }
 
     private fun setFrequencyText(frequencyState: ReminderFrequencyState) {
-        var freqText = "${getString(R.string.frequency)} "
+        var freqText = "${getString(R.string.frequency)}: "
         freqText += when (frequencyState) {
             is ReminderFrequencyState.Daily -> resources
                 .getQuantityString(
@@ -149,11 +153,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
                 )
             is ReminderFrequencyState.WeekDays -> getWeekDays(frequencyState.daysOfWeek)
         }
-        binding?.apply {
-            frequencyText.text = freqText
-
-        }
-
+        binding!!.frequencyText.text = freqText
     }
 
     private fun getWeekDays(weekDays: Set<DayOfWeekValue>): String {
@@ -185,7 +185,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
                 )
             }
         }
-        binding?.durationText?.text = durText
+        binding!!.durationText.text = durText
     }
 
 

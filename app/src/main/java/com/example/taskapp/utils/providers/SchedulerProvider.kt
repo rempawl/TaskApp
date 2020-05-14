@@ -1,4 +1,4 @@
-package com.example.taskapp.utils.scheduler
+package com.example.taskapp.utils.providers
 
 import io.reactivex.Scheduler
 

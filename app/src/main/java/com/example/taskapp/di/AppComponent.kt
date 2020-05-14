@@ -7,6 +7,7 @@ import com.example.taskapp.fragments.AddTaskFragment
 import com.example.taskapp.fragments.EditTaskFragment
 import com.example.taskapp.fragments.MyTasksFragment
 import com.example.taskapp.fragments.PickCustomNotificationDelayFragment
+import com.example.taskapp.fragments.taskDetails.TaskDetailsFragment
 import com.example.taskapp.fragments.today.AddSpontaneousTaskDialogFragment
 import com.example.taskapp.fragments.today.TodayFragment
 import com.example.taskapp.viewmodels.*
@@ -46,6 +47,7 @@ interface AppComponent {
     fun inject(addSpontaneousTaskDialogFragment: AddSpontaneousTaskDialogFragment)
     fun inject(pickCustomNotificationDelayFragment: PickCustomNotificationDelayFragment)
     fun inject(editTaskFragment: EditTaskFragment)
+    fun inject(taskDetailsFragment: TaskDetailsFragment)
 
     val pickCustomNotificationDelayViewModel: PickCustomNotificationDelayViewModel
     val addSpontaneousTasksViewModel: AddSpontaneousTasksViewModel

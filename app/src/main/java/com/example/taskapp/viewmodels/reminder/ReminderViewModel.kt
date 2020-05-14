@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.utils.scheduler.SchedulerProvider
+import com.example.taskapp.utils.providers.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel

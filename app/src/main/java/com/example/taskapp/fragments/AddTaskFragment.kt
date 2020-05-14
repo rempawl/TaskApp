@@ -16,7 +16,7 @@ import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.bindingArranger.AddTaskBindingArranger
-import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
+import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.AddTaskViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

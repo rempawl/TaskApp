@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.EditText
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.scheduler.SchedulerProvider
+import com.example.taskapp.utils.providers.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
@@ -30,8 +30,11 @@ class AddTaskViewModel @Inject constructor(
     schedulerProvider = schedulerProvider
 ) {
     val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
-        val text = (view as EditText).text.toString()
+        onFocusChange(view, focused,taskDetailsModel)
+    }
 
+    private fun onFocusChange(view: View?,focused: Boolean,taskDetailsModel: TaskDetailsModel) {
+        val text = (view as EditText).text.toString()
         if (!focused && text.isNotEmpty()) {
             taskDetailsModel.isTaskNameValid(true)
         }

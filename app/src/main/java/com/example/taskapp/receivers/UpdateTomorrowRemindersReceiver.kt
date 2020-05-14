@@ -12,9 +12,9 @@ import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
-import com.example.taskapp.utils.dispatcherProvider.DefaultDispatcherProvider
-import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
+import com.example.taskapp.utils.providers.DefaultDispatcherProvider
+import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelper
 import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelperImpl
 import com.example.taskapp.workers.DatePredicate

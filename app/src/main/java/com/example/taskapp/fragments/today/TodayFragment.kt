@@ -18,7 +18,6 @@ import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.databinding.TodayFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.viewmodels.TodayViewModel
-import kotlinx.android.synthetic.main.today_fragment.*
 import javax.inject.Inject
 
 class TodayFragment : Fragment() {
@@ -39,9 +38,8 @@ class TodayFragment : Fragment() {
     lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
     private val taskAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create(onItemClickListener =   { task ->navigateToTaskDetails(task)})
+        taskListAdapterFactory.create(onItemClickListener = { task -> navigateToTaskDetails(task) })
     }
-
 
 
     private var binding: TodayFragmentBinding? = null
@@ -76,25 +74,27 @@ class TodayFragment : Fragment() {
     }
 
     private fun setUpLayout() {
-        add_spontaneous_tasks_btn.setOnClickListener {
-            AddSpontaneousTaskDialogFragment().show(
-                childFragmentManager,
-                ""
-            )
-        }
+        binding!!.apply {
+            addSpontaneousTasksBtn.setOnClickListener { showSpontaneousTaskDialog() }
 
-        binding!!.todayTasksList.apply {
-            adapter = taskAdapter
-            val columnCount = if (resources.configuration.orientation ==
-                Configuration.ORIENTATION_PORTRAIT
-            ) {
-                PORTRAIT_COLUMN_COUNT
-            } else {
-                LANDSCAPE_COLUMN_COUNT
+            todayTasksList.apply {
+                adapter = taskAdapter
+                val columnCount = if (resources.configuration.orientation ==
+                    Configuration.ORIENTATION_PORTRAIT
+                ) {
+                    PORTRAIT_COLUMN_COUNT
+                } else {
+                    LANDSCAPE_COLUMN_COUNT
+                }
+                layoutManager = GridLayoutManager(requireContext(), columnCount)
+                setHasFixedSize(true)
             }
-            layoutManager = GridLayoutManager(requireContext(), columnCount)
-            setHasFixedSize(true)
         }
+    }
+
+    private fun showSpontaneousTaskDialog() {
+        AddSpontaneousTaskDialogFragment()
+            .show(childFragmentManager, "")
     }
 
 
@@ -103,6 +103,7 @@ class TodayFragment : Fragment() {
             taskAdapter.submitList(tasks)
         })
     }
+
     private fun navigateToTaskDetails(task: TaskMinimal) {
         findNavController().navigate(
             TodayFragmentDirections

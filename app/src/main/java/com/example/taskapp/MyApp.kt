@@ -3,7 +3,7 @@ package com.example.taskapp
 import android.app.Application
 import com.example.taskapp.di.AppComponent
 import com.example.taskapp.di.DaggerAppComponent
-import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
+import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.workers.WorkersInitializer
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.CoroutineScope

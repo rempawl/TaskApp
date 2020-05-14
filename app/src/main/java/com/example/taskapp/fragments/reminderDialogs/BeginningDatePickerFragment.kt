@@ -26,13 +26,6 @@ class BeginningDatePickerFragment(
         durationModel.beginningDate = (LocalDate.of(year, month + 1, day))
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(DAY, (dialog as DatePickerDialog).datePicker.dayOfMonth)
-        outState.putInt(MONTH, (dialog as DatePickerDialog).datePicker.month)
-        outState.putInt(YEAR, (dialog as DatePickerDialog).datePicker.year)
-    }
-
     companion object {
         const val DAY = "day"
         const val MONTH = "month"

@@ -1,6 +1,6 @@
 package com.example.taskapp.utils
 
-import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
+import com.example.taskapp.utils.providers.DispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 

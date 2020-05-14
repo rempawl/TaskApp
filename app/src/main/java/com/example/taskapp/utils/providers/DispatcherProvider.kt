@@ -1,4 +1,4 @@
-package com.example.taskapp.utils.dispatcherProvider
+package com.example.taskapp.utils.providers
 
 import kotlinx.coroutines.CoroutineDispatcher
 

@@ -161,7 +161,7 @@ abstract class AddEditTaskBindingArranger constructor(
                     frequencyModel.setDailyFrequency()
                 }
                 daysOfWeekRadio.id -> {
-                    frequencyModel.setDaysOfWeekFrequency(null)
+                    frequencyModel.setDaysOfWeekFrequency(daysOfWeek = null)
                 }
                 else -> throw NoSuchElementException("There is no matching button")
             }

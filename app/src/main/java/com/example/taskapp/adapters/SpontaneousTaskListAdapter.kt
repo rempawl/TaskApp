@@ -33,11 +33,10 @@ class SpontaneousTaskListAdapter @AssistedInject constructor(
         fun bind(task: DefaultTask) {
             binding.apply {
                 this.task = task
-                executePendingBindings()
                 addCheckbox.setOnCheckedChangeListener { _, isChecked ->
                     onCheckedChangeListener(isChecked, binding.task!!.taskID)
                 }
-
+                executePendingBindings()
             }
         }
 

@@ -7,16 +7,11 @@ import org.threeten.bp.LocalTime
 @Parcelize
 data class  NotificationTime(val hour: Int, val minute: Int, val isSet: Boolean = false) :
     Parcelable {
-    fun convertToLocalTime() : LocalTime =
-        LocalTime.of(hour, minute)
+    fun convertToLocalTime() : LocalTime = LocalTime.of(hour, minute)
 
     companion object{
         fun from(time: LocalTime, isSet: Boolean = true) =
-            NotificationTime(
-                time.hour,
-                time.minute,
-                isSet
-            )
+            NotificationTime(hour = time.hour, minute = time.minute,isSet = isSet)
 
     }
 

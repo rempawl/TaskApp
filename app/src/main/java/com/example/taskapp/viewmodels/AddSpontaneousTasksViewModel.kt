@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.taskapp.adapters.TaskID
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.dispatcherProvider.DispatcherProvider
+import com.example.taskapp.utils.providers.DispatcherProvider
 import javax.inject.Inject
 
 class AddSpontaneousTasksViewModel @Inject constructor(private val taskRepository: TaskRepositoryInterface,

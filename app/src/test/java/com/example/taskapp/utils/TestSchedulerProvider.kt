@@ -1,6 +1,6 @@
 package com.example.taskapp.utils
 
-import com.example.taskapp.utils.scheduler.SchedulerProvider
+import com.example.taskapp.utils.providers.SchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.TestScheduler
 

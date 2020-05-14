@@ -26,6 +26,7 @@
 
                 <!-- DETAILS LAYOUT -->
                     <EditText
+                        android:layout_marginTop="?attr/actionBarSize"
                         style="@style/ShortMessageAddEditTaskEditTextStyle"
                         android:id="@+id/task_name"
                         android:hint="@string/task_name_hint"
@@ -42,7 +43,6 @@
                 <!--REMINDER LAYOUT -->
                 <androidx.appcompat.widget.SwitchCompat
                     style="@style/DefaultSwitchStyle"
-                    android:layout_width="match_parent"
                     android:checked="@={viewModel.isReminderSwitchChecked()}"
                     android:text="@string/add_reminder" />
 

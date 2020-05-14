@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
@@ -67,23 +68,24 @@ class PickCustomNotificationDelayFragment : Fragment() {
 
     private fun setUpBinding(binding: PickCustomNotificationDelayFragmentBinding) {
         binding.apply {
-            delayPicker.apply {
-                minValue = MIN_VALUE
-                maxValue = MAX_VALUE
-                value = DEFAULT_VALUE
-                setOnValueChangedListener { _, _, newVal ->
-                    viewModel.delayValue = newVal
-                }
-            }
+            delayPicker.apply(setUpDelayPicker())
             confirmButton.setOnClickListener {
                 onConfirmClick()
             }
         }
     }
 
+    private fun setUpDelayPicker(): (NumberPicker).() -> Unit {
+        return {
+            minValue = MIN_VALUE
+            maxValue = MAX_VALUE
+            value = DEFAULT_VALUE
+            setOnValueChangedListener { _, _, newVal -> viewModel.delayValue = newVal }
+        }
+    }
+
     private fun onConfirmClick() {
-        context?.let { context ->
-            sendDelayNotificationBroadcast(context)
+        context?.let { context -> sendDelayNotificationBroadcast(context)
         } ?: viewModel.onBroadcastNotHandled()
     }
 

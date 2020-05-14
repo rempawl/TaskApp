@@ -3,7 +3,7 @@ package com.example.taskapp.viewmodels
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.scheduler.SchedulerProvider
+import com.example.taskapp.utils.providers.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
