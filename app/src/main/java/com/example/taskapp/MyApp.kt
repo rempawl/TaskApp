@@ -34,8 +34,9 @@ open class MyApp : Application() {
     @Inject
     lateinit var dispatcherProvider: DispatcherProvider
 
-    private val applicationScope =
+    private val applicationScope by lazy {
         CoroutineScope(dispatcherProvider.provideDefaultDispatcher() + Job())
+    }
 
     override fun onCreate() {
         super.onCreate()

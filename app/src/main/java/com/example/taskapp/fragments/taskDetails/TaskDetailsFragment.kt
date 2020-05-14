@@ -37,7 +37,9 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private val args: TaskDetailsFragmentArgs by navArgs()
 
-    private val appComponent = (activity as MainActivity).appComponent
+    private val appComponent by lazy {
+        (activity as MainActivity).appComponent
+    }
 
     private val viewModel: TaskDetailsViewModel by viewModel {
         appComponent.taskDetailsViewModelFactory.create(args.taskID)
@@ -91,7 +93,8 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
     private fun navigateToEditTask() {
         viewModel.task.observe(viewLifecycleOwner, Observer { task ->
-            findNavController().navigate(TaskDetailsFragmentDirections
+            findNavController().navigate(
+                TaskDetailsFragmentDirections
                     .navigationTaskDetailsToNavigationEditTask(task)
             )
         })
@@ -115,7 +118,8 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
         binding!!.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text = getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
+            begDate.text =
+                getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
             realizationDateText.text = getString(
                 R.string.next_realization_date,
                 reminder.realizationDate.format(DATE_FORMATTER)
@@ -192,3 +196,4 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         navigateToMyTasks()
     }
 }
+
