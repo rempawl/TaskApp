@@ -14,8 +14,7 @@ import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.utils.notification.NotificationManagerHelperImpl
 
-class DelayNotificationReceiver :
-    BroadcastReceiver() {
+class DelayNotificationReceiver : BroadcastReceiver() {
 
     //todo @Inject
     private lateinit var alarmCreator: AlarmCreator
@@ -29,12 +28,12 @@ class DelayNotificationReceiver :
 
         val task: TaskMinimal =
             intent.getParcelableExtra(TASK_KEY) ?: ERROR_TASK.toTaskMinimal()
-        val time = intent.getIntExtra(DELAY_VALUE_KEY, 30)
-        alarmCreator.setDelayAlarm(task, time.toLong())
+
+        val time = intent.getIntExtra(DELAY_VALUE_KEY, 30).toLong()
+        alarmCreator.setDelayAlarm(task, time)
     }
 
     companion object {
         const val DELAY_NOTIFICATION_ACTION = "delay notif action"
-
     }
 }

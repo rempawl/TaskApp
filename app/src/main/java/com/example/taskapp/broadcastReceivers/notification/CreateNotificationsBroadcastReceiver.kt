@@ -22,9 +22,6 @@ import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper
 import com.example.taskapp.utils.notification.NotificationManagerHelperImpl
 
-/**
- * class responsible for creating and showing task notifications
- */
 class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
 
 
@@ -49,11 +46,7 @@ class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
         val desc = intent.getStringExtra(TASK_DESC_KEY) ?: "error"
         val id = intent.getLongExtra(TASK_ID_KEY, -1)
 
-        return TaskMinimal(
-            id,
-            name,
-            desc
-        )
+        return TaskMinimal(id, name, desc)
     }
 
     private fun createNotification(
@@ -79,8 +72,6 @@ class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
             .addAction(delayCustomTimeAction.build())
             .setAutoCancel(true)
             .setStyle(bigTextStyle)
-
-
     }
 
     private fun showNotification(context: Context, task: TaskMinimal) {

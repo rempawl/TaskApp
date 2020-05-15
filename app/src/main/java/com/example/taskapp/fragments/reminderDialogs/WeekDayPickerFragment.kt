@@ -30,18 +30,22 @@ class WeekDayPickerFragment(
     }
 
 
-
     private fun setupLayout(): LinearLayout {
         val layout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
         }
         val days = DayOfWeek.values()
 
-        resources.getStringArray(R.array.week_days_list)
+        val dayPairs = resources.getStringArray(R.array.week_days_list)
             .zip(days)
-            .forEach { (dayText, dayOfWeek) ->
-                addCheckBoxToLayout(dayText, dayOfWeek, layout)
-            }
+
+        for ((dayText, dayOfWeek) in dayPairs) {
+            addCheckBoxToLayout(dayText, dayOfWeek, layout)
+        }
+
+//            .forEach { (dayText, dayOfWeek) ->
+//                addCheckBoxToLayout(dayText, dayOfWeek, layout)
+//            }
 
 
         return layout
@@ -58,7 +62,7 @@ class WeekDayPickerFragment(
         layout.addView(box)
     }
 
-    private fun MaterialCheckBox.setUpCheckBox(dayText: String?, dayValue: Int ) {
+    private fun MaterialCheckBox.setUpCheckBox(dayText: String?, dayValue: Int) {
         setOnCheckedChangeListener(onCheckedChangeListener)
 
         gravity = Gravity.CENTER_HORIZONTAL
