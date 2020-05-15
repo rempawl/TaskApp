@@ -35,6 +35,9 @@ class PickCustomNotificationDelayFragment : Fragment() {
     @Inject
     lateinit var notificationIntentFactory: NotificationIntentFactory
 
+    @Inject
+    lateinit var notificationManagerHelper: NotificationManagerHelper
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         injectMembers()
@@ -56,7 +59,7 @@ class PickCustomNotificationDelayFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpObservers()
-        NotificationManagerHelper.cancelTaskNotification(requireContext())
+        notificationManagerHelper.cancelTaskNotification()
     }
 
     private fun setUpObservers() {
@@ -85,7 +88,8 @@ class PickCustomNotificationDelayFragment : Fragment() {
     }
 
     private fun onConfirmClick() {
-        context?.let { context -> sendDelayNotificationBroadcast(context)
+        context?.let { context ->
+            sendDelayNotificationBroadcast(context)
         } ?: viewModel.onBroadcastNotHandled()
     }
 

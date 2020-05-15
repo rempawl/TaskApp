@@ -1,6 +1,5 @@
 package com.example.taskapp.broadcastReceivers.notification
 
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -20,7 +19,8 @@ import com.example.taskapp.R
 import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
-import com.example.taskapp.utils.notification.NotificationManagerHelper.createNotificationChannel
+import com.example.taskapp.utils.notification.NotificationManagerHelper
+import com.example.taskapp.utils.notification.NotificationManagerHelperImpl
 
 /**
  * class responsible for creating and showing task notifications
@@ -30,14 +30,15 @@ class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
 
     //todo inject
     private lateinit var notificationIntentFactory: NotificationIntentFactory
+    lateinit var notificationManagerHelper: NotificationManagerHelper
 
     override fun onReceive(context: Context, intent: Intent) {
-//        super.onReceive(context, intent)
-
         notificationIntentFactory = NotificationIntentFactoryImpl(context)
+        notificationManagerHelper = NotificationManagerHelperImpl(context)
+
         val action = intent.action
         if (action == CREATE_NOTIFICATION_ACTION) {
-            createNotificationChannel(context)
+            notificationManagerHelper.createNotificationChannel()
             showNotification(context, createTaskMinimal(intent))
         }
     }
@@ -72,7 +73,7 @@ class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
             .setContentTitle(context.getString(R.string.task_notification_title))
             .setContentText(" ${task.name} ")
             .setSmallIcon(R.drawable.ic_alarm_on_black_24dp)
-            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+            .setPriority(NotificationManagerCompat.IMPORTANCE_HIGH)
             .addAction(confirmAction.build())
             .addAction(delay30MinAction.build())
             .addAction(delayCustomTimeAction.build())

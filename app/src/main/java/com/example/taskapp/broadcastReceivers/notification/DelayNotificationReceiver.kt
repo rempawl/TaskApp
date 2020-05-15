@@ -12,16 +12,20 @@ import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper
+import com.example.taskapp.utils.notification.NotificationManagerHelperImpl
 
 class DelayNotificationReceiver :
     BroadcastReceiver() {
 
-    private lateinit var alarmCreator : AlarmCreator
+    //todo @Inject
+    private lateinit var alarmCreator: AlarmCreator
+    private lateinit var notificationManagerHelper: NotificationManagerHelper
 
     override fun onReceive(context: Context, intent: Intent) {
-        alarmCreator = AlarmCreatorImpl(context,NotificationIntentFactoryImpl(context))
+        alarmCreator = AlarmCreatorImpl(context, NotificationIntentFactoryImpl(context))
+        notificationManagerHelper = NotificationManagerHelperImpl(context)
 
-        NotificationManagerHelper.cancelTaskNotification(context)
+        notificationManagerHelper.cancelTaskNotification()
 
         val task: TaskMinimal =
             intent.getParcelableExtra(TASK_KEY) ?: ERROR_TASK.toTaskMinimal()

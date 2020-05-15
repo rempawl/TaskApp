@@ -37,12 +37,13 @@ class WeekDayPickerFragment(
         }
         val days = DayOfWeek.values()
 
-        //iterating over names of days, setting id to matching DayOfWeek value
         resources.getStringArray(R.array.week_days_list)
             .zip(days)
             .forEach { (dayText, dayOfWeek) ->
                 addCheckBoxToLayout(dayText, dayOfWeek, layout)
             }
+
+
         return layout
     }
 
