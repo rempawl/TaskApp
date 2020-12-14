@@ -2,13 +2,12 @@ package com.example.taskapp.fragments.taskDetails
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.onNavDestinationSelected
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.DATE_FORMATTER
 import com.example.taskapp.R
@@ -63,7 +62,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         savedInstanceState: Bundle?
     ): View? {
         binding = TaskDetailsFragmentBinding.inflate(inflater, container, false)
-
+setHasOptionsMenu(true)
         setUpObservers()
         setUpBinding()
         return binding!!.root
@@ -74,9 +73,23 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         binding = null
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.details_options,menu)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.navigation_edit_task ->  navigateToEditTask()
+            R.id.delete_task -> showDeleteDialog()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun setUpObservers() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { task: DefaultTask ->
+        viewModel.task.observe(viewLifecycleOwner, { task: DefaultTask ->
             if (task.reminder != null) setupReminderLayout(task.reminder)
         })
 
@@ -94,13 +107,11 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
 
-            deleteBtn.setOnClickListener { showDeleteDialog() }
-            editBtn.setOnClickListener { navigateToEditTask() }
         }
     }
 
     private fun navigateToEditTask() {
-        viewModel.task.observe(viewLifecycleOwner, Observer { task ->
+        viewModel.task.observe(viewLifecycleOwner, { task ->
             findNavController().navigate(
                 TaskDetailsFragmentDirections
                     .navigationTaskDetailsToNavigationEditTask(task)

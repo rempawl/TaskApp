@@ -88,8 +88,7 @@
         android:label="@string/add_reminder">
 
         <action
-            app:popUpTo="@id/navigation_my_tasks"
-            app:popUpToInclusive="true"
+            app:popUpTo="@id/navigation_today"
             android:id="@+id/navigation_add_task_to_navigation_my_tasks"
             app:destination="@id/navigation_my_tasks"
             />
