@@ -2,7 +2,7 @@ package com.example.taskapp.database.entities.reminder
 
 import android.os.Parcelable
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
 
 @Parcelize

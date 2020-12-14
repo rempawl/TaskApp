@@ -1,8 +1,8 @@
 package com.example.taskapp.database.entities.reminder
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalTime
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class  NotificationTime(val hour: Int, val minute: Int, val isSet: Boolean = false) :

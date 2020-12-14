@@ -16,7 +16,7 @@ import com.example.taskapp.utils.notification.NotificationManagerHelperImpl
 
 class DelayNotificationReceiver : BroadcastReceiver() {
 
-    //todo @Inject
+    //todo Inject
     private lateinit var alarmCreator: AlarmCreator
     private lateinit var notificationManagerHelper: NotificationManagerHelper
 

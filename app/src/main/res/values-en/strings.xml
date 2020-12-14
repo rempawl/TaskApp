@@ -87,5 +87,7 @@
         <string name="enable_notification">Enable notifications</string>
         <string name="task_notification_title">Time to do your task</string>
     <string name="days_of_week_error">You have to pick at least one day of week</string>
+        <string name="an_error_ocurred">An Error Ocurred</string>
+
 
 </resources>

@@ -3,9 +3,9 @@ package com.example.taskapp.database.entities.reminder
 import android.os.Parcelable
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
-import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Frequency(

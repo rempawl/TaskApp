@@ -15,6 +15,8 @@ import com.example.taskapp.di.AppComponent
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
     val appComponent: AppComponent by lazy { (application as MyApp).appComponent }
 
+    private val navController: NavController
+        get() = findNavController(this, R.id.nav_host_fragment)
 
     private lateinit var appBarConfig: AppBarConfiguration
     private val noNavMenuDestinations =
@@ -23,16 +25,13 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             R.id.navigation_add_task, R.id.navigation_pick_custom_delay
         )
 
-    private lateinit var binding: ActivityMainBinding
+    private var binding: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val navController = findNavController(this, R.id.nav_host_fragment)
+        setContentView(binding?.root)
 
         appBarConfig = AppBarConfiguration(
             setOf(
@@ -40,15 +39,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 R.id.navigation_today,
                 R.id.navigation_pick_custom_delay
             ),
-            binding.mainDrawerLayout
+            binding?.mainContainer
         )
 
-        val toolbar = binding.toolbar
+        val toolbar = binding?.toolbar
         setSupportActionBar(toolbar)
-        toolbar.setupWithNavController( navController, appBarConfig)
+        toolbar?.setupWithNavController(navController, appBarConfig)
 
-        setupBottomNavMenu(navController)
-        setupSideNav(navController)
+        setupBottomNavMenu()
+        setupSideNav()
         navController.addOnDestinationChangedListener(this)
     }
 
@@ -56,20 +55,27 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onDestinationChanged(
         controller: NavController, destination: NavDestination, arguments: Bundle?
     ) {
-        if (noNavMenuDestinations.contains(destination.id)) {
-            binding.bottomNavView?.visibility = View.GONE
-        } else {
-            binding.bottomNavView?.visibility = View.VISIBLE
+        binding?.run {
+            if (noNavMenuDestinations.contains(destination.id)) {
+                sideNavView.visibility = View.GONE
+            } else {
+                sideNavView.visibility = View.VISIBLE
+            }
         }
     }
 
 
-    private fun setupSideNav(navController: NavController) {
-        binding.sideNavView?.setupWithNavController(navController)
+    private fun setupSideNav() {
+        binding?.sideNavView?.setupWithNavController(navController)
     }
 
-    private fun setupBottomNavMenu(navController: NavController) {
-        binding.bottomNavView?.setupWithNavController(navController)
+    private fun setupBottomNavMenu() {
+//        binding?.bottomNavView?.setupWithNavController(navController)
+    }
+
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
     }
 
 

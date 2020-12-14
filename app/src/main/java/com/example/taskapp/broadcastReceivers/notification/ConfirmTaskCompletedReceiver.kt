@@ -9,7 +9,7 @@ import com.example.taskapp.utils.notification.NotificationManagerHelperImpl
 class ConfirmTaskCompletedReceiver : BroadcastReceiver() {
 
 
-//todo     @Inject
+//todo     Inject
     lateinit var notificationManagerHelper: NotificationManagerHelper
 
     override fun onReceive(context: Context, intent: Intent) {
