@@ -1,6 +1,8 @@
 package com.example.taskapp.repos.task
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.Result
 import com.example.taskapp.database.dao.TaskDao
@@ -16,6 +18,7 @@ import javax.inject.Inject
 class TaskLocalDataSource @Inject constructor(private val taskDao: TaskDao) : TaskDataSource {
 
     override suspend fun saveTask(task: DefaultTask) = withContext(Dispatchers.IO) {
+        Log.d(TAG,"$task, datasrc")
         taskDao.insertTask(task)
     }
 

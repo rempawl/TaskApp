@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="com.example.taskapp.viewmodels.reminder.ReminderViewModel" />
+
     </data>
 
     <FrameLayout
@@ -171,6 +172,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirm_button"
+                    android:onClick="@{() -> viewModel.saveTask()}"
                     style="@style/WideButtonStyle"
                     android:enabled="@{viewModel.durationModel.datesValid &amp;&amp; viewModel.taskDetailsModel.valid}"
                     android:text="@string/confirm"

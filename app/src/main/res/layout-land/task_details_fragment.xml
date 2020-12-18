@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.taskapp.viewmodels.TaskDetailsViewModel" />
+            type="com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel" />
 
     </data>
 

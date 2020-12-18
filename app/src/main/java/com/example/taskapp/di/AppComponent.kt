@@ -11,6 +11,7 @@ import com.example.taskapp.fragments.taskDetails.TaskDetailsFragment
 import com.example.taskapp.fragments.today.AddSpontaneousTaskDialogFragment
 import com.example.taskapp.fragments.today.TodayFragment
 import com.example.taskapp.viewmodels.*
+import com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel
 import com.example.taskapp.workers.UpdateRemindersWorker
 import dagger.BindsInstance
 import dagger.Component

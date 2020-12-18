@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -41,16 +43,24 @@ class EditTaskViewModel @AssistedInject constructor(
 
 
     init {
-        taskDetailsModel.apply{
+        taskDetailsModel.apply {
             taskDescription = task.description
             taskName = task.name
         }
     }
 
+    private val _isConfirmBtnClicked = MutableLiveData(false)
+    override val isConfirmBtnClicked: LiveData<Boolean>
+        get() = _isConfirmBtnClicked
 
-    override suspend fun addTask(task: DefaultTask): Single<Long> {
+    override fun onSaveTaskFinished() {
+        _isConfirmBtnClicked.value = false
+    }
+
+
+    override  suspend  fun addTask(task: DefaultTask) {
+        _isConfirmBtnClicked.value = true
         taskRepository.updateTask(task)
-        return Single.just(1)
     }
 
 

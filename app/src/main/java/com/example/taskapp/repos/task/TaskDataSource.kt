@@ -9,7 +9,7 @@ import org.threeten.bp.LocalDate
 
 interface TaskDataSource {
     suspend fun saveTask(task: DefaultTask)
-            : Single<Long>
+            : Long
 
     suspend fun getMinTasksByUpdateDate(date: LocalDate): Result<LiveData<List<TaskMinimal>>>
 
@@ -26,6 +26,7 @@ interface TaskDataSource {
     suspend fun getTaskById(id: Long): Result<DefaultTask>
 
     suspend fun updateTask(task: DefaultTask): Int
+
     suspend fun updateTasks(tasks: List<DefaultTask>): Int
     suspend fun getNotTodayTasks(): Result<List<DefaultTask>>
 }

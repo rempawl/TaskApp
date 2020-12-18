@@ -4,10 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.onNavDestinationSelected
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.DATE_FORMATTER
 import com.example.taskapp.R
@@ -18,10 +16,10 @@ import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ConfirmDialogFragment
 import com.example.taskapp.utils.providers.DispatcherProvider
-import com.example.taskapp.viewmodels.TaskDetailsViewModel
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
+import com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +35,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     @Inject
-    lateinit var dispatcherProvider : DispatcherProvider
+    lateinit var dispatcherProvider: DispatcherProvider
 
     private val args: TaskDetailsFragmentArgs by navArgs()
 
@@ -62,7 +60,8 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         savedInstanceState: Bundle?
     ): View? {
         binding = TaskDetailsFragmentBinding.inflate(inflater, container, false)
-setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
+
         setUpObservers()
         setUpBinding()
         return binding!!.root
@@ -75,13 +74,13 @@ setHasOptionsMenu(true)
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.details_options,menu)
+        inflater.inflate(R.menu.details_options, menu)
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.navigation_edit_task ->  navigateToEditTask()
+        when (item.itemId) {
+            R.id.navigation_edit_task -> navigateToEditTask()
             R.id.delete_task -> showDeleteDialog()
         }
         return super.onOptionsItemSelected(item)
@@ -89,8 +88,8 @@ setHasOptionsMenu(true)
 
 
     private fun setUpObservers() {
-        viewModel.task.observe(viewLifecycleOwner, { task: DefaultTask ->
-            if (task.reminder != null) setupReminderLayout(task.reminder)
+        viewModel.reminder.observe(viewLifecycleOwner, { reminder ->
+            if (reminder != null) setupReminderLayout(reminder)
         })
 
     }
@@ -106,7 +105,6 @@ setHasOptionsMenu(true)
         binding!!.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
-
         }
     }
 
@@ -137,7 +135,6 @@ setHasOptionsMenu(true)
 
         binding!!.apply {
             reminderLayout.visibility = View.VISIBLE
-            begDate.text = getString(R.string.beginning_date, reminder.begDate.format(DATE_FORMATTER))
             realizationDateText.text = getString(
                 R.string.next_realization_date,
                 reminder.realizationDate.format(DATE_FORMATTER)
@@ -147,8 +144,10 @@ setHasOptionsMenu(true)
 
     private fun setNotificationText(notificationTime: NotificationTime) {
         binding!!.notificationText.text = if (notificationTime.isSet) {
-            "${getString(R.string.notification_time)}: ${notificationTime.convertToLocalTime()
-                .format(DateTimeFormatter.ISO_LOCAL_TIME)}"
+            "${getString(R.string.notification_time)}: ${
+                notificationTime.convertToLocalTime()
+                    .format(DateTimeFormatter.ISO_LOCAL_TIME)
+            }"
         } else {
             getString(R.string.no_notificaton)
         }
@@ -159,8 +158,7 @@ setHasOptionsMenu(true)
         freqText += when (frequencyState) {
             is ReminderFrequencyState.Daily -> resources
                 .getQuantityString(
-                    R.plurals.daily_frequency, frequencyState.frequency
-                    , frequencyState.frequency
+                    R.plurals.daily_frequency, frequencyState.frequency, frequencyState.frequency
                 )
             is ReminderFrequencyState.WeekDays -> getWeekDays(frequencyState.daysOfWeek)
         }

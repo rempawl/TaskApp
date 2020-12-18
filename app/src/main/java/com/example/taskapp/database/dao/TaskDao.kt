@@ -5,12 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.taskapp.database.BaseDao
-import com.example.taskapp.database.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal
-import io.reactivex.Single
-import kotlinx.coroutines.Deferred
 import org.threeten.bp.LocalDate
 
 @Dao
@@ -32,7 +28,7 @@ interface TaskDao : BaseDao<DefaultTask> {
     fun deleteByID(id: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(item: DefaultTask): Single<Long>
+    fun insertTask(item: DefaultTask): Long
 
     @Query("SELECT * FROM tasks WHERE realizationDate != :date")
     fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : List<DefaultTask>

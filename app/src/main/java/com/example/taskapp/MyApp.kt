@@ -53,9 +53,7 @@ open class MyApp : Application() {
         appComponent.inject(this)
     }
 
-//    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-//        TODO()
-//    }
+
 
 
     private fun delayedInit() {

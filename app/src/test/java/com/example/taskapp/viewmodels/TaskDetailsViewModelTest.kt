@@ -3,6 +3,7 @@ package com.example.taskapp.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.*
+import com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

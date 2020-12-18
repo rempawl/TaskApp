@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.example.taskapp.viewmodels.TaskDetailsViewModel" />
+            type="com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel" />
 
     </data>
 
@@ -63,6 +63,7 @@
                     android:layout_margin="10dp"
                     android:gravity="center_horizontal"
                     android:textAlignment="center"
+                    android:text="@{@string/beginning_date(viewModel.begDate)}"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textview.MaterialTextView

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
@@ -19,7 +18,6 @@ import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.bindingArranger.EditTaskBindingArranger
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -48,7 +46,7 @@ class EditTaskFragment : Fragment() {
 
     private var bindingArranger: EditTaskBindingArranger? = null
 
-    private val editTask: View.OnClickListener = View.OnClickListener { editTask() }
+    private val editTask: View.OnClickListener = View.OnClickListener { saveTask() }
 
 
     override fun onAttach(context: Context) {
@@ -62,11 +60,13 @@ class EditTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = AddEditTaskFragmentBinding.inflate(inflater, container, false)
-
-        bindingArranger = EditTaskBindingArranger(
-            binding = binding!!, fragment = this,
-            viewModel = viewModel, onConfirmClickListener = editTask
-        )
+        if (binding != null) {
+            bindingArranger = EditTaskBindingArranger(
+                binding = binding!!, fragment = this,
+                viewModel = viewModel            )
+        } else {
+            throw IllegalStateException(" binding is null")
+        }
         setUpObservers()
 
         return binding!!.root
@@ -81,13 +81,17 @@ class EditTaskFragment : Fragment() {
 
 
     private fun setUpObservers() {
-        viewModel.toastText.observe(viewLifecycleOwner, Observer { id ->
-            if (id != null) showToast(getString(id))
-        })
+        viewModel.apply {
+            toastText.observe(viewLifecycleOwner, { id ->
+                if (id != null) showToast(getString(id))
+            })
 
-        viewModel.addedTask.observe(viewLifecycleOwner, Observer { addedTask ->
-            if (addedTask != null) setAlarm(addedTask)
-        })
+            isConfirmBtnClicked.observe(viewLifecycleOwner){ isCLicked-> if(isCLicked) navigateToMyTasks()}
+
+            shouldSetAlarm.observe(viewLifecycleOwner, { (shouldSet, task) ->
+                if (shouldSet && task != null) setAlarm(task)
+            })
+        }
     }
 
     private fun setAlarm(addedTask: DefaultTask) {
@@ -102,6 +106,7 @@ class EditTaskFragment : Fragment() {
         findNavController().navigate(
             EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks()
         )
+        viewModel.onSaveTaskFinished()
     }
 
     private fun injectViewModel() = appComponent.editTaskViewModelFactory.create(args.task)
@@ -109,11 +114,8 @@ class EditTaskFragment : Fragment() {
         appComponent.inject(this)
     }
 
-    private fun editTask() {
-        lifecycleScope.launch(dispatcherProvider.provideMainDispatcher()) {
-            viewModel.saveTask()
-            navigateToMyTasks()
-        }
+    private fun saveTask() {
+        navigateToMyTasks()
     }
 
 

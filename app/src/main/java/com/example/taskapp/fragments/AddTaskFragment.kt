@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
 import com.example.taskapp.database.entities.task.DefaultTask
@@ -18,7 +16,6 @@ import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.bindingArranger.AddTaskBindingArranger
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.AddTaskViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -46,8 +43,6 @@ class AddTaskFragment : Fragment() {
 
     private var bindingOrganiser: AddTaskBindingArranger? = null
 
-    private val addTask = View.OnClickListener { addTask() }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
@@ -62,8 +57,7 @@ class AddTaskFragment : Fragment() {
             .inflate(inflater, container, false)
 
         bindingOrganiser = AddTaskBindingArranger(
-            binding = binding!!, fragment = this, viewModel = viewModel,
-            onConfirmClickListener = addTask
+            binding = binding!!, fragment = this, viewModel = viewModel
         )
 
         setUpObservers()
@@ -82,16 +76,16 @@ class AddTaskFragment : Fragment() {
     private fun setUpObservers() {
         viewModel.apply {
 
-            toastText.observe(viewLifecycleOwner, Observer { id ->
+            toastText.observe(viewLifecycleOwner, { id ->
                 if (id != null) {
                     showToast(getString(id))
                 }
             })
-
+            isConfirmBtnClicked.observe(viewLifecycleOwner) { isClicked -> if (isClicked) navigateToMyTasks() }
 
             // when _addedTask is not null then  notification alarm should be set
-            addedTask.observe(viewLifecycleOwner, Observer { task ->
-                if (task != null) setAlarm(task)
+            shouldSetAlarm.observe(viewLifecycleOwner, { (shouldSet, task) ->
+                if (shouldSet && task != null) setAlarm(task)
             })
         }
 
@@ -106,14 +100,11 @@ class AddTaskFragment : Fragment() {
         alarmCreator.setTaskNotificationAlarm(task, true)
     }
 
-    private fun addTask() {
-        lifecycleScope.launch(dispatcherProvider.provideMainDispatcher()) {
-            viewModel.saveTask()
-
-            findNavController().navigate(
-                AddTaskFragmentDirections.navigationAddTaskToNavigationMyTasks()
-            )
-        }
+    private fun navigateToMyTasks() {
+        findNavController().navigate(
+            AddTaskFragmentDirections.navigationAddTaskToNavigationMyTasks()
+        )
+        viewModel.onSaveTaskFinished()
     }
 
 

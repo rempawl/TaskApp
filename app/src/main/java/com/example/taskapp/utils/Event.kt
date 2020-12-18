@@ -12,7 +12,6 @@ class Event<T>( private val content : T) {
         wasHandled = true
         return content
     }
-
 }
 
 class EventObserver<T>(private val handler : (T) -> Unit) : Observer<Event<T>> {
@@ -22,6 +21,4 @@ class EventObserver<T>(private val handler : (T) -> Unit) : Observer<Event<T>> {
             handler(it)
         }
     }
-
-
 }

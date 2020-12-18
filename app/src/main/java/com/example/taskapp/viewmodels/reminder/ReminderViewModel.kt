@@ -1,10 +1,9 @@
 package com.example.taskapp.viewmodels.reminder
 
+import android.util.Log
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
@@ -13,8 +12,8 @@ import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
 
@@ -29,12 +28,18 @@ abstract class ReminderViewModel(
 
     private val disposables = CompositeDisposable()
 
+    abstract val isConfirmBtnClicked: LiveData<Boolean>
+
     val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
+    private val _shouldSetAlarm = MutableLiveData<Pair<Boolean, DefaultTask?>>(Pair(false, null))
+    val shouldSetAlarm: LiveData<Pair<Boolean, DefaultTask?>>
+        get() = _shouldSetAlarm
+
     // when _addedTask is not null then  notification alarm should be set
-    private val _addedTask = MutableLiveData<DefaultTask>(null)
-    val addedTask: LiveData<DefaultTask>
-        get() = _addedTask
+//    private val _addedTask = MutableLiveData<DefaultTask>(null)
+//    val addedTask: LiveData<DefaultTask>
+//        get() = _addedTask
 
     val toastText: LiveData<Int>
         get() = transformError(isError = durationModel.isError)
@@ -44,28 +49,27 @@ abstract class ReminderViewModel(
         disposables.clear()
     }
 
+    abstract fun onSaveTaskFinished()
 
-    suspend fun saveTask() {
-        val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
-        val task = createTask(reminder)
-        val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
+    fun saveTask() {
+        viewModelScope.launch {
+            val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
+            val task = createTask(reminder)
+            val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
 
-
-        disposables.add(
+            Log.d(TAG, "$task")
             addTask(task)
-                .subscribeOn(schedulerProvider.getIoScheduler())
-                .subscribe({}, { e -> e.printStackTrace() })
-        )
 
-        val isAfterNow = reminder?.notificationTime?.convertToLocalTime()?.isAfter(LocalTime.now()) ?: false
-        if (isRealizationToday && isAfterNow) {
-            _addedTask.value = task
+            val isAfterNow =
+                reminder?.notificationTime?.convertToLocalTime()?.isAfter(LocalTime.now()) ?: false
+            if (isRealizationToday && isAfterNow) {
+                _shouldSetAlarm.value = Pair(true, task)
+            }
         }
-
     }
 
 
-    protected abstract suspend fun addTask(task: DefaultTask): Single<Long>
+    protected abstract suspend fun addTask(task: DefaultTask)
 
     private fun createReminder(): Reminder {
         return Reminder(
