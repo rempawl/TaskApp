@@ -35,14 +35,6 @@ class AddTaskFragment : AddEditTaskFragment() {
         viewModel.onSaveTaskFinished()
     }
 
-    override fun showSetNotifDialog() {
-        ReminderDialogFragmentsDisplayer.showNotificationPickerDialog(
-            viewModel.notificationModel,
-            childFragmentManager
-        )
-        viewModel.onNotifDialogShow()
-    }
-
 
     @Inject
     lateinit var dispatcherProvider: DispatcherProvider
@@ -86,6 +78,7 @@ class AddTaskFragment : AddEditTaskFragment() {
         }
 
     }
+
 
 
 }

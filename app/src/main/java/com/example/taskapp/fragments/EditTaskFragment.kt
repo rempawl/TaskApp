@@ -59,6 +59,11 @@ class EditTaskFragment : AddEditTaskFragment() {
         } else {
             throw IllegalStateException(" binding is null")
         }
+
+        binding?.apply {
+            taskName.isEnabled = false
+            beginningDateBtn.isEnabled = false
+        }
         setupObservers(viewModel)
         return binding!!.root
     }
@@ -66,14 +71,6 @@ class EditTaskFragment : AddEditTaskFragment() {
     override fun navigateToMyTasks() {
         findNavController().navigate(EditTaskFragmentDirections.navigationEditTaskToNavigationMyTasks())
         viewModel.onSaveTaskFinished()
-    }
-
-    override fun showSetNotifDialog() {
-        ReminderDialogFragmentsDisplayer.showNotificationPickerDialog(
-            viewModel.notificationModel,
-            childFragmentManager
-        )
-        viewModel.onNotifDialogShow()
     }
 
 

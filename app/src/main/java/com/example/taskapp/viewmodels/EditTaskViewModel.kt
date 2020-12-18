@@ -1,7 +1,5 @@
 package com.example.taskapp.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -13,7 +11,6 @@ import com.example.taskapp.viewmodels.reminder.notificationModel.EditTaskNotific
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
-import io.reactivex.Single
 
 class EditTaskViewModel @AssistedInject constructor(
     taskDetailsModel: TaskDetailsModel,
@@ -49,17 +46,7 @@ class EditTaskViewModel @AssistedInject constructor(
         }
     }
 
-    private val _isConfirmBtnClicked = MutableLiveData(false)
-    override val isConfirmBtnClicked: LiveData<Boolean>
-        get() = _isConfirmBtnClicked
-
-    override fun onSaveTaskFinished() {
-        _isConfirmBtnClicked.value = false
-    }
-
-
-    override  suspend  fun addTask(task: DefaultTask) {
-        _isConfirmBtnClicked.value = true
+    override suspend fun addTask(task: DefaultTask) {
         taskRepository.updateTask(task)
     }
 

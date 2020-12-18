@@ -19,8 +19,7 @@ class EditTaskBindingArranger(
         super.setUpBinding()
 
         binding.apply {
-            taskName.isEnabled = false
-            beginningDateBtn.isEnabled = false
+
 
             durationRadioGroup.run {
                 when (this@EditTaskBindingArranger.viewModel.durationModel.durationState) {

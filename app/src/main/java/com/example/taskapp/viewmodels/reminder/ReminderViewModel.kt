@@ -1,6 +1,8 @@
 package com.example.taskapp.viewmodels.reminder
 
 import android.util.Log
+import android.view.View
+import android.widget.EditText
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.example.taskapp.MainActivity.Companion.TAG
@@ -28,7 +30,22 @@ abstract class ReminderViewModel(
 
     private val disposables = CompositeDisposable()
 
-    abstract val isConfirmBtnClicked: LiveData<Boolean>
+    private val _isBeginningDateBtnClicked = MutableLiveData(false)
+    val isBeginningDateBtnClicked: LiveData<Boolean>
+        get() = _isBeginningDateBtnClicked
+
+    private val _isEndDateBtnClicked = MutableLiveData(false)
+    val isEndDateBtnClicked: LiveData<Boolean>
+        get() = _isEndDateBtnClicked
+
+    private val _isDurationDaysBtnClicked = MutableLiveData(false)
+    val isDurationDaysBtnClicked: LiveData<Boolean>
+        get() = _isDurationDaysBtnClicked
+
+
+    private val _isConfirmBtnClicked = MutableLiveData(false)
+    val isConfirmBtnClicked: LiveData<Boolean>
+        get() = _isConfirmBtnClicked
 
     val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
@@ -37,20 +54,59 @@ abstract class ReminderViewModel(
         get() = _shouldSetAlarm
 
     private val _isSetNotifBtnClicked = MutableLiveData(false)
-    val isSetNotifBtnClicked : LiveData<Boolean>
-    get() = _isSetNotifBtnClicked
+    val isSetNotifBtnClicked: LiveData<Boolean>
+        get() = _isSetNotifBtnClicked
 
     val toastText: LiveData<Int>
         get() = transformError(isError = durationModel.isError)
+
+    val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
+        onFocusChange(view, focused, taskDetailsModel)
+    }
+
+
+    private fun onFocusChange(view: View?, focused: Boolean, taskDetailsModel: TaskDetailsModel) {
+        val text = (view as EditText).text.toString()
+        if (!focused && text.isNotEmpty()) {
+            taskDetailsModel.isTaskNameValid(true)
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
     }
 
-    abstract fun onSaveTaskFinished()
+    fun onBegDateBtnClick() {
+        _isBeginningDateBtnClicked.value = true
+    }
 
-    fun onSetNotifBtnClick(){
+    fun onBegDateDialogShow() {
+        _isBeginningDateBtnClicked.value = false
+    }
+
+    fun onEndDateBtnClick() {
+        _isEndDateBtnClicked.value = true
+    }
+
+    fun onEndDateDialogShow() {
+        _isEndDateBtnClicked.value = false
+    }
+
+    fun onDurationDaysBtnClick() {
+        _isDurationDaysBtnClicked.value = true
+    }
+
+    fun onDurationDaysPickerDialogShow() {
+        _isDurationDaysBtnClicked.value = false
+    }
+
+    fun onSaveTaskFinished() {
+        _isConfirmBtnClicked.value = false
+    }
+
+
+    fun onSetNotifBtnClick() {
         _isSetNotifBtnClicked.value = true
     }
 
@@ -61,6 +117,8 @@ abstract class ReminderViewModel(
 
     fun saveTask() {
         viewModelScope.launch {
+            _isConfirmBtnClicked.value = true
+
             val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
             val task = createTask(reminder)
             val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
@@ -112,6 +170,8 @@ abstract class ReminderViewModel(
     }
 */
 
+
+    companion object
 
 }
 
