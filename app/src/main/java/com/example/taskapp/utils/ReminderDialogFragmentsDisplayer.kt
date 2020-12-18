@@ -14,7 +14,6 @@ object ReminderDialogFragmentsDisplayer {
     ) {
         NotificationTimePickerFragment(defaultNotificationModel)
             .show(childFragmentManager, "Notification dialog tag")
-
     }
 
 

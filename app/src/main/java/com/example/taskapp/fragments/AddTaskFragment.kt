@@ -5,21 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
-import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
-import com.example.taskapp.utils.alarmCreator.AlarmCreator
+import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer
 import com.example.taskapp.utils.bindingArranger.AddTaskBindingArranger
 import com.example.taskapp.utils.providers.DispatcherProvider
-import com.example.taskapp.viewmodels.AddTaskViewModel
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import javax.inject.Inject
 
 
-class AddTaskFragment : Fragment() {
+class AddTaskFragment : AddEditTaskFragment() {
     companion object {
         fun newInstance() = AddTaskFragment()
         const val END_DATE_DIALOG_TAG: String = "END DATE DIALOG"
@@ -29,12 +26,23 @@ class AddTaskFragment : Fragment() {
     private val appComponent by lazy {
         (activity as MainActivity).appComponent
     }
-    private val viewModel: AddTaskViewModel by viewModel {
-        appComponent.addTaskViewModel
+    private val viewModel by viewModel { appComponent.addTaskViewModel }
+
+    override fun navigateToMyTasks() {
+        findNavController().navigate(
+            AddTaskFragmentDirections.navigationAddTaskToNavigationMyTasks()
+        )
+        viewModel.onSaveTaskFinished()
     }
 
-    @Inject
-    lateinit var alarmCreator: AlarmCreator
+    override fun showSetNotifDialog() {
+        ReminderDialogFragmentsDisplayer.showNotificationPickerDialog(
+            viewModel.notificationModel,
+            childFragmentManager
+        )
+        viewModel.onNotifDialogShow()
+    }
+
 
     @Inject
     lateinit var dispatcherProvider: DispatcherProvider
@@ -60,8 +68,7 @@ class AddTaskFragment : Fragment() {
             binding = binding!!, fragment = this, viewModel = viewModel
         )
 
-        setUpObservers()
-
+        setupObservers(viewModel)
         return binding!!.root
     }
 
@@ -73,38 +80,11 @@ class AddTaskFragment : Fragment() {
         binding = null
     }
 
-    private fun setUpObservers() {
+    override fun setupObservers(viewModel: ReminderViewModel) {
+        super.setupObservers(viewModel)
         viewModel.apply {
-
-            toastText.observe(viewLifecycleOwner, { id ->
-                if (id != null) {
-                    showToast(getString(id))
-                }
-            })
-            isConfirmBtnClicked.observe(viewLifecycleOwner) { isClicked -> if (isClicked) navigateToMyTasks() }
-
-            // when _addedTask is not null then  notification alarm should be set
-            shouldSetAlarm.observe(viewLifecycleOwner, { (shouldSet, task) ->
-                if (shouldSet && task != null) setAlarm(task)
-            })
         }
 
-    }
-
-    private fun showToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-    }
-
-
-    private fun setAlarm(task: DefaultTask) {
-        alarmCreator.setTaskNotificationAlarm(task, true)
-    }
-
-    private fun navigateToMyTasks() {
-        findNavController().navigate(
-            AddTaskFragmentDirections.navigationAddTaskToNavigationMyTasks()
-        )
-        viewModel.onSaveTaskFinished()
     }
 
 

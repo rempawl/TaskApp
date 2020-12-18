@@ -57,6 +57,7 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/set_time_of_notification"
                         style="@style/WideButtonStyle"
+                        android:onClick="@{() ->viewModel.onSetNotifBtnClick()}"
                         android:text="@string/set_notification_time" />
 
                     <androidx.appcompat.widget.SwitchCompat

@@ -36,10 +36,9 @@ abstract class ReminderViewModel(
     val shouldSetAlarm: LiveData<Pair<Boolean, DefaultTask?>>
         get() = _shouldSetAlarm
 
-    // when _addedTask is not null then  notification alarm should be set
-//    private val _addedTask = MutableLiveData<DefaultTask>(null)
-//    val addedTask: LiveData<DefaultTask>
-//        get() = _addedTask
+    private val _isSetNotifBtnClicked = MutableLiveData(false)
+    val isSetNotifBtnClicked : LiveData<Boolean>
+    get() = _isSetNotifBtnClicked
 
     val toastText: LiveData<Int>
         get() = transformError(isError = durationModel.isError)
@@ -50,6 +49,15 @@ abstract class ReminderViewModel(
     }
 
     abstract fun onSaveTaskFinished()
+
+    fun onSetNotifBtnClick(){
+        _isSetNotifBtnClicked.value = true
+    }
+
+    fun onNotifDialogShow() {
+        _isSetNotifBtnClicked.value = false
+    }
+
 
     fun saveTask() {
         viewModelScope.launch {
