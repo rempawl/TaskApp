@@ -28,7 +28,7 @@ object ReminderDialogFragmentsDisplayer {
     fun showDaysOfWeekPickerDialog(
         frequencyModel: FrequencyModel, childFragmentManager: FragmentManager
     ) {
-        WeekDayPickerFragment(frequencyModel, frequencyModel.onCheckedListener)
+        WeekDayPickerFragment(frequencyModel, frequencyModel.onDayOfWeekCheckedListener)
             .show(childFragmentManager, "weekday picker dialog")
     }
 

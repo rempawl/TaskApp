@@ -1,5 +1,7 @@
 package com.example.taskapp.viewmodels
 
+import android.util.Log
+import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -19,7 +21,8 @@ class EditTaskViewModel @AssistedInject constructor(
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
     defaultNotificationModelFactory: EditTaskNotificationModel.Factory,
-    schedulerProvider: SchedulerProvider
+    schedulerProvider: SchedulerProvider,
+
 ) : ReminderViewModel(
     taskDetailsModel = taskDetailsModel,
     task = task,
@@ -27,7 +30,8 @@ class EditTaskViewModel @AssistedInject constructor(
         task.reminder?.duration,
         task.reminder?.begDate ?: TODAY
     ),
-    frequencyModel = frequencyModelFactory.create(task.reminder?.frequency),
+    frequencyModel = frequencyModelFactory.create(task.reminder?.frequency)
+    ,
     notificationModel = defaultNotificationModelFactory.create(notificationTime = task.reminder?.notificationTime),
     schedulerProvider = schedulerProvider
 
@@ -37,6 +41,7 @@ class EditTaskViewModel @AssistedInject constructor(
     interface Factory {
         fun create(task: DefaultTask): EditTaskViewModel
     }
+
 
 
     init {

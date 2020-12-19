@@ -3,6 +3,7 @@ package com.example.taskapp.viewmodels.reminder
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.RadioButton
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.example.taskapp.MainActivity.Companion.TAG
@@ -22,13 +23,12 @@ import org.threeten.bp.LocalTime
 abstract class ReminderViewModel(
     val taskDetailsModel: TaskDetailsModel,
     val task: DefaultTask,
-    private val schedulerProvider: SchedulerProvider,
     val notificationModel: NotificationModel,
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
 ) : ViewModel() {
 
-    private val disposables = CompositeDisposable()
+
 
     private val _isBeginningDateBtnClicked = MutableLiveData(false)
     val isBeginningDateBtnClicked: LiveData<Boolean>
@@ -42,10 +42,21 @@ abstract class ReminderViewModel(
     val isDurationDaysBtnClicked: LiveData<Boolean>
         get() = _isDurationDaysBtnClicked
 
-
     private val _isConfirmBtnClicked = MutableLiveData(false)
     val isConfirmBtnClicked: LiveData<Boolean>
         get() = _isConfirmBtnClicked
+
+    private val _isSetDaysOfWeekBtnClicked = MutableLiveData(false)
+    val isSetDaysOfWeekBtnClicked: LiveData<Boolean>
+        get() = _isSetDaysOfWeekBtnClicked
+
+    private val _isSetDailyFreqBtnClicked = MutableLiveData(false)
+    val isSetDailyFreqBtnClicked: LiveData<Boolean>
+        get() = _isSetDailyFreqBtnClicked
+
+    private val _durationRadioId = MutableLiveData(DAILY_FREQ_RADIO_ID)
+    val durationRadioId: LiveData<String>
+        get() = _durationRadioId
 
     val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
@@ -72,9 +83,10 @@ abstract class ReminderViewModel(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
+    fun onFrequencyRadioClick(view: View?, id: String) {
+        if (view is RadioButton) {
+            _durationRadioId.value = id
+        }
     }
 
     fun onBegDateBtnClick() {
@@ -112,6 +124,27 @@ abstract class ReminderViewModel(
 
     fun onNotifDialogShow() {
         _isSetNotifBtnClicked.value = false
+    }
+
+    fun onDailyFreqDialogShow() {
+        _isSetDailyFreqBtnClicked.value = false
+    }
+
+    fun onSetDailyFreqBtnClick() {
+        _isSetDailyFreqBtnClicked.value = true
+    }
+
+    fun onDaysOfWeekDialogShow() {
+        _isSetDaysOfWeekBtnClicked.value = false
+    }
+
+    fun onSetDaysOfWeekBtnClick() {
+        _isSetDaysOfWeekBtnClicked.value = true
+    }
+
+    fun onDurationRadioCheck(view: View?) {
+
+
     }
 
 
@@ -161,6 +194,7 @@ abstract class ReminderViewModel(
     private fun transformError(isError: LiveData<Int>) =
         Transformations.map(isError) { stringId -> stringId }
 
+
 /*
     private fun saveStreak(taskID: Long) {
         //todo
@@ -171,7 +205,13 @@ abstract class ReminderViewModel(
 */
 
 
-    companion object
+    companion object {
+        const val DAILY_FREQ_RADIO_ID = "daily_freq_radio_btn"
+        const val DAYS_OF_WEEK_FREQ_RADIO_ID = "daysOfWeek_freq_radio_btn"
+        const val DAYS_DURATION_RADIO_ID = "days_duration_radio_btn"
+        const val END_DATE_DURATION_RADIO_ID = "endDate_duration_radio_btn"
+        const val NO_END_DATE_DURATION_RADIO_ID = "noEndDate_duration_radio_btn"
+    }
 
 }
 

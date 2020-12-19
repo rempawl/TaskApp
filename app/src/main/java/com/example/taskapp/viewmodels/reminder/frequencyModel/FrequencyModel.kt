@@ -7,15 +7,16 @@ import com.example.taskapp.BR
 import com.example.taskapp.database.entities.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
 
-abstract class FrequencyModel : BaseObservable() {
+abstract class FrequencyModel() : BaseObservable() {
 
-    //init with tuesday
-    protected val checkedDays = mutableSetOf<DayOfWeekValue>(2)
 
-    val onCheckedListener = CompoundButton.OnCheckedChangeListener { btn, checked ->
+    protected val checkedDays = mutableSetOf<DayOfWeekValue>(DayOfWeek.TUESDAY.value)
+
+    val onDayOfWeekCheckedListener = CompoundButton.OnCheckedChangeListener { btn, checked ->
         onCheckedChange(checked, btn)
     }
 

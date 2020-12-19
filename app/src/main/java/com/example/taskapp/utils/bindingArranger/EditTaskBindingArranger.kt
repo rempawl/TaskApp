@@ -20,7 +20,6 @@ class EditTaskBindingArranger(
 
         binding.apply {
 
-
             durationRadioGroup.run {
                 when (this@EditTaskBindingArranger.viewModel.durationModel.durationState) {
                     is ReminderDurationState.NoEndDate -> check(noEndDateRadio.id)

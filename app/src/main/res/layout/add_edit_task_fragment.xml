@@ -87,6 +87,7 @@
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/daily_freq_radio"
                                 android:layout_width="wrap_content"
+                                android:onClick="@{(view) -> viewModel.onFrequencyRadioClick(view,viewModel.DAILY_FREQ_RADIO_ID)}"
                                 android:layout_height="wrap_content"
                                 android:text="@string/x_days_frequency" />
 
@@ -94,6 +95,7 @@
                                 android:id="@+id/days_of_week_radio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{(view) -> viewModel.onFrequencyRadioClick(view,viewModel.DAYS_OF_WEEK_FREQ_RADIO_ID)}"
                                 android:text="@string/set_days_of_week" />
 
                         </RadioGroup>
@@ -101,12 +103,14 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/set_daily_frequency_btn"
                             style="@style/WideButtonStyle"
+                            android:onClick="@{() -> viewModel.onSetDailyFreqBtnClick()}"
                             android:text="@{@plurals/daily_frequency(viewModel.frequencyModel.currentDailyFrequency,viewModel.frequencyModel.currentDailyFrequency)}"
                             android:visibility="visible" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/set_days_of_week_btn"
                             style="@style/WideButtonStyle"
+                            android:onClick="@{() -> viewModel.onSetDaysOfWeekBtnClick()}"
                             android:text="@string/set_days_of_week"
                             android:visibility="gone" />
 

@@ -3,10 +3,11 @@ package com.example.taskapp.viewmodels.reminder.frequencyModel
 import com.example.taskapp.database.entities.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
-class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
+class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency? ):
     FrequencyModel() {
 
     @AssistedInject.Factory
@@ -27,8 +28,15 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
         if (frequency != null) {
             isEdited = true
             when (val freqState = frequency.convertToFrequencyState()) {
-                is ReminderFrequencyState.Daily -> setDailyFrequency(freq = freqState.frequency)
-                is ReminderFrequencyState.WeekDays -> initDaysOfWeekState(freqState)
+                is ReminderFrequencyState.Daily -> {
+                    setDailyFrequency(freq = freqState.frequency)
+//                    initCallback(ReminderViewModel.DAILY_FREQ_RADIO_ID)
+                }
+                is ReminderFrequencyState.WeekDays -> {
+                    initDaysOfWeekState(freqState)
+//                    initCallback(ReminderViewModel.DAYS_OF_WEEK_FREQ_RADIO_ID)
+
+                }
             }
         } else {
             isEdited = false

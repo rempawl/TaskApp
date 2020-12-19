@@ -18,12 +18,8 @@ class AddTaskBindingArranger(
     override fun setUp() {
         setUpBinding()
         require(viewModel is AddTaskViewModel) { " wrong type of viewModel" }
-        val focusListener = viewModel.onFocusTaskName
 
-        binding.apply {
-            taskName.onFocusChangeListener = focusListener
 
-        }
 
     }
 

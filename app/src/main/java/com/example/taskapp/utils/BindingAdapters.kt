@@ -15,7 +15,6 @@ fun setError(view: EditText, stringOrRsrcID: Any?) {
             }
         }
     }
-
 }
 
 
