@@ -3,19 +3,16 @@ package com.example.taskapp.viewmodels.reminder
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.RadioButton
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.utils.providers.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalTime
 
@@ -27,8 +24,44 @@ abstract class ReminderViewModel(
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
 ) : ViewModel() {
+    sealed class FrequencyRadioState {
+        abstract val id: String
+
+        data class DailyFreqRadioState(override val id: String = DAILY_FREQ_RADIO_ID) :
+            FrequencyRadioState()
+
+        data class DaysOfWeekRadio(override val id: String = DAYS_OF_WEEK_FREQ_RADIO_ID) :
+            FrequencyRadioState()
+    }
+
+    sealed class DurationRadioState {
+        abstract val id: String
+
+        data class EndDateDurationState(override val id: String = END_DATE_DURATION_RADIO_ID) :
+            DurationRadioState()
+
+        data class NoEndDateDurationState(override val id: String = NO_END_DATE_DURATION_RADIO_ID) :
+            DurationRadioState()
+
+        data class DaysDurationState(override val id: String = DAYS_DURATION_RADIO_ID) :
+            DurationRadioState()
+    }
 
 
+    val getDailyFreqRadioState
+        get() = FrequencyRadioState.DailyFreqRadioState()
+
+    val getDaysOfWeekFreqRadioState
+        get() = FrequencyRadioState.DaysOfWeekRadio()
+
+    val getDaysDurationRadioState
+        get() = DurationRadioState.DaysDurationState()
+
+    val getEndDateDurationRadioState
+        get() = DurationRadioState.EndDateDurationState()
+
+    val getNoEndDateDurationRadioState
+        get() = DurationRadioState.NoEndDateDurationState()
 
     private val _isBeginningDateBtnClicked = MutableLiveData(false)
     val isBeginningDateBtnClicked: LiveData<Boolean>
@@ -54,11 +87,17 @@ abstract class ReminderViewModel(
     val isSetDailyFreqBtnClicked: LiveData<Boolean>
         get() = _isSetDailyFreqBtnClicked
 
-    private val _durationRadioId = MutableLiveData(DAILY_FREQ_RADIO_ID)
-    val durationRadioId: LiveData<String>
-        get() = _durationRadioId
+    private val _frequencyRadioState =
+        MutableLiveData<FrequencyRadioState>(FrequencyRadioState.DailyFreqRadioState())
+    val frequencyRadioState: LiveData<FrequencyRadioState>
+        get() = _frequencyRadioState
 
-    val isReminderSwitchChecked = ObservableField(task.reminder != null)
+    private val _durationRadioState =
+        MutableLiveData<DurationRadioState>(DurationRadioState.NoEndDateDurationState())
+    val durationRadioState: LiveData<DurationRadioState>
+        get() = _durationRadioState
+
+    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
 
     private val _shouldSetAlarm = MutableLiveData<Pair<Boolean, DefaultTask?>>(Pair(false, null))
     val shouldSetAlarm: LiveData<Pair<Boolean, DefaultTask?>>
@@ -75,18 +114,27 @@ abstract class ReminderViewModel(
         onFocusChange(view, focused, taskDetailsModel)
     }
 
-
-    private fun onFocusChange(view: View?, focused: Boolean, taskDetailsModel: TaskDetailsModel) {
-        val text = (view as EditText).text.toString()
-        if (!focused && text.isNotEmpty()) {
-            taskDetailsModel.isTaskNameValid(true)
+    fun onFrequencyRadioClick(freqState: FrequencyRadioState) {
+        _frequencyRadioState.value = freqState
+        when (freqState) {
+            is FrequencyRadioState.DailyFreqRadioState -> {
+                frequencyModel.setDailyFrequency()
+            }
+            is FrequencyRadioState.DaysOfWeekRadio
+            -> {
+                frequencyModel.setDaysOfWeekFrequency(daysOfWeek = null)
+            }
         }
     }
 
-    fun onFrequencyRadioClick(view: View?, id: String) {
-        if (view is RadioButton) {
-            _durationRadioId.value = id
+    fun onDurationRadioCheck(state: DurationRadioState) {
+        _durationRadioState.value = state
+        when (state) {
+            is DurationRadioState.NoEndDateDurationState -> durationModel.setNoEndDateDurationState()
+            is DurationRadioState.EndDateDurationState -> durationModel.setEndDateDurationState()
+            is DurationRadioState.DaysDurationState -> durationModel.setDaysDurationState()
         }
+
     }
 
     fun onBegDateBtnClick() {
@@ -142,17 +190,13 @@ abstract class ReminderViewModel(
         _isSetDaysOfWeekBtnClicked.value = true
     }
 
-    fun onDurationRadioCheck(view: View?) {
-
-
-    }
-
 
     fun saveTask() {
         viewModelScope.launch {
             _isConfirmBtnClicked.value = true
 
-            val reminder = if (isReminderSwitchChecked.get() as Boolean) createReminder() else null
+            val isChckd = isReminderSwitchChecked.get() ?: false
+            val reminder = if (isChckd) createReminder() else null
             val task = createTask(reminder)
             val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
 
@@ -194,6 +238,13 @@ abstract class ReminderViewModel(
     private fun transformError(isError: LiveData<Int>) =
         Transformations.map(isError) { stringId -> stringId }
 
+    private fun onFocusChange(view: View?, focused: Boolean, taskDetailsModel: TaskDetailsModel) {
+        val text = (view as EditText).text.toString()
+        if (!focused && text.isNotEmpty()) {
+            taskDetailsModel.isTaskNameValid(true)
+        }
+    }
+
 
 /*
     private fun saveStreak(taskID: Long) {
@@ -206,14 +257,17 @@ abstract class ReminderViewModel(
 
 
     companion object {
+
         const val DAILY_FREQ_RADIO_ID = "daily_freq_radio_btn"
         const val DAYS_OF_WEEK_FREQ_RADIO_ID = "daysOfWeek_freq_radio_btn"
         const val DAYS_DURATION_RADIO_ID = "days_duration_radio_btn"
         const val END_DATE_DURATION_RADIO_ID = "endDate_duration_radio_btn"
         const val NO_END_DATE_DURATION_RADIO_ID = "noEndDate_duration_radio_btn"
     }
-
 }
+
+
+
 
 
 

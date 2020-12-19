@@ -30,11 +30,9 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
             when (val freqState = frequency.convertToFrequencyState()) {
                 is ReminderFrequencyState.Daily -> {
                     setDailyFrequency(freq = freqState.frequency)
-//                    initCallback(ReminderViewModel.DAILY_FREQ_RADIO_ID)
                 }
                 is ReminderFrequencyState.WeekDays -> {
                     initDaysOfWeekState(freqState)
-//                    initCallback(ReminderViewModel.DAYS_OF_WEEK_FREQ_RADIO_ID)
 
                 }
             }

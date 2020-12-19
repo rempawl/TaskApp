@@ -9,8 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
-import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer
-import com.example.taskapp.utils.bindingArranger.EditTaskBindingArranger
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import javax.inject.Inject
@@ -25,47 +23,41 @@ class EditTaskFragment : AddEditTaskFragment() {
     private val appComponent by lazy {
         (activity as MainActivity).appComponent
     }
-    private val viewModel by lazy {
-        appComponent.editTaskViewModelFactory.create(args.task)
-    }
 
+    override val viewModel by lazy {
+        injectViewModel()
+    }
 
     @Inject
     lateinit var dispatcherProvider: DispatcherProvider
 
     private val args: EditTaskFragmentArgs by navArgs()
 
-    private var binding: AddEditTaskFragmentBinding? = null
-
-    private var bindingArranger: EditTaskBindingArranger? = null
-
+    override var binding: AddEditTaskFragmentBinding? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         injectMembers()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = AddEditTaskFragmentBinding.inflate(inflater, container, false)
-        if (binding != null) {
-            bindingArranger = EditTaskBindingArranger(
-                binding = binding!!, fragment = this,
-                viewModel = viewModel
-            )
-        } else {
-            throw IllegalStateException(" binding is null")
-        }
 
+        setUpBinding()
+        setupObservers(viewModel)
+        return binding?.root ?: throw IllegalStateException(BINDING_NULL)
+    }
+
+    override fun setUpBinding() {
+        super.setUpBinding()
         binding?.apply {
             taskName.isEnabled = false
             beginningDateBtn.isEnabled = false
         }
-        setupObservers(viewModel)
-        return binding!!.root
+
     }
 
     override fun navigateToMyTasks() {
@@ -77,7 +69,6 @@ class EditTaskFragment : AddEditTaskFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-        bindingArranger = null
     }
 
 

@@ -1,11 +1,8 @@
 package com.example.taskapp.viewmodels
 
-import android.util.Log
-import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
-import com.example.taskapp.utils.providers.SchedulerProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
@@ -14,14 +11,29 @@ import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
+//binding.apply { TODO
+//    durationRadioGroup.run {
+//        when (this@EditTaskBindingArranger.viewModel.durationModel.durationState) {
+//            is ReminderDurationState.NoEndDate -> check(noEndDateRadio.id)
+//            is ReminderDurationState.DaysDuration -> check(xDaysDurationRadio.id)
+//            is ReminderDurationState.EndDate -> check(endDateRadio.id)
+//        }
+//    }
+//    frequencyRadioGroup.run {
+//        when (this@EditTaskBindingArranger.viewModel.frequencyModel.frequencyState) {
+//            is ReminderFrequencyState.Daily -> check(dailyFreqRadio.id)
+//            is ReminderFrequencyState.WeekDays -> check(daysOfWeekRadio.id)
+//        }
+//    }
+//}
+
 class EditTaskViewModel @AssistedInject constructor(
     taskDetailsModel: TaskDetailsModel,
     @Assisted task: DefaultTask,
     private val taskRepository: TaskRepositoryInterface,
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
-    defaultNotificationModelFactory: EditTaskNotificationModel.Factory,
-    schedulerProvider: SchedulerProvider,
+    defaultNotificationModelFactory: EditTaskNotificationModel.Factory
 
 ) : ReminderViewModel(
     taskDetailsModel = taskDetailsModel,
@@ -30,10 +42,8 @@ class EditTaskViewModel @AssistedInject constructor(
         task.reminder?.duration,
         task.reminder?.begDate ?: TODAY
     ),
-    frequencyModel = frequencyModelFactory.create(task.reminder?.frequency)
-    ,
-    notificationModel = defaultNotificationModelFactory.create(notificationTime = task.reminder?.notificationTime),
-    schedulerProvider = schedulerProvider
+    frequencyModel = frequencyModelFactory.create(task.reminder?.frequency),
+    notificationModel = defaultNotificationModelFactory.create(notificationTime = task.reminder?.notificationTime)
 
 ) {
 
@@ -41,7 +51,6 @@ class EditTaskViewModel @AssistedInject constructor(
     interface Factory {
         fun create(task: DefaultTask): EditTaskViewModel
     }
-
 
 
     init {

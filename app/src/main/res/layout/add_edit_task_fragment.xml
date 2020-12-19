@@ -87,15 +87,15 @@
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/daily_freq_radio"
                                 android:layout_width="wrap_content"
-                                android:onClick="@{(view) -> viewModel.onFrequencyRadioClick(view,viewModel.DAILY_FREQ_RADIO_ID)}"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.onFrequencyRadioClick(viewModel.getDailyFreqRadioState)}"
                                 android:text="@string/x_days_frequency" />
 
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/days_of_week_radio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{(view) -> viewModel.onFrequencyRadioClick(view,viewModel.DAYS_OF_WEEK_FREQ_RADIO_ID)}"
+                                android:onClick="@{() -> viewModel.onFrequencyRadioClick(viewModel.getDaysOfWeekFreqRadioState)}"
                                 android:text="@string/set_days_of_week" />
 
                         </RadioGroup>
@@ -144,19 +144,23 @@
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/no_end_date_radio"
                                 android:layout_width="wrap_content"
+
                                 android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.onDurationRadioCheck(viewModel.getNoEndDateDurationRadioState)"
                                 android:text="@string/no_end_date" />
 
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/x_days_duration_radio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.onDurationRadioCheck(viewModel.getDaysDurationRadioState)}"
                                 android:text="@string/x_days_duration" />
 
                             <com.google.android.material.radiobutton.MaterialRadioButton
                                 android:id="@+id/end_date_radio"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{() -> viewModel.onDurationRadioCheck(viewModel.getEndDateDurationRadioState)}"
                                 android:text="@string/end_date" />
                         </RadioGroup>
 
