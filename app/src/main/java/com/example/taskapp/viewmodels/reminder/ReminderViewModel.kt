@@ -48,6 +48,7 @@ abstract class ReminderViewModel(
     }
 
 
+
     val getDailyFreqRadioState
         get() = FrequencyRadioState.DailyFreqRadioState()
 
@@ -112,6 +113,12 @@ abstract class ReminderViewModel(
 
     val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
         onFocusChange(view, focused, taskDetailsModel)
+    }
+
+    init {
+        frequencyModel.initFreqState.observeForever { state ->
+            if (state != null) createFreqStateObserver(state)
+        }
     }
 
     fun onFrequencyRadioClick(freqState: FrequencyRadioState) {
@@ -243,6 +250,10 @@ abstract class ReminderViewModel(
         if (!focused && text.isNotEmpty()) {
             taskDetailsModel.isTaskNameValid(true)
         }
+    }
+
+    private fun createFreqStateObserver(state: FrequencyRadioState) {
+        _frequencyRadioState.value = state
     }
 
 

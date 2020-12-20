@@ -20,7 +20,7 @@ abstract class AddEditTaskFragment : Fragment() {
 
     protected abstract var binding: AddEditTaskFragmentBinding?
 
-    protected abstract val viewModel : ReminderViewModel
+    protected abstract val viewModel: ReminderViewModel
 
     abstract fun navigateToMyTasks()
 
@@ -148,19 +148,16 @@ abstract class AddEditTaskFragment : Fragment() {
 
     private fun setFrequencyButtonsVisibility(state: ReminderViewModel.FrequencyRadioState) {
         binding?.run {
-            val allBtns = listOf(
-                setDailyFrequencyBtn,
-                setDaysOfWeekBtn
-            )
+            val allBtns = listOf(setDailyFrequencyBtn,setDaysOfWeekBtn)
             when (state) {
-                is ReminderViewModel.FrequencyRadioState.DailyFreqRadioState -> VisibilityChanger.changeViewsHelper(
-                    listOf(setDailyFrequencyBtn),
-                    allBtns
-                )
-                is ReminderViewModel.FrequencyRadioState.DaysOfWeekRadio -> VisibilityChanger.changeViewsHelper(
-                    listOf(setDaysOfWeekBtn),
-                    allBtns
-                )
+                is ReminderViewModel.FrequencyRadioState.DailyFreqRadioState -> {
+                    VisibilityChanger.changeViewsHelper(listOf(setDailyFrequencyBtn), allBtns)
+                    dailyFreqRadio.isChecked = true //for EditTask init
+                }
+                is ReminderViewModel.FrequencyRadioState.DaysOfWeekRadio -> {
+                    VisibilityChanger.changeViewsHelper(listOf(setDaysOfWeekBtn), allBtns)
+                    daysOfWeekRadio.isChecked = true
+                }
             }
         } ?: throw IllegalStateException(BINDING_NULL)
     }

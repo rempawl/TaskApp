@@ -1,14 +1,13 @@
 package com.example.taskapp.viewmodels.reminder.durationModel
 
 import androidx.databinding.library.baseAdapters.BR
-import com.example.taskapp.MyApp
 import com.example.taskapp.database.entities.reminder.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
-class  EditTaskDurationModel @AssistedInject constructor(
+class EditTaskDurationModel @AssistedInject constructor(
     @Assisted duration: Duration?,
     @Assisted begDate: LocalDate
 ) :
@@ -31,14 +30,13 @@ class  EditTaskDurationModel @AssistedInject constructor(
 
 
     init {
-        if(!begDate.isEqual(MyApp.TODAY) ){
-            beginningDate = begDate
-        }
+        beginningDate = begDate
 
         if (duration != null) {
             when (val durState = duration.convertToDurationState()) {
                 is ReminderDurationState.NoEndDate -> {
                     setNoEndDateDurationState()
+
                 }
                 is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
                 is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
@@ -46,8 +44,6 @@ class  EditTaskDurationModel @AssistedInject constructor(
 
         }
     }
-
-
 
 
     override fun setNoEndDateDurationState() {
@@ -67,7 +63,7 @@ class  EditTaskDurationModel @AssistedInject constructor(
     override fun isBeginningDateValid(date: LocalDate): Boolean {
 
         return if (durationState is ReminderDurationState.EndDate) {
-             date.isBefore(currentEndDate)
+            date.isBefore(currentEndDate)
         } else {
             true
         }

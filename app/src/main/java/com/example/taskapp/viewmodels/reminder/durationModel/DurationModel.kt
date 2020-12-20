@@ -16,8 +16,6 @@ abstract class DurationModel : BaseObservable() {
 
     abstract val durationState: ReminderDurationState
 
-
-
     private val _isError = MutableLiveData<Int>()
     val isError: LiveData<Int>
         get() = _isError

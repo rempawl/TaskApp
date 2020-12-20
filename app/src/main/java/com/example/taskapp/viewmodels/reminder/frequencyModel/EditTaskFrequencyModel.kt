@@ -1,14 +1,21 @@
 package com.example.taskapp.viewmodels.reminder.frequencyModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.database.entities.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel.*
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
-class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency? ):
+class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
     FrequencyModel() {
+
+    private val _freqState= MutableLiveData<FrequencyRadioState>(FrequencyRadioState.DailyFreqRadioState())
+    override val initFreqState: LiveData<FrequencyRadioState?>
+        get() = _freqState
 
     @AssistedInject.Factory
     interface Factory {
@@ -30,9 +37,11 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
             when (val freqState = frequency.convertToFrequencyState()) {
                 is ReminderFrequencyState.Daily -> {
                     setDailyFrequency(freq = freqState.frequency)
+                    _freqState.value = FrequencyRadioState.DailyFreqRadioState()
                 }
                 is ReminderFrequencyState.WeekDays -> {
                     initDaysOfWeekState(freqState)
+                    _freqState.value = FrequencyRadioState.DaysOfWeekRadio()
 
                 }
             }
