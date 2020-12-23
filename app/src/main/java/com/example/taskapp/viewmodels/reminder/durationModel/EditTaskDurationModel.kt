@@ -1,8 +1,12 @@
 package com.example.taskapp.viewmodels.reminder.durationModel
 
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.database.entities.reminder.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalDate
@@ -10,16 +14,19 @@ import org.threeten.bp.LocalDate
 class EditTaskDurationModel @AssistedInject constructor(
     @Assisted duration: Duration?,
     @Assisted begDate: LocalDate
-) :
-    DurationModel() {
+) : DurationModel() {
 
     @AssistedInject.Factory
     interface Factory {
         fun create(
             duration: Duration? = null,
-            begDate: LocalDate = LocalDate.now()
+            begDate: LocalDate = TODAY
         ): EditTaskDurationModel
     }
+
+    private val _initDurState = MutableLiveData<ReminderViewModel.DurationRadioState>()
+    override val initDurState: LiveData<ReminderViewModel.DurationRadioState>
+        get() = _initDurState
 
 
     override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
@@ -33,13 +40,20 @@ class EditTaskDurationModel @AssistedInject constructor(
         beginningDate = begDate
 
         if (duration != null) {
-            when (val durState = duration.convertToDurationState()) {
+            _initDurState.value = when (val durState = duration.convertToDurationState()) {
                 is ReminderDurationState.NoEndDate -> {
                     setNoEndDateDurationState()
+                    ReminderViewModel.DurationRadioState.NoEndDateDurationState()
+                }
+                is ReminderDurationState.DaysDuration -> {
+                    setDaysDurationState(days = durState.days)
+                    ReminderViewModel.DurationRadioState.DaysDurationState()
+                }
+                is ReminderDurationState.EndDate -> {
+                    setEndDateDurationState(endDate = durState.date)
+                    ReminderViewModel.DurationRadioState.EndDateDurationState()
 
                 }
-                is ReminderDurationState.DaysDuration -> setDaysDurationState(days = durState.days)
-                is ReminderDurationState.EndDate -> setEndDateDurationState(endDate = durState.date)
             }
 
         }

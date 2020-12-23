@@ -33,8 +33,7 @@ class EditTaskViewModel @AssistedInject constructor(
     private val taskRepository: TaskRepositoryInterface,
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
-    defaultNotificationModelFactory: EditTaskNotificationModel.Factory
-
+    defaultNotificationModelFactory: EditTaskNotificationModel.Factory,
 ) : ReminderViewModel(
     taskDetailsModel = taskDetailsModel,
     task = task,

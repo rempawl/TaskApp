@@ -24,6 +24,7 @@ abstract class ReminderViewModel(
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
 ) : ViewModel() {
+
     sealed class FrequencyRadioState {
         abstract val id: String
 
@@ -46,7 +47,6 @@ abstract class ReminderViewModel(
         data class DaysDurationState(override val id: String = DAYS_DURATION_RADIO_ID) :
             DurationRadioState()
     }
-
 
 
     val getDailyFreqRadioState
@@ -115,10 +115,19 @@ abstract class ReminderViewModel(
         onFocusChange(view, focused, taskDetailsModel)
     }
 
+    private val freqObs =
+        Observer<FrequencyRadioState> { state -> _frequencyRadioState.value = state }
+    private val durObs = Observer<DurationRadioState> { state -> _durationRadioState.value = state }
+
     init {
-        frequencyModel.initFreqState.observeForever { state ->
-            if (state != null) createFreqStateObserver(state)
-        }
+        frequencyModel.initFreqState.observeForever(freqObs)
+        durationModel.initDurState.observeForever(durObs)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        frequencyModel.initFreqState.removeObserver(freqObs)
+        durationModel.initDurState.removeObserver(durObs)
     }
 
     fun onFrequencyRadioClick(freqState: FrequencyRadioState) {
@@ -250,10 +259,6 @@ abstract class ReminderViewModel(
         if (!focused && text.isNotEmpty()) {
             taskDetailsModel.isTaskNameValid(true)
         }
-    }
-
-    private fun createFreqStateObserver(state: FrequencyRadioState) {
-        _frequencyRadioState.value = state
     }
 
 

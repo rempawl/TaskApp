@@ -9,10 +9,13 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.R
 import com.example.taskapp.database.entities.reminder.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import org.threeten.bp.LocalDate
 
 
 abstract class DurationModel : BaseObservable() {
+
+    abstract val initDurState: LiveData<ReminderViewModel.DurationRadioState>
 
     abstract val durationState: ReminderDurationState
 
@@ -42,7 +45,7 @@ abstract class DurationModel : BaseObservable() {
 
 
     @Bindable
-    var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear + 10)
+    var currentEndDate: LocalDate = LocalDate.ofYearDay(TODAY.year, TODAY.dayOfYear)
         protected set(value) {
             field = value
             notifyPropertyChanged(BR.currentEndDate)

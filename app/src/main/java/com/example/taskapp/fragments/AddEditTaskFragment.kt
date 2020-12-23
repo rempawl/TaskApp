@@ -169,18 +169,18 @@ abstract class AddEditTaskFragment : Fragment() {
                 setEndDateBtn
             )
             when (state) {
-                is ReminderViewModel.DurationRadioState.DaysDurationState -> VisibilityChanger.changeViewsHelper(
-                    listOf(setDurationDaysBtn),
-                    allBtns
-                )
-                is ReminderViewModel.DurationRadioState.EndDateDurationState -> VisibilityChanger.changeViewsHelper(
-                    listOf(setEndDateBtn),
-                    allBtns
-                )
-                is ReminderViewModel.DurationRadioState.NoEndDateDurationState -> VisibilityChanger.changeViewsHelper(
-                    null,
-                    allBtns
-                )
+                is ReminderViewModel.DurationRadioState.DaysDurationState -> {
+                    VisibilityChanger.changeViewsHelper(listOf(setDurationDaysBtn),allBtns)
+                    xDaysDurationRadio.isChecked = true
+                }
+                is ReminderViewModel.DurationRadioState.EndDateDurationState -> {
+                    VisibilityChanger.changeViewsHelper(listOf(setEndDateBtn),allBtns)
+                    endDateRadio.isChecked = true
+                }
+                is ReminderViewModel.DurationRadioState.NoEndDateDurationState -> {
+                    VisibilityChanger.changeViewsHelper(null,allBtns)
+                    noEndDateRadio.isChecked = true
+                }
             }
         } ?: throw IllegalStateException(BINDING_NULL)
     }

@@ -10,9 +10,11 @@ import javax.inject.Inject
 class AddTaskFrequencyModel @Inject constructor() : FrequencyModel() {
 
 
-
     override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
         private set
+
+    override val initFreqState: LiveData<ReminderViewModel.FrequencyRadioState>
+        get() = MutableLiveData(null)
 
 
     override var currentWeekDays: Set<DayOfWeekValue> = setOf()

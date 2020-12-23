@@ -146,7 +146,7 @@
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="wrap_content"
-                                android:onClick="@{() -> viewModel.onDurationRadioCheck(viewModel.getNoEndDateDurationRadioState)"
+                                android:onClick="@{() -> viewModel.onDurationRadioCheck(viewModel.getNoEndDateDurationRadioState)}"
                                 android:text="@string/no_end_date" />
 
                             <com.google.android.material.radiobutton.MaterialRadioButton

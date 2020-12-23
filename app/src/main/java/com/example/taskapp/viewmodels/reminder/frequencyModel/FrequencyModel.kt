@@ -4,7 +4,6 @@ import android.widget.CompoundButton
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.BR
 import com.example.taskapp.database.entities.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
@@ -16,9 +15,9 @@ import org.threeten.bp.LocalDate
 
 abstract class FrequencyModel : BaseObservable() {
 
+    abstract val frequencyState: ReminderFrequencyState
 
-    open val initFreqState: LiveData<ReminderViewModel.FrequencyRadioState?>
-        get() = MutableLiveData(null)
+    abstract val initFreqState: LiveData<ReminderViewModel.FrequencyRadioState>
 
     protected val checkedDays = mutableSetOf<DayOfWeekValue>(DayOfWeek.TUESDAY.value)
 
@@ -26,7 +25,6 @@ abstract class FrequencyModel : BaseObservable() {
         onCheckedChange(checked, btn)
     }
 
-    abstract val frequencyState: ReminderFrequencyState
 
     @Bindable
     var currentDailyFrequency = ReminderFrequencyState.INITIAL_FREQUENCY

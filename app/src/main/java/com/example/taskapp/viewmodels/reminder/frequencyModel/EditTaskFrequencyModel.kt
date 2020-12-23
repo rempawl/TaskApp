@@ -5,17 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.database.entities.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
-import com.example.taskapp.viewmodels.reminder.ReminderViewModel
-import com.example.taskapp.viewmodels.reminder.ReminderViewModel.*
+import com.example.taskapp.viewmodels.reminder.ReminderViewModel.FrequencyRadioState
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
 class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
     FrequencyModel() {
 
-    private val _freqState= MutableLiveData<FrequencyRadioState>(FrequencyRadioState.DailyFreqRadioState())
-    override val initFreqState: LiveData<FrequencyRadioState?>
-        get() = _freqState
 
     @AssistedInject.Factory
     interface Factory {
@@ -25,24 +21,26 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
     override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()
         private set
 
+    private val _initFreqState = MutableLiveData<FrequencyRadioState>()
+    override val initFreqState: LiveData<FrequencyRadioState>
+        get() = _initFreqState
+
     override var currentWeekDays: Set<DayOfWeekValue> = setOf()
         private set
-
 
     private val isEdited: Boolean
 
     init {
         if (frequency != null) {
             isEdited = true
-            when (val freqState = frequency.convertToFrequencyState()) {
+            _initFreqState.value = when (val freqState = frequency.convertToFrequencyState()) {
                 is ReminderFrequencyState.Daily -> {
                     setDailyFrequency(freq = freqState.frequency)
-                    _freqState.value = FrequencyRadioState.DailyFreqRadioState()
+                    FrequencyRadioState.DailyFreqRadioState()
                 }
                 is ReminderFrequencyState.WeekDays -> {
                     initDaysOfWeekState(freqState)
-                    _freqState.value = FrequencyRadioState.DaysOfWeekRadio()
-
+                    FrequencyRadioState.DaysOfWeekRadio()
                 }
             }
         } else {
