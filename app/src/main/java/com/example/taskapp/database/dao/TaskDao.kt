@@ -7,41 +7,40 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.taskapp.database.entities.task.DbTask
 import com.example.taskapp.database.entities.task.DbTaskMinimal
+import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
-
 @Dao
 interface TaskDao : BaseDao<DbTask> {
 
 
 
     @Query("SELECT * FROM tasks")
-    fun getAllTasks(): List<DbTask>
+    fun getAllTasks(): Flow<List<DbTask>>
 
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
-    fun getTaskById(taskID: Long): DbTask
+    fun getTaskById(taskID: Long): Flow<DbTask>
 
     @Query("SELECT taskID, name,description FROM tasks")
-    fun getMinimalTasks(): LiveData<List<DbTaskMinimal>>
+    fun getMinimalTasks(): Flow<List<DbTaskMinimal>>
 
     @Query("DELETE FROM tasks WHERE taskID == :id")
-    fun deleteByID(id: Long): Int
+    suspend fun deleteByID(id: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(item: DbTask): Long
+    suspend fun insertTask(item: DbTask): Long
 
     @Query("SELECT * FROM tasks WHERE realizationDate != :date")
-    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : List<DbTask>
+    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : Flow<List<DbTask>>
 
 
     @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")
-    fun getMinTasksByRealizationDate(date: LocalDate): LiveData<List<DbTaskMinimal>>
-
+    fun getMinTasksByRealizationDate(date: LocalDate): Flow<List<DbTaskMinimal>>
 
     @Query("SELECT * FROM tasks WHERE realizationDate = :date")
-    fun getTasksByRealizationDate(date: LocalDate): LiveData<List<DbTask>>
+    fun getTasksByRealizationDate(date: LocalDate): Flow<List<DbTask>>
 
     @Query("SELECT * FROm tasks WHERE realizationDate <= :date")
-    fun getTaskWithRealizationDateUntilDate(date: LocalDate): List<DbTask>
+    fun getTaskWithRealizationDateUntilDate(date: LocalDate): Flow<List<DbTask>>
 
 }
