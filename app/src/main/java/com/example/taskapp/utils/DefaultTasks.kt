@@ -1,16 +1,15 @@
 package com.example.taskapp.utils
 
 import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.entities.reminder.NotificationTime
-import com.example.taskapp.database.entities.reminder.Reminder
-import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.database.entities.task.toTaskMinimal
+import com.example.taskapp.data.reminder.NotificationTime
+import com.example.taskapp.data.reminder.Reminder
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
-object DefaultTasks {
+object Tasks {
     private val frequencyMondayTuesday =
         ReminderFrequencyState.WeekDays(setOf(DayOfWeek.TUESDAY.value, DayOfWeek.MONDAY.value))
     private val frequency2days = ReminderFrequencyState.Daily(2)
@@ -47,31 +46,31 @@ object DefaultTasks {
             notificationTime = notificationTimeTwelve
         )
 
-    val tasks = mutableListOf<DefaultTask>(
-        DefaultTask(
+    val tasks = mutableListOf<Task>(
+        Task(
             taskID = 0,
             name = "first",
             description = "no reminder"
         ),
-        DefaultTask(
+        Task(
             taskID = 1,
             name = "second",
             description = "with first reminder",
             reminder = firstReminder
         ),
-        DefaultTask(
+        Task(
             taskID = 2,
             name = "third",
             description = "with second reminder",
             reminder = secondReminder
         ),
-        DefaultTask(
+        Task(
             taskID = 3,
             name = "fourth",
             description = "with first reminder",
             reminder = firstReminder
         ),
-        DefaultTask(
+        Task(
             taskID = 4,
             name = "fifth",
             description = "with second reminder",
@@ -79,9 +78,9 @@ object DefaultTasks {
         )
     )
 
-    val minimalTasks = tasks.map { task ->task.toTaskMinimal() }
+    val minimalTasks = tasks.map { task -> task.toTaskMinimal() }
 
-    val errorTask = DefaultTask(
+    val errorTask = Task(
         taskID = -1,
         name = "error"
     )

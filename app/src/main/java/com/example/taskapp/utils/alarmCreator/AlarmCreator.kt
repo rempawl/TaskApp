@@ -1,10 +1,10 @@
 package com.example.taskapp.utils.alarmCreator
 
-import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.task.Task
+import com.example.taskapp.data.task.TaskMinimal
 
 interface AlarmCreator {
-    fun setTaskNotificationAlarm(task: DefaultTask, isToday: Boolean = false)
+    fun setTaskNotificationAlarm(task: Task, isToday: Boolean = false)
     fun setUpdateTaskListAlarm()
     fun setDelayAlarm(task: TaskMinimal, interval: Long = 30)
 

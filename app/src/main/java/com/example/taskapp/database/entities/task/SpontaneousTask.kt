@@ -10,7 +10,7 @@ data class SpontaneousTask(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val date: LocalDate = LocalDate.now(),
     @ForeignKey(
-        parentColumns = ["taskID"], childColumns = ["parentTaskID"], entity = DefaultTask::class,
+        parentColumns = ["taskID"], childColumns = ["parentTaskID"], entity = DbTask::class,
         onDelete = ForeignKey.CASCADE
     ) val parentTaskID: Long
 )

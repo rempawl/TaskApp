@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.taskapp.database.entities.reminder.Reminder
+import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.providers.DispatcherProvider

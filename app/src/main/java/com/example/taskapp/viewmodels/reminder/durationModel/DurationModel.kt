@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.reminder.Duration
+import com.example.taskapp.data.reminder.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import org.threeten.bp.LocalDate
@@ -19,8 +19,8 @@ abstract class DurationModel : BaseObservable() {
 
     abstract val durationState: ReminderDurationState
 
-    private val _isError = MutableLiveData<Int>()
-    val isError: LiveData<Int>
+    private val _isError = MutableLiveData<Int?>()
+    val isError: LiveData<Int?>
         get() = _isError
 
     @Bindable

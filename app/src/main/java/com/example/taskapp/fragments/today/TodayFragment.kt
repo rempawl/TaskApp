@@ -17,8 +17,8 @@ import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_CO
 import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.databinding.TodayFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.viewmodels.TodayViewModel
-import javax.inject.Inject
 
 class TodayFragment : Fragment() {
 
@@ -34,14 +34,8 @@ class TodayFragment : Fragment() {
         appComponent.todayViewModel
     }
 
-    @Inject
-    lateinit var taskListAdapterFactory: TaskListAdapter.Factory
 
-    private val taskAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create(onItemClickListener = { task -> navigateToTaskDetails(task) })
-    }
-
-
+    private var taskAdapter: TaskListAdapter by autoCleared()
     private var binding: TodayFragmentBinding? = null
 
 
@@ -54,6 +48,7 @@ class TodayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        taskAdapter = TaskListAdapter(onItemClickListener = { task -> navigateToTaskDetails(task) })
 
         binding = TodayFragmentBinding.inflate(inflater, container, false)
 

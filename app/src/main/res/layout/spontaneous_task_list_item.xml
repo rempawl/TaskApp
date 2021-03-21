@@ -6,7 +6,7 @@
     <data>
         <variable
             name="task"
-            type="com.example.taskapp.database.entities.task.DefaultTask" />
+            type="com.example.taskapp.data.task.Task" />
         <import type="android.view.View" />
     </data>
 

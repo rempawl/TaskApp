@@ -5,7 +5,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import com.example.taskapp.BR
-import com.example.taskapp.database.entities.reminder.Frequency
+import com.example.taskapp.data.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel

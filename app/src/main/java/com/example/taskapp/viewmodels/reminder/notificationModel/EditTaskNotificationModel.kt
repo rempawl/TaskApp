@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels.reminder.notificationModel
 
-import com.example.taskapp.database.entities.reminder.NotificationTime
+import com.example.taskapp.data.reminder.NotificationTime
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.LocalTime

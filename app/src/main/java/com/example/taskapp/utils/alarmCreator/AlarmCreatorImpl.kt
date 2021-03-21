@@ -10,9 +10,8 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
 import com.example.taskapp.broadcastReceivers.UpdateTomorrowRemindersReceiver
-import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.database.entities.task.TaskMinimal
-import com.example.taskapp.database.entities.task.toTaskMinimal
+import com.example.taskapp.data.task.Task
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -31,7 +30,7 @@ class AlarmCreatorImpl @Inject constructor(
 //    private val notificationIntentFactory : NotificationIntentFactory =
 //        NotificationIntentFactoryImpl(context)
 
-    override fun setTaskNotificationAlarm(task: DefaultTask, isToday: Boolean) {
+    override fun setTaskNotificationAlarm(task: Task, isToday: Boolean) {
         val manager = createManager(context)
 
         val intent =
@@ -68,7 +67,7 @@ class AlarmCreatorImpl @Inject constructor(
     override fun setDelayAlarm(task: TaskMinimal, interval: Long) {
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val intent =notificationIntentFactory.createNotificationReceiverIntent(task)
+        val intent = notificationIntentFactory.createNotificationReceiverIntent(task)
         val pending =
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val triggerTime = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(interval)

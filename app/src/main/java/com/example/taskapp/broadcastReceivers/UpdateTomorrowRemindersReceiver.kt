@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.database.AppDataBase
-import com.example.taskapp.database.Result
+import com.example.taskapp.data.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository

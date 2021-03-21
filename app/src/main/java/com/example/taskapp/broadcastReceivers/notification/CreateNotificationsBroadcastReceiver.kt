@@ -16,7 +16,7 @@ import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NAME_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper

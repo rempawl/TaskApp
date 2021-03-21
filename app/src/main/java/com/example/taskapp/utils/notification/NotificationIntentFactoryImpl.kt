@@ -5,7 +5,7 @@ import android.content.Intent
 import com.example.taskapp.MyApp.Companion.CREATE_NOTIFICATION_ACTION
 import com.example.taskapp.broadcastReceivers.notification.CreateTaskNotificationBroadcastReceiver
 import com.example.taskapp.broadcastReceivers.notification.DelayNotificationReceiver
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.task.TaskMinimal
 import javax.inject.Inject
 
 

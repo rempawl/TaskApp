@@ -3,7 +3,7 @@ package com.example.taskapp.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.example.taskapp.database.Result
+import com.example.taskapp.data.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.database.entities.task.toTaskMinimal

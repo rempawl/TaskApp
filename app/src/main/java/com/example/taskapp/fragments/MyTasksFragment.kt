@@ -14,11 +14,11 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.databinding.MyTasksFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.viewmodels.MyTasksViewModel
-import javax.inject.Inject
 
 
 class MyTasksFragment : Fragment() {
@@ -34,15 +34,9 @@ class MyTasksFragment : Fragment() {
     }
 
 
-    @Inject
-    lateinit var taskListAdapterFactory: TaskListAdapter.Factory
-
     private var binding: MyTasksFragmentBinding? = null
 
-    private val taskListAdapter: TaskListAdapter by lazy {
-        taskListAdapterFactory.create(onItemClickListener =  { task -> navigateToTaskDetails(task) })
-    }
-
+    private var taskListAdapter: TaskListAdapter by autoCleared()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,6 +47,9 @@ class MyTasksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        taskListAdapter =
+            TaskListAdapter(onItemClickListener = { task -> navigateToTaskDetails(task) })
+
         binding = MyTasksFragmentBinding.inflate(layoutInflater, container, false)
         return binding!!.root
     }

@@ -13,6 +13,7 @@ import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.SpontaneousTaskListAdapter
 import com.example.taskapp.databinding.AddSpontaneousTasksFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.viewmodels.AddSpontaneousTasksViewModel
 import javax.inject.Inject
 
@@ -27,12 +28,8 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
         (activity as MainActivity).appComponent
     }
 
-    @Inject
-    lateinit var spontaneousTaskListAdapterFactory: SpontaneousTaskListAdapter.Factory
 
-    private val spontaneousTaskListAdapter: SpontaneousTaskListAdapter by lazy {
-        spontaneousTaskListAdapterFactory.create(viewModel.onCheckedListener)
-    }
+    private var spontaneousTaskListAdapter: SpontaneousTaskListAdapter by autoCleared()
 
     private var binding: AddSpontaneousTasksFragmentBinding? = null
 
@@ -52,6 +49,8 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        spontaneousTaskListAdapter = SpontaneousTaskListAdapter(viewModel.onCheckedListener)
+
         binding = AddSpontaneousTasksFragmentBinding.inflate(inflater, container, false)
         setupLayout(binding!!)
         return binding!!.root

@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
 import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
@@ -29,7 +29,7 @@ import com.squareup.inject.assisted.AssistedInject
 
 class EditTaskViewModel @AssistedInject constructor(
     taskDetailsModel: TaskDetailsModel,
-    @Assisted task: DefaultTask,
+    @Assisted task: Task,
     private val taskRepository: TaskRepositoryInterface,
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
@@ -48,7 +48,7 @@ class EditTaskViewModel @AssistedInject constructor(
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(task: DefaultTask): EditTaskViewModel
+        fun create(task: Task): EditTaskViewModel
     }
 
 
@@ -59,7 +59,7 @@ class EditTaskViewModel @AssistedInject constructor(
         }
     }
 
-    override suspend fun addTask(task: DefaultTask) {
+    override suspend fun addTask(task: Task) {
         taskRepository.updateTask(task)
     }
 

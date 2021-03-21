@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.database.Result
+import com.example.taskapp.data.Result
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal

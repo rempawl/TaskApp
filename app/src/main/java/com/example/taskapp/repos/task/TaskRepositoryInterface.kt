@@ -1,10 +1,9 @@
 package com.example.taskapp.repos.task
 
 import androidx.lifecycle.LiveData
-import com.example.taskapp.database.Result
+import com.example.taskapp.data.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal
-import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
 interface TaskRepositoryInterface {

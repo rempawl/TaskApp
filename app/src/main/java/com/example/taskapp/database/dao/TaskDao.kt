@@ -5,43 +5,43 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.database.entities.task.DbTask
+import com.example.taskapp.database.entities.task.DbTaskMinimal
 import org.threeten.bp.LocalDate
 
 @Dao
-interface TaskDao : BaseDao<DefaultTask> {
+interface TaskDao : BaseDao<DbTask> {
 
 
 
     @Query("SELECT * FROM tasks")
-    fun getAllTasks(): List<DefaultTask>
+    fun getAllTasks(): List<DbTask>
 
 
     @Query("SELECT * FROM tasks WHERE taskID ==:taskID")
-    fun getTaskById(taskID: Long): DefaultTask
+    fun getTaskById(taskID: Long): DbTask
 
     @Query("SELECT taskID, name,description FROM tasks")
-    fun getMinimalTasks(): LiveData<List<TaskMinimal>>
+    fun getMinimalTasks(): LiveData<List<DbTaskMinimal>>
 
     @Query("DELETE FROM tasks WHERE taskID == :id")
     fun deleteByID(id: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTask(item: DefaultTask): Long
+    fun insertTask(item: DbTask): Long
 
     @Query("SELECT * FROM tasks WHERE realizationDate != :date")
-    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : List<DefaultTask>
+    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : List<DbTask>
 
 
     @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")
-    fun getMinTasksByRealizationDate(date: LocalDate): LiveData<List<TaskMinimal>>
+    fun getMinTasksByRealizationDate(date: LocalDate): LiveData<List<DbTaskMinimal>>
 
 
     @Query("SELECT * FROM tasks WHERE realizationDate = :date")
-    fun getTasksByRealizationDate(date: LocalDate): LiveData<List<DefaultTask>>
+    fun getTasksByRealizationDate(date: LocalDate): LiveData<List<DbTask>>
 
     @Query("SELECT * FROm tasks WHERE realizationDate <= :date")
-    fun getTaskWithRealizationDateUntilDate(date: LocalDate): List<DefaultTask>
+    fun getTaskWithRealizationDateUntilDate(date: LocalDate): List<DbTask>
 
 }

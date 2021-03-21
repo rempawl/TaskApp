@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.taskapp.MyApp.Companion.TODAY
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.database.AppDataBase
-import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.repos.task.TaskRepositoryInterface
@@ -17,7 +17,7 @@ import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelperImpl
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 
-typealias DatePredicate = (LocalDate, DefaultTask) -> (Boolean)
+typealias DatePredicate = (LocalDate, Task) -> (Boolean)
 
 /**
  * class that checks if today tasks are up to date  updates reminders and sets alarms
@@ -45,9 +45,7 @@ class UpdateRemindersWorker constructor(
 
     //    @Inject
     private val taskRepo: TaskRepositoryInterface = TaskRepository(
-        TaskLocalDataSource(
             AppDataBase.getInstance(applicationContext).taskDao()
-        )
     )
 
 
@@ -57,13 +55,13 @@ class UpdateRemindersWorker constructor(
 
         @Suppress("UNCHECKED_CAST")
         return when (result) {
-            is com.example.taskapp.database.Result.Error -> Result.retry()
-            is com.example.taskapp.database.Result.Success<*> -> updateTasks(result.items as List<DefaultTask>)
+            is com.example.taskapp.data.Result.Error -> Result.retry()
+            is com.example.taskapp.data.Result.Success<*> -> updateTasks(result.items as List<Task>)
         }
 
     }
 
-    private suspend fun updateTasks(allTasks: List<DefaultTask>): Result {
+    private suspend fun updateTasks(allTasks: List<Task>): Result {
         if (allTasks.isEmpty()) return Result.success()
 
         val tasks = allTasks.filter { task -> task.reminder != null }
@@ -82,7 +80,7 @@ class UpdateRemindersWorker constructor(
 
     }
 
-    private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
+    private suspend fun updateTaskList(tasks: List<Task>): List<Task> {
         val partitionedTasks = tasks
             .partition { task -> task.updateRealizationDate() != null }
 
@@ -91,7 +89,7 @@ class UpdateRemindersWorker constructor(
         return partitionedTasks.toList()[0]
     }
 
-    private fun setTodayNotifications(tasks: List<DefaultTask>) {
+    private fun setTodayNotifications(tasks: List<Task>) {
         tasks
             .filter { task ->
                 datePredicate(TODAY, task)

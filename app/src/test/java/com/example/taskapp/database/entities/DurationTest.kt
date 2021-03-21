@@ -1,6 +1,6 @@
 package com.example.taskapp.database.entities
 
-import com.example.taskapp.database.entities.reminder.Duration
+import com.example.taskapp.data.reminder.Duration
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`

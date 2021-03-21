@@ -1,4 +1,4 @@
-package com.example.taskapp.database
+package com.example.taskapp.data
 
 sealed class Result<out R> {
     data class  Success <out T> (val items: T) : Result<T>()

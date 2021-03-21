@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels
 
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
@@ -18,14 +18,14 @@ class AddTaskViewModel @Inject constructor(
     frequencyModel: FrequencyModel
 ) : ReminderViewModel(
     taskDetailsModel = taskDetailsModel,
-    task = DefaultTask(name = ""),
+    task = Task(name = ""),
     durationModel = durationModel,
     notificationModel = notificationModel,
     frequencyModel = frequencyModel
 ) {
 
 
-    override suspend fun addTask(task: DefaultTask) {
+    override suspend fun addTask(task: Task) {
         taskRepository.saveTask(task)
     }
 

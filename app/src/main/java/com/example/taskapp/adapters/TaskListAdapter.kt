@@ -11,16 +11,8 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 
 
-class TaskListAdapter @AssistedInject constructor(@Assisted private val onItemClickListener: (TaskMinimal) -> Unit ) :
+class TaskListAdapter  constructor( private val onItemClickListener: (TaskMinimal) -> Unit ) :
     ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
-
-
-
-    @AssistedInject.Factory
-    interface Factory {
-        fun create(onItemClickListener: (TaskMinimal) -> Unit): TaskListAdapter
-    }
-
 
     inner class TaskViewHolder(private val binding: TaskListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

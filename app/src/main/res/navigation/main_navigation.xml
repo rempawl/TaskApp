@@ -50,7 +50,7 @@
         android:label="@string/edit_task">
         <argument
             android:name="task"
-            app:argType="com.example.taskapp.database.entities.task.DefaultTask"
+            app:argType="com.example.taskapp.data.task.Task"
             app:nullable="false" />
         <action
             app:popUpTo="@id/navigation_my_tasks"

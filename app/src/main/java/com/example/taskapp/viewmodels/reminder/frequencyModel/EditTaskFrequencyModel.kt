@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels.reminder.frequencyModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.taskapp.database.entities.reminder.Frequency
+import com.example.taskapp.data.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel.FrequencyRadioState

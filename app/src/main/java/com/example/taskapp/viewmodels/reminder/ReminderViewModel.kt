@@ -7,7 +7,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp
-import com.example.taskapp.database.entities.reminder.Reminder
+import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
@@ -108,8 +108,8 @@ abstract class ReminderViewModel(
     val isSetNotifBtnClicked: LiveData<Boolean>
         get() = _isSetNotifBtnClicked
 
-    val toastText: LiveData<Int>
-        get() = transformError(isError = durationModel.isError)
+    val toastText: LiveData<Int?>
+        get() =         Transformations.map(durationModel.isError) { stringId -> stringId }
 
     val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
         onFocusChange(view, focused, taskDetailsModel)
@@ -251,8 +251,7 @@ abstract class ReminderViewModel(
     }
 
 
-    private fun transformError(isError: LiveData<Int>) =
-        Transformations.map(isError) { stringId -> stringId }
+//    private fun transformError(isError: LiveData<Int?>) =
 
     private fun onFocusChange(view: View?, focused: Boolean, taskDetailsModel: TaskDetailsModel) {
         val text = (view as EditText).text.toString()

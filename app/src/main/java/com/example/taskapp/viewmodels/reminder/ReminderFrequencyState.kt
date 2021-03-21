@@ -1,6 +1,6 @@
 package com.example.taskapp.viewmodels.reminder
 
-import com.example.taskapp.database.entities.reminder.Frequency
+import com.example.taskapp.data.reminder.Frequency
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 

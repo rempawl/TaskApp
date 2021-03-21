@@ -1,4 +1,4 @@
-package com.example.taskapp.database.entities.reminder
+package com.example.taskapp.data.reminder
 
 import android.os.Parcelable
 import org.threeten.bp.LocalTime

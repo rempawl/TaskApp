@@ -2,7 +2,7 @@ package com.example.taskapp.fragments
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer
 import com.example.taskapp.utils.ReminderDialogFragmentsDisplayer.showDurationDaysPickerDialog
@@ -25,7 +25,7 @@ abstract class AddEditTaskFragment : Fragment() {
     abstract fun navigateToMyTasks()
 
 
-    private fun setAlarm(addedTask: DefaultTask) {
+    private fun setAlarm(addedTask: Task) {
         alarmCreator.setTaskNotificationAlarm(addedTask, isToday = true)
     }
 

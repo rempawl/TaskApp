@@ -1,6 +1,6 @@
 package com.example.taskapp.database.entities
 
-import com.example.taskapp.database.entities.reminder.Frequency
+import com.example.taskapp.data.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`

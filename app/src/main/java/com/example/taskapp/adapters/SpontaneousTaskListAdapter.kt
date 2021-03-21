@@ -12,17 +12,12 @@ import com.squareup.inject.assisted.AssistedInject
 
 typealias TaskID = Long
 
-class SpontaneousTaskListAdapter @AssistedInject constructor(
-    @Assisted private val onCheckedChangeListener: (Boolean, TaskID) -> Unit
+class SpontaneousTaskListAdapter  constructor(
+     private val onCheckedChangeListener: (Boolean, TaskID) -> Unit
 ) :
     ListAdapter<DefaultTask, SpontaneousTaskListAdapter.SpontaneousTaskViewHolder>(
         TaskDiffUtilCallback()
     ) {
-    @AssistedInject.Factory
-    interface Factory{
-        fun create(onCheckedChangeListener: (Boolean, Long) -> Unit) : SpontaneousTaskListAdapter
-    }
-
 
     inner class SpontaneousTaskViewHolder(private val binding: SpontaneousTaskListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

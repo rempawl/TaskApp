@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.taskapp.database.dao.StreakDao
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.Streak
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.database.entities.task.DbTask
 import com.example.taskapp.utils.Converters
 import com.example.taskapp.utils.DefaultTasks
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(
-    entities = [DefaultTask::class,
+    entities = [DbTask::class,
         Streak::class
     ],
     version = AppDataBase.VERSION_INT
@@ -34,14 +34,13 @@ abstract class AppDataBase : RoomDatabase() {
         const val DB_NAME = "TaskApp DB"
 
 
-
         private lateinit var INSTANCE: AppDataBase
 
         fun getInstance(context: Context): AppDataBase {
             val callback = createCallback(context)
 
-            return  synchronized(this) {
-                if(!::INSTANCE.isInitialized) {
+            return synchronized(this) {
+                if (!::INSTANCE.isInitialized) {
                     INSTANCE = Room
                         .databaseBuilder(context, AppDataBase::class.java, DB_NAME)
                         .addCallback(callback)
