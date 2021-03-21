@@ -7,11 +7,11 @@ import com.example.taskapp.data.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.database.entities.task.TaskMinimal
 import com.example.taskapp.database.entities.task.toTaskMinimal
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import io.reactivex.Single
 import org.threeten.bp.LocalDate
 
-class FakeTaskRepository : TaskRepositoryInterface {
+class FakeTaskRepository : TaskRepository {
     val tasks = DefaultTasks.tasks
 
     override suspend fun getTasks(): Result<List<DefaultTask>> = TODO()

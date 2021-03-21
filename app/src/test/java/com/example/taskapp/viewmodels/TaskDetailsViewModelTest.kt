@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.*
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel
 import io.mockk.MockKAnnotations
@@ -29,7 +29,7 @@ class TaskDetailsViewModelTest {
     val coroutineTestRule = CoroutineTestRule(dispatcherProvider.dispatcher)
 
     @MockK
-    lateinit var taskRepository: TaskRepositoryInterface
+    lateinit var taskRepository: TaskRepository
 
     private lateinit var viewModel: TaskDetailsViewModel
 

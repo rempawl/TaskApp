@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -14,7 +14,7 @@ import org.threeten.bp.format.DateTimeFormatter
 
 class TaskDetailsViewModel @AssistedInject constructor(
     @Assisted private val taskID: Long,
-    private val taskRepository: TaskRepositoryInterface,
+    private val taskRepository: TaskRepository,
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 

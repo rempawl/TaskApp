@@ -7,7 +7,7 @@ import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.repos.task.TaskRepositoryImpl
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
@@ -43,7 +43,7 @@ class UpdateRemindersWorker constructor(
     )
 
     //    @Inject
-    private val taskRepo: TaskRepositoryInterface = TaskRepositoryImpl(
+    private val taskRepo: TaskRepository = TaskRepositoryImpl(
             AppDataBase.getInstance(applicationContext).taskDao()
     )
 

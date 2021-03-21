@@ -3,6 +3,7 @@ package com.example.taskapp.repos.task
 import com.example.taskapp.MyApp
 import com.example.taskapp.data.Result
 import com.example.taskapp.data.task.Task
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.task.DbTask
 import dagger.Reusable
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @Suppress("UNCHECKED_CAST")
 @Reusable
 class TaskRepositoryImpl @Inject constructor(private val taskLocalDataSource: TaskDao) :
-    TaskRepositoryInterface {
+    TaskRepository {
 
     @Suppress("UNCHECKED_CAST")
 

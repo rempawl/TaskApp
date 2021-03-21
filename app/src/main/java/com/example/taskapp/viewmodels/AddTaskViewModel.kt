@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
 import com.example.taskapp.data.task.Task
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
     taskDetailsModel: TaskDetailsModel,
-    private val taskRepository: TaskRepositoryInterface,
+    private val taskRepository: TaskRepository,
     durationModel: AddTaskDurationModel,
     notificationModel: NotificationModel,
     frequencyModel: FrequencyModel

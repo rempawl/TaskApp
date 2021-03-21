@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.taskapp.data.reminder.Reminder
+import com.example.taskapp.data.task.Task
 
 @Entity(
     tableName = "tasks",
@@ -24,9 +25,11 @@ data class DbTask constructor(
         )
     }
 
-    /**
-     * returns null if realization date didn't change
-     */
-
+    companion object {
+        fun from(task: Task) = DbTask(
+            taskID = task.taskID, task.name, description = task.description,
+            reminder = task.reminder
+        )
+    }
 }
 

@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.CoroutineTestRule
 import com.example.taskapp.utils.DefaultTasks.tasks
 import com.example.taskapp.utils.TestDispatcherProvider
@@ -35,7 +35,7 @@ class AddSpontaneousTasksViewModelTest {
     private lateinit var viewModel: AddSpontaneousTasksViewModel
 
     @MockK
-    lateinit var taskRepository: TaskRepositoryInterface
+    lateinit var taskRepository: TaskRepository
 
     @Before
     fun setUp() {

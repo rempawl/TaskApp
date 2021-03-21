@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels
 
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.data.task.Task
-import com.example.taskapp.repos.task.TaskRepositoryInterface
+import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
@@ -30,7 +30,7 @@ import com.squareup.inject.assisted.AssistedInject
 class EditTaskViewModel @AssistedInject constructor(
     taskDetailsModel: TaskDetailsModel,
     @Assisted task: Task,
-    private val taskRepository: TaskRepositoryInterface,
+    private val taskRepository: TaskRepository,
     durationModelFactory: EditTaskDurationModel.Factory,
     frequencyModelFactory: EditTaskFrequencyModel.Factory,
     defaultNotificationModelFactory: EditTaskNotificationModel.Factory,
