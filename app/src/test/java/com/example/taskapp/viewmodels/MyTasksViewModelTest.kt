@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.repos.task.TaskRepositoryImpl
 import com.example.taskapp.utils.*
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ internal class MyTasksViewModelTest {
     private val dispatcherProvider = TestDispatcherProvider()
 
     @MockK
-    private lateinit var taskRepository: TaskRepository
+    private lateinit var taskRepositoryImpl: TaskRepositoryImpl
 
     private lateinit var viewModel: MyTasksViewModel
 
@@ -38,12 +38,12 @@ internal class MyTasksViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = MyTasksViewModel(taskRepository, dispatcherProvider)
+        viewModel = MyTasksViewModel(taskRepositoryImpl, dispatcherProvider)
     }
 
     @Test
     fun `get tasks returns default tasks`() {
-        coEvery { taskRepository.getMinimalTasks() } returns  MutableLiveData(DefaultTasks.minimalTasks)
+        coEvery { taskRepositoryImpl.getMinimalTasks() } returns  MutableLiveData(DefaultTasks.minimalTasks)
         coroutineScope.runBlockingTest {
 
             val actualTasks = viewModel.tasks.getOrAwaitValue()

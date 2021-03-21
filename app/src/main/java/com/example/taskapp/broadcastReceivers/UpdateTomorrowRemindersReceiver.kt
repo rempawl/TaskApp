@@ -8,7 +8,7 @@ import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.data.Result
 import com.example.taskapp.database.entities.task.DefaultTask
 import com.example.taskapp.repos.task.TaskLocalDataSource
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.repos.task.TaskRepositoryImpl
 import com.example.taskapp.repos.task.TaskRepositoryInterface
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
@@ -45,7 +45,7 @@ class UpdateTomorrowRemindersReceiver :
 
 
         coroutineScope.launch {
-            taskRepository = TaskRepository(TaskLocalDataSource(AppDataBase
+            taskRepository = TaskRepositoryImpl(TaskLocalDataSource(AppDataBase
                         .getInstance(context).taskDao()
                 )
             )
