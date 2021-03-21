@@ -19,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class AddSpontaneousTasksViewModelTest {
+class AddSpontaneousDbTasksViewModelTest {
 
     init {
         loadTimeZone()
@@ -50,7 +50,7 @@ class AddSpontaneousTasksViewModelTest {
 
         coroutineScope.runBlockingTest {
             val expectedValue = tasks.toList()
-            val actualValue = viewModel.tasks.getOrAwaitValue()
+            val actualValue = viewModel.result.getOrAwaitValue()
             assertThat(actualValue, `is`(expectedValue))
         }
     }

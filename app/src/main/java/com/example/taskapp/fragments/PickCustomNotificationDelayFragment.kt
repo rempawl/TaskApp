@@ -12,7 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
 import com.example.taskapp.MyApp.Companion.TASK_KEY
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.databinding.PickCustomNotificationDelayFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.EventObserver
@@ -50,7 +50,7 @@ class PickCustomNotificationDelayFragment : Fragment() {
     ): View? {
 
         val binding = PickCustomNotificationDelayFragmentBinding
-            .inflate(inflater, container, false) ?: throw IllegalStateException("binding is null")
+            .inflate(inflater, container, false)
         setUpBinding(binding)
 
         return binding.root

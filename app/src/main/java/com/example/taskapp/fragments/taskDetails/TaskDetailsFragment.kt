@@ -108,12 +108,13 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun navigateToEditTask() {
-        viewModel.task.observe(viewLifecycleOwner, { task ->
+        //todo
+        /*viewModel.result.observe(viewLifecycleOwner, { task ->
             findNavController().navigate(
                 TaskDetailsFragmentDirections
                     .navigationTaskDetailsToNavigationEditTask(task)
             )
-        })
+        })*/
     }
 
     private fun showDeleteDialog() {

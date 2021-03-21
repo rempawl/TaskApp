@@ -5,13 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.databinding.TaskListItemBinding
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 
 
-class TaskListAdapter  constructor( private val onItemClickListener: (TaskMinimal) -> Unit ) :
+class TaskListAdapter constructor(private val onItemClickListener: (TaskMinimal) -> Unit) :
     ListAdapter<TaskMinimal, TaskListAdapter.TaskViewHolder>(TaskMinimalDiffCallback()) {
 
     inner class TaskViewHolder(private val binding: TaskListItemBinding) :
@@ -40,8 +38,8 @@ class TaskListAdapter  constructor( private val onItemClickListener: (TaskMinima
     }
 
     companion object {
-         const val PORTRAIT_COLUMN_COUNT = 2
-         const val LANDSCAPE_COLUMN_COUNT = 4
+        const val PORTRAIT_COLUMN_COUNT = 2
+        const val LANDSCAPE_COLUMN_COUNT = 4
     }
 }
 

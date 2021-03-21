@@ -8,7 +8,7 @@ import androidx.lifecycle.*
 import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp
 import com.example.taskapp.data.reminder.Reminder
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
@@ -19,7 +19,7 @@ import org.threeten.bp.LocalTime
 
 abstract class ReminderViewModel(
     val taskDetailsModel: TaskDetailsModel,
-    val task: DefaultTask,
+    val task: Task,
     val notificationModel: NotificationModel,
     val frequencyModel: FrequencyModel,
     val durationModel: DurationModel
@@ -100,8 +100,8 @@ abstract class ReminderViewModel(
 
     val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
 
-    private val _shouldSetAlarm = MutableLiveData<Pair<Boolean, DefaultTask?>>(Pair(false, null))
-    val shouldSetAlarm: LiveData<Pair<Boolean, DefaultTask?>>
+    private val _shouldSetAlarm = MutableLiveData<Pair<Boolean, Task?>>(Pair(false, null))
+    val shouldSetAlarm: LiveData<Pair<Boolean, Task?>>
         get() = _shouldSetAlarm
 
     private val _isSetNotifBtnClicked = MutableLiveData(false)
@@ -109,7 +109,7 @@ abstract class ReminderViewModel(
         get() = _isSetNotifBtnClicked
 
     val toastText: LiveData<Int?>
-        get() =         Transformations.map(durationModel.isError) { stringId -> stringId }
+        get() = Transformations.map(durationModel.isError) { stringId -> stringId }
 
     val onFocusTaskName: View.OnFocusChangeListener = View.OnFocusChangeListener { view, focused ->
         onFocusChange(view, focused, taskDetailsModel)
@@ -228,7 +228,7 @@ abstract class ReminderViewModel(
     }
 
 
-    protected abstract suspend fun addTask(task: DefaultTask)
+    protected abstract suspend fun addTask(task: Task)
 
     private fun createReminder(): Reminder {
         return Reminder(
@@ -242,7 +242,7 @@ abstract class ReminderViewModel(
 
     }
 
-    private fun createTask(reminder: Reminder?): DefaultTask {
+    private fun createTask(reminder: Reminder?): Task {
         return task.copy(
             name = taskDetailsModel.taskName,
             description = taskDetailsModel.taskDescription,

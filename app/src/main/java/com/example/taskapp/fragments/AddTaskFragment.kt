@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
 import com.example.taskapp.di.viewModel
+import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class AddTaskFragment : AddEditTaskFragment() {
     @Inject
     lateinit var dispatcherProvider: DispatcherProvider
 
-    override var binding: AddEditTaskFragmentBinding? = null
+    override var binding: AddEditTaskFragmentBinding by autoCleared()
 
 
     override fun onAttach(context: Context) {
@@ -60,7 +61,6 @@ class AddTaskFragment : AddEditTaskFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
     }
 
     override fun setupObservers(viewModel: ReminderViewModel) {

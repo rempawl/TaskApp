@@ -18,7 +18,7 @@ abstract class AddEditTaskFragment : Fragment() {
     @Inject
     lateinit var alarmCreator: AlarmCreator
 
-    protected abstract var binding: AddEditTaskFragmentBinding?
+    protected abstract var binding: AddEditTaskFragmentBinding
 
     protected abstract val viewModel: ReminderViewModel
 
@@ -34,10 +34,10 @@ abstract class AddEditTaskFragment : Fragment() {
     }
 
     protected open fun setUpBinding() {
-        binding?.apply {
+        binding.apply {
             viewModel = this@AddEditTaskFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
-        } ?: throw IllegalStateException(BINDING_NULL)
+        }
     }
 
 
@@ -147,8 +147,8 @@ abstract class AddEditTaskFragment : Fragment() {
     }
 
     private fun setFrequencyButtonsVisibility(state: ReminderViewModel.FrequencyRadioState) {
-        binding?.run {
-            val allBtns = listOf(setDailyFrequencyBtn,setDaysOfWeekBtn)
+        binding.run {
+            val allBtns = listOf(setDailyFrequencyBtn, setDaysOfWeekBtn)
             when (state) {
                 is ReminderViewModel.FrequencyRadioState.DailyFreqRadioState -> {
                     VisibilityChanger.changeViewsHelper(listOf(setDailyFrequencyBtn), allBtns)
@@ -159,30 +159,30 @@ abstract class AddEditTaskFragment : Fragment() {
                     daysOfWeekRadio.isChecked = true
                 }
             }
-        } ?: throw IllegalStateException(BINDING_NULL)
+        }
     }
 
     private fun setDurationButtonsVisibility(state: ReminderViewModel.DurationRadioState) {
-        binding?.run {
+        binding.run {
             val allBtns = listOf(
                 setDurationDaysBtn,
                 setEndDateBtn
             )
             when (state) {
                 is ReminderViewModel.DurationRadioState.DaysDurationState -> {
-                    VisibilityChanger.changeViewsHelper(listOf(setDurationDaysBtn),allBtns)
+                    VisibilityChanger.changeViewsHelper(listOf(setDurationDaysBtn), allBtns)
                     xDaysDurationRadio.isChecked = true
                 }
                 is ReminderViewModel.DurationRadioState.EndDateDurationState -> {
-                    VisibilityChanger.changeViewsHelper(listOf(setEndDateBtn),allBtns)
+                    VisibilityChanger.changeViewsHelper(listOf(setEndDateBtn), allBtns)
                     endDateRadio.isChecked = true
                 }
                 is ReminderViewModel.DurationRadioState.NoEndDateDurationState -> {
-                    VisibilityChanger.changeViewsHelper(null,allBtns)
+                    VisibilityChanger.changeViewsHelper(null, allBtns)
                     noEndDateRadio.isChecked = true
                 }
             }
-        } ?: throw IllegalStateException(BINDING_NULL)
+        }
     }
 
     companion object {

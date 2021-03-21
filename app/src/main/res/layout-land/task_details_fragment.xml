@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:gravity="center_horizontal"
-                    android:text="@{@string/task_name(viewModel.task.name)}"
+                    android:text="@{@string/task_name(viewModel.result.name)}"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     />
@@ -50,10 +50,10 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:gravity="center_horizontal"
-                    android:text="@{@string/task_description(viewModel.task.description)}"
+                    android:text="@{@string/task_description(viewModel.result.description)}"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:visibility='@{viewModel.task.description.contentEquals("")  ? View.GONE : View.VISIBLE}'
+                    android:visibility='@{viewModel.result.description.contentEquals("")  ? View.GONE : View.VISIBLE}'
                     />
 
                 <LinearLayout

@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.TaskListAdapter
 import com.example.taskapp.adapters.TaskListAdapter.Companion.LANDSCAPE_COLUMN_COUNT
 import com.example.taskapp.adapters.TaskListAdapter.Companion.PORTRAIT_COLUMN_COUNT
-import com.example.taskapp.database.entities.task.TaskMinimal
+import com.example.taskapp.data.Result
+import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.databinding.TodayFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.autoCleared
@@ -36,7 +36,7 @@ class TodayFragment : Fragment() {
 
 
     private var taskAdapter: TaskListAdapter by autoCleared()
-    private var binding: TodayFragmentBinding? = null
+    private var binding: TodayFragmentBinding by autoCleared()
 
 
     override fun onAttach(context: Context) {
@@ -52,7 +52,7 @@ class TodayFragment : Fragment() {
 
         binding = TodayFragmentBinding.inflate(inflater, container, false)
 
-        return binding!!.root
+        return binding.root
 
     }
 
@@ -64,12 +64,11 @@ class TodayFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding!!.todayTasksList.adapter = null
-        binding = null
+        binding.todayTasksList.adapter = null
     }
 
     private fun setUpLayout() {
-        binding!!.apply {
+        binding.apply {
             addSpontaneousTasksBtn.setOnClickListener { showSpontaneousTaskDialog() }
 
             todayTasksList.apply {
@@ -92,11 +91,16 @@ class TodayFragment : Fragment() {
             .show(childFragmentManager, "")
     }
 
-
     private fun updateTaskList() {
-        viewModel.tasks.observe(viewLifecycleOwner, Observer { tasks ->
-            taskAdapter.submitList(tasks)
+        viewModel.tasks.observe(viewLifecycleOwner, { result ->
+            result.takeIf { it.checkIfIsSuccessAndListOf<TaskMinimal>() }
+                ?.let { submitResult(it as Result.Success<*>) }
         })
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun submitResult(result: Result.Success<*>) {
+        taskAdapter.submitList(result.data as List<TaskMinimal>)
     }
 
     private fun navigateToTaskDetails(task: TaskMinimal) {

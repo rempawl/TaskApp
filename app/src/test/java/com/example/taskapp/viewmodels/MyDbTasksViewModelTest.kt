@@ -17,7 +17,7 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 
-internal class MyTasksViewModelTest {
+internal class MyDbTasksViewModelTest {
     init {
         loadTimeZone()
     }
@@ -43,13 +43,13 @@ internal class MyTasksViewModelTest {
 
     @Test
     fun `get tasks returns default tasks`() {
-        coEvery { taskRepositoryImpl.getMinimalTasks() } returns  MutableLiveData(DefaultTasks.minimalTasks)
+        coEvery { taskRepositoryImpl.getMinimalTasks() } returns MutableLiveData(DbTasks.minimalTasks)
         coroutineScope.runBlockingTest {
 
-            val actualTasks = viewModel.tasks.getOrAwaitValue()
-            val expected = DefaultTasks.minimalTasks
+            val actualTasks = viewModel.result.getOrAwaitValue()
+            val expected = DbTasks.minimalTasks
 
-            assertThat(actualTasks,`is`(expected))
+            assertThat(actualTasks, `is`(expected))
         }
     }
 }

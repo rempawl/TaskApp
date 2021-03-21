@@ -35,7 +35,7 @@ open class MyApp : Application() {
     lateinit var dispatcherProvider: DispatcherProvider
 
     private val applicationScope by lazy {
-        CoroutineScope(dispatcherProvider.provideDefaultDispatcher() + Job())
+        CoroutineScope(dispatcherProvider.defaultDispatcher + Job())
     }
 
     override fun onCreate() {

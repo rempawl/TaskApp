@@ -35,7 +35,7 @@ class UpdateTomorrowRemindersReceiver :
     private lateinit var alarmCreator: AlarmCreator
 
     private val dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider()
-    private val coroutineScope = CoroutineScope(dispatcherProvider.provideDefaultDispatcher())
+    private val coroutineScope = CoroutineScope(dispatcherProvider.defaultDispatcher())
 
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -53,7 +53,7 @@ class UpdateTomorrowRemindersReceiver :
             @Suppress("UNCHECKED_CAST")
             when (result) {
                 is Result.Error -> setError()
-                is Result.Success<*> -> updateTasks(result.items as List<DefaultTask>)
+                is Result.Success<*> -> updateTasks(result.data as List<DefaultTask>)
             }
         }
     }

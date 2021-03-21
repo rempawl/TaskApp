@@ -11,7 +11,7 @@ import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.Streak
 import com.example.taskapp.database.entities.task.DbTask
 import com.example.taskapp.utils.Converters
-import com.example.taskapp.utils.DefaultTasks
+import com.example.taskapp.utils.DbTasks
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +57,7 @@ abstract class AppDataBase : RoomDatabase() {
                     CoroutineScope(Dispatchers.IO).launch {
                         getInstance(context)
                             .taskDao()
-                            .insertItems(DefaultTasks.tasks)
+                            .insertItems(DbTasks.tasks)
                     }
                 }
             }

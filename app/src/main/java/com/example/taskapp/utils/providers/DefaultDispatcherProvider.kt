@@ -6,13 +6,13 @@ import javax.inject.Inject
 
 class DefaultDispatcherProvider @Inject constructor() :
     DispatcherProvider {
-    override fun provideIoDispatcher(): CoroutineDispatcher =
-        Dispatchers.IO
+    override val ioDispatcher: CoroutineDispatcher
+        get() = Dispatchers.IO
 
-    override fun provideMainDispatcher(): CoroutineDispatcher =
-        Dispatchers.Main
+    override val mainDispatcher: CoroutineDispatcher
+        get() = Dispatchers.Main
 
-    override fun provideDefaultDispatcher(): CoroutineDispatcher =
-        Dispatchers.Default
+    override val defaultDispatcher: CoroutineDispatcher
+        get() = Dispatchers.Default
 
 }

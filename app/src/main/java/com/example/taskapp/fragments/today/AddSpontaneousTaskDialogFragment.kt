@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskapp.MainActivity
 import com.example.taskapp.adapters.SpontaneousTaskListAdapter
+import com.example.taskapp.data.Result
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.databinding.AddSpontaneousTasksFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.viewmodels.AddSpontaneousTasksViewModel
-import javax.inject.Inject
 
 class AddSpontaneousTaskDialogFragment : DialogFragment() {
 
@@ -75,11 +75,18 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
                 setHasFixedSize(true)
             }
         }
-        viewModel.tasks.observe(viewLifecycleOwner, Observer { tasks ->
-            spontaneousTaskListAdapter.submitList(tasks)
+        viewModel.result.observe(viewLifecycleOwner, { res ->
+            res.takeIf { it.checkIfIsSuccessAndListOf<Task>() }?.let {
+                submitResult(it as Result.Success)
+            }
         })
 
 
+    }
+
+    private fun submitResult(result: Result.Success<*>) {
+        @Suppress("UNCHECKED_CAST")
+        spontaneousTaskListAdapter.submitList(result.data as List<Task>)
     }
 
     private fun addSpontaneousTasks() {

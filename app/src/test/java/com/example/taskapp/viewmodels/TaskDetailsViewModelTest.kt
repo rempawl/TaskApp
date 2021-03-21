@@ -48,7 +48,7 @@ class TaskDetailsViewModelTest {
         coEvery { taskRepository.getTaskByID(taskId) } returns DefaultTasks.tasks[taskId.toInt()]
 
         coroutineTestRule.runBlockingTest {
-            val actualTask = viewModel.task.getOrAwaitValue()
+            val actualTask = viewModel.result.getOrAwaitValue()
             val expectedTask = taskRepository.getTaskByID(taskId)
 
             assertThat(actualTask.taskID, `is`(expectedTask.taskID))

@@ -55,7 +55,7 @@ class UpdateRemindersWorker constructor(
         @Suppress("UNCHECKED_CAST")
         return when (result) {
             is com.example.taskapp.data.Result.Error -> Result.retry()
-            is com.example.taskapp.data.Result.Success<*> -> updateTasks(result.items as List<Task>)
+            is com.example.taskapp.data.Result.Success<*> -> updateTasks(result.data as List<Task>)
         }
 
     }

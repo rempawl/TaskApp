@@ -9,10 +9,10 @@ class TestDispatcherProvider :
     DispatcherProvider {
      val dispatcher = TestCoroutineDispatcher()
 
-    override fun provideIoDispatcher(): TestCoroutineDispatcher = dispatcher
+    override fun ioDispatcher(): TestCoroutineDispatcher = dispatcher
 
-    override fun provideMainDispatcher(): TestCoroutineDispatcher = dispatcher
+    override fun mainDispatcher(): TestCoroutineDispatcher = dispatcher
 
-    override fun provideDefaultDispatcher(): TestCoroutineDispatcher = dispatcher
+    override fun defaultDispatcher(): TestCoroutineDispatcher = dispatcher
 
 }

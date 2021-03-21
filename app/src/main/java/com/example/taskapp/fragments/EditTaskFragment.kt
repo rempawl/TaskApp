@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
 import com.example.taskapp.databinding.AddEditTaskFragmentBinding
+import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class EditTaskFragment : AddEditTaskFragment() {
 
     private val args: EditTaskFragmentArgs by navArgs()
 
-    override var binding: AddEditTaskFragmentBinding? = null
+    override var binding: AddEditTaskFragmentBinding by autoCleared()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,12 +49,12 @@ class EditTaskFragment : AddEditTaskFragment() {
 
         setUpBinding()
         setupObservers(viewModel)
-        return binding?.root ?: throw IllegalStateException(BINDING_NULL)
+        return binding.root
     }
 
     override fun setUpBinding() {
         super.setUpBinding()
-        binding?.apply {
+        binding.apply {
             taskName.isEnabled = false
             beginningDateBtn.isEnabled = false
         }
@@ -68,7 +69,6 @@ class EditTaskFragment : AddEditTaskFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
     }
 
 

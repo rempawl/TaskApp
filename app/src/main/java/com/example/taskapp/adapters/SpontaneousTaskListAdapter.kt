@@ -5,17 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.databinding.SpontaneousTaskListItemBinding
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
 
 typealias TaskID = Long
 
-class SpontaneousTaskListAdapter  constructor(
-     private val onCheckedChangeListener: (Boolean, TaskID) -> Unit
+class SpontaneousTaskListAdapter constructor(
+    private val onCheckedChangeListener: (Boolean, TaskID) -> Unit
 ) :
-    ListAdapter<DefaultTask, SpontaneousTaskListAdapter.SpontaneousTaskViewHolder>(
+    ListAdapter<Task, SpontaneousTaskListAdapter.SpontaneousTaskViewHolder>(
         TaskDiffUtilCallback()
     ) {
 
@@ -23,9 +21,9 @@ class SpontaneousTaskListAdapter  constructor(
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-       }
+        }
 
-        fun bind(task: DefaultTask) {
+        fun bind(task: Task) {
             binding.apply {
                 this.task = task
                 addCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -53,12 +51,12 @@ class SpontaneousTaskListAdapter  constructor(
     }
 }
 
-private class TaskDiffUtilCallback : DiffUtil.ItemCallback<DefaultTask>() {
-    override fun areItemsTheSame(oldItem: DefaultTask, newItem: DefaultTask): Boolean {
+private class TaskDiffUtilCallback : DiffUtil.ItemCallback<Task>() {
+    override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
         return oldItem === newItem
     }
 
-    override fun areContentsTheSame(oldItem: DefaultTask, newItem: DefaultTask): Boolean {
+    override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
         return oldItem.taskID == newItem.taskID
     }
 

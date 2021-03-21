@@ -1,16 +1,15 @@
 package com.example.taskapp.viewmodels.taskDetails
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
+import com.example.taskapp.data.Result
 import com.example.taskapp.data.reminder.Reminder
-import com.example.taskapp.database.entities.task.DefaultTask
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.format.DateTimeFormatter
+import kotlin.coroutines.coroutineContext
 
 class TaskDetailsViewModel @AssistedInject constructor(
     @Assisted private val taskID: Long,
@@ -28,18 +27,29 @@ class TaskDetailsViewModel @AssistedInject constructor(
         fun create(taskID: Long): TaskDetailsViewModel
     }
 
-    val task: LiveData<DefaultTask> = liveData(dispatcherProvider.provideIoDispatcher()) {
-        val data = taskRepository.getTaskByID(taskID)
-        emit(data)
+    val result: LiveData<Result<*>> = liveData(dispatcherProvider.ioDispatcher) {
+        val data = taskRepository.getTaskByID(taskID).asLiveData(coroutineContext)
+        emitSource(data)
     }
 
-    val reminder: LiveData<Reminder?> = Transformations.map(task) { task -> task.reminder }
+    val reminder: LiveData<Reminder?> = Transformations.map(result) { res ->
+        getReminder(res)
+    }
 
     val begDate: LiveData<String?> =
         Transformations.map(reminder) { reminder -> reminder?.begDate?.format(DATE_FORMATTER) }
+
+    private fun getReminder(res: Result<*>): Reminder? {
+        return res.takeIf { it.isSuccess() }?.let {
+            it as Result.Success
+            check(it.data is Task) { " data should be Task" }
+            it.data.reminder
+        }
+    }
 
     companion object {
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
     }
 }
+
