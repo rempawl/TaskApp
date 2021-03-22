@@ -27,7 +27,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
         fun create(taskID: Long): TaskDetailsViewModel
     }
 
-    val result: LiveData<Result<*>> = liveData(dispatcherProvider.ioDispatcher) {
+    val result: LiveData<Result<*>> = liveData(dispatcherProvider.mainDispatcher) {
         val data = taskRepository.getTaskByID(taskID).asLiveData(coroutineContext)
         emitSource(data)
     }
@@ -40,10 +40,8 @@ class TaskDetailsViewModel @AssistedInject constructor(
         Transformations.map(reminder) { reminder -> reminder?.begDate?.format(DATE_FORMATTER) }
 
     private fun getReminder(res: Result<*>): Reminder? {
-        return res.takeIf { it.isSuccess() }?.let {
-            it as Result.Success
-            check(it.data is Task) { " data should be Task" }
-            it.data.reminder
+        return res.takeIf { res.checkIfIsSuccessAnd<Task>() }?.let {it as Result.Success
+            (it.data as Task).reminder
         }
     }
 

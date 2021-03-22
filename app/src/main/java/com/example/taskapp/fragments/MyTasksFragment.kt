@@ -60,11 +60,6 @@ class MyTasksFragment : Fragment() {
         updateTaskList()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.taskList.adapter = null
-    }
-
     private fun injectMembers() {
         (activity as MainActivity).appComponent.inject(this)
     }

@@ -60,9 +60,11 @@ abstract class AddEditTaskFragment : Fragment() {
             })
 
             frequencyRadioState.observe(viewLifecycleOwner) { state ->
+                state ?: return@observe
                 setFrequencyButtonsVisibility(state)
             }
             durationRadioState.observe(viewLifecycleOwner) { state ->
+                state ?: return@observe
                 setDurationButtonsVisibility(state)
             }
 

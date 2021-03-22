@@ -48,7 +48,7 @@ class AddTaskFragment : AddEditTaskFragment() {
 
         setUpBinding()
         setupObservers(viewModel)
-        return binding!!.root
+        return binding.root
     }
 
     override fun navigateToMyTasks() {
@@ -58,10 +58,6 @@ class AddTaskFragment : AddEditTaskFragment() {
         viewModel.onSaveTaskFinished()
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 
     override fun setupObservers(viewModel: ReminderViewModel) {
         super.setupObservers(viewModel)

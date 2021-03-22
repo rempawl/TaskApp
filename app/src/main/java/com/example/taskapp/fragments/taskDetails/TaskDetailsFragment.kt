@@ -14,6 +14,7 @@ import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ConfirmDialogFragment
+import com.example.taskapp.utils.autoCleared
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
@@ -47,7 +48,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         appComponent.taskDetailsViewModelFactory.create(args.taskID)
     }
 
-    private var binding: TaskDetailsFragmentBinding? = null
+    private var binding: TaskDetailsFragmentBinding by autoCleared()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,16 +61,11 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     ): View? {
         binding = TaskDetailsFragmentBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-
         setUpObservers()
         setUpBinding()
-        return binding!!.root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -101,7 +97,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun setUpBinding() {
-        binding!!.apply {
+        binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@TaskDetailsFragment.viewModel
         }
@@ -133,7 +129,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
         setFrequencyText(frequencyState)
         setNotificationText(reminder.notificationTime)
 
-        binding!!.apply {
+        binding.apply {
             reminderLayout.visibility = View.VISIBLE
             realizationDateText.text = getString(
                 R.string.next_realization_date,
@@ -143,7 +139,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun setNotificationText(notificationTime: NotificationTime) {
-        binding!!.notificationText.text = if (notificationTime.isSet) {
+        binding.notificationText.text = if (notificationTime.isSet) {
             "${getString(R.string.notification_time)}: ${
                 notificationTime.convertToLocalTime()
                     .format(DateTimeFormatter.ISO_LOCAL_TIME)
@@ -162,7 +158,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
                 )
             is ReminderFrequencyState.WeekDays -> getWeekDays(frequencyState.daysOfWeek)
         }
-        binding!!.frequencyText.text = freqText
+        binding.frequencyText.text = freqText
     }
 
     private fun getWeekDays(weekDays: Set<DayOfWeekValue>): String {
@@ -194,7 +190,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
                 )
             }
         }
-        binding!!.durationText.text = durText
+        binding.durationText.text = durText
     }
 
 

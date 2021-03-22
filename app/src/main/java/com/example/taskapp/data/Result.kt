@@ -12,10 +12,11 @@ sealed class Result<out R> {
         return takeIf { this.isSuccess() }?.let {
             it as Success
             check(it.data is List<*>)
+            { "should be list is ${it.data!!::class} " }
             if (it.data.isEmpty()) return@let false
-            val cl = it.data.first()?.javaClass
-            check(cl is T) {
-                "wrong data type $cl"
+            val item = it.data.first()
+            check(item is T) {
+                "wrong data type ${item?.javaClass}"
             }
             true
         } ?: false

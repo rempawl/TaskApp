@@ -90,6 +90,7 @@ abstract class ReminderViewModel(
 
     private val _frequencyRadioState =
         MutableLiveData<FrequencyRadioState>(FrequencyRadioState.DailyFreqRadioState())
+
     val frequencyRadioState: LiveData<FrequencyRadioState>
         get() = _frequencyRadioState
 

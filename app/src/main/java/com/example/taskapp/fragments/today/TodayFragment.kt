@@ -62,11 +62,6 @@ class TodayFragment : Fragment() {
         updateTaskList()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.todayTasksList.adapter = null
-    }
-
     private fun setUpLayout() {
         binding.apply {
             addSpontaneousTasksBtn.setOnClickListener { showSpontaneousTaskDialog() }
