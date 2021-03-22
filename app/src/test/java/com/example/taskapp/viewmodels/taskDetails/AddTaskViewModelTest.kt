@@ -1,7 +1,7 @@
 package com.example.taskapp.viewmodels.taskDetails
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.dataSources.task.TaskRepository
 import com.example.taskapp.utils.TestSchedulerProvider
 import com.example.taskapp.utils.loadTimeZone
 import com.example.taskapp.viewmodels.AddTaskViewModel

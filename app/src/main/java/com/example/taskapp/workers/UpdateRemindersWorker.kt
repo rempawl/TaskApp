@@ -5,14 +5,15 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.data.task.Task
+import com.example.taskapp.dataSources.task.TaskRepository
+import com.example.taskapp.dataSources.task.TaskRepositoryImpl
 import com.example.taskapp.database.AppDataBase
-import com.example.taskapp.repos.task.TaskRepositoryImpl
-import com.example.taskapp.repos.task.TaskRepository
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelper
 import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelperImpl
+import kotlinx.coroutines.flow.first
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 
@@ -44,23 +45,25 @@ class UpdateRemindersWorker constructor(
 
     //    @Inject
     private val taskRepo: TaskRepository = TaskRepositoryImpl(
-            AppDataBase.getInstance(applicationContext).taskDao()
+        AppDataBase.getInstance(applicationContext).taskDao()
     )
 
 
+    @Suppress("UNCHECKED_CAST")
     override suspend fun doWork(): Result {
-
-        val result = taskRepo.getTasks()
-
-        @Suppress("UNCHECKED_CAST")
-        return when (result) {
-            is com.example.taskapp.data.Result.Error -> Result.retry()
-            is com.example.taskapp.data.Result.Success<*> -> updateTasks(result.data as List<Task>)
+        return try {
+            val result =
+                taskRepo.getTasks().first { result -> result.checkIfIsSuccessAndListOf<Task>() }
+            result as com.example.taskapp.data.Result.Success
+            filterAndUpdateTasks(result.data as List<Task>)
+        } catch (e: Exception) {
+            Result.retry()
         }
+
 
     }
 
-    private suspend fun updateTasks(allTasks: List<Task>): Result {
+    private suspend fun filterAndUpdateTasks(allTasks: List<Task>): Result {
         if (allTasks.isEmpty()) return Result.success()
 
         val tasks = allTasks.filter { task -> task.reminder != null }

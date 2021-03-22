@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.example.taskapp.data.Result
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.data.task.Task
-import com.example.taskapp.repos.task.TaskRepository
+import com.example.taskapp.dataSources.task.TaskRepository
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject

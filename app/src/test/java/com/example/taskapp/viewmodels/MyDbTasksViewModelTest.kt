@@ -2,7 +2,7 @@ package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.example.taskapp.repos.task.TaskRepositoryImpl
+import com.example.taskapp.dataSources.task.TaskRepositoryImpl
 import com.example.taskapp.utils.*
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

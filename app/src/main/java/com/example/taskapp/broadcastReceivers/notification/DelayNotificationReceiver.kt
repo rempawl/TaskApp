@@ -6,7 +6,6 @@ import android.content.Intent
 import com.example.taskapp.MyApp.Companion.TASK_KEY
 import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.fragments.PickCustomNotificationDelayFragment.Companion.DELAY_VALUE_KEY
-import com.example.taskapp.repos.task.TaskRepositoryImpl.Companion.ERROR_TASK
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
@@ -26,7 +25,7 @@ class DelayNotificationReceiver : BroadcastReceiver() {
         notificationManagerHelper.cancelTaskNotification()
 
         val task: TaskMinimal =
-            intent.getParcelableExtra(TASK_KEY) ?: ERROR_TASK.toTaskMinimal()
+            intent.getParcelableExtra(TASK_KEY) ?: TaskMinimal(-1, "error", "error")
 
         val time = intent.getIntExtra(DELAY_VALUE_KEY, 30).toLong()
         alarmCreator.setDelayAlarm(task, time)

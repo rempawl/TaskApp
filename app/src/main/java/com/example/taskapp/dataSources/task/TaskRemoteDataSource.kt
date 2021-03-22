@@ -1,4 +1,4 @@
-package com.example.taskapp.repos.task
+package com.example.taskapp.dataSources.task
 
 class TaskRemoteDataSource  {
     //todo Firebase synchro

@@ -1,4 +1,4 @@
-package com.example.taskapp.repos.task
+package com.example.taskapp.dataSources.task
 
 import com.example.taskapp.MyApp
 import com.example.taskapp.data.Result

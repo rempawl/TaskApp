@@ -1,4 +1,4 @@
-package com.example.taskapp.repos.streak
+package com.example.taskapp.dataSources.streak
 
 import com.example.taskapp.database.entities.Streak
 
