@@ -4,12 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.taskapp.MyApp.Companion.TOMORROW
-import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.data.Result
-import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.dataSources.task.TaskLocalDataSource
-import com.example.taskapp.dataSources.task.TaskRepositoryImpl
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
+import com.example.taskapp.dataSources.task.TaskRepositoryImpl
+import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import com.example.taskapp.utils.alarmCreator.AlarmCreatorImpl
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
@@ -19,6 +18,8 @@ import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelper
 import com.example.taskapp.utils.sharedPreferences.SharedPreferencesHelperImpl
 import com.example.taskapp.workers.DatePredicate
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 /**
@@ -35,35 +36,32 @@ class UpdateTomorrowRemindersReceiver :
     private lateinit var alarmCreator: AlarmCreator
 
     private val dispatcherProvider: DispatcherProvider = DefaultDispatcherProvider()
-    private val coroutineScope = CoroutineScope(dispatcherProvider.defaultDispatcher())
+    private val coroutineScope = CoroutineScope(dispatcherProvider.defaultDispatcher + Job())
 
 
     override fun onReceive(context: Context, intent: Intent) {
         //todo inject
         sharedPreferencesHelper = SharedPreferencesHelperImpl(context)
         alarmCreator = AlarmCreatorImpl(context, NotificationIntentFactoryImpl(context))
+        taskRepository = TaskRepositoryImpl(AppDataBase.getInstance(context).taskDao())
 
-
+        @Suppress("UNCHECKED_CAST")
         coroutineScope.launch {
-            taskRepository = TaskRepositoryImpl(TaskLocalDataSource(AppDataBase
-                        .getInstance(context).taskDao()
-                )
-            )
-            val result = taskRepository.getTasks()
-            @Suppress("UNCHECKED_CAST")
-            when (result) {
-                is Result.Error -> setError()
-                is Result.Success<*> -> updateTasks(result.data as List<DefaultTask>)
+            taskRepository.getTasks().onEach { result ->
+                when (result) {
+                    is Result.Error -> setError()
+                    is Result.Success<*> -> updateTasks(result.data as List<Task>)
+                }
             }
         }
     }
 
     private fun setError() {
         //if repo returns error UpdateNotificationsWorker will have to update the reminders
-         sharedPreferencesHelper.setErrorCurrentDate()
+        sharedPreferencesHelper.setErrorCurrentDate()
     }
 
-    private suspend fun updateTasks(tasks: List<DefaultTask>) {
+    private suspend fun updateTasks(tasks: List<Task>) {
         val tasksToUpdate = tasks.filter { task -> task.reminder != null }
         if (tasksToUpdate.isEmpty()) return
 
@@ -73,7 +71,7 @@ class UpdateTomorrowRemindersReceiver :
         sharedPreferencesHelper.updateCurrentDate(TOMORROW)
     }
 
-    private suspend fun updateTaskList(tasks: List<DefaultTask>): List<DefaultTask> {
+    private suspend fun updateTaskList(tasks: List<Task>): List<Task> {
         val partitionedTasks = tasks
             .partition { task -> task.updateRealizationDate() != null }
 
@@ -82,7 +80,7 @@ class UpdateTomorrowRemindersReceiver :
     }
 
 
-    private fun setTomorrowNotifications(tasks: List<DefaultTask>) {
+    private fun setTomorrowNotifications(tasks: List<Task>) {
         val tomorrowTasks = tasks
             .filter { task ->
                 DATE_PREDICATE(

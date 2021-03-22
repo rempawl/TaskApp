@@ -5,7 +5,7 @@ import com.example.taskapp.database.entities.task.DbTaskMinimal
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class TaskMinimal(
+data class TaskMinimal(
     val taskID: Long = 0,
     val name: String,
     val description: String = "",

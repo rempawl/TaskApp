@@ -12,9 +12,22 @@ sealed class Result<out R> {
         return takeIf { this.isSuccess() }?.let {
             it as Success
             check(it.data is List<*>)
-            check(it.data.javaClass is T) { "wrong data type " }
+            if (it.data.isEmpty()) return@let false
+            val cl = it.data.first()?.javaClass
+            check(cl is T) {
+                "wrong data type $cl"
+            }
             true
         } ?: false
+    }
+
+    inline fun <reified T> checkIfIsSuccessAnd(): Boolean {
+        return this.takeIf { it.isSuccess() }?.let {
+            it as Success<*>
+            check(it.data is T) { "wrong type of data" }
+            true
+        } ?: false
+
     }
 
 

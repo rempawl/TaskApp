@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel" />
@@ -23,27 +25,23 @@
             android:orientation="vertical">
 
 
-
-
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_name"
+                bindName="@{viewModel.result}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center_horizontal"
-                android:text="@{@string/task_name(viewModel.result.name)}"
                 android:textAlignment="center"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_desc"
-                android:visibility='@{viewModel.result.description.contentEquals("")  ? View.GONE : View.VISIBLE}'
+                bindDescription="@{viewModel.result}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:gravity="center_horizontal"
-                android:text="@{@string/task_description(viewModel.result.description)}"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintTop_toBottomOf="@id/task_name" />
@@ -62,8 +60,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:gravity="center_horizontal"
-                    android:textAlignment="center"
                     android:text="@{@string/beginning_date(viewModel.begDate)}"
+                    android:textAlignment="center"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -74,15 +72,15 @@
                     android:gravity="center_horizontal"
                     android:textAlignment="center"
                     android:textSize="20sp" />
+
                 <TextView
+                    android:id="@+id/realizationDate_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:gravity="center_horizontal"
                     android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:id="@+id/realizationDate_text"
-                    />
+                    android:textSize="20sp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/frequency_text"
