@@ -64,7 +64,6 @@ class UpdateTomorrowRemindersReceiver :
     private suspend fun updateTasks(tasks: List<Task>) {
         val tasksToUpdate = tasks.filter { task -> task.reminder != null }
         if (tasksToUpdate.isEmpty()) return
-
         val updatedTasks = updateTaskList(tasksToUpdate)
         setTomorrowNotifications(updatedTasks)
 
@@ -81,14 +80,8 @@ class UpdateTomorrowRemindersReceiver :
 
 
     private fun setTomorrowNotifications(tasks: List<Task>) {
-        val tomorrowTasks = tasks
-            .filter { task ->
-                DATE_PREDICATE(
-                    TOMORROW,
-                    task
-                )
-            }
-        tomorrowTasks
+        tasks.asSequence()
+            .filter { task -> DATE_PREDICATE(TOMORROW, task) }
             .forEach { task -> alarmCreator.setTaskNotificationAlarm(task) }
     }
 

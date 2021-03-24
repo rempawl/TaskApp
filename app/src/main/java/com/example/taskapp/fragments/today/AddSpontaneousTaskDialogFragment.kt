@@ -3,6 +3,7 @@ package com.example.taskapp.fragments.today
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
 
     private var spontaneousTaskListAdapter: SpontaneousTaskListAdapter by autoCleared()
 
-    private var binding: AddSpontaneousTasksFragmentBinding? = null
+    private var binding: AddSpontaneousTasksFragmentBinding by autoCleared()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,32 +57,26 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
         return binding!!.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding!!.taskList.adapter = null
-        binding = null
-    }
+
 
     private fun setupLayout(binding: AddSpontaneousTasksFragmentBinding) {
         binding.apply {
             confirmButton.setOnClickListener { addSpontaneousTasks() }
-
             cancelButton.setOnClickListener { dismiss() }
             toolbar.setNavigationOnClickListener { dismiss() }
 
             taskList.apply {
                 adapter = spontaneousTaskListAdapter
                 layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
+                setHasFixedSize(false)
             }
         }
         viewModel.result.observe(viewLifecycleOwner, { res ->
+            Log.d("kruci",res.toString())
             res.takeIf { it.checkIfIsSuccessAndListOf<Task>() }?.let {
                 submitResult(it as Result.Success)
             }
         })
-
-
     }
 
     private fun submitResult(result: Result.Success<*>) {
@@ -101,9 +96,4 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
     private fun injectViewModel() =
         appComponent.addSpontaneousTasksViewModel
 
-    companion object {
-        const val PORTRAIT_COLUMN_COUNT = 2
-        const val LANDSCAPE_COLUMN_COUNT = 4
-
-    }
 }

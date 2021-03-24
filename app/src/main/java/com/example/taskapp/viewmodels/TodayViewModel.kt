@@ -15,7 +15,7 @@ class TodayViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    val tasks: LiveData<Result<*>> = liveData(dispatcherProvider.ioDispatcher) {
+    val tasks: LiveData<Result<*>> = liveData(dispatcherProvider.mainDispatcher) {
         emitSource(taskRepository.getTodayMinTasks().asLiveData(coroutineContext))
     }
 

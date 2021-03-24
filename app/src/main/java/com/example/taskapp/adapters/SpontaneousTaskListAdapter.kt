@@ -27,7 +27,7 @@ class SpontaneousTaskListAdapter constructor(
             binding.apply {
                 this.task = task
                 addCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                    onCheckedChangeListener(isChecked, binding.task!!.taskID)
+                    onCheckedChangeListener(isChecked, task.taskID)
                 }
                 executePendingBindings()
             }

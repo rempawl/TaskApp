@@ -14,7 +14,7 @@ class MyTasksViewModel @Inject constructor(private val taskRepo: TaskRepository,
                                            private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    val result : LiveData<Result<*>> = liveData(dispatcherProvider.ioDispatcher) {
+    val result : LiveData<Result<*>> = liveData(dispatcherProvider.mainDispatcher) {
         val tasks = taskRepo.getMinimalTasks().asLiveData(coroutineContext)
         emitSource(tasks)
     }

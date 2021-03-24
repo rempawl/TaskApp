@@ -35,7 +35,7 @@ class AddSpontaneousTasksViewModel @Inject constructor(
         }
     }
 
-    val result: LiveData<Result<*>> = liveData(dispatcherProvider.ioDispatcher) {
+    val result: LiveData<Result<*>> = liveData(dispatcherProvider.mainDispatcher) {
         val data = taskRepository.getNotTodayTasks().asLiveData(coroutineContext)
         emitSource(data)
     }
