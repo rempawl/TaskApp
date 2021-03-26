@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             />
         <com.google.android.material.button.MaterialButton
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

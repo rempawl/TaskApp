@@ -10,13 +10,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.example.taskapp.MyApp.Companion.CREATE_NOTIFICATION_ACTION
 import com.example.taskapp.MyApp.Companion.TASK_CHANNEL_ID
-import com.example.taskapp.MyApp.Companion.TASK_DESC_KEY
-import com.example.taskapp.MyApp.Companion.TASK_ID_KEY
 import com.example.taskapp.MyApp.Companion.TASK_KEY
-import com.example.taskapp.MyApp.Companion.TASK_NAME_KEY
 import com.example.taskapp.MyApp.Companion.TASK_NOTIFICATION_ID
 import com.example.taskapp.R
 import com.example.taskapp.data.task.TaskMinimal
+import com.example.taskapp.data.task.TaskMinimal.Companion.TASK_ID_KEY
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import com.example.taskapp.utils.notification.NotificationIntentFactoryImpl
 import com.example.taskapp.utils.notification.NotificationManagerHelper
@@ -36,18 +34,10 @@ class CreateTaskNotificationBroadcastReceiver : BroadcastReceiver() {
         val action = intent.action
         if (action == CREATE_NOTIFICATION_ACTION) {
             notificationManagerHelper.createNotificationChannel()
-            showNotification(context, createTaskMinimal(intent))
+            showNotification(context, TaskMinimal.from(intent))
         }
     }
 
-
-    private fun createTaskMinimal(intent: Intent): TaskMinimal {
-        val name = intent.getStringExtra(TASK_NAME_KEY) ?: "error"
-        val desc = intent.getStringExtra(TASK_DESC_KEY) ?: "error"
-        val id = intent.getLongExtra(TASK_ID_KEY, -1)
-
-        return TaskMinimal(id, name, desc)
-    }
 
     private fun createNotification(
         context: Context,

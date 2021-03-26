@@ -5,7 +5,5 @@ import com.example.taskapp.data.task.TaskMinimal
 
 interface AlarmCreator {
     fun setTaskNotificationAlarm(task: Task, isToday: Boolean = false)
-    fun setUpdateTaskListAlarm()
     fun setDelayAlarm(task: TaskMinimal, interval: Long = 30)
-
 }

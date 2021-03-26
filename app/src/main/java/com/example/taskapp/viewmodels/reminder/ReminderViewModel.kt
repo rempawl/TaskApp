@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.EditText
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
-import com.example.taskapp.MainActivity.Companion.TAG
 import com.example.taskapp.MyApp
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.data.task.Task
@@ -217,7 +216,6 @@ abstract class ReminderViewModel(
             val task = createTask(reminder)
             val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
 
-            Log.d(TAG, "$task")
             addTask(task)
 
             val isAfterNow =

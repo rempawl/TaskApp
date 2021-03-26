@@ -3,18 +3,15 @@ package com.example.taskapp.utils.alarmCreator
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.MyApp.Companion.TOMORROW
 import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
-import com.example.taskapp.broadcastReceivers.UpdateTomorrowRemindersReceiver
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,6 +26,7 @@ class AlarmCreatorImpl @Inject constructor(
     //todo inject
 //    private val notificationIntentFactory : NotificationIntentFactory =
 //        NotificationIntentFactoryImpl(context)
+
 
     override fun setTaskNotificationAlarm(task: Task, isToday: Boolean) {
         val manager = createManager(context)
@@ -47,20 +45,6 @@ class AlarmCreatorImpl @Inject constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notifyTime, pending)
         }
-    }
-
-    override fun setUpdateTaskListAlarm() {
-        val manager =
-            createManager(context)
-
-        val updateTime = LocalDateTime.of(TODAY, LocalTime.of(23, 55))
-            .toInstant(ZONE_OFFSET).toEpochMilli()
-
-        val intent = Intent(context, UpdateTomorrowRemindersReceiver::class.java)
-        val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val interval = TimeUnit.DAYS.toMillis(1)
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime, interval, pendingIntent)
     }
 
 

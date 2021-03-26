@@ -3,7 +3,6 @@ package com.example.taskapp.fragments.today
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,10 +52,9 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
         spontaneousTaskListAdapter = SpontaneousTaskListAdapter(viewModel.onCheckedListener)
 
         binding = AddSpontaneousTasksFragmentBinding.inflate(inflater, container, false)
-        setupLayout(binding!!)
-        return binding!!.root
+        setupLayout(binding)
+        return binding.root
     }
-
 
 
     private fun setupLayout(binding: AddSpontaneousTasksFragmentBinding) {
@@ -72,7 +70,6 @@ class AddSpontaneousTaskDialogFragment : DialogFragment() {
             }
         }
         viewModel.result.observe(viewLifecycleOwner, { res ->
-            Log.d("kruci",res.toString())
             res.takeIf { it.checkIfIsSuccessAndListOf<Task>() }?.let {
                 submitResult(it as Result.Success)
             }

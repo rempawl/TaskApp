@@ -19,15 +19,11 @@ class SharedPreferencesHelperImpl @Inject constructor(private val context: Conte
         getSharedPreferences().edit { putLong(CURRENT_DATE_KEY, date.toEpochDay()) }
     }
 
-    override fun setErrorCurrentDate() {
-        getSharedPreferences().edit { putLong(CURRENT_DATE_KEY, -1) }
-    }
-
     override fun getCurrentDate(): Long = getSharedPreferences()
         .getLong(CURRENT_DATE_KEY, -1)
 
     companion object {
 
-        private val CURRENT_DATE_KEY = "current updated date"
+        private const val CURRENT_DATE_KEY = "current updated date"
     }
 }

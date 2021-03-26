@@ -1,12 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+
 
     <style name="DefaultBodyTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textSize">20sp</item>
@@ -44,7 +38,7 @@
     <style name="WideButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:padding">10dp</item>
         <item name="android:layout_margin">10dp</item>
-        <item name="backgroundTint">@color/colorPrimaryDark</item>
+        <item name="backgroundTint">@color/darkBlue</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -88,8 +82,9 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_margin">10dp</item>
 
-        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/green</item>
         <item name="colorSwitchThumbNormal">@color/material_on_primary_disabled</item>
         <item name="android:colorForeground">#C50808</item>
     </style>
+
 </resources>
