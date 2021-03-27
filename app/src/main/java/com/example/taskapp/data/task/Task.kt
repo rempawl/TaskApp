@@ -20,16 +20,12 @@ data class Task(
         )
     }
 
-    //todo refactor
-    fun updateRealizationDate(): Task? {
-        val reminder = this.reminder!!.updateRealizationDate()
+    fun checkIfRealizationDateShouldBeUpdated() =
+        reminder?.checkIfRealizationDateShouldBeUpdated() ?: false
 
-        //if date has not been updated the reminder instance stays the same
-        return if (this.reminder === reminder) {
-            null
-        } else {
-            this.copy(reminder = reminder)
-        }
+    fun updateRealizationDate(): Task {
+        val reminder = this.reminder?.updateRealizationDate()
+        return this.copy(reminder = reminder)
     }
 
     companion object {

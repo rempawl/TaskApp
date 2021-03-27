@@ -48,7 +48,6 @@ class DaysDurationPickerFragment(private val model: DurationModel) : DialogFragm
             if (days < Int.MAX_VALUE) {
                 model.setDaysDurationState(days)
             } else {
-                //todo extract string
                 showToast("Really over ${Int.MAX_VALUE} days?")
             }
         }

@@ -11,6 +11,7 @@ import com.squareup.inject.assisted.AssistedInject
 import org.threeten.bp.format.DateTimeFormatter
 import kotlin.coroutines.coroutineContext
 
+
 class TaskDetailsViewModel @AssistedInject constructor(
     @Assisted private val taskID: Long,
     private val taskRepository: TaskRepository,
@@ -36,14 +37,30 @@ class TaskDetailsViewModel @AssistedInject constructor(
         getReminder(res)
     }
 
+    val taskToEdit: LiveData<Task?> = Transformations.map(result) { res ->
+        checkIfCanEditTask(res)
+    }
+
     val begDate: LiveData<String?> =
         Transformations.map(reminder) { reminder -> reminder?.begDate?.format(DATE_FORMATTER) }
 
     private fun getReminder(res: Result<*>): Reminder? {
-        return res.takeIf { res.checkIfIsSuccessAnd<Task>() }?.let {it as Result.Success
+        return res.takeIf { res.checkIfIsSuccessAnd<Task>() }?.let {
+            it as Result.Success
             (it.data as Task).reminder
         }
     }
+
+    private fun checkIfCanEditTask(result: Result<*>): Task? {
+        return result.takeIf {
+            it.isSuccess()
+        }?.let {
+            it.checkIfIsSuccessAnd<Task>()
+            it as Result.Success
+            it.data as Task
+        }
+    }
+
 
     companion object {
         val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")

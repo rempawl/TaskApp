@@ -3,13 +3,14 @@ package com.example.taskapp.utils
 import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.data.reminder.NotificationTime
 import com.example.taskapp.data.reminder.Reminder
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.database.entities.task.DbTask
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
-object DbTasks {
+object FakeTasks {
     private val frequencyMondayTuesday =
         ReminderFrequencyState.WeekDays(setOf(DayOfWeek.TUESDAY.value, DayOfWeek.MONDAY.value))
     private val frequency2days = ReminderFrequencyState.Daily(2)
@@ -46,7 +47,7 @@ object DbTasks {
             notificationTime = notificationTimeTwelve
         )
 
-    val tasks = mutableListOf<DbTask>(
+    val dbTasks = mutableListOf<DbTask>(
         DbTask(
             taskID = 0,
             name = "first",
@@ -78,7 +79,9 @@ object DbTasks {
         )
     )
 
-    val minimalTasks = tasks.map { task -> task.toTaskMinimal() }
+    val dbMinimalTasks = dbTasks.map { task -> task.toTaskMinimal() }
+
+    val tasks = dbTasks.map { Task.from(it) }
 
     val errorTask = DbTask(
         taskID = -1,

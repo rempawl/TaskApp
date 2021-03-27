@@ -30,10 +30,9 @@ class UpdateRemindersWorker constructor(
 
     private val taskUpdater: TaskUpdater = TaskUpdaterImpl(repository, alarmCreator)
 
-
     @Suppress("UNCHECKED_CAST")
     override suspend fun doWork(): Result {
-        return when(taskUpdater.filterAndUpdateTasks()){
+        return when(taskUpdater.updateTasksAndSetNotifications()){
             is com.example.taskapp.data.Result.Success -> Result.success()
             is  com.example.taskapp.data.Result.Error -> Result.retry()
         }

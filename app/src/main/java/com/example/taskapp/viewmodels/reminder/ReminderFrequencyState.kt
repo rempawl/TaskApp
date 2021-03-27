@@ -22,7 +22,6 @@ sealed class ReminderFrequencyState {
             )
 
 
-        // returns beginningDate as updateDate if [lastRealizationDate] is beginning date
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,
             isBeginning: Boolean
@@ -99,7 +98,7 @@ sealed class ReminderFrequencyState {
         }
     }
 
-
+//todo refactor
     abstract fun calculateRealizationDate(
         lastRealizationDate: LocalDate,
         isBeginning: Boolean = false

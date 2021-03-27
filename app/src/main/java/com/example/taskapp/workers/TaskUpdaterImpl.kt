@@ -20,19 +20,18 @@ class TaskUpdaterImpl @Inject constructor(
 
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun filterAndUpdateTasks(): Result<*> {
+    override suspend fun updateTasksAndSetNotifications(): Result<*> {
         return try {
             val allTasks = repository.getTasks()
                 .first { res -> res.checkIfIsSuccessAndListOf<Task>() } as List<Task>
 
-            if (allTasks.isEmpty()) return Result.Success(allTasks)
+            if (allTasks.isEmpty()) return Result.Success(Unit)
 
             val tasks = allTasks.filter { task -> task.reminder != null }
 
-            val updatedTasks = updateTaskList(tasks)
-            setTodayNotifications(updatedTasks)
+            updateTaskList(tasks)
 
-            Result.Success(updatedTasks)
+            Result.Success(Unit)
         } catch (e: NoSuchElementException) {
             Result.Error(e)
         }
@@ -40,13 +39,15 @@ class TaskUpdaterImpl @Inject constructor(
     }
 
 
-    private suspend fun updateTaskList(tasks: List<Task>): List<Task> {
-        val partitionedTasks = tasks
-            .partition { task -> task.updateRealizationDate() != null }
+    private suspend fun updateTaskList(tasks: List<Task>) {
+        val updatedTasks = tasks
+            .partition { task -> task.checkIfRealizationDateShouldBeUpdated() }
+            .first
+            .map { it.updateRealizationDate() }
 
-        repository.updateTasks(partitionedTasks.first)
+        repository.updateTasks(updatedTasks)
+        setTodayNotifications(updatedTasks)
 
-        return partitionedTasks.toList().flatten()
     }
 
     private fun setTodayNotifications(tasks: List<Task>) {

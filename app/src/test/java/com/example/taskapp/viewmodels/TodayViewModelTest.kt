@@ -11,7 +11,6 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-//@ExtendWith(InstantTaskExecutor::class)
 internal class TodayViewModelTest {
 
     init {
@@ -43,8 +42,6 @@ internal class TodayViewModelTest {
     @Test
     fun `get tasks returns default minimal tasks`(){
         testCoroutineRule.runBlockingTest {
-//            coEvery { taskRepository.getTodayMinTasks() } returns MutableLiveData(DefaultTasks.minimalTasks)
-            val expected = DefaultTasks.minimalTasks
             val actual = viewModel.tasks.getOrAwaitValue()
             assertThat(actual, `is`(expected))
 

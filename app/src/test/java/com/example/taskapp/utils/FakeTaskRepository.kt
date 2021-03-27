@@ -1,24 +1,27 @@
 package com.example.taskapp.utils
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import com.example.taskapp.data.Result
-import com.example.taskapp.database.entities.task.DefaultTask
-import com.example.taskapp.database.entities.task.TaskMinimal
-import com.example.taskapp.database.entities.task.toTaskMinimal
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.threeten.bp.LocalDate
 
 class FakeTaskRepository : TaskRepository {
-    val tasks = DefaultTasks.tasks
 
-    override suspend fun getTasks(): Result<List<DefaultTask>> = TODO()
-//    tasks.toList()
+    private val tasks = FakeTasks.tasks.toMutableList()
+
+    private fun <T> flowBuilder(getter: () -> T): Flow<T> = flow {
+        emit(getter())
+    }
+
+    override suspend fun getTasks(): Flow<Result<*>> = flowBuilder {
+        Result.Success(tasks)
+    }
+
 
     override suspend fun deleteByID(id: Long): Int {
-        val wasDeleted = tasks.removeIf { task : DefaultTask -> task.taskID == id }
+        val wasDeleted = tasks.removeIf { task: Task -> task.taskID == id }
         return if (wasDeleted) {
             1
         } else {
@@ -26,59 +29,54 @@ class FakeTaskRepository : TaskRepository {
         }
     }
 
-    override suspend fun saveTask(task: DefaultTask)
-            : Single<Long> {
-        val predicate = { t: DefaultTask -> t.name == task.name || t.taskID == task.taskID }
+    override suspend fun saveTask(task: Task) {
+        val predicate = { t: Task -> t.name == task.name || t.taskID == task.taskID }
         if (tasks.any(predicate)) {
             tasks.remove(tasks.first(predicate))
             tasks.add(task)
         }
-
-        return Single.just(task.taskID)
     }
 
-    override suspend fun getMinTasksByUpdateDate(date: LocalDate): List<TaskMinimal> {
+    override suspend fun getMinTasksByUpdateDate(date: LocalDate): Flow<Result<*>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getTasksByUpdateDate(date: LocalDate): List<DefaultTask> {
+    override suspend fun getTasksByUpdateDate(date: LocalDate): Flow<Result<*>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getTaskByID(id: Long): DefaultTask {
-        val predicate = { task: DefaultTask -> task.taskID == id }
-        return if (tasks.any(predicate)) {
-            tasks.first(predicate)
-        } else {
-            DefaultTasks.errorTask
+    override suspend fun getTaskByID(id: Long): Flow<Result<*>> {
+        val predicate = { task: Task -> task.taskID == id }
+        return flowBuilder {
+            if (tasks.any(predicate)) Result.Success(tasks.first(predicate))
+            else Result.Error(Exception("task not found"))
         }
     }
 
 
-    override suspend fun getMinimalTasks(): LiveData<List<TaskMinimal>> {
-        return liveData {
-            emit(tasks.map { task -> task.toTaskMinimal() })
+    override suspend fun getMinimalTasks(): Flow<Result<*>> {
+        return flowBuilder {
+            Result.Success(tasks.map { task -> task.toTaskMinimal() })
         }
     }
 
-    override suspend fun getTasksUntilDate(date: LocalDate): List<DefaultTask> {
+    override suspend fun getTasksUntilDate(date: LocalDate): Flow<Result<*>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateTask(task: DefaultTask): Int {
+    override suspend fun updateTask(task: Task): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateTasks(tasks: List<DefaultTask>): Int {
+    override suspend fun updateTasks(tasks: List<Task>): Int {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTodayMinTasks(): LiveData<List<TaskMinimal>> {
-        return MutableLiveData(DefaultTasks.minimalTasks)
-
+    override suspend fun getTodayMinTasks(): Flow<Result<*>> {
+        TODO()
     }
 
-    override suspend fun getNotTodayTasks(): List<DefaultTask> {
+    override suspend fun getNotTodayTasks(): Flow<Result<*>> {
         TODO("Not yet implemented")
     }
 }

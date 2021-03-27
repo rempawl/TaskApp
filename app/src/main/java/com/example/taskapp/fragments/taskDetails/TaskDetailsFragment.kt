@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskapp.MainActivity
@@ -15,16 +16,12 @@ import com.example.taskapp.databinding.TaskDetailsFragmentBinding
 import com.example.taskapp.di.viewModel
 import com.example.taskapp.fragments.ConfirmDialogFragment
 import com.example.taskapp.utils.autoCleared
-import com.example.taskapp.utils.providers.DispatcherProvider
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
-import javax.inject.Inject
 
 
 class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedListener {
@@ -34,11 +31,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
             TaskDetailsFragment()
     }
 
-    @Inject
-    lateinit var dispatcherProvider: DispatcherProvider
-
     private val args: TaskDetailsFragmentArgs by navArgs()
-
 
     private val appComponent by lazy {
         (activity as MainActivity).appComponent
@@ -104,13 +97,13 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
     }
 
     private fun navigateToEditTask() {
-        //todo
-        /*viewModel.result.observe(viewLifecycleOwner, { task ->
-            findNavController().navigate(
-                TaskDetailsFragmentDirections
+        viewModel.taskToEdit.observe(viewLifecycleOwner) { task ->
+            task?.let {
+                findNavController().navigate(TaskDetailsFragmentDirections
                     .navigationTaskDetailsToNavigationEditTask(task)
-            )
-        })*/
+                )
+            }
+        }
     }
 
     private fun showDeleteDialog() {
@@ -195,7 +188,7 @@ class TaskDetailsFragment : Fragment(), ConfirmDialogFragment.OnConfirmSelectedL
 
 
     override fun onConfirmSelected() {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             viewModel.deleteTask()
         }
         navigateToMyTasks()

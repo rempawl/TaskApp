@@ -25,5 +25,6 @@ interface TaskRepository {
 
     suspend fun getTodayMinTasks(): Flow<Result<*>>
     suspend fun getNotTodayTasks(): Flow<Result<*>>
+
     suspend fun saveTask(task: Task)
 }

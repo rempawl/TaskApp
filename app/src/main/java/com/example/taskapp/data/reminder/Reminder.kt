@@ -12,18 +12,17 @@ data class Reminder(
     @Embedded val frequency: Frequency,
     @Embedded val duration: Duration,
     @Embedded val notificationTime: NotificationTime,
-    val expirationDate : LocalDate,
+    val expirationDate: LocalDate,
     val realizationDate: LocalDate
-) : Parcelable{
+) : Parcelable {
 
-     //returns this if realization date has not been updated else new instance with updated realization date
-     fun updateRealizationDate() : Reminder {
+    fun checkIfRealizationDateShouldBeUpdated(): Boolean {
+        return frequency.getUpdateDate(lastRealizationDate = realizationDate) != realizationDate
+    }
+
+    fun updateRealizationDate(): Reminder {
         val date = frequency.getUpdateDate(lastRealizationDate = realizationDate)
-        return if(date != realizationDate){
-            this.copy(realizationDate = date)
-        }else{
-            this
-        }
+        return this.copy(realizationDate = date)
     }
 
 

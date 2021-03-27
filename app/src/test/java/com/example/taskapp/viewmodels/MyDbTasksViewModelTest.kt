@@ -43,11 +43,11 @@ internal class MyDbTasksViewModelTest {
 
     @Test
     fun `get tasks returns default tasks`() {
-        coEvery { taskRepositoryImpl.getMinimalTasks() } returns MutableLiveData(DbTasks.minimalTasks)
+        coEvery { taskRepositoryImpl.getMinimalTasks() } returns MutableLiveData(FakeTasks.dbMinimalTasks)
         coroutineScope.runBlockingTest {
 
             val actualTasks = viewModel.result.getOrAwaitValue()
-            val expected = DbTasks.minimalTasks
+            val expected = FakeTasks.dbMinimalTasks
 
             assertThat(actualTasks, `is`(expected))
         }

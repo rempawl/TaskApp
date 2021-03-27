@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
@@ -59,6 +60,9 @@ class PickCustomNotificationDelayFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setUpObservers()
+        requireActivity().onBackPressedDispatcher.addCallback {
+            sendDelayNotificationBroadcast(requireContext())
+        }
         notificationManagerHelper.cancelTaskNotification()
     }
 
@@ -130,6 +134,5 @@ class PickCustomNotificationDelayFragment : Fragment() {
         fun newInstance() = PickCustomNotificationDelayFragment()
     }
 
-//todo onNavigateUp -> send broadcast with current delay time
 
 }
