@@ -7,21 +7,21 @@ interface BaseDao<T> {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertItem(item : T) : Long
+    suspend fun insertItem(item : T) : Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertItems(items : List<T>)
+    suspend fun insertItems(items : List<T>)
 
     @Update
-    fun updateItem(item: T) : Int
+    suspend fun updateItem(item: T) : Int
 
     @Update
-    fun updateItems(items : List<T>) : Int
+    suspend fun updateItems(items : List<T>) : Int
 
     @Delete
-    fun deleteItem(item  : T)
+    suspend fun deleteItem(item  : T)
 
     @Delete
-    fun deleteItems(items: List<T>)
+    suspend fun deleteItems(items: List<T>)
 
 }
