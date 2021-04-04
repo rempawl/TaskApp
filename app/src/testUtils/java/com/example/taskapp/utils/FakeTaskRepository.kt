@@ -3,13 +3,18 @@ package com.example.taskapp.utils
 import com.example.taskapp.data.Result
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
+import com.example.taskapp.utils.DateUtils.TODAY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.threeten.bp.LocalDate
 
 class FakeTaskRepository : TaskRepository {
-
-    private val tasks = FakeTasks.tasks.toMutableList()
+    companion object {
+        val tasks = FakeTasks.tasks.toMutableList()
+        val minTasks = tasks.map { t -> t.toTaskMinimal() }
+        val todayMinTasks = tasks.filter { it.reminder?.realizationDate == TODAY }
+            .map { it.toTaskMinimal() }
+    }
 
     private fun <T> flowBuilder(getter: () -> T): Flow<T> = flow {
         emit(getter())
@@ -56,7 +61,7 @@ class FakeTaskRepository : TaskRepository {
 
     override suspend fun getMinimalTasks(): Flow<Result<*>> {
         return flowBuilder {
-            Result.Success(tasks.map { task -> task.toTaskMinimal() })
+            Result.Success(minTasks)
         }
     }
 
@@ -73,7 +78,7 @@ class FakeTaskRepository : TaskRepository {
     }
 
     override suspend fun getTodayMinTasks(): Flow<Result<*>> {
-        TODO()
+        return flowBuilder {Result.Success(todayMinTasks) }
     }
 
     override suspend fun getNotTodayTasks(): Flow<Result<*>> {

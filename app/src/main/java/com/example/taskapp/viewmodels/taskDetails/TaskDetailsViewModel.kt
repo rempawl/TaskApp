@@ -5,6 +5,7 @@ import com.example.taskapp.data.Result
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
+import com.example.taskapp.utils.DateUtils.DATE_FORMATTER
 import com.example.taskapp.utils.providers.DispatcherProvider
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
@@ -63,7 +64,6 @@ class TaskDetailsViewModel @AssistedInject constructor(
 
 
     companion object {
-        val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
     }
 }

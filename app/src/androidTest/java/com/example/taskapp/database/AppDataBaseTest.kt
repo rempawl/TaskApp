@@ -23,7 +23,7 @@ class AppDataBaseTest {
             .build()
     }
 
-    @After
+        @After
     fun close() {
         appDataBase.close()
     }

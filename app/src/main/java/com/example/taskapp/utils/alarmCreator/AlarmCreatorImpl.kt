@@ -5,11 +5,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import android.os.SystemClock
-import com.example.taskapp.MyApp.Companion.TODAY
-import com.example.taskapp.MyApp.Companion.TOMORROW
-import com.example.taskapp.MyApp.Companion.ZONE_OFFSET
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.data.task.TaskMinimal
+import com.example.taskapp.utils.DateUtils.TODAY
+import com.example.taskapp.utils.DateUtils.TOMORROW
+import com.example.taskapp.utils.DateUtils.ZONE_OFFSET
 import com.example.taskapp.utils.notification.NotificationIntentFactory
 import org.threeten.bp.LocalDateTime
 import java.util.concurrent.TimeUnit

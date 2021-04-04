@@ -11,12 +11,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalTime
 
-internal class DefaultNotificationModelTest {
+internal class EditTaskNotificationModelTest {
 
     init{
         loadTimeZone()
     }
-
 
     lateinit var notificationModel: EditTaskNotificationModel
 

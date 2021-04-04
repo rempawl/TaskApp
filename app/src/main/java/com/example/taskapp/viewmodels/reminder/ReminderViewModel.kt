@@ -8,6 +8,7 @@ import androidx.lifecycle.*
 import com.example.taskapp.MyApp
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.data.task.Task
+import com.example.taskapp.utils.DateUtils.TODAY
 import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
@@ -214,7 +215,7 @@ abstract class ReminderViewModel(
             val isChckd = isReminderSwitchChecked.get() ?: false
             val reminder = if (isChckd) createReminder() else null
             val task = createTask(reminder)
-            val isRealizationToday = reminder?.realizationDate?.isEqual(MyApp.TODAY) ?: false
+            val isRealizationToday = reminder?.realizationDate?.isEqual(TODAY) ?: false
 
             addTask(task)
 

@@ -23,8 +23,6 @@ class DefaultTaskDetailsModel @Inject constructor() : TaskDetailsModel() {
             notifyPropertyChanged(BR.valid)
         }
 
-
-
     override fun isTaskNameValid(setMessage: Boolean): Boolean {
         return if (taskName.isNotBlank() && taskName.length >= MIN_LENGTH) {
             taskNameError.set(null)
@@ -37,8 +35,6 @@ class DefaultTaskDetailsModel @Inject constructor() : TaskDetailsModel() {
             }
             false
         }
-
-
     }
 
 

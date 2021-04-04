@@ -6,6 +6,8 @@ import org.threeten.bp.LocalDate
 typealias DayOfWeekValue = Int
 
 sealed class ReminderDurationState {
+    abstract fun convertToDuration(): Duration
+    abstract fun calculateEndDate(begDate: LocalDate): LocalDate
 
     object NoEndDate : ReminderDurationState() {
         override fun convertToDuration(): Duration =Duration(NO_END_DATE_DURATION_INDEX)
@@ -19,9 +21,7 @@ sealed class ReminderDurationState {
                 END_DATE_DURATION_INDEX,
                 date.toEpochDay()
             )
-
         override fun calculateEndDate(begDate: LocalDate): LocalDate = date
-
 
     }
 
@@ -37,11 +37,6 @@ sealed class ReminderDurationState {
 
 
     }
-
-    abstract fun convertToDuration(): Duration
-
-    abstract fun calculateEndDate(begDate: LocalDate): LocalDate
-
 
     companion object {
         const val END_DATE_DURATION_INDEX = 1

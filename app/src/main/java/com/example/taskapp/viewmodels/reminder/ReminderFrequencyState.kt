@@ -1,13 +1,12 @@
 package com.example.taskapp.viewmodels.reminder
 
 import com.example.taskapp.data.reminder.Frequency
+import com.example.taskapp.utils.DateUtils.TODAY
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
 sealed class ReminderFrequencyState {
     companion object {
-        val TODAY: LocalDate =
-            LocalDate.now()
         const val INITIAL_FREQUENCY = 1
         const val WEEKDAYS_FREQUENCY_INDEX = 0
         const val DAILY_FREQUENCY_INDEX = 1

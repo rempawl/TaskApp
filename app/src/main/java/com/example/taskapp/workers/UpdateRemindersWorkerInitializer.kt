@@ -31,7 +31,7 @@ class UpdateRemindersWorkerInitializer @Inject constructor() :
     }
 
     override fun enqueueWorkRequest(workRequest: WorkRequest, context: Context) {
-        require(workRequest is PeriodicWorkRequest) { " Work request is of the wrong type " }
+        check(workRequest is PeriodicWorkRequest) { " Work request is of the wrong type ${workRequest.javaClass}" }
 
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(

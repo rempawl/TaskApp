@@ -7,7 +7,7 @@ fun Any.loadTimeZone() {
     if (ZoneRulesProvider.getAvailableZoneIds().isEmpty()) {
         val stream = this.javaClass.classLoader!!.getResourceAsStream("TZDB.dat")
         stream.use(::TzdbZoneRulesProvider).apply {
-            org.threeten.bp.zone.ZoneRulesProvider.registerProvider(this)
+            ZoneRulesProvider.registerProvider(this)
         }
     }
 }

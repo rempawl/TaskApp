@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class TaskDetailsModelTest {
+ class TaskDetailsModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutor()
@@ -25,10 +25,6 @@ internal class TaskDetailsModelTest {
     @DisplayName("when taskName is `TEST_NAME` and taskDesc is `TEST_DESC` ")
     @Nested
     inner class TaskNameValidNameTaskDescDefault {
-
-
-
-
         @Test
         fun `isTaskNameValid returns true taskNameError is null`() {
             taskDetailsModel.taskName = TEST_NAME

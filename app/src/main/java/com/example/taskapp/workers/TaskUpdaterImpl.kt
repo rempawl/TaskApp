@@ -4,6 +4,7 @@ import com.example.taskapp.MyApp
 import com.example.taskapp.data.Result
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
+import com.example.taskapp.utils.DateUtils.TODAY
 import com.example.taskapp.utils.alarmCreator.AlarmCreator
 import kotlinx.coroutines.flow.first
 import org.threeten.bp.LocalDate
@@ -53,7 +54,7 @@ class TaskUpdaterImpl @Inject constructor(
     private fun setTodayNotifications(tasks: List<Task>) {
         tasks
             .filter { task ->
-                datePredicate(MyApp.TODAY, task)
+                datePredicate(TODAY, task)
                         && task.reminder!!.notificationTime.convertToLocalTime()
                     .isAfter(LocalTime.now())
             }.forEach { task ->

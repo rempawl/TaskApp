@@ -6,6 +6,7 @@ import com.example.taskapp.data.task.Task
 import com.example.taskapp.data.task.TaskMinimal
 import com.example.taskapp.database.dao.TaskDao
 import com.example.taskapp.database.entities.task.DbTask
+import com.example.taskapp.utils.DateUtils.TODAY
 import dagger.Reusable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -51,7 +52,7 @@ class TaskRepositoryImpl @Inject constructor(private val taskLocalDataSource: Ta
 
     override suspend fun getNotTodayTasks(): Flow<Result<*>> {
         return getListData({
-            taskLocalDataSource.getTasksWithRealizationDateDifferentThanDate(MyApp.TODAY)
+            taskLocalDataSource.getTasksWithRealizationDateDifferentThanDate(TODAY)
         }, {
             Task.from(it)
         })
@@ -63,7 +64,7 @@ class TaskRepositoryImpl @Inject constructor(private val taskLocalDataSource: Ta
     }
 
     override suspend fun getTodayMinTasks(): Flow<Result<*>> {
-        return getListData({ taskLocalDataSource.getMinTasksByRealizationDate(MyApp.TODAY) },
+        return getListData({ taskLocalDataSource.getMinTasksByRealizationDate(TODAY) },
             { TaskMinimal.from(it) })
     }
 

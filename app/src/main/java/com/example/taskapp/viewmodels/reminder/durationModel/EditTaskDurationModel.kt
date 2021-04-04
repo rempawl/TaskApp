@@ -3,8 +3,8 @@ package com.example.taskapp.viewmodels.reminder.durationModel
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.data.reminder.Duration
+import com.example.taskapp.utils.DateUtils.TODAY
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
 import com.squareup.inject.assisted.Assisted

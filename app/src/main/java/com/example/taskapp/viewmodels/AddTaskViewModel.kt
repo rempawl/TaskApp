@@ -3,7 +3,7 @@ package com.example.taskapp.viewmodels
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
-import com.example.taskapp.viewmodels.reminder.durationModel.AddTaskDurationModel
+import com.example.taskapp.viewmodels.reminder.durationModel.DurationModel
 import com.example.taskapp.viewmodels.reminder.frequencyModel.FrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.NotificationModel
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class AddTaskViewModel @Inject constructor(
     taskDetailsModel: TaskDetailsModel,
     private val taskRepository: TaskRepository,
-    durationModel: AddTaskDurationModel,
+    durationModel: DurationModel,
     notificationModel: NotificationModel,
     frequencyModel: FrequencyModel
 ) : ReminderViewModel(
@@ -23,13 +23,9 @@ class AddTaskViewModel @Inject constructor(
     notificationModel = notificationModel,
     frequencyModel = frequencyModel
 ) {
-
-
     override suspend fun addTask(task: Task) {
         taskRepository.saveTask(task)
     }
-
-
 }
 
 

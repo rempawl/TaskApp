@@ -1,14 +1,10 @@
 package com.example.taskapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.taskapp.data.Result
+import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
-import com.example.taskapp.utils.CoroutineTestRule
-import com.example.taskapp.utils.FakeTasks.tasks
-import com.example.taskapp.utils.TestDispatcherProvider
-import com.example.taskapp.utils.getOrAwaitValue
-import com.example.taskapp.utils.loadTimeZone
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
+import com.example.taskapp.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -23,23 +19,21 @@ class AddSpontaneousTasksViewModelTest {
     init {
         loadTimeZone()
     }
-
     private val dispatcherProvider = TestDispatcherProvider()
 
     @get:Rule
-    val coroutineScope = CoroutineTestRule(dispatcherProvider.dispatcher)
+    val coroutineScope = CoroutineTestRule(dispatcherProvider.test)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: AddSpontaneousTasksViewModel
 
-    @MockK
     lateinit var taskRepository: TaskRepository
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
+        taskRepository = FakeTaskRepository()
         viewModel = AddSpontaneousTasksViewModel(taskRepository, dispatcherProvider)
     }
 
@@ -47,9 +41,10 @@ class AddSpontaneousTasksViewModelTest {
     @Test
     fun `get tasks  returns defaultTasks `() {
         coroutineScope.runBlockingTest {
-            val expectedValue = tasks.toList()
-            val actualValue = viewModel.result.getOrAwaitValue()
-            assertThat(actualValue, `is`(expectedValue))
+            val res = viewModel.result.getOrAwaitValue()
+            assert(res.checkIfIsSuccessAndListOf<Task>())
+            res as Result.Success
+//            assertThat(res.data, `is`())
         }
     }
 

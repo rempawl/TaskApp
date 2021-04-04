@@ -1,10 +1,10 @@
 package com.example.taskapp.utils
 
-import com.example.taskapp.MyApp.Companion.TODAY
 import com.example.taskapp.data.reminder.NotificationTime
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.database.entities.task.DbTask
+import com.example.taskapp.utils.DateUtils.TODAY
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import org.threeten.bp.DayOfWeek
@@ -79,9 +79,10 @@ object FakeTasks {
         )
     )
 
-    val dbMinimalTasks = dbTasks.map { task -> task.toTaskMinimal() }
 
+    val dbMinimalTasks = dbTasks.map { task -> task.toTaskMinimal() }
     val tasks = dbTasks.map { Task.from(it) }
+    val minTasks = tasks.map{it.toTaskMinimal()}
 
     val errorTask = DbTask(
         taskID = -1,

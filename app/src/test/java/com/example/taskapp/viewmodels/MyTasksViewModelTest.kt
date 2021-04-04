@@ -7,46 +7,44 @@ import com.example.taskapp.dataSources.task.TaskRepository
 import com.example.taskapp.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-internal class TodayViewModelTest {
-
+ class MyTasksViewModelTest {
     init {
         loadTimeZone()
     }
 
     private val dispatcherProvider = TestDispatcherProvider()
 
-    @get:Rule
-    val testCoroutineRule = CoroutineTestRule(dispatcherProvider.test)
+    private lateinit var taskRepository: TaskRepository
+
+    private lateinit var viewModel: MyTasksViewModel
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    lateinit var taskRepository: TaskRepository
-
-    lateinit var viewModel: TodayViewModel
+    @get:Rule
+    val coroutineScope = CoroutineTestRule(dispatcherProvider.test)
 
     @Before
     fun setUp() {
-        viewModel = TodayViewModel(FakeTaskRepository(), dispatcherProvider)
+        taskRepository = FakeTaskRepository()
+        viewModel = MyTasksViewModel(taskRepository, dispatcherProvider)
     }
 
     @Test
     fun getTasks() {
-        testCoroutineRule.runBlockingTest {
-            val res = viewModel.tasks.getOrAwaitValue()
+        coroutineScope.runBlockingTest {
+            val res = viewModel.result.getOrAwaitValue()
             assert(res.checkIfIsSuccessAndListOf<TaskMinimal>())
             res as Result.Success
-            assertThat(res.data,`is`(FakeTaskRepository.todayMinTasks))
-
+            val expected = FakeTaskRepository.minTasks
+            assertThat(res.data, `is`(expected))
         }
-
     }
-
 }
