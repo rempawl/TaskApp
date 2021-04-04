@@ -13,6 +13,7 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.threeten.bp.format.DateTimeFormatter
 
 @ExperimentalCoroutinesApi
 class TaskDetailsViewModelTest {
@@ -58,6 +59,8 @@ class TaskDetailsViewModelTest {
 
             val toEdit = viewModel.taskToEdit.getOrAwaitValue ()
             assertThat(toEdit,`is`(expTask))
+            val begDate = viewModel.begDate.getOrAwaitValue()
+            val exp = expTask.reminder!!.begDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
         }
     }
 
@@ -85,8 +88,12 @@ class TaskDetailsViewModelTest {
 
             val reminder = viewModel.reminder.getOrAwaitValue()
             assert(reminder == null)
+
             val toEdit = viewModel.taskToEdit.getOrAwaitValue ()
             assertThat(toEdit,`is`(expTask))
+
+            val begDate = viewModel.begDate.getOrAwaitValue()
+            assert(begDate == null)
         }
     }
 

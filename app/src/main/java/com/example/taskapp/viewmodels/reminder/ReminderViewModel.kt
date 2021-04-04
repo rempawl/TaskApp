@@ -1,11 +1,9 @@
 package com.example.taskapp.viewmodels.reminder
 
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
-import com.example.taskapp.MyApp
 import com.example.taskapp.data.reminder.Reminder
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.utils.DateUtils.TODAY
@@ -99,7 +97,7 @@ abstract class ReminderViewModel(
     val durationRadioState: LiveData<DurationRadioState>
         get() = _durationRadioState
 
-    val isReminderSwitchChecked = ObservableField<Boolean>(task.reminder != null)
+    val isReminderSwitchChecked = ObservableField(task.reminder != null)
 
     private val _shouldSetAlarm = MutableLiveData<Pair<Boolean, Task?>>(Pair(false, null))
     val shouldSetAlarm: LiveData<Pair<Boolean, Task?>>
@@ -137,8 +135,7 @@ abstract class ReminderViewModel(
             is FrequencyRadioState.DailyFreqRadioState -> {
                 frequencyModel.setDailyFrequency()
             }
-            is FrequencyRadioState.DaysOfWeekRadio
-            -> {
+            is FrequencyRadioState.DaysOfWeekRadio -> {
                 frequencyModel.setDaysOfWeekFrequency(daysOfWeek = null)
             }
         }

@@ -12,11 +12,16 @@ sealed class ReminderFrequencyState {
         const val DAILY_FREQUENCY_INDEX = 1
     }
 
+    abstract fun calculateRealizationDate(
+        lastRealizationDate: LocalDate,
+        isBeginning: Boolean = false
+    ): LocalDate
+
+    abstract fun convertToFrequency(): Frequency
+
     data class Daily(val frequency: Int = INITIAL_FREQUENCY) : ReminderFrequencyState() {
 
-        override fun convertToFrequency() =
-            Frequency(
-                DAILY_FREQUENCY_INDEX,
+        override fun convertToFrequency() =Frequency(                DAILY_FREQUENCY_INDEX,
                 frequency
             )
 
@@ -43,20 +48,13 @@ sealed class ReminderFrequencyState {
         ReminderFrequencyState() {
 
         override fun convertToFrequency() =
-            Frequency(WEEKDAYS_FREQUENCY_INDEX,daysOfWeekToInt())
+            Frequency(WEEKDAYS_FREQUENCY_INDEX, daysOfWeekToInt())
 
         override fun calculateRealizationDate(
             lastRealizationDate: LocalDate,
             isBeginning: Boolean
         ): LocalDate {
-            val startDate = if (checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(
-                    lastRealizationDate
-                )
-            ) {
-                TODAY
-            } else {
-                lastRealizationDate
-            }
+            val startDate = setStartDate(lastRealizationDate)
             val startDateDayOfWeekValue = startDate.dayOfWeek.value
 
             if (isBeginning && daysOfWeek.contains(startDateDayOfWeekValue)) {
@@ -65,19 +63,43 @@ sealed class ReminderFrequencyState {
 
             for (thisWeekDay in (startDateDayOfWeekValue + 1)..DayOfWeek.SUNDAY.value) {
                 if (daysOfWeek.contains(thisWeekDay)) {
-                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (thisWeekDay - startDateDayOfWeekValue))
+                    return LocalDate.ofEpochDay(
+                        getThisWeekDayValue(startDate, thisWeekDay, startDateDayOfWeekValue)
+                    )
                 }
             }
 
             for (nextWeekDay in DayOfWeek.MONDAY.value until startDateDayOfWeekValue) {
                 if (daysOfWeek.contains(nextWeekDay)) {
-                    return LocalDate.ofEpochDay(startDate.toEpochDay() + (7 - startDateDayOfWeekValue + nextWeekDay))
+                    return LocalDate.ofEpochDay(
+                        getNextWeekDayValue(startDate, startDateDayOfWeekValue, nextWeekDay)
+                    )
                 }
             }
-
-            //next week date
             return LocalDate.ofEpochDay(startDate.toEpochDay() + 7)
         }
+
+        private fun getNextWeekDayValue(
+            startDate: LocalDate,
+            startDateDayOfWeekValue: Int,
+            nextWeekDay: Int
+        ) = startDate.toEpochDay() + (7 - startDateDayOfWeekValue + nextWeekDay)
+
+        private fun getThisWeekDayValue(
+            startDate: LocalDate,
+            thisWeekDay: Int,
+            startDateDayOfWeekValue: Int
+        ) = startDate.toEpochDay() + (thisWeekDay - startDateDayOfWeekValue)
+
+        private fun setStartDate(lastRealizationDate: LocalDate) =
+            if (checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(
+                    lastRealizationDate
+                )
+            ) {
+                TODAY
+            } else {
+                lastRealizationDate
+            }
 
 
         private fun checkIfRealizationDateWasNotUpdatedForLongerThanAWeek(lastRealizationDate: LocalDate) =
@@ -87,7 +109,6 @@ sealed class ReminderFrequencyState {
             var result = 0
             val daysOfWeekValues = DayOfWeek.values()
 
-            //  setting the i-th bit of result to 1 if dayOfWeek value is  inside daysOfWeek set
             for (i in 0..daysOfWeekValues.lastIndex) {
                 if (this.daysOfWeek.contains(daysOfWeekValues[i].value)) {
                     result += 1.shl(i)
@@ -97,11 +118,5 @@ sealed class ReminderFrequencyState {
         }
     }
 
-//todo refactor
-    abstract fun calculateRealizationDate(
-        lastRealizationDate: LocalDate,
-        isBeginning: Boolean = false
-    ): LocalDate
 
-    abstract fun convertToFrequency(): Frequency
 }
