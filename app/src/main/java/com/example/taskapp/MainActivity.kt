@@ -52,8 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    companion object {
-    }
+    companion object
 
 
 }

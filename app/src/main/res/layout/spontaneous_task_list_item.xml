@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="task"
             type="com.example.taskapp.data.task.Task" />
+
         <import type="android.view.View" />
     </data>
 
     <androidx.cardview.widget.CardView
+        style="@style/CardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,35 +24,29 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_name"
+                style="@style/CardViewTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
                 android:text="@{@string/task_name(task.name)}"
-                android:textAlignment="center"
-                android:textColor="#B8AEAE"
-                android:textSize="20sp" />
+                tools:text="example name" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_desc"
+                style="@style/CardViewTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
                 android:text="@{@string/task_description(task.description)}"
-                android:textAlignment="center"
-                android:textColor="#B8AEAE"
-                android:textSize="20sp"
-                android:visibility='@{task.description.equalsIgnoreCase("")  ? View.GONE : View.VISIBLE}'
-                tools:text="text" />
+                app:showWhen='@{!task.description.equalsIgnoreCase("")}'
+                tools:text="Description text" />
+
             <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/add_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="@string/add"
-                android:id="@+id/add_checkbox"
                 android:checked="false"
-                />
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
 
         </LinearLayout>
 

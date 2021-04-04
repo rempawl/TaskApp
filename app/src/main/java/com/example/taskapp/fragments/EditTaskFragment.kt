@@ -67,11 +67,6 @@ class EditTaskFragment : AddEditTaskFragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-
     override fun setupObservers(viewModel: ReminderViewModel) {
         super.setupObservers(viewModel)
         viewModel.apply {

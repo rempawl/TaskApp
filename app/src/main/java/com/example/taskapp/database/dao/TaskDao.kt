@@ -1,6 +1,5 @@
 package com.example.taskapp.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -9,9 +8,9 @@ import com.example.taskapp.database.entities.task.DbTask
 import com.example.taskapp.database.entities.task.DbTaskMinimal
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDate
+
 @Dao
 interface TaskDao : BaseDao<DbTask> {
-
 
 
     @Query("SELECT * FROM tasks")
@@ -27,11 +26,8 @@ interface TaskDao : BaseDao<DbTask> {
     @Query("DELETE FROM tasks WHERE taskID == :id")
     suspend fun deleteByID(id: Long): Int
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTask(item: DbTask): Long
-
     @Query("SELECT * FROM tasks WHERE realizationDate != :date")
-    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate) : Flow<List<DbTask>>
+    fun getTasksWithRealizationDateDifferentThanDate(date: LocalDate): Flow<List<DbTask>>
 
 
     @Query("SELECT taskID,name,description FROM tasks WHERE realizationDate = :date")

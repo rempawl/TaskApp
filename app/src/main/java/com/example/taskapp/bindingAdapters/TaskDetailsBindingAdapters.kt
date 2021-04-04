@@ -33,7 +33,7 @@ object TaskDetailsBindingAdapters {
             val data = res.data
             if( data is Task) return data.toTaskMinimal()
             check(res.data is TaskMinimal ) { "data should be task " }
-            res.data as TaskMinimal
+            res.data
         }
     }
 }

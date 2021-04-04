@@ -47,7 +47,7 @@ class TaskRepositoryImpl @Inject constructor(private val taskLocalDataSource: Ta
 
     override suspend fun saveTask(task: Task) {
         val item = DbTask.from(task)
-        taskLocalDataSource.insertTask(item)
+        taskLocalDataSource.insertItem(item)
     }
 
     override suspend fun getNotTodayTasks(): Flow<Result<*>> {

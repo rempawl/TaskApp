@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -25,94 +24,76 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                style="@style/CardViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/def_margin"
-                app:cardCornerRadius="@dimen/card_def_radius">
+                android:layout_height="wrap_content">
 
                 <LinearLayout style="@style/VerticalMatchLinearLayoutStyle">
 
+
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/task_name"
+                        style="@style/CardViewTextStyle"
                         bindName="@{viewModel.result}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        tools:text="example task name" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/task_desc"
+                        style="@style/CardViewTextStyle"
                         bindDescription="@{viewModel.result}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        app:layout_constraintTop_toBottomOf="@id/task_name" />
+                        tools:text="ExampleDescription" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/reminder_layout"
+                style="@style/CardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/def_margin"
                 android:visibility="gone"
-                app:cardCornerRadius="@dimen/card_def_radius"
                 tools:visibility="visible">
 
                 <LinearLayout style="@style/VerticalMatchLinearLayoutStyle">
 
-
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/beg_date"
+                        style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/def_margin"
                         android:gravity="center_horizontal"
                         android:text="@{@string/beginning_date(viewModel.begDate)}"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        tools:text="04.04.2021" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/duration_text"
+                        style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        tools:text="10 days" />
 
                     <TextView
                         android:id="@+id/realizationDate_text"
+
+                        style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/frequency_text"
+                        style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:layout_height="wrap_content" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/notification_text"
+                        style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

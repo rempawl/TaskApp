@@ -63,8 +63,6 @@ class TaskDetailsViewModel @AssistedInject constructor(
     }
 
 
-    companion object {
-
-    }
+    companion object
 }
 

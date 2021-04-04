@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
  class TaskDetailsModelTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutor()
+//    val instantTaskExecutorRule = InstantTaskExecutor()
     lateinit var taskDetailsModel: TaskDetailsModel
 
     @BeforeEach
