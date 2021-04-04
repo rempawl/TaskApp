@@ -7,18 +7,18 @@
         <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="AddEditTaskEditTextStyle" parent="Widget.AppCompat.EditText">
+    <style name="DefEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/design_default_color_background</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:importantForAutofill" tools:targetApi="o">no</item>
     </style>
-    <style name="MultiLineAddEditTaskEditTextStyle" parent="AddEditTaskEditTextStyle">
+    <style name="MultiLineAddEditTaskEditTextStyle" parent="DefEditTextStyle">
         <item name="android:inputType">textMultiLine</item>
     </style>
 
-    <style name="ShortMessageAddEditTaskEditTextStyle" parent="AddEditTaskEditTextStyle">
+    <style name="ShortMessageAddEditTaskEditTextStyle" parent="DefEditTextStyle">
         <item name="android:inputType">textShortMessage</item>
     </style>
 

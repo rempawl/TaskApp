@@ -24,82 +24,97 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/task_name"
-                bindName="@{viewModel.result}"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+                android:layout_margin="@dimen/def_margin"
+                app:cardCornerRadius="@dimen/card_def_radius">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/task_desc"
-                bindDescription="@{viewModel.result}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@id/task_name" />
+                <LinearLayout style="@style/VerticalMatchLinearLayoutStyle">
 
-            <LinearLayout
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/task_name"
+                        bindName="@{viewModel.result}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/task_desc"
+                        bindDescription="@{viewModel.result}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        app:layout_constraintTop_toBottomOf="@id/task_name" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/reminder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_margin="@dimen/def_margin"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/task_desc">
+                app:cardCornerRadius="@dimen/card_def_radius"
+                tools:visibility="visible">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/beg_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
-                    android:text="@{@string/beginning_date(viewModel.begDate)}"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+                <LinearLayout style="@style/VerticalMatchLinearLayoutStyle">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/duration_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/realizationDate_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/beg_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/def_margin"
+                        android:gravity="center_horizontal"
+                        android:text="@{@string/beginning_date(viewModel.begDate)}"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/frequency_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/duration_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/notification_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/realizationDate_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/frequency_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/notification_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 
