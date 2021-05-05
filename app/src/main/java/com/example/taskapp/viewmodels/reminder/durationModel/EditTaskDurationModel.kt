@@ -28,7 +28,6 @@ class EditTaskDurationModel @AssistedInject constructor(
     override val initDurState: LiveData<ReminderViewModel.DurationRadioState>
         get() = _initDurState
 
-
     override var durationState: ReminderDurationState = ReminderDurationState.NoEndDate
         private set(value) {
             field = value

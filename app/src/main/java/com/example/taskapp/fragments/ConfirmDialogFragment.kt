@@ -11,7 +11,6 @@ class ConfirmDialogFragment(
     private val title: String,
     private val positiveText: String,
     val listener: OnConfirmSelectedListener
-
 ) : DialogFragment() {
 
 
@@ -33,12 +32,10 @@ class ConfirmDialogFragment(
 
     interface OnConfirmSelectedListener {
         fun onConfirmSelected()
-
     }
 
 
     companion object {
         const val TAG = "delete dialog fragment tag"
-
     }
 }

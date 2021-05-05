@@ -48,13 +48,6 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
         }
     }
 
-    private fun initDaysOfWeekState(freqState: ReminderFrequencyState.WeekDays) {
-        setDaysOfWeekFrequency(daysOfWeek = freqState.daysOfWeek)
-        checkedDays.apply {
-            clear()
-            addAll(freqState.daysOfWeek)
-        }
-    }
 
     override fun setDailyFrequency(freq: Int) {
         frequencyState = ReminderFrequencyState.Daily(freq)
@@ -72,5 +65,12 @@ class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Fr
         frequencyState = ReminderFrequencyState.WeekDays(days)
     }
 
+    private fun initDaysOfWeekState(freqState: ReminderFrequencyState.WeekDays) {
+        setDaysOfWeekFrequency(daysOfWeek = freqState.daysOfWeek)
+        checkedDays.apply {
+            clear()
+            addAll(freqState.daysOfWeek)
+        }
+    }
 
 }

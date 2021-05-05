@@ -247,9 +247,6 @@ abstract class ReminderViewModel(
         )
     }
 
-
-//    private fun transformError(isError: LiveData<Int?>) =
-
     private fun onFocusChange(view: View?, focused: Boolean, taskDetailsModel: TaskDetailsModel) {
         val text = (view as EditText).text.toString()
         if (!focused && text.isNotEmpty()) {

@@ -19,16 +19,16 @@ class EditTaskNotificationModel @AssistedInject constructor(@Assisted notificati
             field = value
         }
 
-
-    override fun getNotificationTime(): NotificationTime = NotificationTime.from(
-        notificationTime, isNotificationTimeSet.get() as Boolean
-    )
-
     init {
         if (notificationTime != null && notificationTime.isSet) {
             this.notificationTime = (notificationTime.convertToLocalTime())
         }
     }
+
+    override fun getNotificationTime(): NotificationTime = NotificationTime.from(
+        notificationTime, isNotificationTimeSet.get() as Boolean
+    )
+
 
 
 }

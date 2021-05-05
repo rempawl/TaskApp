@@ -49,30 +49,30 @@ object FakeTasks {
 
     val dbTasks = mutableListOf<DbTask>(
         DbTask(
-            taskID = 0,
+            taskID = 1,
             name = "first",
             description = "no reminder"
         ),
         DbTask(
-            taskID = 1,
+            taskID = 2,
             name = "second",
             description = "with first reminder",
             reminder = firstReminder
         ),
         DbTask(
-            taskID = 2,
+            taskID = 3,
             name = "third",
             description = "with second reminder",
             reminder = secondReminder
         ),
         DbTask(
-            taskID = 3,
+            taskID = 4,
             name = "fourth",
             description = "with first reminder",
             reminder = firstReminder
         ),
         DbTask(
-            taskID = 4,
+            taskID = 5,
             name = "fifth",
             description = "with second reminder",
             reminder = secondReminder

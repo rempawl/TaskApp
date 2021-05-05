@@ -1,6 +1,5 @@
 package com.example.taskapp.workers
 
-import com.example.taskapp.MyApp
 import com.example.taskapp.data.Result
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository

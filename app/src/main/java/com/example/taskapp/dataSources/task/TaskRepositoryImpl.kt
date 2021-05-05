@@ -1,6 +1,5 @@
 package com.example.taskapp.dataSources.task
 
-import com.example.taskapp.MyApp
 import com.example.taskapp.data.Result
 import com.example.taskapp.data.task.Task
 import com.example.taskapp.data.task.TaskMinimal
@@ -85,9 +84,9 @@ class TaskRepositoryImpl @Inject constructor(private val taskLocalDataSource: Ta
         getListData({ taskLocalDataSource.getMinimalTasks() }, { TaskMinimal.from(it) })
 
     override suspend fun getTasksUntilDate(date: LocalDate): Flow<Result<*>> {
-        return getListData(
-            { taskLocalDataSource.getTaskWithRealizationDateUntilDate(date) },
-            { Task.from(it) })
+        return getListData({
+            taskLocalDataSource.getTaskWithRealizationDateUntilDate(date)
+        },{ Task.from(it) })
     }
 
     override suspend fun updateTask(task: Task): Int {

@@ -6,14 +6,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.taskapp.database.AppDataBase
 import com.example.taskapp.utils.FakeTasks
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+@ExperimentalCoroutinesApi
 class TaskDaoTest {
 
     private lateinit var taskDao: TaskDao
@@ -35,7 +37,7 @@ class TaskDaoTest {
 
     @Test
     fun insertAndGetTask() {
-        runBlocking {
+        runBlockingTest {
             taskDao.insertItem(FakeTasks.dbTasks.first())
         }
     }

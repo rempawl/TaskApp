@@ -19,13 +19,19 @@ class AddSpontaneousTasksViewModel @Inject constructor(
 
     val onCheckedListener = ::onAddCheckboxChecked
 
-    fun addSpontaneousTasks() {
-//        task
+    val result: LiveData<Result<*>> = liveData(dispatcherProvider.mainDispatcher) {
+        val data = taskRepository.getNotTodayTasks().asLiveData(coroutineContext)
+        emitSource(data)
     }
+
 
     private val _checkedTasksIds = mutableSetOf<TaskID>()
     val checkedTasksIds: List<TaskID>
         get() = _checkedTasksIds.toList()
+
+    fun addSpontaneousTasks() {
+//        task
+    }
 
     private fun onAddCheckboxChecked(isChecked: Boolean, id: TaskID) {
         if (isChecked) {
@@ -35,8 +41,4 @@ class AddSpontaneousTasksViewModel @Inject constructor(
         }
     }
 
-    val result: LiveData<Result<*>> = liveData(dispatcherProvider.mainDispatcher) {
-        val data = taskRepository.getNotTodayTasks().asLiveData(coroutineContext)
-        emitSource(data)
-    }
 }

@@ -20,9 +20,6 @@ class TaskDetailsViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
 
-    suspend fun deleteTask(): Int {
-        return taskRepository.deleteByID(taskID)
-    }
 
     @AssistedInject.Factory
     interface Factory {
@@ -44,6 +41,10 @@ class TaskDetailsViewModel @AssistedInject constructor(
 
     val begDate: LiveData<String?> =
         Transformations.map(reminder) { reminder -> reminder?.begDate?.format(DATE_FORMATTER) }
+
+    suspend fun deleteTask(): Int {
+        return taskRepository.deleteByID(taskID)
+    }
 
     private fun getReminder(res: Result<*>): Reminder? {
         return res.takeIf { res.checkIfIsSuccessAnd<Task>() }?.let {
