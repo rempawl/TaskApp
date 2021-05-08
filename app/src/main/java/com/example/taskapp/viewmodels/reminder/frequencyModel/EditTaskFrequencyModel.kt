@@ -6,16 +6,17 @@ import com.example.taskapp.data.reminder.Frequency
 import com.example.taskapp.viewmodels.reminder.DayOfWeekValue
 import com.example.taskapp.viewmodels.reminder.ReminderFrequencyState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel.FrequencyRadioState
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 class EditTaskFrequencyModel @AssistedInject constructor(@Assisted frequency: Frequency?) :
     FrequencyModel() {
 
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory {
-        fun create(frequency: Frequency? = null): FrequencyModel
+        fun create(frequency: Frequency? = null): EditTaskFrequencyModel
     }
 
     override var frequencyState: ReminderFrequencyState = ReminderFrequencyState.Daily()

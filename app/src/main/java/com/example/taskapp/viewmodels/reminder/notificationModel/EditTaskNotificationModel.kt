@@ -1,14 +1,15 @@
 package com.example.taskapp.viewmodels.reminder.notificationModel
 
 import com.example.taskapp.data.reminder.NotificationTime
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.threeten.bp.LocalTime
 
 class EditTaskNotificationModel @AssistedInject constructor(@Assisted notificationTime: NotificationTime?) :
     NotificationModel() {
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory {
         fun create(notificationTime: NotificationTime? = null): EditTaskNotificationModel
     }
@@ -28,7 +29,6 @@ class EditTaskNotificationModel @AssistedInject constructor(@Assisted notificati
     override fun getNotificationTime(): NotificationTime = NotificationTime.from(
         notificationTime, isNotificationTimeSet.get() as Boolean
     )
-
 
 
 }

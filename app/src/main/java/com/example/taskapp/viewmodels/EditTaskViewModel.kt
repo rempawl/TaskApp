@@ -8,8 +8,9 @@ import com.example.taskapp.viewmodels.reminder.durationModel.EditTaskDurationMod
 import com.example.taskapp.viewmodels.reminder.frequencyModel.EditTaskFrequencyModel
 import com.example.taskapp.viewmodels.reminder.notificationModel.EditTaskNotificationModel
 import com.example.taskapp.viewmodels.taskDetails.TaskDetailsModel
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 //binding.apply { TODO
 //    durationRadioGroup.run {
@@ -46,7 +47,7 @@ class EditTaskViewModel @AssistedInject constructor(
 
 ) {
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory {
         fun create(task: Task): EditTaskViewModel
     }

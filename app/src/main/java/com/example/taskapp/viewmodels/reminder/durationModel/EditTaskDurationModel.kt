@@ -7,8 +7,10 @@ import com.example.taskapp.data.reminder.Duration
 import com.example.taskapp.utils.DateUtils.TODAY
 import com.example.taskapp.viewmodels.reminder.ReminderDurationState
 import com.example.taskapp.viewmodels.reminder.ReminderViewModel
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 
 class EditTaskDurationModel @AssistedInject constructor(
@@ -16,7 +18,7 @@ class EditTaskDurationModel @AssistedInject constructor(
     @Assisted begDate: LocalDate
 ) : DurationModel() {
 
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory {
         fun create(
             duration: Duration? = null,

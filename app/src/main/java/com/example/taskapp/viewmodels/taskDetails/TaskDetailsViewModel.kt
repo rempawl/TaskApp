@@ -7,9 +7,9 @@ import com.example.taskapp.data.task.Task
 import com.example.taskapp.dataSources.task.TaskRepository
 import com.example.taskapp.utils.DateUtils.DATE_FORMATTER
 import com.example.taskapp.utils.providers.DispatcherProvider
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
-import org.threeten.bp.format.DateTimeFormatter
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlin.coroutines.coroutineContext
 
 
@@ -20,8 +20,7 @@ class TaskDetailsViewModel @AssistedInject constructor(
 ) : ViewModel() {
 
 
-
-    @AssistedInject.Factory
+    @AssistedFactory
     interface Factory {
         fun create(taskID: Long): TaskDetailsViewModel
     }
